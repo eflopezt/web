@@ -127,13 +127,16 @@ EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "1") == "1"
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "ventas@limpiapro.pe")
-VENTAS_EMAIL = os.environ.get("VENTAS_EMAIL", "ventas@limpiapro.pe")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "ventas@proclean.pe")
+VENTAS_EMAIL = os.environ.get("VENTAS_EMAIL", "ventas@proclean.pe")
 
 # --- Site ---
-SITE_NAME = "LimpiaPro"
-SITE_TAGLINE = "Soluciones de limpieza profesional para tu empresa"
-SITE_WHATSAPP = os.environ.get("SITE_WHATSAPP", "51999999999")
-SITE_PHONE = os.environ.get("SITE_PHONE", "+51 999 999 999")
-SITE_EMAIL = os.environ.get("SITE_EMAIL", "ventas@limpiapro.pe")
-SITE_ADDRESS = os.environ.get("SITE_ADDRESS", "Av. Industrial 123, Lima, Perú")
+SITE_NAME = "ProClean"
+SITE_BRAND = "ProClean Servid Innova"
+SITE_TAGLINE = "Productos de limpieza profesional para tu hogar o negocio"
+SITE_WHATSAPP = os.environ.get("SITE_WHATSAPP", "51918570814")
+SITE_WHATSAPP_DISPLAY = os.environ.get("SITE_WHATSAPP_DISPLAY", "+51 918 570 814")
+SITE_PHONE = os.environ.get("SITE_PHONE", "+51 918 570 814")
+SITE_EMAIL = os.environ.get("SITE_EMAIL", "ventas@proclean.pe")
+SITE_ADDRESS = os.environ.get("SITE_ADDRESS", "Lima y Callao, Perú")
+SITE_DELIVERY_AREA = "Envío gratis en Lima y Callao"

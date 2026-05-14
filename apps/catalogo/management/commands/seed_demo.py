@@ -17,11 +17,11 @@ CATEGORIAS = [
     ("Equipos y maquinaria", "wrench", "Aspiradoras industriales, máquinas restregadoras, hidrolavadoras y pulidoras.", 8),
 ]
 
-MARCAS = ["LimpiaPro", "CleanMaster", "EcoBrill", "Sanitex", "InduClean"]
+MARCAS = ["Sapolio", "Poett", "Marsella", "Elite", "Dkasa", "Suave", "Scott", "Paracas", "Daryza", "Kaz", "Rendipel"]
 
 PRODUCTOS = [
     # (nombre, categoria, marca, presentacion, disponibilidad, destacado, descripcion_corta, precio_referencia)
-    ("Detergente líquido multiuso concentrado", "Detergentes y desengrasantes", "LimpiaPro", "Galón 4L", "en_stock", True,
+    ("Detergente líquido multiuso concentrado", "Detergentes y desengrasantes", "Sapolio", "Galón 4L", "en_stock", True,
      "Detergente neutro de alta espuma para limpieza general. Biodegradable, pH 7.", 48.90),
     ("Desengrasante alcalino industrial", "Detergentes y desengrasantes", "InduClean", "Bidón 20L", "en_stock", False,
      "Desengrasante de uso pesado para cocinas industriales y planta de producción.", 89.50),
@@ -37,7 +37,7 @@ PRODUCTOS = [
     ("Peróxido de hidrógeno estabilizado", "Desinfectantes y sanitizantes", "EcoBrill", "Bidón 5L", "bajo_pedido", False,
      "Desinfectante ecológico de descomposición rápida, ideal para áreas alimentarias.", 95.00),
 
-    ("Limpiador removedor de sarro", "Productos para baño", "LimpiaPro", "Botella 1L", "en_stock", False,
+    ("Limpiador removedor de sarro", "Productos para baño", "Sapolio", "Botella 1L", "en_stock", False,
      "Removedor ácido fosfórico para sarro, óxido e incrustaciones en sanitarios.", 18.50),
     ("Aromatizador desinfectante para inodoros", "Productos para baño", "EcoBrill", "Galón 4L", "en_stock", False,
      "Doble acción: aromatiza y desinfecta. Disponible en pino, lavanda y cítrico.", 52.00),
@@ -48,17 +48,17 @@ PRODUCTOS = [
      "Acabado mate-brillante para pisos vinílicos y cerámicos. Alto rendimiento.", 72.00),
     ("Decapante para pisos", "Pisos y superficies", "InduClean", "Galón 4L", "en_stock", False,
      "Remueve ceras viejas y residuos antes de aplicar acabado nuevo.", 68.00),
-    ("Limpia pisos perfumado", "Pisos y superficies", "LimpiaPro", "Galón 4L", "en_stock", False,
+    ("Limpia pisos perfumado", "Pisos y superficies", "Sapolio", "Galón 4L", "en_stock", False,
      "Aroma duradero, espuma controlada. Compatible con máquina restregadora.", 38.00),
 
-    ("Papel higiénico jumbo doble hoja", "Papel y descartables", "LimpiaPro", "Caja 12 rollos x 250m", "en_stock", True,
+    ("Papel higiénico jumbo doble hoja", "Papel y descartables", "Sapolio", "Caja 12 rollos x 250m", "en_stock", True,
      "Doble hoja blanco premium para dispensador jumbo industrial.", 180.00),
     ("Toalla de manos en Z doble hoja", "Papel y descartables", "CleanMaster", "Caja 20 paquetes x 200u", "en_stock", False,
      "Para dispensador Z, alta absorción, ideal para baños corporativos.", 145.00),
     ("Guantes de nitrilo descartables", "Papel y descartables", "Sanitex", "Caja 100u talla M", "en_stock", False,
      "Sin polvo, ambidiestros, alta sensibilidad táctil. Disponibles S/M/L/XL.", 65.00),
 
-    ("Dispensador de papel jumbo plástico", "Dispensadores y accesorios", "LimpiaPro", "Unidad", "en_stock", True,
+    ("Dispensador de papel jumbo plástico", "Dispensadores y accesorios", "Sapolio", "Unidad", "en_stock", True,
      "Capacidad rollo 300m, llave de seguridad, color blanco ABS.", 89.00),
     ("Dispensador de jabón líquido 1L", "Dispensadores y accesorios", "CleanMaster", "Unidad", "en_stock", False,
      "Recargable con bidón a granel, válvula antigoteo, pulsador suave.", 72.00),
@@ -67,7 +67,7 @@ PRODUCTOS = [
 
     ("Detergente lavandería líquido alta concentración", "Lavandería industrial", "InduClean", "Bidón 20L", "en_stock", True,
      "Para máquinas industriales 25-100kg. Excelente remoción de manchas.", 215.00),
-    ("Suavizante neutralizante lavandería", "Lavandería industrial", "LimpiaPro", "Bidón 20L", "en_stock", False,
+    ("Suavizante neutralizante lavandería", "Lavandería industrial", "Sapolio", "Bidón 20L", "en_stock", False,
      "Suaviza fibras y neutraliza pH alcalino residual del lavado.", 168.00),
     ("Blanqueador oxigenado sin cloro", "Lavandería industrial", "EcoBrill", "Bidón 20L", "en_stock", False,
      "Alternativa ecológica al cloro para prendas blancas y de color.", 195.00),
@@ -80,7 +80,7 @@ PRODUCTOS = [
 
 
 class Command(BaseCommand):
-    help = "Carga datos demo idempotentes para LimpiaPro."
+    help = "Carga datos demo idempotentes para ProClean."
 
     def add_arguments(self, parser):
         parser.add_argument("--reset", action="store_true", help="Borra productos demo y re-siembra.")

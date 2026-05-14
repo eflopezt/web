@@ -1,5 +1,46 @@
-<svg width="64" height="64" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="36" height="36" rx="8" fill="#0F172A"/>
-  <path d="M18 7 C 24 14, 27 18.5, 27 22 a9 9 0 0 1 -18 0 C 9 18.5, 12 14, 18 7 Z" fill="#1E40AF"/>
-  <path d="M13.5 21.5 a4.5 4.5 0 0 0 4.5 4.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.9"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ProClean">
+  <defs>
+    <linearGradient id="fv-blue" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1A4F8B"/>
+      <stop offset="100%" stop-color="#2BA0E0"/>
+    </linearGradient>
+    <linearGradient id="fv-green" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2E8B1F"/>
+      <stop offset="100%" stop-color="#6BCB3A"/>
+    </linearGradient>
+    <linearGradient id="fv-bldgG" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6BCB3A"/>
+      <stop offset="100%" stop-color="#2E8B1F"/>
+    </linearGradient>
+    <linearGradient id="fv-bldgB" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2BA0E0"/>
+      <stop offset="100%" stop-color="#1A4F8B"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="12" fill="#ffffff"/>
+
+  <!-- Anillo dual color -->
+  <circle cx="32" cy="32" r="26" fill="none" stroke="url(#fv-green)" stroke-width="4"/>
+  <path d="M 32,58 A 26,26 0 0,1 6,32" fill="none" stroke="url(#fv-blue)" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Edificios -->
+  <g transform="translate(20,18)">
+    <rect x="0" y="12" width="3" height="11" fill="url(#fv-bldgG)"/>
+    <rect x="4" y="7" width="4" height="16" fill="url(#fv-bldgG)"/>
+    <rect x="9" y="0" width="5" height="23" fill="url(#fv-bldgG)"/>
+    <rect x="15" y="3" width="4" height="20" fill="url(#fv-bldgB)"/>
+    <rect x="20" y="9" width="4" height="14" fill="url(#fv-bldgB)"/>
+  </g>
+
+  <!-- Destellos -->
+  <g transform="translate(14,28)" fill="#1B75BC">
+    <path d="M 0,-3 L 0.7,-0.7 L 3,0 L 0.7,0.7 L 0,3 L -0.7,0.7 L -3,0 L -0.7,-0.7 Z"/>
+  </g>
+
+  <!-- Hoja -->
+  <g transform="translate(17,44)">
+    <path d="M 0,3 C 3,-3 12,-5 22,-4 C 26,1 22,5 12,6 C 4,6 -1,5 0,3 Z" fill="url(#fv-green)"/>
+  </g>
 </svg>

@@ -1,28 +1,35 @@
 <div x-data="{ open: false }" class="fixed bottom-5 right-5 z-50 print:hidden">
-  <div x-show="open" x-transition x-cloak class="mb-3 w-72 bg-white rounded-xl border border-slate-200 shadow-soft overflow-hidden">
-    <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
-      <div class="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center">
-        <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
+  <!-- Tarjeta de chat -->
+  <div x-show="open" x-transition x-cloak class="mb-3 w-80 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+    <div class="bg-gradient-brand px-4 py-3.5 flex items-center gap-3">
+      <div class="w-11 h-11 rounded-full bg-white text-secondary flex items-center justify-center shadow">
+        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
       </div>
       <div class="flex-1">
-        <div class="font-semibold text-white text-sm">{{ SITE_NAME }} Ventas</div>
-        <div class="text-xs text-slate-300 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span> En línea</div>
+        <div class="font-bold text-white text-sm">{{ SITE_NAME }} · Ventas</div>
+        <div class="text-xs text-white/85 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse"></span> Respuesta inmediata</div>
       </div>
-      <button @click="open=false" class="text-slate-400 hover:text-white text-lg leading-none">✕</button>
+      <button @click="open=false" class="text-white/80 hover:text-white text-xl leading-none px-1">×</button>
     </div>
-    <div class="p-4 bg-slate-50">
-      <div class="bg-white rounded-lg p-3 text-sm text-slate-700 border border-slate-200">
-        ¡Hola! 👋 ¿En qué podemos ayudarte? Cotizaciones, soporte o consultas técnicas.
+    <div class="p-4 bg-base-200/60">
+      <div class="bg-white rounded-xl p-3.5 text-sm text-slate-700 shadow-sm border border-slate-100">
+        ¡Hola! 👋 ¿En qué podemos ayudarte hoy? Cotizamos por WhatsApp papeles, lejía, desinfectantes, detergentes y más.
       </div>
-      <a href="https://wa.me/{{ SITE_WHATSAPP }}?text=Hola%2C%20vengo%20de%20la%20web%20de%20{{ SITE_NAME|urlencode }}." target="_blank" rel="noopener" class="block w-full text-center bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium py-2.5 rounded-lg mt-3 transition">
-        Iniciar conversación →
+      <div class="text-[11px] text-slate-500 text-center mt-2">{{ SITE_DELIVERY_AREA }}</div>
+      <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+         class="btn-whatsapp btn-shine block w-full text-center font-bold py-3 rounded-full mt-3 shadow-md">
+        Escribir a {{ SITE_WHATSAPP_DISPLAY }} →
       </a>
     </div>
   </div>
 
-  <button @click="open=!open" :aria-expanded="open" aria-label="Chat WhatsApp" class="w-12 h-12 rounded-full bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center shadow-lg transition">
-    <svg x-show="!open" viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
-    <svg x-show="open" x-cloak class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+  <!-- Botón flotante WhatsApp -->
+  <button @click="open=!open" :aria-expanded="open" aria-label="Chat WhatsApp"
+          class="w-16 h-16 rounded-full btn-whatsapp text-white flex items-center justify-center shadow-2xl transition hover:scale-105 relative">
+    <span x-show="!open" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-green-300 animate-ping"></span>
+    <span x-show="!open" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-green-400 border-2 border-white"></span>
+    <svg x-show="!open" viewBox="0 0 24 24" class="w-8 h-8" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
+    <svg x-show="open" x-cloak class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
   </button>
 </div>
 <style>[x-cloak]{display:none!important}</style>

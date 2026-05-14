@@ -1,45 +1,58 @@
 {% extends "base.html" %}
-{% block title %}{% if categoria_actual %}{{ categoria_actual.nombre }}{% else %}Catálogo{% endif %} — {{ SITE_NAME }}{% endblock %}
+{% load static %}
+{% block title %}{% if categoria_actual %}{{ categoria_actual.nombre }}{% else %}Catálogo{% endif %} — {{ SITE_BRAND }}{% endblock %}
 
 {% block content %}
-<div class="bg-base-200 border-b border-base-300">
-  <div class="container mx-auto px-4 py-6">
-    <nav class="text-sm breadcrumbs">
+<!-- Hero del catálogo -->
+<div class="bg-gradient-brand text-white relative overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-50"></div>
+  <div class="container mx-auto px-4 py-12 relative">
+    <nav class="text-xs breadcrumbs text-white/80">
       <ul>
-        <li><a href="{% url 'core:home' %}">Inicio</a></li>
-        <li><a href="{% url 'catalogo:lista' %}">Catálogo</a></li>
-        {% if categoria_actual %}<li>{{ categoria_actual.nombre }}</li>{% endif %}
+        <li><a href="{% url 'core:home' %}" class="hover:text-white">Inicio</a></li>
+        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white">Catálogo</a></li>
+        {% if categoria_actual %}<li class="text-white">{{ categoria_actual.nombre }}</li>{% endif %}
       </ul>
     </nav>
-    <h1 class="text-3xl font-bold mt-2">
-      {% if categoria_actual %}{{ categoria_actual.nombre }}{% else %}Todos los productos{% endif %}
-    </h1>
-    {% if categoria_actual.descripcion %}<p class="text-base-content/70 mt-1">{{ categoria_actual.descripcion }}</p>{% endif %}
+    <div class="flex flex-wrap items-end justify-between gap-6 mt-4">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+          {% if categoria_actual %}{{ categoria_actual.nombre }}{% else %}Todos los productos{% endif %}
+        </h1>
+        {% if categoria_actual.descripcion %}<p class="text-white/90 mt-2 max-w-2xl">{{ categoria_actual.descripcion }}</p>
+        {% else %}<p class="text-white/90 mt-2">Útiles de limpieza profesional. Las marcas más solicitadas, listas para tu negocio.</p>{% endif %}
+      </div>
+      <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+         class="btn-whatsapp btn-shine font-bold px-6 h-12 rounded-full inline-flex items-center gap-2 shadow-xl">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+        Cotizar por WhatsApp
+      </a>
+    </div>
   </div>
 </div>
 
-<div class="container mx-auto px-4 py-6 grid lg:grid-cols-[260px_1fr] gap-6">
+<div class="container mx-auto px-4 py-8 grid lg:grid-cols-[280px_1fr] gap-8">
   <aside class="space-y-5">
-    <div class="card bg-base-100 border border-base-300">
-      <div class="card-body p-4">
-        <h3 class="font-bold text-sm mb-2">Categorías</h3>
-        <ul class="space-y-1 text-sm">
-          <li><a href="{% url 'catalogo:lista' %}" class="hover:text-primary {% if not categoria_actual %}text-primary font-semibold{% endif %}">Todas</a></li>
+    <div class="card bg-white border border-base-300 rounded-2xl">
+      <div class="card-body p-5">
+        <h3 class="font-extrabold text-accent text-sm uppercase tracking-wider mb-3">Categorías</h3>
+        <ul class="space-y-1.5 text-sm">
+          <li><a href="{% url 'catalogo:lista' %}" class="block px-2 py-1.5 rounded-lg hover:bg-base-200 {% if not categoria_actual %}bg-primary text-white font-semibold hover:bg-primary{% endif %}">Todas</a></li>
           {% for c in categorias %}
-          <li><a href="{{ c.get_absolute_url }}" class="hover:text-primary {% if categoria_actual.id == c.id %}text-primary font-semibold{% endif %}">{{ c.nombre }}</a></li>
+          <li><a href="{{ c.get_absolute_url }}" class="block px-2 py-1.5 rounded-lg hover:bg-base-200 {% if categoria_actual.id == c.id %}bg-primary text-white font-semibold hover:bg-primary{% endif %}">{{ c.nombre }}</a></li>
           {% endfor %}
         </ul>
       </div>
     </div>
 
-    <div class="card bg-base-100 border border-base-300">
-      <div class="card-body p-4">
-        <h3 class="font-bold text-sm mb-2">Disponibilidad</h3>
+    <div class="card bg-white border border-base-300 rounded-2xl">
+      <div class="card-body p-5">
+        <h3 class="font-extrabold text-accent text-sm uppercase tracking-wider mb-3">Disponibilidad</h3>
         <form hx-get="{% if categoria_actual %}{{ categoria_actual.get_absolute_url }}{% else %}{% url 'catalogo:lista' %}{% endif %}"
               hx-target="#productos-grid" hx-push-url="true" hx-trigger="change">
           {% if q %}<input type="hidden" name="q" value="{{ q }}"/>{% endif %}
           {% if marca_slug %}<input type="hidden" name="marca" value="{{ marca_slug }}"/>{% endif %}
-          <label class="label cursor-pointer justify-start gap-2 py-1"><input type="radio" name="disp" value="" class="radio radio-sm" {% if not disp_actual %}checked{% endif %}/><span class="label-text text-sm">Todas</span></label>
+          <label class="label cursor-pointer justify-start gap-2 py-1"><input type="radio" name="disp" value="" class="radio radio-sm radio-primary" {% if not disp_actual %}checked{% endif %}/><span class="label-text text-sm">Todas</span></label>
           <label class="label cursor-pointer justify-start gap-2 py-1"><input type="radio" name="disp" value="en_stock" class="radio radio-sm radio-success" {% if disp_actual == "en_stock" %}checked{% endif %}/><span class="label-text text-sm">En stock</span></label>
           <label class="label cursor-pointer justify-start gap-2 py-1"><input type="radio" name="disp" value="bajo_pedido" class="radio radio-sm radio-warning" {% if disp_actual == "bajo_pedido" %}checked{% endif %}/><span class="label-text text-sm">Bajo pedido</span></label>
         </form>
@@ -47,25 +60,40 @@
     </div>
 
     {% if marcas %}
-    <div class="card bg-base-100 border border-base-300">
-      <div class="card-body p-4">
-        <h3 class="font-bold text-sm mb-2">Marcas</h3>
-        <ul class="space-y-1 text-sm">
-          <li><a href="?" class="hover:text-primary {% if not marca_slug %}text-primary font-semibold{% endif %}">Todas</a></li>
+    <div class="card bg-white border border-base-300 rounded-2xl">
+      <div class="card-body p-5">
+        <h3 class="font-extrabold text-accent text-sm uppercase tracking-wider mb-3">Marcas</h3>
+        <ul class="space-y-1 text-sm max-h-72 overflow-auto pr-1">
+          <li><a href="?" class="block px-2 py-1.5 rounded-lg hover:bg-base-200 {% if not marca_slug %}bg-secondary text-white font-semibold hover:bg-secondary{% endif %}">Todas</a></li>
           {% for m in marcas %}
-          <li><a href="?marca={{ m.slug }}{% if disp_actual %}&disp={{ disp_actual }}{% endif %}{% if q %}&q={{ q }}{% endif %}" class="hover:text-primary {% if marca_slug == m.slug %}text-primary font-semibold{% endif %}">{{ m.nombre }}</a></li>
+          <li><a href="?marca={{ m.slug }}{% if disp_actual %}&disp={{ disp_actual }}{% endif %}{% if q %}&q={{ q }}{% endif %}" class="block px-2 py-1.5 rounded-lg hover:bg-base-200 {% if marca_slug == m.slug %}bg-secondary text-white font-semibold hover:bg-secondary{% endif %}">{{ m.nombre }}</a></li>
           {% endfor %}
         </ul>
       </div>
     </div>
     {% endif %}
+
+    <!-- CTA WhatsApp lateral -->
+    <div class="bg-gradient-green text-white rounded-2xl p-5 relative overflow-hidden">
+      <div class="absolute inset-0 bg-bubbles-dark opacity-30"></div>
+      <div class="relative">
+        <p class="text-xs font-bold tracking-wider uppercase text-white/85">¿No encuentras algo?</p>
+        <p class="font-extrabold text-lg mt-1">Pídelo por WhatsApp</p>
+        <p class="text-sm text-white/85 mt-1">{{ SITE_DELIVERY_AREA }}</p>
+        <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+           class="bg-white text-secondary font-bold px-4 py-2 rounded-full text-sm inline-flex items-center gap-2 mt-3 shadow">
+          <svg class="h-4 w-4 text-[#25D366]" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+          {{ SITE_WHATSAPP_DISPLAY }}
+        </a>
+      </div>
+    </div>
   </aside>
 
   <section>
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-      <p class="text-sm text-base-content/70">
-        {% if q %}Resultados para “<strong>{{ q }}</strong>”: {% endif %}
-        {{ page_obj.paginator.count }} producto{{ page_obj.paginator.count|pluralize }}
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+      <p class="text-sm text-slate-600">
+        {% if q %}Resultados para "<strong class="text-accent">{{ q }}</strong>": {% endif %}
+        <strong class="text-accent">{{ page_obj.paginator.count }}</strong> producto{{ page_obj.paginator.count|pluralize }}
       </p>
       <span class="loading loading-spinner loading-sm htmx-indicator text-primary"></span>
     </div>

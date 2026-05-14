@@ -172,7 +172,7 @@ def _totales_table(subtotal, igv, total, moneda="PEN"):
 
 def build_pdf(titulo, codigo, fecha_emision, venc_label, venc_value, est_label, est_value,
               cliente, lineas, subtotal, igv, total, moneda, observaciones="", condiciones="",
-              pie="Documento generado por LimpiaPro · DEMO"):
+              pie="Documento generado por ProClean Servid Innova"):
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
         buffer,

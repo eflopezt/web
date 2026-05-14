@@ -1,12 +1,4 @@
 {% load static %}
-<a href="{% url 'core:home' %}" class="flex items-center gap-2.5 group">
-  <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition group-hover:scale-[1.02]">
-    <rect width="36" height="36" rx="8" fill="#0F172A"/>
-    <path d="M18 7 C 24 14, 27 18.5, 27 22 a9 9 0 0 1 -18 0 C 9 18.5, 12 14, 18 7 Z" fill="#1E40AF"/>
-    <path d="M13.5 21.5 a4.5 4.5 0 0 0 4.5 4.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.9"/>
-  </svg>
-  <div class="leading-tight">
-    <div class="font-bold text-[17px] tracking-tight text-slate-900">Limpia<span class="text-slate-500">Pro</span></div>
-    <div class="text-[10px] uppercase tracking-[0.12em] text-slate-400 -mt-0.5">Suministros B2B</div>
-  </div>
+<a href="{% url 'core:home' %}" class="flex items-center gap-3 group" aria-label="{{ SITE_BRAND }} - Inicio">
+  <img src="{% static 'img/logo-horizontal.svg' %}" alt="{{ SITE_BRAND }}" class="h-10 md:h-12 w-auto transition group-hover:scale-[1.03]" />
 </a>
