@@ -120,6 +120,15 @@ SOLUCIONES = {
 }
 
 
+INDUSTRIAS_HOME = [
+    ("hoteles", "🏨", "Hoteles & Restaurantes", "Limpieza diaria + cocina + lavandería"),
+    ("clinicas", "🏥", "Clínicas & Salud", "Desinfección hospitalaria + DIGESA"),
+    ("industria", "🏭", "Industria", "Desengrasantes + equipos"),
+    ("oficinas", "🏢", "Oficinas", "Mantención corporativa"),
+    ("retail", "🛒", "Retail & Cadenas", "Multi-local + recurrente"),
+]
+
+
 def home(request):
     productos_destacados = (
         Producto.objects.filter(activo=True, destacado=True)
@@ -134,6 +143,7 @@ def home(request):
             "categorias": categorias,
             "pasos": PASOS,
             "faqs": FAQS[:3],
+            "industrias_home": INDUSTRIAS_HOME,
         },
     )
 

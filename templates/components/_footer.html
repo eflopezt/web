@@ -1,83 +1,72 @@
-<section class="bg-gradient-to-r from-primary to-info text-primary-content">
-  <div class="container mx-auto px-4 py-10 grid md:grid-cols-[1.5fr_1fr] gap-6 items-center">
+<section class="bg-slate-100 border-y border-slate-200">
+  <div class="container mx-auto px-4 py-12 grid md:grid-cols-[1.5fr_1fr] gap-8 items-center max-w-5xl">
     <div>
-      <h3 class="text-2xl font-bold">📩 Suscríbete a novedades B2B</h3>
-      <p class="opacity-90 text-sm mt-1">Tips de ahorro, nuevos productos y promociones exclusivas para empresas. Sin spam.</p>
+      <h3 class="text-2xl font-bold tracking-tight text-slate-900">Suscríbete a novedades B2B</h3>
+      <p class="text-sm text-slate-500 mt-2">Tips de ahorro, nuevos productos y promociones exclusivas para empresas. Sin spam.</p>
     </div>
     <form method="post" action="{% url 'core:newsletter' %}" class="flex gap-2">
       {% csrf_token %}
-      <input type="email" name="email" required placeholder="tu@empresa.pe" class="input input-bordered flex-1 text-neutral"/>
-      <button type="submit" class="btn btn-secondary">Suscribirme</button>
+      <input type="email" name="email" required placeholder="tu@empresa.pe" class="flex-1 px-3 h-10 rounded-lg bg-white border border-slate-200 text-sm focus:outline-none focus:border-slate-400"/>
+      <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium px-5 h-10 rounded-lg transition">Suscribirme</button>
     </form>
   </div>
 </section>
 
-<footer class="bg-neutral text-neutral-content">
-  <div class="container mx-auto px-4 py-12 grid md:grid-cols-5 gap-8">
+<footer class="bg-slate-950 text-slate-400">
+  <div class="container mx-auto px-4 py-14 grid md:grid-cols-5 gap-8">
     <div class="md:col-span-2">
-      <div class="flex items-center gap-2 mb-3">
-        <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs><linearGradient id="fg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#10B981"/></linearGradient></defs>
-          <path d="M18 3 C 26 13, 30 19, 30 24 a12 12 0 0 1 -24 0 C 6 19, 10 13, 18 3 Z" fill="url(#fg)"/>
+      <div class="flex items-center gap-2.5 mb-4">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="36" height="36" rx="8" fill="#1E40AF"/>
+          <path d="M18 7 C 24 14, 27 18.5, 27 22 a9 9 0 0 1 -18 0 C 9 18.5, 12 14, 18 7 Z" fill="#fff" fill-opacity="0.95"/>
         </svg>
-        <div class="font-extrabold text-lg">Limpia<span class="text-primary">Pro</span></div>
+        <div class="font-bold text-lg text-white">Limpia<span class="text-slate-400">Pro</span></div>
       </div>
-      <p class="text-sm opacity-80">{{ SITE_TAGLINE }}.</p>
-      <p class="text-xs opacity-60 mt-3">Distribuimos productos de limpieza profesional para empresas, hoteles, restaurantes, clínicas, industrias y oficinas en todo el Perú.</p>
+      <p class="text-sm text-slate-300">{{ SITE_TAGLINE }}.</p>
+      <p class="text-xs text-slate-500 mt-3 leading-relaxed">Distribuimos productos de limpieza profesional para empresas, hoteles, restaurantes, clínicas, industrias y oficinas en todo el Perú.</p>
+      <a href="https://wa.me/{{ SITE_WHATSAPP }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 mt-5 text-sm font-medium text-white hover:text-slate-300 transition">
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
+        Escribir por WhatsApp →
+      </a>
     </div>
 
     <div>
-      <h4 class="font-semibold mb-3 text-primary">Catálogo</h4>
-      <ul class="space-y-1.5 text-sm opacity-80">
-        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-primary">Todos los productos</a></li>
-        <li><a href="{% url 'catalogo:lista' %}?disp=en_stock" class="hover:text-primary">En stock</a></li>
-        <li><a href="{% url 'cotizaciones:carrito' %}" class="hover:text-primary">Mi cotización</a></li>
+      <h4 class="text-xs font-semibold tracking-wider uppercase text-white mb-4">Catálogo</h4>
+      <ul class="space-y-2.5 text-sm">
+        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition">Todos los productos</a></li>
+        <li><a href="{% url 'catalogo:lista' %}?disp=en_stock" class="hover:text-white transition">En stock</a></li>
+        <li><a href="{% url 'cotizaciones:carrito' %}" class="hover:text-white transition">Mi cotización</a></li>
       </ul>
     </div>
 
     <div>
-      <h4 class="font-semibold mb-3 text-primary">Soluciones</h4>
-      <ul class="space-y-1.5 text-sm opacity-80">
-        <li><a href="{% url 'core:solucion' 'hoteles' %}" class="hover:text-primary">Hoteles & Restaurantes</a></li>
-        <li><a href="{% url 'core:solucion' 'clinicas' %}" class="hover:text-primary">Clínicas & Salud</a></li>
-        <li><a href="{% url 'core:solucion' 'industria' %}" class="hover:text-primary">Industria</a></li>
-        <li><a href="{% url 'core:solucion' 'oficinas' %}" class="hover:text-primary">Oficinas</a></li>
-        <li><a href="{% url 'core:solucion' 'retail' %}" class="hover:text-primary">Retail & Cadenas</a></li>
+      <h4 class="text-xs font-semibold tracking-wider uppercase text-white mb-4">Soluciones</h4>
+      <ul class="space-y-2.5 text-sm">
+        <li><a href="{% url 'core:solucion' 'hoteles' %}" class="hover:text-white transition">Hoteles & Restaurantes</a></li>
+        <li><a href="{% url 'core:solucion' 'clinicas' %}" class="hover:text-white transition">Clínicas & Salud</a></li>
+        <li><a href="{% url 'core:solucion' 'industria' %}" class="hover:text-white transition">Industria</a></li>
+        <li><a href="{% url 'core:solucion' 'oficinas' %}" class="hover:text-white transition">Oficinas</a></li>
+        <li><a href="{% url 'core:solucion' 'retail' %}" class="hover:text-white transition">Retail & Cadenas</a></li>
       </ul>
     </div>
 
     <div>
-      <h4 class="font-semibold mb-3 text-primary">Empresa</h4>
-      <ul class="space-y-1.5 text-sm opacity-80">
-        <li><a href="{% url 'core:nosotros' %}" class="hover:text-primary">Nosotros</a></li>
-        <li><a href="{% url 'core:contacto' %}" class="hover:text-primary">Contacto</a></li>
-        <li><a href="{% url 'core:faq' %}" class="hover:text-primary">Preguntas frecuentes</a></li>
-        <li><a href="/admin/" class="hover:text-primary">Acceso interno</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <h4 class="font-semibold mb-3 text-primary">Contacto</h4>
-      <ul class="space-y-1.5 text-sm opacity-80">
-        <li>📞 {{ SITE_PHONE }}</li>
-        <li>✉ {{ SITE_EMAIL }}</li>
-        <li>📍 {{ SITE_ADDRESS }}</li>
-        <li>
-          <a href="https://wa.me/{{ SITE_WHATSAPP }}" target="_blank" rel="noopener" class="btn btn-success btn-sm mt-2 gap-2">
-            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
-            WhatsApp
-          </a>
-        </li>
+      <h4 class="text-xs font-semibold tracking-wider uppercase text-white mb-4">Empresa</h4>
+      <ul class="space-y-2.5 text-sm">
+        <li><a href="{% url 'core:nosotros' %}" class="hover:text-white transition">Nosotros</a></li>
+        <li><a href="{% url 'core:contacto' %}" class="hover:text-white transition">Contacto</a></li>
+        <li><a href="{% url 'core:faq' %}" class="hover:text-white transition">Preguntas frecuentes</a></li>
+        <li><a href="/admin/" class="hover:text-white transition">Acceso interno</a></li>
       </ul>
     </div>
   </div>
-  <div class="border-t border-white/10">
-    <div class="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-2 text-xs opacity-70">
+  <div class="border-t border-slate-800">
+    <div class="container mx-auto px-4 py-5 flex flex-wrap justify-between items-center gap-2 text-xs text-slate-500">
       <span>© {% now "Y" %} {{ SITE_NAME }}. Todos los derechos reservados.</span>
-      <div class="flex gap-3">
-        <a href="{% url 'core:terminos' %}" class="hover:text-primary">Términos</a>
-        <a href="{% url 'core:privacidad' %}" class="hover:text-primary">Privacidad</a>
-        <span>Hecho en Perú 🇵🇪</span>
+      <div class="flex items-center gap-5">
+        <a href="{% url 'core:terminos' %}" class="hover:text-white transition">Términos</a>
+        <a href="{% url 'core:privacidad' %}" class="hover:text-white transition">Privacidad</a>
+        <span class="text-slate-600">Hecho en Perú 🇵🇪</span>
       </div>
     </div>
   </div>

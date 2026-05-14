@@ -16,11 +16,12 @@ from reportlab.platypus import (
 )
 
 
-PRIMARY = colors.HexColor("#0EA5E9")
-SECONDARY = colors.HexColor("#10B981")
-DARK = colors.HexColor("#1E293B")
-MUTED = colors.HexColor("#64748B")
-LIGHT = colors.HexColor("#F1F5F9")
+PRIMARY = colors.HexColor("#1E40AF")  # indigo-700, corporativo
+SECONDARY = colors.HexColor("#0F766E")  # teal-700
+DARK = colors.HexColor("#0F172A")  # slate-900
+MUTED = colors.HexColor("#64748B")  # slate-500
+LIGHT = colors.HexColor("#F8FAFC")  # slate-50
+BORDER = colors.HexColor("#E2E8F0")  # slate-200
 
 
 def _styles():

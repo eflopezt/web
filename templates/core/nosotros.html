@@ -2,10 +2,12 @@
 {% block title %}Nosotros — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="bg-gradient-to-br from-primary to-secondary text-primary-content py-16">
-  <div class="container mx-auto px-4 text-center max-w-3xl">
-    <h1 class="text-4xl md:text-5xl font-extrabold">Sobre {{ SITE_NAME }}</h1>
-    <p class="mt-4 text-lg opacity-90">{{ SITE_TAGLINE }}.</p>
+<section class="bg-slate-900 text-slate-50 py-20 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 24px 24px;"></div>
+  <div class="container mx-auto px-4 text-center max-w-3xl relative">
+    <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-400 mb-4">— Quiénes somos —</span>
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight">Sobre {{ SITE_NAME }}</h1>
+    <p class="mt-4 text-slate-300">{{ SITE_TAGLINE }}.</p>
   </div>
 </section>
 
