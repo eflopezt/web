@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}{{ producto.nombre }} — {{ SITE_NAME }}{% endblock %}
+{% block description %}{{ producto.descripcion_corta|default:producto.nombre }}{% endblock %}
+
+{% block content %}
+<div class="bg-base-200 border-b border-base-300">
+  <div class="container mx-auto px-4 py-4">
+    <nav class="text-sm breadcrumbs">
+      <ul>
+        <li><a href="{% url 'core:home' %}">Inicio</a></li>
+        <li><a href="{% url 'catalogo:lista' %}">Catálogo</a></li>
+        <li><a href="{{ producto.categoria.get_absolute_url }}">{{ producto.categoria.nombre }}</a></li>
+        <li>{{ producto.nombre }}</li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<div class="container mx-auto px-4 py-8 grid lg:grid-cols-2 gap-10">
+  <div>
+    <div class="aspect-square bg-base-200 rounded-2xl overflow-hidden border border-base-300 flex items-center justify-center">
+      {% if producto.imagen %}
+      <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="w-full h-full object-cover"/>
+      {% else %}
+      <div class="text-9xl opacity-40">🧴</div>
+      {% endif %}
+    </div>
+    {% if producto.imagenes.all %}
+    <div class="grid grid-cols-4 gap-2 mt-3">
+      {% for img in producto.imagenes.all %}
+      <div class="aspect-square bg-base-200 rounded-md overflow-hidden border border-base-300">
+        <img src="{{ img.imagen.url }}" alt="{{ img.alt }}" class="w-full h-full object-cover"/>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <div>
+    {% if producto.marca %}<a href="?marca={{ producto.marca.slug }}" class="text-xs uppercase tracking-widest text-primary font-semibold">{{ producto.marca.nombre }}</a>{% endif %}
+    <h1 class="text-3xl md:text-4xl font-bold mt-1">{{ producto.nombre }}</h1>
+    <div class="flex flex-wrap items-center gap-2 mt-3">
+      <span class="badge badge-disp-{{ producto.disponibilidad }} px-3 py-3 text-sm font-semibold">{{ producto.get_disponibilidad_display }}</span>
+      <span class="badge badge-ghost">SKU {{ producto.sku }}</span>
+      {% if producto.presentacion %}<span class="badge badge-outline">{{ producto.presentacion }}</span>{% endif %}
+    </div>
+
+    {% if producto.descripcion_corta %}<p class="text-base-content/70 mt-4">{{ producto.descripcion_corta }}</p>{% endif %}
+
+    <div class="alert mt-5 bg-primary/10 border border-primary/20 text-primary-content/90">
+      <div>
+        <div class="font-bold text-primary">💬 Precio bajo consulta</div>
+        <div class="text-sm text-base-content/70">Agrega este producto a tu solicitud y recibe la cotización personalizada en menos de 24 horas hábiles.</div>
+      </div>
+    </div>
+
+    <form hx-post="{% url 'cotizaciones:agregar' producto.id %}" hx-swap="none" class="mt-5 flex flex-wrap gap-2 items-center">
+      {% csrf_token %}
+      <label class="label-text">Cantidad</label>
+      <input type="number" name="cantidad" value="1" min="1" class="input input-bordered w-24" />
+      <button type="submit" class="btn btn-primary btn-lg flex-1 sm:flex-none gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+        Agregar a cotización
+      </button>
+      <a href="https://wa.me/{{ SITE_WHATSAPP }}?text=Hola%2C%20me%20interesa%20cotizar%20{{ producto.nombre|urlencode }}%20(SKU%20{{ producto.sku|urlencode }})." target="_blank" rel="noopener" class="btn btn-success btn-lg gap-2">
+        <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
+        WhatsApp
+      </a>
+    </form>
+
+    {% if producto.descripcion %}
+    <div class="divider mt-8">Descripción</div>
+    <div class="prose prose-sm max-w-none">{{ producto.descripcion|linebreaks }}</div>
+    {% endif %}
+  </div>
+</div>
+
+{% if relacionados %}
+<section class="bg-base-200">
+  <div class="container mx-auto px-4 py-10">
+    <h2 class="text-xl md:text-2xl font-bold mb-5">Productos relacionados</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for p in relacionados %}
+        {% include "catalogo/_card.html" with producto=p %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

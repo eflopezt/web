@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}{{ SITE_NAME }} — {{ SITE_TAGLINE }}{% endblock %}
+
+{% block content %}
+<section class="relative overflow-hidden bg-gradient-to-br from-primary via-info to-secondary text-primary-content">
+  <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 30%, white 1px, transparent 1px), radial-gradient(circle at 80% 70%, white 1px, transparent 1px); background-size: 60px 60px;"></div>
+  <div class="container mx-auto px-4 py-16 md:py-24 relative">
+    <div class="grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <span class="badge badge-secondary badge-lg mb-4">B2B · Lima y todo el Perú</span>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
+          Limpieza profesional para empresas que <span class="text-secondary">exigen calidad</span>.
+        </h1>
+        <p class="mt-5 text-lg md:text-xl opacity-90 max-w-xl">
+          Distribuimos detergentes, desinfectantes, papel, dispensadores y equipos para hoteles, restaurantes, clínicas, industrias y oficinas. Consulta precio y stock al instante.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="{% url 'catalogo:lista' %}" class="btn btn-secondary btn-lg gap-2">
+            Ver catálogo
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+          <a href="https://wa.me/{{ SITE_WHATSAPP }}" target="_blank" rel="noopener" class="btn btn-lg btn-outline border-white text-white hover:bg-white hover:text-primary gap-2">
+            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
+            Cotizar por WhatsApp
+          </a>
+        </div>
+        <div class="mt-8 grid grid-cols-3 gap-4 max-w-md">
+          <div><div class="text-2xl md:text-3xl font-bold">+500</div><div class="text-xs opacity-80">productos</div></div>
+          <div><div class="text-2xl md:text-3xl font-bold">24h</div><div class="text-xs opacity-80">respuesta a cotización</div></div>
+          <div><div class="text-2xl md:text-3xl font-bold">100%</div><div class="text-xs opacity-80">factura electrónica</div></div>
+        </div>
+      </div>
+
+      <div class="relative hidden lg:block">
+        <div class="aspect-square bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+          <div class="grid grid-cols-2 gap-4 h-full">
+            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-6xl">🧴</div>
+            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-6xl">🧼</div>
+            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-6xl">🧽</div>
+            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-6xl">🧹</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container mx-auto px-4 py-12">
+  <div class="flex items-end justify-between mb-6">
+    <div>
+      <h2 class="text-2xl md:text-3xl font-bold">Categorías</h2>
+      <p class="text-base-content/60">Encuentra lo que necesitas, organizado por línea.</p>
+    </div>
+    <a href="{% url 'catalogo:lista' %}" class="btn btn-ghost btn-sm hidden md:inline-flex">Ver todas →</a>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {% for cat in categorias %}
+    <a href="{{ cat.get_absolute_url }}" class="group bg-base-200 hover:bg-primary hover:text-primary-content rounded-2xl p-5 transition border border-base-300 hover:border-primary">
+      <div class="text-3xl mb-2">{% if cat.icono %}{{ cat.icono }}{% else %}🧴{% endif %}</div>
+      <div class="font-semibold text-sm">{{ cat.nombre }}</div>
+      <div class="text-xs opacity-70 mt-1">{{ cat.productos.count }} productos</div>
+    </a>
+    {% empty %}
+    <div class="col-span-full text-center text-base-content/60 py-8">Aún no hay categorías cargadas.</div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="bg-base-200">
+  <div class="container mx-auto px-4 py-12">
+    <div class="flex items-end justify-between mb-6">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-bold">Productos destacados</h2>
+        <p class="text-base-content/60">Los más solicitados por nuestros clientes.</p>
+      </div>
+      <a href="{% url 'catalogo:lista' %}" class="btn btn-ghost btn-sm hidden md:inline-flex">Ver catálogo →</a>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {% for p in productos_destacados %}
+        {% include "catalogo/_card.html" with producto=p %}
+      {% empty %}
+        <div class="col-span-full text-center text-base-content/60 py-8">Aún no hay productos destacados.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="container mx-auto px-4 py-12">
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body">
+        <div class="text-3xl">🚚</div>
+        <h3 class="font-bold text-lg">Despacho a todo el Perú</h3>
+        <p class="text-sm text-base-content/70">Coordinamos entregas en Lima provincias y todas las regiones, con seguimiento del envío.</p>
+      </div>
+    </div>
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body">
+        <div class="text-3xl">💼</div>
+        <h3 class="font-bold text-lg">Atención B2B especializada</h3>
+        <p class="text-sm text-base-content/70">Asesoría para hoteles, restaurantes, clínicas, industrias, retail y empresas de servicios.</p>
+      </div>
+    </div>
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body">
+        <div class="text-3xl">🧾</div>
+        <h3 class="font-bold text-lg">Factura electrónica SUNAT</h3>
+        <p class="text-sm text-base-content/70">Emitimos comprobante electrónico al instante una vez confirmada tu compra.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

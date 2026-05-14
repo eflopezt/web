@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Enviar solicitud de cotización — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 grid lg:grid-cols-[1fr_360px] gap-6">
+  <div>
+    <h1 class="text-3xl font-bold mb-1">Datos para tu cotización</h1>
+    <p class="text-base-content/60 mb-6">Completa tus datos y te enviamos la cotización en menos de 24 horas hábiles.</p>
+
+    <form method="post" class="space-y-5 card bg-base-100 border border-base-300 p-6">
+      {% csrf_token %}
+
+      <div>
+        <label class="label-text font-semibold">Tipo de cliente</label>
+        <div class="flex gap-3 mt-2">
+          {% for value, label in form.tipo_cliente.field.choices %}
+          <label class="label cursor-pointer gap-2 border border-base-300 rounded-lg px-3 py-2 flex-1">
+            <input type="radio" name="tipo_cliente" value="{{ value }}" class="radio radio-primary radio-sm" {% if form.tipo_cliente.value == value %}checked{% endif %}/>
+            <span class="label-text">{{ label }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <label class="label-text font-semibold">Razón social / Nombre comercial</label>
+          {{ form.razon_social|default:'' }}
+          <input type="text" name="razon_social" value="{{ form.razon_social.value|default:'' }}" placeholder="Ej: Inversiones Acme SAC" class="input input-bordered w-full mt-1" />
+          {{ form.razon_social.errors }}
+        </div>
+        <div>
+          <label class="label-text font-semibold">RUC <span class="text-base-content/50 font-normal">(opcional)</span></label>
+          <input type="text" name="ruc" value="{{ form.ruc.value|default:'' }}" placeholder="11 dígitos" class="input input-bordered w-full mt-1" maxlength="11" />
+          {{ form.ruc.errors }}
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <label class="label-text font-semibold">Nombre de contacto *</label>
+          <input type="text" name="nombre_contacto" value="{{ form.nombre_contacto.value|default:'' }}" required class="input input-bordered w-full mt-1" />
+          {{ form.nombre_contacto.errors }}
+        </div>
+        <div>
+          <label class="label-text font-semibold">Email *</label>
+          <input type="email" name="email" value="{{ form.email.value|default:'' }}" required class="input input-bordered w-full mt-1" />
+          {{ form.email.errors }}
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="label-text font-semibold">Teléfono / WhatsApp *</label>
+          <input type="tel" name="telefono" value="{{ form.telefono.value|default:'' }}" required class="input input-bordered w-full mt-1" placeholder="+51 999 999 999"/>
+          {{ form.telefono.errors }}
+        </div>
+        <div>
+          <label class="label-text font-semibold">Departamento</label>
+          <input type="text" name="departamento" value="{{ form.departamento.value|default:'' }}" class="input input-bordered w-full mt-1" placeholder="Lima"/>
+        </div>
+        <div>
+          <label class="label-text font-semibold">Ciudad</label>
+          <input type="text" name="ciudad" value="{{ form.ciudad.value|default:'' }}" class="input input-bordered w-full mt-1" placeholder="Lima"/>
+        </div>
+      </div>
+
+      <div>
+        <label class="label-text font-semibold">Dirección de despacho</label>
+        <input type="text" name="direccion" value="{{ form.direccion.value|default:'' }}" class="input input-bordered w-full mt-1" placeholder="Av. Industrial 123, Ate"/>
+      </div>
+
+      <div>
+        <label class="label-text font-semibold">Mensaje adicional</label>
+        <textarea name="mensaje" rows="3" class="textarea textarea-bordered w-full mt-1" placeholder="Cuéntanos sobre tu giro, frecuencia de compra o necesidades específicas...">{{ form.mensaje.value|default:'' }}</textarea>
+      </div>
+
+      <label class="label cursor-pointer justify-start gap-3">
+        <input type="checkbox" name="acepta" class="checkbox checkbox-primary checkbox-sm" required {% if form.acepta.value %}checked{% endif %}/>
+        <span class="label-text text-sm">Acepto el tratamiento de mis datos para recibir la cotización (Ley 29733).</span>
+      </label>
+      {{ form.acepta.errors }}
+
+      <div class="flex flex-col sm:flex-row gap-3 pt-2">
+        <a href="{% url 'cotizaciones:carrito' %}" class="btn btn-ghost">← Volver a la cotización</a>
+        <button type="submit" class="btn btn-primary btn-lg flex-1 gap-2">
+          Enviar solicitud
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <aside class="card bg-base-100 border border-base-300 h-fit lg:sticky lg:top-24">
+    <div class="card-body">
+      <h2 class="card-title text-base">Tu solicitud ({{ items|length }})</h2>
+      <div class="divide-y divide-base-200">
+        {% for item in items %}
+        <div class="py-2 flex gap-3 text-sm">
+          <div class="w-10 h-10 bg-base-200 rounded shrink-0 overflow-hidden flex items-center justify-center">
+            {% if item.producto.imagen %}<img src="{{ item.producto.imagen.url }}" class="w-full h-full object-cover" alt=""/>{% else %}🧴{% endif %}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="line-clamp-2">{{ item.producto.nombre }}</div>
+            <div class="text-xs text-base-content/60">{{ item.cantidad }} unid.</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </aside>
+</div>
+{% endblock %}

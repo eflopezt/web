@@ -1,0 +1,72 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es" data-theme="limpiapro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{{ SITE_NAME }} — {{ SITE_TAGLINE }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ SITE_TAGLINE }}. Catálogo de productos de limpieza profesional. Consulta precio y stock por cotización.{% endblock %}" />
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      daisyui: {
+        themes: [{
+          limpiapro: {
+            "primary": "#0EA5E9",
+            "primary-content": "#ffffff",
+            "secondary": "#10B981",
+            "secondary-content": "#ffffff",
+            "accent": "#0369A1",
+            "neutral": "#1E293B",
+            "base-100": "#ffffff",
+            "base-200": "#F1F5F9",
+            "base-300": "#E2E8F0",
+            "info": "#0284C7",
+            "success": "#10B981",
+            "warning": "#F59E0B",
+            "error": "#EF4444",
+          }
+        }]
+      }
+    }
+  </script>
+  <style>
+    .badge-disp-en_stock { background: #DCFCE7; color: #166534; }
+    .badge-disp-bajo_pedido { background: #FEF3C7; color: #92400E; }
+    .badge-disp-agotado { background: #FEE2E2; color: #991B1B; }
+    .htmx-indicator { opacity: 0; transition: opacity 200ms; }
+    .htmx-request .htmx-indicator { opacity: 1; }
+    .htmx-request.htmx-indicator { opacity: 1; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-base-100 text-neutral antialiased">
+
+{% include "components/_navbar.html" %}
+
+{% if messages %}
+<div class="container mx-auto px-4 mt-4 space-y-2" x-data x-init="setTimeout(() => $el.remove(), 5000)">
+  {% for m in messages %}
+  <div role="alert" class="alert alert-{% if m.tags %}{{ m.tags }}{% else %}info{% endif %}">
+    <span>{{ m }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+{% include "components/_footer.html" %}
+
+{% include "cotizaciones/_drawer_wrapper.html" %}
+
+</body>
+</html>

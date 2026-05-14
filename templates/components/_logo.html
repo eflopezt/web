@@ -1,0 +1,17 @@
+{% load static %}
+<a href="{% url 'core:home' %}" class="flex items-center gap-2 group">
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition group-hover:scale-105">
+    <defs>
+      <linearGradient id="lp-grad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#0EA5E9" />
+        <stop offset="100%" stop-color="#10B981" />
+      </linearGradient>
+    </defs>
+    <path d="M18 3 C 26 13, 30 19, 30 24 a12 12 0 0 1 -24 0 C 6 19, 10 13, 18 3 Z" fill="url(#lp-grad)" />
+    <path d="M13 22 a5 5 0 0 0 5 5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85"/>
+  </svg>
+  <div class="leading-tight">
+    <div class="font-extrabold text-lg tracking-tight text-neutral">Limpia<span class="text-primary">Pro</span></div>
+    <div class="text-[10px] uppercase tracking-widest text-base-content/60 -mt-0.5">Limpieza profesional</div>
+  </div>
+</a>

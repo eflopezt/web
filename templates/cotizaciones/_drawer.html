@@ -1,0 +1,61 @@
+<div class="flex items-center justify-between mb-4">
+  <h3 class="text-xl font-bold flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+    Tu solicitud de cotización
+  </h3>
+  <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost">✕</button></form>
+</div>
+
+{% if items %}
+<div class="space-y-3 max-h-96 overflow-y-auto pr-2">
+  {% for item in items %}
+  <div class="flex gap-3 items-center border border-base-300 rounded-lg p-3">
+    <div class="w-14 h-14 bg-base-200 rounded-md flex items-center justify-center overflow-hidden">
+      {% if item.producto.imagen %}
+      <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="w-full h-full object-cover"/>
+      {% else %}
+      <span class="text-2xl">🧴</span>
+      {% endif %}
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="font-medium text-sm truncate">{{ item.producto.nombre }}</div>
+      <div class="text-xs text-base-content/60">SKU {{ item.producto.sku }}{% if item.producto.presentacion %} · {{ item.producto.presentacion }}{% endif %}</div>
+    </div>
+    <form hx-post="{% url 'cotizaciones:actualizar' item.producto.id %}" hx-target="#drawer-carrito-content" hx-swap="innerHTML" class="flex items-center gap-1">
+      {% csrf_token %}
+      <input type="number" name="cantidad" value="{{ item.cantidad }}" min="0" class="input input-bordered input-xs w-16" />
+      <button type="submit" class="btn btn-xs btn-ghost">↻</button>
+    </form>
+    <form hx-post="{% url 'cotizaciones:quitar' item.producto.id %}" hx-target="#drawer-carrito-content" hx-swap="innerHTML">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-xs btn-circle btn-ghost text-error" title="Quitar">✕</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="divider my-3"></div>
+
+<div class="flex items-center justify-between text-sm mb-3">
+  <span class="text-base-content/70">{{ total_unidades }} unidad{{ total_unidades|pluralize:"es" }} en cotización</span>
+  <span class="badge badge-info badge-sm">Precios bajo consulta</span>
+</div>
+
+<div class="modal-action flex flex-col sm:flex-row gap-2">
+  <a href="{% url 'catalogo:lista' %}" class="btn btn-ghost btn-sm flex-1" onclick="document.getElementById('drawer-carrito').close()">Seguir explorando</a>
+  <a href="{% url 'cotizaciones:checkout' %}" class="btn btn-primary btn-sm flex-1">
+    Solicitar cotización
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+  </a>
+</div>
+
+{% else %}
+<div class="text-center py-10">
+  <div class="text-6xl mb-3">🧹</div>
+  <p class="font-semibold mb-1">Aún no agregaste productos</p>
+  <p class="text-sm text-base-content/60 mb-4">Explora el catálogo y arma tu solicitud de cotización.</p>
+  <a href="{% url 'catalogo:lista' %}" class="btn btn-primary btn-sm" onclick="document.getElementById('drawer-carrito').close()">Ver catálogo</a>
+</div>
+{% endif %}
+
+{% include "cotizaciones/_badge.html" %}

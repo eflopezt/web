@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html><body style="font-family:Arial,sans-serif;max-width:700px;margin:auto;color:#1E293B;">
+  <div style="background:#1E293B;color:#fff;padding:20px;border-radius:8px 8px 0 0;">
+    <h2 style="margin:0;">📥 Nueva solicitud de cotización · {{ solicitud.codigo }}</h2>
+  </div>
+  <div style="padding:20px;background:#fff;border:1px solid #E2E8F0;border-top:none;border-radius:0 0 8px 8px;">
+    <h3 style="color:#0EA5E9;margin-top:0;">Datos del cliente</h3>
+    <table style="width:100%;font-size:14px;">
+      <tr><td style="padding:4px 8px;color:#64748B;">Tipo:</td><td>{{ solicitud.get_tipo_cliente_display }}</td></tr>
+      <tr><td style="padding:4px 8px;color:#64748B;">Razón social:</td><td>{{ solicitud.razon_social|default:"—" }}</td></tr>
+      <tr><td style="padding:4px 8px;color:#64748B;">RUC:</td><td>{{ solicitud.ruc|default:"—" }}</td></tr>
+      <tr><td style="padding:4px 8px;color:#64748B;">Contacto:</td><td><strong>{{ solicitud.nombre_contacto }}</strong></td></tr>
+      <tr><td style="padding:4px 8px;color:#64748B;">Email:</td><td><a href="mailto:{{ solicitud.email }}">{{ solicitud.email }}</a></td></tr>
+      <tr><td style="padding:4px 8px;color:#64748B;">Teléfono:</td><td>{{ solicitud.telefono }}</td></tr>
+      <tr><td style="padding:4px 8px;color:#64748B;">Ubicación:</td><td>{{ solicitud.ciudad }}{% if solicitud.departamento %}, {{ solicitud.departamento }}{% endif %}</td></tr>
+      <tr><td style="padding:4px 8px;color:#64748B;">Dirección:</td><td>{{ solicitud.direccion|default:"—" }}</td></tr>
+    </table>
+
+    {% if solicitud.mensaje %}
+    <h3 style="color:#0EA5E9;margin-top:20px;">Mensaje</h3>
+    <div style="background:#F1F5F9;padding:12px;border-radius:6px;font-size:14px;">{{ solicitud.mensaje|linebreaks }}</div>
+    {% endif %}
+
+    <h3 style="color:#0EA5E9;margin-top:20px;">Productos</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead><tr style="background:#F1F5F9;">
+        <th style="padding:8px;text-align:left;">Producto</th>
+        <th style="padding:8px;text-align:left;">SKU</th>
+        <th style="padding:8px;text-align:right;">Cantidad</th>
+      </tr></thead>
+      <tbody>
+      {% for item in items %}
+        <tr><td style="padding:8px;border-bottom:1px solid #F1F5F9;">{{ item.nombre_snapshot }}</td>
+            <td style="padding:8px;border-bottom:1px solid #F1F5F9;font-family:monospace;">{{ item.sku_snapshot }}</td>
+            <td style="padding:8px;text-align:right;border-bottom:1px solid #F1F5F9;"><strong>{{ item.cantidad }}</strong></td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    <p style="margin-top:20px;font-size:13px;color:#64748B;">Responder antes de 24 horas hábiles. Revisar y atender en el admin de LimpiaPro.</p>
+  </div>
+</body></html>

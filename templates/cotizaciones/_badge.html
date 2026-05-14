@@ -1,0 +1,4 @@
+<span id="carrito-badge" class="badge badge-secondary badge-sm{% if not total_unidades and total_unidades != 0 %} hidden{% endif %}"
+      hx-swap-oob="true">
+  {% if request.carrito_count %}{{ request.carrito_count }}{% elif total_unidades %}{{ total_unidades }}{% else %}0{% endif %}
+</span>

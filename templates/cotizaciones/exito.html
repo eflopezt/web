@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Solicitud recibida {{ solicitud.codigo }} — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-16 text-center max-w-2xl">
+  <div class="w-24 h-24 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+  </div>
+  <h1 class="text-3xl md:text-4xl font-bold mb-2">¡Recibimos tu solicitud!</h1>
+  <p class="text-base-content/70 mb-1">Código de seguimiento</p>
+  <p class="text-2xl font-mono font-bold text-primary mb-6">{{ solicitud.codigo }}</p>
+
+  <div class="card bg-base-100 border border-base-300 text-left">
+    <div class="card-body">
+      <p>Hola <strong>{{ solicitud.nombre_contacto }}</strong>, nuestro equipo comercial revisará tu solicitud con <strong>{{ solicitud.items.count }} producto{{ solicitud.items.count|pluralize }}</strong> y te enviará la cotización a <strong>{{ solicitud.email }}</strong> en menos de 24 horas hábiles.</p>
+      <p class="text-sm text-base-content/70 mt-2">Si necesitas atención inmediata, escríbenos por WhatsApp y menciona tu código.</p>
+    </div>
+  </div>
+
+  <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="https://wa.me/{{ SITE_WHATSAPP }}?text=Hola%2C%20mi%20solicitud%20es%20{{ solicitud.codigo|urlencode }}" target="_blank" rel="noopener" class="btn btn-success gap-2">
+      <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
+      Escribir por WhatsApp
+    </a>
+    <a href="{% url 'catalogo:lista' %}" class="btn btn-primary">Seguir explorando</a>
+    <a href="{% url 'core:home' %}" class="btn btn-ghost">Ir al inicio</a>
+  </div>
+</div>
+{% endblock %}

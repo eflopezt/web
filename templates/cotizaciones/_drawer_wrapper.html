@@ -1,0 +1,14 @@
+<dialog id="drawer-carrito" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box max-w-2xl" id="drawer-carrito-content">
+    <div class="flex justify-center py-8">
+      <span class="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop"><button>cerrar</button></form>
+</dialog>
+
+<script>
+  document.body.addEventListener('carrito-actualizado', () => {
+    htmx.ajax('GET', "{% url 'cotizaciones:drawer' %}", {target: '#drawer-carrito-content', swap: 'innerHTML'});
+  });
+</script>

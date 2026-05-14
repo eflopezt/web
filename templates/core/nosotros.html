@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Nosotros — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-br from-primary to-secondary text-primary-content py-16">
+  <div class="container mx-auto px-4 text-center max-w-3xl">
+    <h1 class="text-4xl md:text-5xl font-extrabold">Sobre {{ SITE_NAME }}</h1>
+    <p class="mt-4 text-lg opacity-90">{{ SITE_TAGLINE }}.</p>
+  </div>
+</section>
+
+<section class="container mx-auto px-4 py-12 max-w-3xl prose prose-lg">
+  <p><strong>{{ SITE_NAME }}</strong> es una distribuidora peruana de productos e insumos de limpieza profesional para empresas de todo tamaño y rubro. Nuestro foco está en hoteles, restaurantes, clínicas, industrias manufactureras, retail, oficinas corporativas y empresas de servicios de limpieza.</p>
+
+  <h2>¿Qué nos diferencia?</h2>
+  <ul>
+    <li><strong>Cotización personalizada</strong>: tus precios dependen de tu volumen, frecuencia y ubicación. Por eso ofrecemos cotización por solicitud, no precios fijos en web.</li>
+    <li><strong>Productos certificados</strong>: trabajamos sólo con marcas registradas en DIGESA y proveedores con buenas prácticas de manufactura.</li>
+    <li><strong>Logística en todo el Perú</strong>: despachamos a Lima Metropolitana, Lima provincias y las 24 regiones, con coordinación de transporte.</li>
+    <li><strong>Asesoría técnica</strong>: te ayudamos a elegir las concentraciones, presentaciones y dispensadores adecuados según tu operación.</li>
+  </ul>
+
+  <h2>Nuestro compromiso</h2>
+  <p>Atender tu solicitud en menos de 24 horas hábiles, emitir factura electrónica SUNAT y entregar productos de calidad consistente.</p>
+
+  <div class="not-prose grid md:grid-cols-3 gap-4 mt-8">
+    <div class="card bg-base-200"><div class="card-body items-center text-center"><div class="text-3xl">🏨</div><div class="font-bold">Hoteles & Restaurantes</div></div></div>
+    <div class="card bg-base-200"><div class="card-body items-center text-center"><div class="text-3xl">🏥</div><div class="font-bold">Clínicas & Salud</div></div></div>
+    <div class="card bg-base-200"><div class="card-body items-center text-center"><div class="text-3xl">🏭</div><div class="font-bold">Industria & Oficinas</div></div></div>
+  </div>
+</section>
+{% endblock %}

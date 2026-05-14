@@ -1,0 +1,54 @@
+<footer class="bg-neutral text-neutral-content mt-16">
+  <div class="container mx-auto px-4 py-12 grid md:grid-cols-4 gap-8">
+    <div>
+      <div class="flex items-center gap-2 mb-3">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="fg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#10B981"/></linearGradient></defs>
+          <path d="M18 3 C 26 13, 30 19, 30 24 a12 12 0 0 1 -24 0 C 6 19, 10 13, 18 3 Z" fill="url(#fg)"/>
+        </svg>
+        <div class="font-extrabold text-lg">Limpia<span class="text-primary">Pro</span></div>
+      </div>
+      <p class="text-sm opacity-80">{{ SITE_TAGLINE }}.</p>
+      <p class="text-xs opacity-60 mt-3">Distribuimos productos de limpieza profesional para empresas, hoteles, restaurantes, clínicas, industrias y oficinas en todo el Perú.</p>
+    </div>
+
+    <div>
+      <h4 class="font-semibold mb-3 text-primary">Catálogo</h4>
+      <ul class="space-y-1.5 text-sm opacity-80">
+        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-primary">Todos los productos</a></li>
+        <li><a href="{% url 'catalogo:lista' %}?disp=en_stock" class="hover:text-primary">En stock</a></li>
+        <li><a href="{% url 'cotizaciones:carrito' %}" class="hover:text-primary">Mi cotización</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-semibold mb-3 text-primary">Empresa</h4>
+      <ul class="space-y-1.5 text-sm opacity-80">
+        <li><a href="{% url 'core:nosotros' %}" class="hover:text-primary">Nosotros</a></li>
+        <li><a href="{% url 'core:contacto' %}" class="hover:text-primary">Contacto</a></li>
+        <li><a href="/admin/" class="hover:text-primary">Acceso interno</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-semibold mb-3 text-primary">Contacto</h4>
+      <ul class="space-y-1.5 text-sm opacity-80">
+        <li>📞 {{ SITE_PHONE }}</li>
+        <li>✉ {{ SITE_EMAIL }}</li>
+        <li>📍 {{ SITE_ADDRESS }}</li>
+        <li>
+          <a href="https://wa.me/{{ SITE_WHATSAPP }}" target="_blank" rel="noopener" class="btn btn-success btn-sm mt-2 gap-2">
+            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
+            WhatsApp
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-2 text-xs opacity-70">
+      <span>© {% now "Y" %} {{ SITE_NAME }}. Todos los derechos reservados.</span>
+      <span>Hecho en Perú 🇵🇪</span>
+    </div>
+  </div>
+</footer>

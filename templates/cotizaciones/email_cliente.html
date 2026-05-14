@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#1E293B;">
+  <div style="background:linear-gradient(135deg,#0EA5E9,#10B981);color:#fff;padding:24px;border-radius:8px 8px 0 0;">
+    <h1 style="margin:0;font-size:24px;">LimpiaPro</h1>
+    <p style="margin:4px 0 0;opacity:.9;">Recibimos tu solicitud de cotización</p>
+  </div>
+  <div style="padding:24px;background:#fff;border:1px solid #E2E8F0;border-top:none;border-radius:0 0 8px 8px;">
+    <p>Hola <strong>{{ solicitud.nombre_contacto }}</strong>,</p>
+    <p>Hemos recibido tu solicitud de cotización con código <strong style="color:#0EA5E9;">{{ solicitud.codigo }}</strong>. Nuestro equipo comercial está revisando los productos y te enviaremos los precios y disponibilidad en menos de 24 horas hábiles.</p>
+
+    <h3 style="margin-top:24px;color:#0EA5E9;">Productos solicitados</h3>
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="background:#F1F5F9;">
+          <th style="padding:8px;text-align:left;border-bottom:1px solid #E2E8F0;">Producto</th>
+          <th style="padding:8px;text-align:left;border-bottom:1px solid #E2E8F0;">SKU</th>
+          <th style="padding:8px;text-align:right;border-bottom:1px solid #E2E8F0;">Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for item in items %}
+        <tr><td style="padding:8px;border-bottom:1px solid #F1F5F9;">{{ item.nombre_snapshot }}</td>
+            <td style="padding:8px;border-bottom:1px solid #F1F5F9;font-family:monospace;font-size:12px;">{{ item.sku_snapshot }}</td>
+            <td style="padding:8px;text-align:right;border-bottom:1px solid #F1F5F9;">{{ item.cantidad }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    <p style="margin-top:24px;">¿Tienes prisa? Escríbenos por WhatsApp mencionando tu código <strong>{{ solicitud.codigo }}</strong>.</p>
+    <p style="color:#64748B;font-size:12px;margin-top:32px;">Este es un mensaje automático. No respondas a este correo.</p>
+  </div>
+</body></html>

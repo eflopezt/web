@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Mi cotización — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-1">Mi cotización</h1>
+  <p class="text-base-content/60 mb-6">Revisa los productos antes de enviar tu solicitud.</p>
+
+  {% if items %}
+  <div class="grid lg:grid-cols-[1fr_360px] gap-6">
+    <div class="space-y-3">
+      {% for item in items %}
+      <div class="card bg-base-100 border border-base-300">
+        <div class="card-body p-4 flex flex-row items-center gap-4">
+          <div class="w-20 h-20 bg-base-200 rounded-lg overflow-hidden flex items-center justify-center shrink-0">
+            {% if item.producto.imagen %}<img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="w-full h-full object-cover"/>{% else %}<span class="text-3xl">🧴</span>{% endif %}
+          </div>
+          <div class="flex-1 min-w-0">
+            <a href="{{ item.producto.get_absolute_url }}" class="font-semibold hover:text-primary line-clamp-2">{{ item.producto.nombre }}</a>
+            <div class="text-xs text-base-content/60">SKU {{ item.producto.sku }}{% if item.producto.presentacion %} · {{ item.producto.presentacion }}{% endif %}</div>
+            <span class="badge badge-disp-{{ item.producto.disponibilidad }} badge-sm mt-1">{{ item.producto.get_disponibilidad_display }}</span>
+          </div>
+          <form hx-post="{% url 'cotizaciones:actualizar' item.producto.id %}" hx-target="#drawer-carrito-content" hx-swap="innerHTML" class="flex items-center gap-1">
+            {% csrf_token %}
+            <input type="number" name="cantidad" value="{{ item.cantidad }}" min="0" class="input input-bordered input-sm w-20" />
+            <button class="btn btn-sm btn-ghost">↻</button>
+          </form>
+          <form hx-post="{% url 'cotizaciones:quitar' item.producto.id %}" hx-target="this" hx-swap="outerHTML">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-ghost text-error" title="Quitar">✕</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <aside class="card bg-base-100 border border-base-300 h-fit lg:sticky lg:top-24">
+      <div class="card-body">
+        <h2 class="card-title">Resumen</h2>
+        <div class="flex justify-between text-sm"><span>Productos distintos</span><span class="font-semibold">{{ items|length }}</span></div>
+        <div class="flex justify-between text-sm"><span>Unidades totales</span><span class="font-semibold">{{ total_unidades }}</span></div>
+        <div class="alert bg-primary/10 border border-primary/20 mt-2 text-sm py-2">💬 Los precios y stock se confirman al recibir tu solicitud.</div>
+        <a href="{% url 'cotizaciones:checkout' %}" class="btn btn-primary mt-3 w-full gap-2">
+          Continuar y enviar solicitud
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+        </a>
+        <a href="{% url 'catalogo:lista' %}" class="btn btn-ghost btn-sm w-full">Seguir explorando</a>
+      </div>
+    </aside>
+  </div>
+  {% else %}
+  <div class="text-center py-20 max-w-md mx-auto">
+    <div class="text-7xl mb-3">🧹</div>
+    <h2 class="text-xl font-bold mb-1">Tu cotización está vacía</h2>
+    <p class="text-base-content/60 mb-5">Explora el catálogo y agrega los productos que necesitas.</p>
+    <a href="{% url 'catalogo:lista' %}" class="btn btn-primary">Ver catálogo</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
