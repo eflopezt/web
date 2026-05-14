@@ -2,6 +2,53 @@
 {% load static humanize producto_extras %}
 {% block title %}{{ SITE_BRAND }} — Productos de limpieza profesional en Lima y Callao{% endblock %}
 
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "{{ request.scheme }}://{{ request.get_host }}/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "{{ request.scheme }}://{{ request.get_host }}/#localbusiness",
+  "name": "ProClean Servid Innova",
+  "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.png' %}",
+  "url": "{{ request.scheme }}://{{ request.get_host }}/",
+  "telephone": "+{{ SITE_WHATSAPP }}",
+  "email": "{{ SITE_EMAIL }}",
+  "priceRange": "$$",
+  "description": "Distribuidor B2B/B2C de productos de limpieza profesional en Lima y Callao: papeles, lejía, desinfectantes, detergentes, bolsas y escobas.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Lima",
+    "addressRegion": "Lima",
+    "addressCountry": "PE"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Lima" },
+    { "@type": "City", "name": "Callao" }
+  ],
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "opens": "08:00",
+    "closes": "18:00"
+  }]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 <!-- ============ HERO ============ -->

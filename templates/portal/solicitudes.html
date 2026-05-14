@@ -1,28 +1,74 @@
 {% extends "portal/_layout.html" %}
+{% load humanize %}
 {% block portal_title %}Mis solicitudes{% endblock %}
+
 {% block portal_content %}
-<div class="flex items-center justify-between mb-4">
-  <h1 class="text-2xl font-bold">Mis solicitudes</h1>
-  <a href="{% url 'catalogo:lista' %}" class="btn btn-primary btn-sm">+ Nueva solicitud</a>
+
+<!-- ============ Encabezado ============ -->
+<div class="flex flex-wrap items-end justify-between gap-3 mb-5">
+  <div>
+    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Bandeja</span>
+    <h1 class="text-2xl md:text-3xl font-extrabold text-accent tracking-tight mt-1 flex items-center gap-2.5">
+      <i data-lucide="inbox" class="w-7 h-7 text-primary"></i>
+      Mis solicitudes
+    </h1>
+    <p class="text-sm text-slate-500 mt-0.5">Cotizaciones que has solicitado desde el catálogo o por WhatsApp.</p>
+  </div>
+  <a href="{% url 'catalogo:lista' %}" class="bg-gradient-green text-white font-bold rounded-xl px-4 h-11 btn-shine inline-flex items-center gap-2 shadow-md hover:shadow-lg transition">
+    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+    Nueva solicitud
+  </a>
 </div>
-<div class="card bg-base-100 border border-base-300 overflow-x-auto">
-  <table class="table">
-    <thead>
-      <tr><th>Código</th><th>Fecha</th><th>Productos</th><th>Estado</th><th></th></tr>
-    </thead>
-    <tbody>
-      {% for s in solicitudes %}
-      <tr>
-        <td class="font-mono text-sm">{{ s.codigo }}</td>
-        <td>{{ s.creado|date:"d/m/Y H:i" }}</td>
-        <td>{{ s.total_items }}</td>
-        <td><span class="badge badge-{{ s.color_estado }}">{{ s.get_estado_display }}</span></td>
-        <td><a href="{% url 'portal:solicitud_detalle' s.codigo %}" class="btn btn-xs btn-ghost">Ver →</a></td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="5" class="text-center py-8 text-base-content/60">No has hecho solicitudes aún. <a href="{% url 'catalogo:lista' %}" class="link link-primary">Explorar catálogo</a></td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+
+<!-- ============ Tabla ============ -->
+<div class="bento bg-white border border-base-300 rounded-2xl overflow-hidden shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="table table-zebra">
+      <thead>
+        <tr class="bg-base-200 text-accent">
+          <th class="font-bold uppercase text-xs tracking-wider">Código</th>
+          <th class="font-bold uppercase text-xs tracking-wider">Fecha</th>
+          <th class="font-bold uppercase text-xs tracking-wider text-center">Productos</th>
+          <th class="font-bold uppercase text-xs tracking-wider">Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in solicitudes %}
+        <tr class="hover">
+          <td class="font-mono text-sm font-semibold text-accent">{{ s.codigo }}</td>
+          <td class="text-sm text-slate-600">{{ s.creado|date:"d/m/Y H:i" }}</td>
+          <td class="text-center">
+            <span class="inline-flex items-center gap-1.5 bg-base-200 text-accent text-xs font-semibold rounded-full px-2.5 py-1">
+              <i data-lucide="box" class="w-3 h-3"></i> {{ s.total_items }}
+            </span>
+          </td>
+          <td><span class="badge badge-{{ s.color_estado }}">{{ s.get_estado_display }}</span></td>
+          <td class="text-right">
+            <a href="{% url 'portal:solicitud_detalle' s.codigo %}" class="btn btn-sm btn-ghost text-primary hover:bg-primary/10 gap-1">
+              Ver <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">
+            <div class="text-center py-14">
+              <div class="inline-flex w-16 h-16 rounded-2xl bg-base-200 items-center justify-center mb-3">
+                <i data-lucide="inbox" class="w-7 h-7 text-slate-400"></i>
+              </div>
+              <h3 class="font-bold text-accent">Aún no tienes solicitudes</h3>
+              <p class="text-sm text-slate-500 mt-1 mb-4">Empieza explorando nuestro catálogo de productos.</p>
+              <a href="{% url 'catalogo:lista' %}" class="bg-gradient-green text-white font-bold rounded-xl px-5 h-11 btn-shine inline-flex items-center gap-2 shadow-md">
+                <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                Explorar catálogo
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}

@@ -1,86 +1,278 @@
-{% load humanize %}<!DOCTYPE html>
-<html lang="es" data-theme="limpiapro">
+{% load static humanize %}<!DOCTYPE html>
+<html lang="es" data-theme="proclean">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block intra_title %}Intranet{% endblock %} — {{ SITE_NAME }}</title>
-  <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg" />
+  <title>{% block intra_title %}Intranet{% endblock %} — {{ SITE_NAME }} · Backoffice</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet"/>
   <script src="https://unpkg.com/htmx.org@2.0.3"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+
   <script>
-    tailwind.config = { darkMode: 'class', daisyui: { themes: [{ limpiapro: {
-      "primary": "#0EA5E9", "primary-content": "#ffffff",
-      "secondary": "#10B981", "secondary-content": "#ffffff",
-      "accent": "#0369A1", "neutral": "#1E293B",
-      "base-100": "#ffffff", "base-200": "#F1F5F9", "base-300": "#E2E8F0",
-      "info": "#0284C7", "success": "#10B981", "warning": "#F59E0B", "error": "#EF4444",
-    }}]}}
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          boxShadow: {
+            card: '0 1px 3px 0 rgb(15 23 42 / 0.04), 0 1px 2px -1px rgb(15 23 42 / 0.04)',
+            soft: '0 4px 6px -1px rgb(15 23 42 / 0.05), 0 2px 4px -2px rgb(15 23 42 / 0.04)',
+          },
+        }
+      },
+      daisyui: {
+        themes: [{
+          proclean: {
+            "primary": "#1B75BC",
+            "primary-content": "#ffffff",
+            "secondary": "#3FAE2A",
+            "secondary-content": "#ffffff",
+            "accent": "#1A4F8B",
+            "accent-content": "#ffffff",
+            "neutral": "#1A4F8B",
+            "neutral-content": "#F0F9FF",
+            "base-100": "#ffffff",
+            "base-200": "#F0F9FF",
+            "base-300": "#CFE8F7",
+            "info": "#2BA0E0",
+            "success": "#3FAE2A",
+            "warning": "#F59E0B",
+            "error": "#DC2626",
+            "--rounded-btn": "0.625rem",
+            "--rounded-box": "1rem",
+            "--rounded-badge": "0.5rem",
+          }
+        }]
+      }
+    }
   </script>
   <style>
+    :root {
+      --pc-green: #3FAE2A;
+      --pc-green-dark: #2E8B1F;
+      --pc-blue: #1B75BC;
+      --pc-blue-dark: #1A4F8B;
+      --pc-blue-light: #2BA0E0;
+      --pc-blue-bg: #E6F3FB;
+      --pc-blue-bg-soft: #F0F9FF;
+    }
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; color: #0F2A4D; background: #F4F8FC; }
+    h1, h2, h3, h4, h5 { letter-spacing: -0.015em; }
+
+    /* ============ HTMX feedback ============ */
     .htmx-indicator { opacity: 0; transition: opacity 200ms; }
     .htmx-request .htmx-indicator { opacity: 1; }
-    .nav-link.active { background: #0EA5E9; color: #fff; }
+    .htmx-request.htmx-indicator { opacity: 1; }
+
+    /* ============ Badges disponibilidad ============ */
+    .badge-disp-en_stock { background: #DCFCE7; color: #14532D; border: 1px solid #86EFAC; font-weight: 600; }
+    .badge-disp-bajo_pedido { background: #FEF3C7; color: #78350F; border: 1px solid #FCD34D; font-weight: 600; }
+    .badge-disp-agotado { background: #FEE2E2; color: #7F1D1D; border: 1px solid #FCA5A5; font-weight: 600; }
+
+    /* ============ Brand gradients ============ */
+    .bg-gradient-brand { background: linear-gradient(135deg, #1A4F8B 0%, #1B75BC 45%, #3FAE2A 100%); }
+    .bg-gradient-brand-soft { background: linear-gradient(135deg, #EFF8FF 0%, #F0FFF4 100%); }
+    .bg-gradient-blue { background: linear-gradient(135deg, #1A4F8B 0%, #2BA0E0 100%); }
+    .bg-gradient-green { background: linear-gradient(135deg, #2E8B1F 0%, #6BCB3A 100%); }
+    .bg-gradient-sidebar { background: linear-gradient(180deg, #1A4F8B 0%, #133F73 100%); }
+    .text-gradient-brand { background: linear-gradient(90deg, #3FAE2A 0%, #1B75BC 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* ============ Bento ============ */
+    .bento { transition: transform 300ms, box-shadow 300ms, border-color 300ms; }
+    .bento:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -16px rgb(27 117 188 / 0.20); border-color: var(--pc-blue-light); }
+
+    /* ============ Icon containers ============ */
+    .icon-box { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; }
+    .icon-box [data-lucide] { width: 1.25rem; height: 1.25rem; stroke-width: 2; }
+    .icon-box-green { background: #DCFCE7; color: var(--pc-green-dark); }
+    .icon-box-blue { background: #DBEAFE; color: var(--pc-blue-dark); }
+    .icon-box-amber { background: #FEF3C7; color: #92400E; }
+    .icon-box-rose  { background: #FEE2E2; color: #9F1239; }
+    .icon-box-violet{ background: #EDE9FE; color: #5B21B6; }
+
+    .stat-num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; letter-spacing: -0.02em; }
+
+    /* ============ Sidebar ============ */
+    .intranet-aside { background: linear-gradient(180deg, #1A4F8B 0%, #133F73 100%); }
+    .intranet-aside .nav-link {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.625rem 0.875rem; border-radius: 0.75rem;
+      color: rgba(255,255,255,0.78); font-weight: 500; font-size: 0.875rem;
+      transition: background 180ms, color 180ms, transform 180ms;
+    }
+    .intranet-aside .nav-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .intranet-aside .nav-link.active {
+      background: linear-gradient(90deg, rgba(63,174,42,0.22) 0%, rgba(27,117,188,0.22) 100%);
+      color: #fff; font-weight: 600;
+      box-shadow: inset 3px 0 0 #3FAE2A;
+    }
+    .intranet-aside .nav-link [data-lucide] { width: 1.05rem; height: 1.05rem; stroke-width: 2; flex-shrink: 0; }
+    .intranet-aside .section-label {
+      font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.45); padding: 1rem 0.875rem 0.5rem;
+    }
+
+    /* ============ Page header ============ */
+    .page-title { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; color: #0F2A4D; }
+    .breadcrumb-link { color: #64748B; }
+    .breadcrumb-link:hover { color: var(--pc-blue); }
+    .breadcrumb-sep { color: #CBD5E1; }
+
+    /* ============ Cards / tables ============ */
+    .data-card { background: #fff; border: 1px solid #E2EAF3; border-radius: 1rem; box-shadow: 0 1px 2px rgb(15 23 42 / 0.04); }
+    .table-pc thead tr th { background: #F0F9FF; color: #1A4F8B; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #CFE8F7; }
+    .table-pc tbody tr { transition: background 150ms; }
+    .table-pc tbody tr:hover { background: #F8FBFE; }
+
+    /* ============ Inputs ============ */
+    .input-bordered, .select-bordered, .textarea-bordered { border-color: #CBD5E1; transition: border-color 180ms, box-shadow 180ms; }
+    .input-bordered:focus, .select-bordered:focus, .textarea-bordered:focus { border-color: var(--pc-blue); box-shadow: 0 0 0 3px rgba(27,117,188,0.12); outline: none; }
+    .field-label { font-size: 0.8125rem; font-weight: 600; color: #1A4F8B; }
+
+    /* ============ Buttons shine ============ */
+    .btn-shine { position: relative; overflow: hidden; }
+    .btn-shine::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%); transform: translateX(-100%); transition: transform 800ms; }
+    .btn-shine:hover::after { transform: translateX(100%); }
+
+    /* ============ Scrollbar mini ============ */
+    .intranet-aside::-webkit-scrollbar { width: 6px; }
+    .intranet-aside::-webkit-scrollbar-track { background: transparent; }
+    .intranet-aside::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
   </style>
+  {% block intra_extra_head %}{% endblock %}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => { if (window.lucide) window.lucide.createIcons(); });
+    window.addEventListener('load', () => { if (window.lucide) window.lucide.createIcons(); });
+    document.addEventListener('htmx:afterSwap', () => { if (window.lucide) window.lucide.createIcons(); });
+  </script>
 </head>
-<body class="bg-base-200 min-h-screen">
+<body class="min-h-screen">
 
 <div class="drawer lg:drawer-open">
   <input id="intranet-drawer" type="checkbox" class="drawer-toggle"/>
 
   <div class="drawer-content flex flex-col min-h-screen">
-    <header class="bg-base-100 border-b border-base-300 sticky top-0 z-30 shadow-sm">
-      <div class="px-4 h-14 flex items-center justify-between gap-2">
-        <label for="intranet-drawer" class="btn btn-sm btn-ghost lg:hidden">☰</label>
-        <div class="flex items-center gap-2">
-          <svg width="28" height="28" viewBox="0 0 36 36">
-            <defs><linearGradient id="hg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#10B981"/></linearGradient></defs>
-            <path d="M18 3 C 26 13, 30 19, 30 24 a12 12 0 0 1 -24 0 C 6 19, 10 13, 18 3 Z" fill="url(#hg)"/>
-          </svg>
-          <strong class="text-lg">LimpiaPro <span class="text-xs font-normal text-base-content/60 ml-1">Intranet</span></strong>
+    <!-- Top header -->
+    <header class="bg-white/95 backdrop-blur border-b border-base-300 sticky top-0 z-30 shadow-sm">
+      <div class="px-4 lg:px-6 h-16 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <label for="intranet-drawer" class="btn btn-sm btn-ghost lg:hidden">
+            <i data-lucide="menu"></i>
+          </label>
+          <div class="hidden lg:flex items-center gap-2">
+            <span class="badge badge-sm bg-accent text-white border-0 font-semibold px-2.5">Backoffice</span>
+            <span class="text-sm text-slate-500">{% block intra_section %}{% endblock %}</span>
+          </div>
         </div>
+
         <div class="flex items-center gap-2">
-          <a href="/" class="btn btn-xs btn-ghost">Sitio público</a>
-          <span class="hidden md:inline text-sm">👤 {{ request.user.get_full_name|default:request.user.username }}</span>
-          <form method="post" action="{% url 'logout' %}" class="inline">{% csrf_token %}<button class="btn btn-xs btn-outline">Salir</button></form>
+          <a href="/" class="hidden md:inline-flex items-center gap-1.5 text-sm text-slate-600 hover:text-primary font-medium px-3 py-1.5 rounded-lg hover:bg-base-200 transition">
+            <i data-lucide="external-link" class="w-4 h-4"></i> Sitio público
+          </a>
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="flex items-center gap-2 cursor-pointer px-2 py-1.5 rounded-lg hover:bg-base-200 transition">
+              <div class="w-8 h-8 rounded-full bg-gradient-brand text-white flex items-center justify-center font-bold text-sm">
+                {{ request.user.get_full_name|default:request.user.username|first|upper }}
+              </div>
+              <div class="hidden md:block text-left leading-tight">
+                <div class="text-sm font-semibold text-accent">{{ request.user.get_full_name|default:request.user.username }}</div>
+                <div class="text-[11px] text-slate-500">Staff · ProClean</div>
+              </div>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 hidden md:block"></i>
+            </label>
+            <ul tabindex="0" class="dropdown-content menu p-2 shadow-lg bg-white border border-base-300 rounded-xl w-52 mt-2 z-50">
+              <li><a href="/admin/" target="_blank" class="text-sm"><i data-lucide="settings" class="w-4 h-4"></i> Django admin</a></li>
+              <li>
+                <form method="post" action="{% url 'logout' %}" class="w-full">{% csrf_token %}
+                  <button class="w-full text-left flex items-center gap-2 text-sm text-error"><i data-lucide="log-out" class="w-4 h-4"></i> Cerrar sesión</button>
+                </form>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </header>
 
-    <main class="flex-1 p-4 lg:p-6">
+    <main class="flex-1 p-4 lg:p-8">
       {% if messages %}
-      <div class="space-y-2 mb-3" x-data x-init="setTimeout(()=>$el.remove(),5000)">
-        {% for m in messages %}<div class="alert alert-{% if m.tags %}{{ m.tags }}{% else %}info{% endif %} py-2 text-sm">{{ m }}</div>{% endfor %}
+      <div class="space-y-2 mb-4" x-data x-init="setTimeout(()=>$el.remove(),5000)">
+        {% for m in messages %}
+        <div role="alert" class="alert alert-{% if m.tags %}{{ m.tags }}{% else %}info{% endif %} py-3 text-sm shadow-sm">
+          <span>{{ m }}</span>
+        </div>
+        {% endfor %}
       </div>
       {% endif %}
       {% block intra_content %}{% endblock %}
     </main>
   </div>
 
+  <!-- Sidebar -->
   <div class="drawer-side z-40">
     <label for="intranet-drawer" class="drawer-overlay"></label>
-    <aside class="w-64 min-h-screen bg-neutral text-neutral-content">
-      <div class="p-4 border-b border-white/10">
-        <div class="flex items-center gap-2">
-          <svg width="32" height="32" viewBox="0 0 36 36"><path d="M18 3 C 26 13, 30 19, 30 24 a12 12 0 0 1 -24 0 C 6 19, 10 13, 18 3 Z" fill="#0EA5E9"/></svg>
-          <div><div class="font-extrabold">LimpiaPro</div><div class="text-xs opacity-70">Backoffice</div></div>
+    <aside class="intranet-aside w-64 min-h-screen text-white overflow-y-auto">
+      <div class="px-5 py-5 border-b border-white/10">
+        <a href="{% url 'intranet:dashboard' %}" class="flex items-center gap-3 group">
+          <img src="{% static 'img/logo-white.svg' %}" alt="{{ SITE_BRAND }}" class="h-9 w-auto transition group-hover:scale-[1.03]" />
+        </a>
+        <div class="mt-2 text-[10px] uppercase tracking-[0.18em] text-white/55 font-semibold">Intranet · Staff</div>
+      </div>
+
+      <nav class="px-3 py-4 space-y-0.5">
+        <a href="{% url 'intranet:dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+          <i data-lucide="layout-dashboard"></i> Dashboard
+        </a>
+
+        <div class="section-label">Comercial</div>
+        <a href="{% url 'intranet:solicitudes' %}" class="nav-link {% if 'solicitud' in request.resolver_match.url_name %}active{% endif %}">
+          <i data-lucide="inbox"></i> Solicitudes
+        </a>
+        <a href="{% url 'intranet:cotizaciones' %}" class="nav-link {% if 'cotizacion' in request.resolver_match.url_name %}active{% endif %}">
+          <i data-lucide="file-text"></i> Cotizaciones
+        </a>
+        <a href="{% url 'intranet:pedidos' %}" class="nav-link {% if 'pedido' in request.resolver_match.url_name %}active{% endif %}">
+          <i data-lucide="package"></i> Pedidos
+        </a>
+        <a href="{% url 'intranet:facturas' %}" class="nav-link {% if 'factura' in request.resolver_match.url_name %}active{% endif %}">
+          <i data-lucide="receipt"></i> Facturas
+        </a>
+
+        <div class="section-label">Maestros</div>
+        <a href="{% url 'intranet:clientes' %}" class="nav-link {% if 'cliente' in request.resolver_match.url_name %}active{% endif %}">
+          <i data-lucide="users"></i> Clientes
+        </a>
+        <a href="{% url 'intranet:productos' %}" class="nav-link {% if 'producto' in request.resolver_match.url_name %}active{% endif %}">
+          <i data-lucide="spray-can"></i> Productos
+        </a>
+
+        <div class="section-label">Análisis</div>
+        <a href="{% url 'intranet:reportes' %}" class="nav-link {% if 'reporte' in request.resolver_match.url_name %}active{% endif %}">
+          <i data-lucide="bar-chart-3"></i> Reportes
+        </a>
+
+        <div class="section-label">Sistema</div>
+        <a href="/admin/" target="_blank" class="nav-link">
+          <i data-lucide="settings-2"></i> Django admin
+        </a>
+      </nav>
+
+      <div class="mt-auto px-4 py-4 border-t border-white/10">
+        <div class="text-[11px] text-white/55 leading-relaxed">
+          {{ SITE_BRAND }}<br/>
+          <span class="text-white/40">{{ SITE_EMAIL }}</span>
         </div>
       </div>
-      <ul class="menu p-3 text-sm">
-        <li><a href="{% url 'intranet:dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">🏠 Dashboard</a></li>
-        <li><a href="{% url 'intranet:solicitudes' %}" class="nav-link {% if 'solicitud' in request.resolver_match.url_name %}active{% endif %}">📨 Solicitudes</a></li>
-        <li><a href="{% url 'intranet:cotizaciones' %}" class="nav-link {% if 'cotizacion' in request.resolver_match.url_name %}active{% endif %}">📄 Cotizaciones</a></li>
-        <li><a href="{% url 'intranet:pedidos' %}" class="nav-link {% if 'pedido' in request.resolver_match.url_name %}active{% endif %}">📦 Pedidos</a></li>
-        <li><a href="{% url 'intranet:facturas' %}" class="nav-link {% if 'factura' in request.resolver_match.url_name %}active{% endif %}">🧾 Facturas</a></li>
-        <li><a href="{% url 'intranet:clientes' %}" class="nav-link {% if 'cliente' in request.resolver_match.url_name %}active{% endif %}">👥 Clientes</a></li>
-        <li><a href="{% url 'intranet:productos' %}" class="nav-link {% if 'producto' in request.resolver_match.url_name %}active{% endif %}">🧴 Productos</a></li>
-        <li><a href="{% url 'intranet:reportes' %}" class="nav-link {% if 'reporte' in request.resolver_match.url_name %}active{% endif %}">📊 Reportes</a></li>
-        <li class="mt-4 menu-title">Administración</li>
-        <li><a href="/admin/" class="nav-link" target="_blank">⚙ Django admin</a></li>
-      </ul>
     </aside>
   </div>
 </div>
+
 </body>
 </html>

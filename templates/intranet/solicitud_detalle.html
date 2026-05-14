@@ -1,95 +1,165 @@
 {% extends "intranet/_layout.html" %}
 {% block intra_title %}{{ solicitud.codigo }}{% endblock %}
+{% block intra_section %}Solicitud · {{ solicitud.codigo }}{% endblock %}
 {% block intra_content %}
-<div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+
+<!-- Page header -->
+<div class="flex flex-wrap items-start justify-between gap-3 mb-6">
   <div>
-    <a href="{% url 'intranet:solicitudes' %}" class="text-sm text-base-content/60 hover:text-primary">← Solicitudes</a>
-    <h1 class="text-2xl font-bold">Solicitud {{ solicitud.codigo }}</h1>
-    <p class="text-sm text-base-content/60">{{ solicitud.creado|date:"d/m/Y H:i" }}</p>
+    <div class="text-xs breadcrumbs text-slate-500 mb-1">
+      <ul>
+        <li><a href="{% url 'intranet:dashboard' %}" class="breadcrumb-link">Intranet</a></li>
+        <li><a href="{% url 'intranet:solicitudes' %}" class="breadcrumb-link">Solicitudes</a></li>
+        <li class="text-accent font-semibold font-mono">{{ solicitud.codigo }}</li>
+      </ul>
+    </div>
+    <h1 class="page-title flex items-center gap-3">
+      <span class="icon-box icon-box-amber"><i data-lucide="inbox"></i></span>
+      Solicitud <span class="font-mono text-primary">{{ solicitud.codigo }}</span>
+    </h1>
+    <p class="text-sm text-slate-500 mt-1">Recibida el {{ solicitud.creado|date:"d/m/Y H:i" }}</p>
   </div>
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-2 flex-wrap">
     <span class="badge badge-lg badge-{{ solicitud.color_estado }}">{{ solicitud.get_estado_display }}</span>
     {% if solicitud.estado != "cotizada" and solicitud.estado != "cerrada" %}
     <form method="post" action="{% url 'intranet:solicitud_cotizar' solicitud.codigo %}">
       {% csrf_token %}
-      <button class="btn btn-primary btn-sm">📄 Crear cotización</button>
+      <button class="btn btn-primary btn-sm btn-shine gap-1">
+        <i data-lucide="file-plus" class="w-4 h-4"></i> Crear cotización
+      </button>
     </form>
     {% endif %}
   </div>
 </div>
 
-<div class="grid md:grid-cols-3 gap-3 mb-4">
-  <div class="md:col-span-2 card bg-base-100 border border-base-300">
-    <div class="card-body p-4">
-      <h3 class="font-bold mb-2">Productos solicitados</h3>
-      <table class="table table-sm">
-        <thead><tr><th>SKU</th><th>Producto</th><th class="text-right">Cantidad</th></tr></thead>
-        <tbody>
-          {% for it in solicitud.items.all %}
-          <tr><td class="font-mono text-xs">{{ it.sku_snapshot }}</td><td>{{ it.nombre_snapshot }}</td><td class="text-right">{{ it.cantidad }}</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<div class="grid lg:grid-cols-[1fr_320px] gap-4">
+  <!-- Columna principal -->
+  <div class="space-y-4">
+
+    <!-- Productos solicitados -->
+    <div class="data-card">
+      <div class="px-5 py-4 border-b border-base-300 flex items-center gap-2">
+        <i data-lucide="shopping-cart" class="w-5 h-5 text-accent"></i>
+        <h3 class="font-bold text-accent">Productos solicitados</h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="table table-pc table-sm">
+          <thead><tr><th>SKU</th><th>Producto</th><th class="text-right">Cantidad</th></tr></thead>
+          <tbody>
+            {% for it in solicitud.items.all %}
+            <tr>
+              <td class="font-mono text-xs text-slate-500">{{ it.sku_snapshot }}</td>
+              <td class="font-medium">{{ it.nombre_snapshot }}</td>
+              <td class="text-right font-semibold">{{ it.cantidad }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
       {% if solicitud.mensaje %}
-      <div class="mt-3"><div class="text-xs text-base-content/60 uppercase">Mensaje del cliente</div><p class="text-sm whitespace-pre-line">{{ solicitud.mensaje }}</p></div>
+      <div class="px-5 py-4 border-t border-base-300 bg-base-200/30">
+        <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">Mensaje del cliente</div>
+        <p class="text-sm whitespace-pre-line text-slate-700">{{ solicitud.mensaje }}</p>
+      </div>
       {% endif %}
     </div>
-  </div>
 
-  <div class="card bg-base-100 border border-base-300">
-    <div class="card-body p-4 text-sm space-y-1">
-      <h3 class="font-bold">Datos contacto</h3>
-      <div><span class="text-base-content/60">Tipo:</span> {{ solicitud.get_tipo_cliente_display }}</div>
-      <div><span class="text-base-content/60">Razón social:</span> {{ solicitud.razon_social|default:"—" }}</div>
-      <div><span class="text-base-content/60">RUC:</span> {{ solicitud.ruc|default:"—" }}</div>
-      <div><span class="text-base-content/60">Contacto:</span> <strong>{{ solicitud.nombre_contacto }}</strong></div>
-      <div><span class="text-base-content/60">Email:</span> <a href="mailto:{{ solicitud.email }}" class="link link-primary">{{ solicitud.email }}</a></div>
-      <div><span class="text-base-content/60">Tel:</span> <a href="https://wa.me/51{{ solicitud.telefono|cut:' ' }}" target="_blank" class="link link-primary">{{ solicitud.telefono }}</a></div>
-      <div><span class="text-base-content/60">Ciudad:</span> {{ solicitud.ciudad }}{% if solicitud.departamento %}, {{ solicitud.departamento }}{% endif %}</div>
-      {% if solicitud.cliente %}
-      <a href="{% url 'intranet:cliente_detalle' solicitud.cliente.pk %}" class="btn btn-xs btn-outline mt-2">Ver cliente →</a>
-      {% endif %}
+    <!-- Gestión interna -->
+    <div class="data-card">
+      <div class="px-5 py-4 border-b border-base-300 flex items-center gap-2">
+        <i data-lucide="settings-2" class="w-5 h-5 text-accent"></i>
+        <h3 class="font-bold text-accent">Gestión interna</h3>
+      </div>
+      <form method="post" class="p-5 grid md:grid-cols-[200px_1fr_auto] gap-3 items-end">
+        {% csrf_token %}
+        <div>
+          <label class="field-label block mb-1">Estado</label>
+          <select name="estado" class="select select-bordered select-sm w-full">
+            {% for v,l in solicitud.ESTADO_CHOICES %}<option value="{{ v }}" {% if solicitud.estado == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
+          </select>
+        </div>
+        <div>
+          <label class="field-label block mb-1">Nota interna</label>
+          <input name="nota_interna" value="{{ solicitud.nota_interna }}" placeholder="Notas para el equipo…" class="input input-bordered input-sm w-full"/>
+        </div>
+        <button class="btn btn-primary btn-sm gap-1"><i data-lucide="save" class="w-4 h-4"></i> Guardar</button>
+      </form>
     </div>
+
+    {% if solicitud.cotizaciones.all %}
+    <div class="data-card">
+      <div class="px-5 py-4 border-b border-base-300 flex items-center gap-2">
+        <i data-lucide="file-text" class="w-5 h-5 text-accent"></i>
+        <h3 class="font-bold text-accent">Cotizaciones generadas</h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="table table-pc table-sm">
+          <thead><tr><th>Código</th><th class="text-right">Total</th><th>Estado</th><th>Emitida</th><th></th></tr></thead>
+          <tbody>
+            {% for c in solicitud.cotizaciones.all %}
+            <tr>
+              <td class="font-mono text-xs font-semibold text-primary">{{ c.codigo }}</td>
+              <td class="text-right font-semibold">S/ {{ c.total|floatformat:2 }}</td>
+              <td><span class="badge badge-{{ c.color_estado }}">{{ c.get_estado_display }}</span></td>
+              <td class="text-sm">{{ c.fecha_emision|date:"d/m/Y" }}</td>
+              <td><a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="btn btn-xs btn-primary">Ver</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
   </div>
+
+  <!-- Aside contacto -->
+  <aside class="space-y-4">
+    <div class="data-card">
+      <div class="px-5 py-4 border-b border-base-300 flex items-center gap-2">
+        <i data-lucide="user" class="w-5 h-5 text-accent"></i>
+        <h3 class="font-bold text-accent">Datos de contacto</h3>
+      </div>
+      <div class="p-5 text-sm space-y-2.5">
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Tipo</div>
+          <div class="text-slate-700">{{ solicitud.get_tipo_cliente_display }}</div>
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Razón social</div>
+          <div class="text-slate-700 font-semibold">{{ solicitud.razon_social|default:"—" }}</div>
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">RUC</div>
+          <div class="text-slate-700 font-mono">{{ solicitud.ruc|default:"—" }}</div>
+        </div>
+        <div class="border-t border-base-200 pt-2.5">
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Contacto</div>
+          <div class="text-slate-700 font-semibold">{{ solicitud.nombre_contacto }}</div>
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Email</div>
+          <a href="mailto:{{ solicitud.email }}" class="text-primary hover:underline flex items-center gap-1">
+            <i data-lucide="mail" class="w-3.5 h-3.5"></i> {{ solicitud.email }}
+          </a>
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Teléfono</div>
+          <a href="https://wa.me/51{{ solicitud.telefono|cut:' ' }}" target="_blank" class="text-success hover:underline flex items-center gap-1">
+            <i data-lucide="phone" class="w-3.5 h-3.5"></i> {{ solicitud.telefono }}
+          </a>
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Ciudad</div>
+          <div class="text-slate-700">{{ solicitud.ciudad }}{% if solicitud.departamento %}, {{ solicitud.departamento }}{% endif %}</div>
+        </div>
+        {% if solicitud.cliente %}
+        <a href="{% url 'intranet:cliente_detalle' solicitud.cliente.pk %}" class="btn btn-outline btn-sm w-full mt-2 gap-1">
+          <i data-lucide="user-check" class="w-4 h-4"></i> Ver cliente
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </aside>
 </div>
 
-<div class="card bg-base-100 border border-base-300 mb-4">
-  <div class="card-body p-4">
-    <h3 class="font-bold mb-2">Gestión interna</h3>
-    <form method="post" class="grid md:grid-cols-[180px_1fr_auto] gap-2 items-end">
-      {% csrf_token %}
-      <div>
-        <label class="label-text text-xs">Estado</label>
-        <select name="estado" class="select select-bordered select-sm w-full">
-          {% for v,l in solicitud.ESTADO_CHOICES %}<option value="{{ v }}" {% if solicitud.estado == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
-        </select>
-      </div>
-      <div>
-        <label class="label-text text-xs">Nota interna</label>
-        <input name="nota_interna" value="{{ solicitud.nota_interna }}" class="input input-bordered input-sm w-full"/>
-      </div>
-      <button class="btn btn-sm btn-primary">Guardar</button>
-    </form>
-  </div>
-</div>
-
-{% if solicitud.cotizaciones.all %}
-<h3 class="font-bold mb-2">Cotizaciones generadas</h3>
-<div class="card bg-base-100 border border-base-300 overflow-x-auto">
-  <table class="table table-sm">
-    <thead><tr><th>Código</th><th class="text-right">Total</th><th>Estado</th><th>Emitida</th><th></th></tr></thead>
-    <tbody>
-      {% for c in solicitud.cotizaciones.all %}
-      <tr>
-        <td class="font-mono">{{ c.codigo }}</td>
-        <td class="text-right">S/ {{ c.total|floatformat:2 }}</td>
-        <td><span class="badge badge-{{ c.color_estado }}">{{ c.get_estado_display }}</span></td>
-        <td>{{ c.fecha_emision|date:"d/m/Y" }}</td>
-        <td><a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="btn btn-xs btn-primary">Ver</a></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endif %}
 {% endblock %}

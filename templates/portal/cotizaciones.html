@@ -1,25 +1,71 @@
 {% extends "portal/_layout.html" %}
 {% load humanize %}
 {% block portal_title %}Mis cotizaciones{% endblock %}
+
 {% block portal_content %}
-<h1 class="text-2xl font-bold mb-4">Mis cotizaciones</h1>
-<div class="card bg-base-100 border border-base-300 overflow-x-auto">
-  <table class="table">
-    <thead><tr><th>Código</th><th>Emisión</th><th>Vence</th><th class="text-right">Total</th><th>Estado</th><th></th></tr></thead>
-    <tbody>
-      {% for c in cotizaciones %}
-      <tr>
-        <td class="font-mono text-sm">{{ c.codigo }}</td>
-        <td>{{ c.fecha_emision|date:"d/m/Y" }}</td>
-        <td>{{ c.fecha_vencimiento|date:"d/m/Y" }}</td>
-        <td class="text-right font-semibold">S/ {{ c.total|floatformat:2|intcomma }}</td>
-        <td><span class="badge badge-{{ c.color_estado }}">{{ c.get_estado_display }}</span></td>
-        <td><a href="{% url 'portal:cotizacion_detalle' c.codigo %}" class="btn btn-xs btn-primary">Ver →</a></td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="6" class="text-center py-8 text-base-content/60">Aún no recibes cotizaciones.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+
+<!-- ============ Encabezado ============ -->
+<div class="flex flex-wrap items-end justify-between gap-3 mb-5">
+  <div>
+    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Documentos</span>
+    <h1 class="text-2xl md:text-3xl font-extrabold text-accent tracking-tight mt-1 flex items-center gap-2.5">
+      <i data-lucide="file-text" class="w-7 h-7 text-primary"></i>
+      Mis cotizaciones
+    </h1>
+    <p class="text-sm text-slate-500 mt-0.5">Revisa, acepta o descarga tus cotizaciones.</p>
+  </div>
+  <a href="{% url 'catalogo:lista' %}" class="hidden md:inline-flex items-center gap-2 bg-white border border-base-300 hover:border-primary text-accent text-sm font-semibold rounded-xl px-4 h-11 transition">
+    <i data-lucide="plus-circle" class="w-4 h-4"></i> Nueva solicitud
+  </a>
+</div>
+
+<!-- ============ Tabla ============ -->
+<div class="bento bg-white border border-base-300 rounded-2xl overflow-hidden shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="table table-zebra">
+      <thead>
+        <tr class="bg-base-200 text-accent">
+          <th class="font-bold uppercase text-xs tracking-wider">Código</th>
+          <th class="font-bold uppercase text-xs tracking-wider">Emisión</th>
+          <th class="font-bold uppercase text-xs tracking-wider">Vence</th>
+          <th class="font-bold uppercase text-xs tracking-wider text-right">Total</th>
+          <th class="font-bold uppercase text-xs tracking-wider">Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in cotizaciones %}
+        <tr class="hover">
+          <td class="font-mono text-sm font-semibold text-accent">{{ c.codigo }}</td>
+          <td class="text-sm text-slate-600">{{ c.fecha_emision|date:"d/m/Y" }}</td>
+          <td class="text-sm text-slate-600">{{ c.fecha_vencimiento|date:"d/m/Y" }}</td>
+          <td class="text-right font-bold text-accent">S/ {{ c.total|floatformat:2|intcomma }}</td>
+          <td><span class="badge badge-{{ c.color_estado }}">{{ c.get_estado_display }}</span></td>
+          <td class="text-right">
+            <a href="{% url 'portal:cotizacion_detalle' c.codigo %}" class="btn btn-sm btn-primary gap-1">
+              Ver <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6">
+            <div class="text-center py-14">
+              <div class="inline-flex w-16 h-16 rounded-2xl bg-base-200 items-center justify-center mb-3">
+                <i data-lucide="file-x" class="w-7 h-7 text-slate-400"></i>
+              </div>
+              <h3 class="font-bold text-accent">Aún no recibes cotizaciones</h3>
+              <p class="text-sm text-slate-500 mt-1 mb-4">Cuando solicites una cotización aparecerá aquí.</p>
+              <a href="{% url 'catalogo:lista' %}" class="bg-gradient-green text-white font-bold rounded-xl px-5 h-11 btn-shine inline-flex items-center gap-2 shadow-md">
+                <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                Explorar catálogo
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}

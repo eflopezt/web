@@ -1,21 +1,105 @@
 {% load static %}<!DOCTYPE html>
-<html lang="es" data-theme="proclean">
+<html lang="es-PE" data-theme="proclean">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}{{ SITE_BRAND }} — {{ SITE_TAGLINE }}{% endblock %}</title>
   <meta name="description" content="{% block description %}{{ SITE_TAGLINE }}. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endblock %}" />
   <meta name="theme-color" content="#1B75BC" />
+
+  <!-- SEO básico -->
+  <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large{% endblock %}" />
+  <meta name="author" content="ProClean Servid Innova" />
+  <meta name="geo.region" content="PE-LIM" />
+  <meta name="geo.placename" content="Lima, Perú" />
+  <meta name="geo.position" content="-12.0464;-77.0428" />
+  <meta name="ICBM" content="-12.0464, -77.0428" />
+  <link rel="canonical" href="{% block canonical %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock %}" />
+
+  <!-- Iconos -->
   <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}" />
   <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/favicon-192.png' %}" />
   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}" />
 
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="{% static 'manifest.json' %}" />
+
   <!-- Open Graph / Social -->
-  <meta property="og:title" content="{{ SITE_BRAND }} — {{ SITE_TAGLINE }}" />
-  <meta property="og:description" content="{{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}." />
-  <meta property="og:image" content="{% static 'img/og-image.png' %}" />
-  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{% block og_title %}{{ SITE_BRAND }} — {{ SITE_TAGLINE }}{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}{{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endblock %}" />
+  <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.png' %}{% endblock %}" />
+  <meta property="og:image:alt" content="{{ SITE_BRAND }} — productos de limpieza profesional" />
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}" />
+  <meta property="og:site_name" content="ProClean Servid Innova" />
+  <meta property="og:locale" content="es_PE" />
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{% block tw_title %}{{ SITE_BRAND }} — {{ SITE_TAGLINE }}{% endblock %}" />
+  <meta name="twitter:description" content="{% block tw_description %}{{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endblock %}" />
+  <meta name="twitter:image" content="{% block tw_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.png' %}{% endblock %}" />
+
+  <!-- Schema.org Organization + WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization",
+        "name": "ProClean Servid Innova",
+        "alternateName": "ProClean",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.svg' %}",
+          "width": 512,
+          "height": 512
+        },
+        "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.png' %}",
+        "description": "{{ SITE_TAGLINE }}",
+        "email": "{{ SITE_EMAIL }}",
+        "telephone": "+{{ SITE_WHATSAPP }}",
+        "areaServed": [
+          { "@type": "City", "name": "Lima" },
+          { "@type": "City", "name": "Callao" }
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Lima",
+          "addressRegion": "Lima",
+          "addressCountry": "PE"
+        },
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "telephone": "+{{ SITE_WHATSAPP }}",
+          "contactType": "sales",
+          "email": "{{ SITE_EMAIL }}",
+          "areaServed": ["PE"],
+          "availableLanguage": ["Spanish"]
+        }],
+        "sameAs": [
+          "https://wa.me/{{ SITE_WHATSAPP }}"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "{{ request.scheme }}://{{ request.get_host }}/#website",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "name": "ProClean Servid Innova",
+        "description": "{{ SITE_TAGLINE }}",
+        "publisher": { "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization" },
+        "inLanguage": "es-PE",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "{{ request.scheme }}://{{ request.get_host }}/productos/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

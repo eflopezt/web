@@ -3,80 +3,184 @@
 {% block portal_title %}Inicio{% endblock %}
 
 {% block portal_content %}
-<h1 class="text-2xl font-bold mb-4">Resumen</h1>
 
-<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-  <a href="{% url 'portal:solicitudes' %}" class="card bg-base-100 border border-base-300 hover:border-primary transition">
-    <div class="card-body p-4">
-      <div class="text-xs text-base-content/60 uppercase tracking-wide">Solicitudes</div>
-      <div class="text-3xl font-bold">{{ solicitudes_count }}</div>
-      <div class="text-xs text-warning">{{ solicitudes_pendientes }} en proceso</div>
-    </div>
-  </a>
-  <a href="{% url 'portal:cotizaciones' %}" class="card bg-base-100 border border-base-300 hover:border-primary transition">
-    <div class="card-body p-4">
-      <div class="text-xs text-base-content/60 uppercase tracking-wide">Cotizaciones</div>
-      <div class="text-3xl font-bold">{{ cotizaciones_count }}</div>
-      <div class="text-xs text-info">{{ cotizaciones_por_revisar }} por revisar</div>
-    </div>
-  </a>
-  <a href="{% url 'portal:pedidos' %}" class="card bg-base-100 border border-base-300 hover:border-primary transition">
-    <div class="card-body p-4">
-      <div class="text-xs text-base-content/60 uppercase tracking-wide">Pedidos</div>
-      <div class="text-3xl font-bold">{{ pedidos_count }}</div>
-      <div class="text-xs text-success">{{ pedidos_en_camino }} en camino</div>
-    </div>
-  </a>
-  <a href="{% url 'portal:facturas' %}" class="card bg-base-100 border border-base-300 hover:border-primary transition">
-    <div class="card-body p-4">
-      <div class="text-xs text-base-content/60 uppercase tracking-wide">Saldo pendiente</div>
-      <div class="text-3xl font-bold">S/ {{ saldo_pendiente|floatformat:2|intcomma }}</div>
-      <div class="text-xs text-base-content/60">{{ facturas_count }} facturas totales</div>
-    </div>
+<!-- ============ Encabezado de página ============ -->
+<div class="flex flex-wrap items-end justify-between gap-3 mb-5">
+  <div>
+    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Resumen</span>
+    <h1 class="text-2xl md:text-3xl font-extrabold text-accent tracking-tight mt-1">Tu actividad reciente</h1>
+    <p class="text-sm text-slate-500 mt-0.5">Aquí puedes ver tus solicitudes, cotizaciones, pedidos y facturas en un solo lugar.</p>
+  </div>
+  <a href="{% url 'catalogo:lista' %}" class="hidden md:inline-flex items-center gap-2 bg-white border border-base-300 hover:border-primary text-accent text-sm font-semibold rounded-xl px-4 h-11 transition">
+    <i data-lucide="search" class="w-4 h-4"></i>
+    Explorar catálogo
   </a>
 </div>
 
-<div class="grid md:grid-cols-3 gap-4">
-  <div class="card bg-base-100 border border-base-300">
-    <div class="card-body p-4">
-      <h3 class="font-bold mb-2">Últimas cotizaciones</h3>
+<!-- ============ Bento KPIs ============ -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6">
+  <a href="{% url 'portal:solicitudes' %}" class="bento bg-white border border-base-300 rounded-2xl p-5 hover:border-primary shadow-sm">
+    <div class="flex items-start justify-between mb-3">
+      <div class="icon-box icon-box-blue"><i data-lucide="inbox"></i></div>
+      <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-300"></i>
+    </div>
+    <div class="text-xs font-semibold uppercase tracking-wider text-slate-500">Solicitudes</div>
+    <div class="text-3xl md:text-4xl font-black text-accent stat-num mt-1">{{ solicitudes_count|default:0 }}</div>
+    <div class="text-xs mt-1.5 {% if solicitudes_pendientes %}text-warning font-semibold{% else %}text-slate-400{% endif %}">
+      {{ solicitudes_pendientes|default:0 }} en proceso
+    </div>
+  </a>
+
+  <a href="{% url 'portal:cotizaciones' %}" class="bento bg-white border border-base-300 rounded-2xl p-5 hover:border-primary shadow-sm">
+    <div class="flex items-start justify-between mb-3">
+      <div class="icon-box icon-box-blue"><i data-lucide="file-text"></i></div>
+      <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-300"></i>
+    </div>
+    <div class="text-xs font-semibold uppercase tracking-wider text-slate-500">Cotizaciones</div>
+    <div class="text-3xl md:text-4xl font-black text-accent stat-num mt-1">{{ cotizaciones_count|default:0 }}</div>
+    <div class="text-xs mt-1.5 {% if cotizaciones_por_revisar %}text-info font-semibold{% else %}text-slate-400{% endif %}">
+      {{ cotizaciones_por_revisar|default:0 }} por revisar
+    </div>
+  </a>
+
+  <a href="{% url 'portal:pedidos' %}" class="bento bg-white border border-base-300 rounded-2xl p-5 hover:border-primary shadow-sm">
+    <div class="flex items-start justify-between mb-3">
+      <div class="icon-box icon-box-green"><i data-lucide="package"></i></div>
+      <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-300"></i>
+    </div>
+    <div class="text-xs font-semibold uppercase tracking-wider text-slate-500">Pedidos</div>
+    <div class="text-3xl md:text-4xl font-black text-accent stat-num mt-1">{{ pedidos_count|default:0 }}</div>
+    <div class="text-xs mt-1.5 {% if pedidos_en_camino %}text-success font-semibold{% else %}text-slate-400{% endif %}">
+      {{ pedidos_en_camino|default:0 }} en camino
+    </div>
+  </a>
+
+  <a href="{% url 'portal:facturas' %}" class="bento bg-white border border-base-300 rounded-2xl p-5 hover:border-primary shadow-sm relative overflow-hidden">
+    {% if saldo_pendiente and saldo_pendiente > 0 %}<div class="absolute top-0 right-0 w-24 h-24 bg-warning/10 rounded-full -mr-10 -mt-10"></div>{% endif %}
+    <div class="flex items-start justify-between mb-3 relative">
+      <div class="icon-box {% if saldo_pendiente and saldo_pendiente > 0 %}bg-amber-100 text-amber-700{% else %}icon-box-green{% endif %}"><i data-lucide="wallet"></i></div>
+      <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-300"></i>
+    </div>
+    <div class="text-xs font-semibold uppercase tracking-wider text-slate-500">Saldo pendiente</div>
+    <div class="text-2xl md:text-3xl font-black text-accent stat-num mt-1">S/ {{ saldo_pendiente|default:0|floatformat:2|intcomma }}</div>
+    <div class="text-xs mt-1.5 text-slate-400">{{ facturas_count|default:0 }} facturas totales</div>
+  </a>
+</div>
+
+<!-- ============ Quick actions ============ -->
+<div class="bento bg-gradient-brand-soft border border-primary/15 rounded-2xl p-5 mb-6">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="icon-box icon-box-green"><i data-lucide="sparkles"></i></div>
+      <div>
+        <h3 class="font-extrabold text-accent">¿Necesitas algo nuevo?</h3>
+        <p class="text-sm text-slate-600">Explora el catálogo o cotiza al instante por WhatsApp.</p>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <a href="{% url 'catalogo:lista' %}" class="bg-white border border-base-300 hover:border-primary text-accent text-sm font-semibold rounded-xl px-4 h-11 inline-flex items-center gap-2 transition">
+        <i data-lucide="layout-grid" class="w-4 h-4"></i> Catálogo
+      </a>
+      <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-whatsapp btn-shine inline-flex items-center gap-2 rounded-xl px-4 h-11 text-sm font-bold shadow-md">
+        <i data-lucide="message-circle" class="w-4 h-4"></i>
+        Cotizar por WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Listas recientes ============ -->
+<div class="grid lg:grid-cols-3 gap-4">
+
+  <!-- Últimas cotizaciones -->
+  <div class="bento bg-white border border-base-300 rounded-2xl overflow-hidden shadow-sm">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-base-200">
+      <div class="flex items-center gap-2.5">
+        <div class="icon-box icon-box-blue !w-9 !h-9"><i data-lucide="file-text" class="!w-4 !h-4"></i></div>
+        <h3 class="font-extrabold text-accent">Últimas cotizaciones</h3>
+      </div>
+      <a href="{% url 'portal:cotizaciones' %}" class="text-xs font-semibold text-primary hover:underline">Ver todas →</a>
+    </div>
+    <div class="divide-y divide-base-200">
       {% for cot in ultimas_cotizaciones %}
-      <a href="{% url 'portal:cotizacion_detalle' cot.codigo %}" class="block py-2 border-b border-base-200 hover:bg-base-200/50 -mx-2 px-2 rounded">
-        <div class="flex justify-between"><span class="font-mono text-xs">{{ cot.codigo }}</span><span class="badge badge-sm badge-{{ cot.color_estado }}">{{ cot.get_estado_display }}</span></div>
-        <div class="text-xs text-base-content/60">S/ {{ cot.total|floatformat:2|intcomma }} · {{ cot.fecha_emision|date:"d/m/Y" }}</div>
+      <a href="{% url 'portal:cotizacion_detalle' cot.codigo %}" class="block px-5 py-3 hover:bg-base-200/50 transition">
+        <div class="flex justify-between items-center gap-2">
+          <span class="font-mono text-xs font-semibold text-accent">{{ cot.codigo }}</span>
+          <span class="badge badge-sm badge-{{ cot.color_estado }}">{{ cot.get_estado_display }}</span>
+        </div>
+        <div class="flex items-center justify-between text-xs text-slate-500 mt-1">
+          <span>{{ cot.fecha_emision|date:"d/m/Y" }}</span>
+          <span class="font-semibold text-accent">S/ {{ cot.total|floatformat:2|intcomma }}</span>
+        </div>
       </a>
       {% empty %}
-      <p class="text-sm text-base-content/60">Sin cotizaciones aún.</p>
+      <div class="px-5 py-8 text-center">
+        <div class="text-slate-300 mb-2"><i data-lucide="file-x" class="w-8 h-8 mx-auto"></i></div>
+        <p class="text-sm text-slate-500">Sin cotizaciones aún.</p>
+      </div>
       {% endfor %}
     </div>
   </div>
 
-  <div class="card bg-base-100 border border-base-300">
-    <div class="card-body p-4">
-      <h3 class="font-bold mb-2">Últimos pedidos</h3>
+  <!-- Últimos pedidos -->
+  <div class="bento bg-white border border-base-300 rounded-2xl overflow-hidden shadow-sm">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-base-200">
+      <div class="flex items-center gap-2.5">
+        <div class="icon-box icon-box-green !w-9 !h-9"><i data-lucide="package" class="!w-4 !h-4"></i></div>
+        <h3 class="font-extrabold text-accent">Últimos pedidos</h3>
+      </div>
+      <a href="{% url 'portal:pedidos' %}" class="text-xs font-semibold text-primary hover:underline">Ver todos →</a>
+    </div>
+    <div class="divide-y divide-base-200">
       {% for p in ultimos_pedidos %}
-      <a href="{% url 'portal:pedido_detalle' p.codigo %}" class="block py-2 border-b border-base-200 hover:bg-base-200/50 -mx-2 px-2 rounded">
-        <div class="flex justify-between"><span class="font-mono text-xs">{{ p.codigo }}</span><span class="badge badge-sm badge-{{ p.color_estado }}">{{ p.get_estado_display }}</span></div>
-        <div class="text-xs text-base-content/60">S/ {{ p.total|floatformat:2|intcomma }} · {{ p.fecha|date:"d/m/Y" }}</div>
+      <a href="{% url 'portal:pedido_detalle' p.codigo %}" class="block px-5 py-3 hover:bg-base-200/50 transition">
+        <div class="flex justify-between items-center gap-2">
+          <span class="font-mono text-xs font-semibold text-accent">{{ p.codigo }}</span>
+          <span class="badge badge-sm badge-{{ p.color_estado }}">{{ p.get_estado_display }}</span>
+        </div>
+        <div class="flex items-center justify-between text-xs text-slate-500 mt-1">
+          <span>{{ p.fecha|date:"d/m/Y" }}</span>
+          <span class="font-semibold text-accent">S/ {{ p.total|floatformat:2|intcomma }}</span>
+        </div>
       </a>
       {% empty %}
-      <p class="text-sm text-base-content/60">Sin pedidos aún.</p>
+      <div class="px-5 py-8 text-center">
+        <div class="text-slate-300 mb-2"><i data-lucide="package-x" class="w-8 h-8 mx-auto"></i></div>
+        <p class="text-sm text-slate-500">Sin pedidos aún.</p>
+      </div>
       {% endfor %}
     </div>
   </div>
 
-  <div class="card bg-base-100 border border-base-300">
-    <div class="card-body p-4">
-      <h3 class="font-bold mb-2">Últimas facturas</h3>
+  <!-- Últimas facturas -->
+  <div class="bento bg-white border border-base-300 rounded-2xl overflow-hidden shadow-sm">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-base-200">
+      <div class="flex items-center gap-2.5">
+        <div class="icon-box icon-box-blue !w-9 !h-9"><i data-lucide="receipt" class="!w-4 !h-4"></i></div>
+        <h3 class="font-extrabold text-accent">Últimas facturas</h3>
+      </div>
+      <a href="{% url 'portal:facturas' %}" class="text-xs font-semibold text-primary hover:underline">Ver todas →</a>
+    </div>
+    <div class="divide-y divide-base-200">
       {% for f in ultimas_facturas %}
-      <a href="{% url 'portal:factura_detalle' f.pk %}" class="block py-2 border-b border-base-200 hover:bg-base-200/50 -mx-2 px-2 rounded">
-        <div class="flex justify-between"><span class="font-mono text-xs">{{ f.numero }}</span><span class="badge badge-sm badge-{{ f.color_estado }}">{{ f.get_estado_display }}</span></div>
-        <div class="text-xs text-base-content/60">S/ {{ f.total|floatformat:2|intcomma }} · {{ f.fecha_emision|date:"d/m/Y" }}</div>
+      <a href="{% url 'portal:factura_detalle' f.pk %}" class="block px-5 py-3 hover:bg-base-200/50 transition">
+        <div class="flex justify-between items-center gap-2">
+          <span class="font-mono text-xs font-semibold text-accent">{{ f.numero }}</span>
+          <span class="badge badge-sm badge-{{ f.color_estado }}">{{ f.get_estado_display }}</span>
+        </div>
+        <div class="flex items-center justify-between text-xs text-slate-500 mt-1">
+          <span>{{ f.fecha_emision|date:"d/m/Y" }}</span>
+          <span class="font-semibold text-accent">S/ {{ f.total|floatformat:2|intcomma }}</span>
+        </div>
       </a>
       {% empty %}
-      <p class="text-sm text-base-content/60">Sin facturas aún.</p>
+      <div class="px-5 py-8 text-center">
+        <div class="text-slate-300 mb-2"><i data-lucide="receipt-text" class="w-8 h-8 mx-auto"></i></div>
+        <p class="text-sm text-slate-500">Sin facturas aún.</p>
+      </div>
       {% endfor %}
     </div>
   </div>
 </div>
+
 {% endblock %}

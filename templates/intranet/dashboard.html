@@ -1,72 +1,184 @@
 {% extends "intranet/_layout.html" %}
 {% load humanize %}
 {% block intra_title %}Dashboard{% endblock %}
+{% block intra_section %}Resumen general{% endblock %}
 {% block intra_content %}
-<h1 class="text-2xl font-bold mb-4">Dashboard</h1>
 
-<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-  <a href="{% url 'intranet:solicitudes' %}?estado=pendiente" class="card bg-base-100 border border-base-300 hover:border-primary"><div class="card-body p-4"><div class="text-xs text-base-content/60 uppercase">Solicitudes nuevas</div><div class="text-3xl font-bold text-warning">{{ sol_pendientes }}</div><div class="text-xs">esperando atención</div></div></a>
-  <a href="{% url 'intranet:cotizaciones' %}?estado=enviada" class="card bg-base-100 border border-base-300 hover:border-primary"><div class="card-body p-4"><div class="text-xs text-base-content/60 uppercase">Cotizaciones enviadas</div><div class="text-3xl font-bold text-info">{{ cot_pendientes }}</div><div class="text-xs">esperando respuesta</div></div></a>
-  <a href="{% url 'intranet:pedidos' %}" class="card bg-base-100 border border-base-300 hover:border-primary"><div class="card-body p-4"><div class="text-xs text-base-content/60 uppercase">Pedidos activos</div><div class="text-3xl font-bold text-success">{{ ped_activos }}</div><div class="text-xs">por preparar/enviar</div></div></a>
-  <a href="{% url 'intranet:facturas' %}" class="card bg-base-100 border border-base-300 hover:border-primary"><div class="card-body p-4"><div class="text-xs text-base-content/60 uppercase">Facturas por cobrar</div><div class="text-3xl font-bold text-error">{{ fac_pendientes }}</div><div class="text-xs">con saldo</div></div></a>
+<!-- Header -->
+<div class="flex flex-wrap items-end justify-between gap-3 mb-6">
+  <div>
+    <div class="text-xs breadcrumbs text-slate-500 mb-1">
+      <ul>
+        <li>Intranet</li>
+        <li class="text-accent font-semibold">Dashboard</li>
+      </ul>
+    </div>
+    <h1 class="page-title">Hola, {{ request.user.get_short_name|default:request.user.username }}</h1>
+    <p class="text-sm text-slate-500 mt-1">Aquí está lo que pasa hoy en {{ SITE_BRAND }}.</p>
+  </div>
+  <div class="flex gap-2 flex-wrap">
+    <a href="{% url 'intranet:cotizacion_nueva' %}" class="btn btn-primary btn-sm btn-shine gap-2">
+      <i data-lucide="plus" class="w-4 h-4"></i> Nueva cotización
+    </a>
+    <a href="{% url 'intranet:cliente_nuevo' %}" class="btn btn-outline btn-sm gap-2">
+      <i data-lucide="user-plus" class="w-4 h-4"></i> Nuevo cliente
+    </a>
+  </div>
 </div>
 
+<!-- KPIs principales -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <a href="{% url 'intranet:solicitudes' %}?estado=pendiente" class="bento data-card p-5 group">
+    <div class="flex items-start justify-between">
+      <div class="icon-box icon-box-amber"><i data-lucide="inbox"></i></div>
+      <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-300 group-hover:text-primary"></i>
+    </div>
+    <div class="stat-num text-4xl font-extrabold text-warning mt-3">{{ sol_pendientes }}</div>
+    <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold mt-1">Solicitudes nuevas</div>
+    <div class="text-xs text-slate-500 mt-1">esperando atención</div>
+  </a>
+
+  <a href="{% url 'intranet:cotizaciones' %}?estado=enviada" class="bento data-card p-5 group">
+    <div class="flex items-start justify-between">
+      <div class="icon-box icon-box-blue"><i data-lucide="file-text"></i></div>
+      <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-300 group-hover:text-primary"></i>
+    </div>
+    <div class="stat-num text-4xl font-extrabold text-info mt-3">{{ cot_pendientes }}</div>
+    <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold mt-1">Cotizaciones enviadas</div>
+    <div class="text-xs text-slate-500 mt-1">esperando respuesta</div>
+  </a>
+
+  <a href="{% url 'intranet:pedidos' %}" class="bento data-card p-5 group">
+    <div class="flex items-start justify-between">
+      <div class="icon-box icon-box-green"><i data-lucide="package"></i></div>
+      <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-300 group-hover:text-primary"></i>
+    </div>
+    <div class="stat-num text-4xl font-extrabold text-success mt-3">{{ ped_activos }}</div>
+    <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold mt-1">Pedidos activos</div>
+    <div class="text-xs text-slate-500 mt-1">por preparar / enviar</div>
+  </a>
+
+  <a href="{% url 'intranet:facturas' %}" class="bento data-card p-5 group">
+    <div class="flex items-start justify-between">
+      <div class="icon-box icon-box-rose"><i data-lucide="receipt"></i></div>
+      <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-300 group-hover:text-primary"></i>
+    </div>
+    <div class="stat-num text-4xl font-extrabold text-error mt-3">{{ fac_pendientes }}</div>
+    <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold mt-1">Facturas por cobrar</div>
+    <div class="text-xs text-slate-500 mt-1">con saldo pendiente</div>
+  </a>
+</div>
+
+<!-- Revenue cards -->
 <div class="grid md:grid-cols-2 gap-4 mb-6">
-  <div class="card bg-base-100 border border-base-300"><div class="card-body"><div class="text-xs text-base-content/60 uppercase">Ventas del mes (con IGV)</div><div class="text-4xl font-bold text-primary">S/ {{ ventas_mes|floatformat:2|intcomma }}</div></div></div>
-  <div class="card bg-base-100 border border-base-300"><div class="card-body"><div class="text-xs text-base-content/60 uppercase">Cobrado del mes</div><div class="text-4xl font-bold text-success">S/ {{ cobrado_mes|floatformat:2|intcomma }}</div></div></div>
+  <div class="bento data-card overflow-hidden relative">
+    <div class="absolute inset-0 bg-gradient-blue opacity-[0.04]"></div>
+    <div class="relative p-6">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="icon-box icon-box-blue"><i data-lucide="trending-up"></i></div>
+        <div>
+          <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Ventas del mes</div>
+          <div class="text-[11px] text-slate-400">facturado con IGV</div>
+        </div>
+      </div>
+      <div class="stat-num text-4xl font-extrabold text-primary">S/ {{ ventas_mes|floatformat:2|intcomma }}</div>
+    </div>
+  </div>
+
+  <div class="bento data-card overflow-hidden relative">
+    <div class="absolute inset-0 bg-gradient-green opacity-[0.05]"></div>
+    <div class="relative p-6">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="icon-box icon-box-green"><i data-lucide="banknote"></i></div>
+        <div>
+          <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Cobrado del mes</div>
+          <div class="text-[11px] text-slate-400">pagos recibidos</div>
+        </div>
+      </div>
+      <div class="stat-num text-4xl font-extrabold text-success">S/ {{ cobrado_mes|floatformat:2|intcomma }}</div>
+    </div>
+  </div>
 </div>
 
+<!-- Listas recientes -->
 <div class="grid lg:grid-cols-2 gap-4">
-  <div class="card bg-base-100 border border-base-300">
-    <div class="card-body p-4">
-      <h3 class="font-bold mb-2">Últimas solicitudes</h3>
-      <div class="space-y-1">
-        {% for s in ultimas_solicitudes %}
-        <a href="{% url 'intranet:solicitud_detalle' s.codigo %}" class="block hover:bg-base-200 -mx-2 px-2 py-1 rounded flex justify-between text-sm">
-          <span class="font-mono">{{ s.codigo }}</span><span class="truncate flex-1 mx-2">{{ s.razon_social|default:s.nombre_contacto }}</span><span class="badge badge-sm badge-{{ s.color_estado }}">{{ s.get_estado_display }}</span>
-        </a>
-        {% empty %}<p class="text-sm text-base-content/60">Sin solicitudes aún.</p>{% endfor %}
+  <div class="data-card">
+    <div class="px-5 py-4 border-b border-base-300 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="icon-box icon-box-amber" style="width:2rem;height:2rem;border-radius:.5rem"><i data-lucide="inbox" style="width:1rem;height:1rem"></i></div>
+        <h3 class="font-bold text-accent">Últimas solicitudes</h3>
       </div>
+      <a href="{% url 'intranet:solicitudes' %}" class="text-xs text-primary font-semibold hover:underline">Ver todas →</a>
+    </div>
+    <div class="divide-y divide-base-200">
+      {% for s in ultimas_solicitudes %}
+      <a href="{% url 'intranet:solicitud_detalle' s.codigo %}" class="flex items-center justify-between px-5 py-3 hover:bg-base-200/60 transition text-sm">
+        <span class="font-mono text-xs font-semibold text-accent">{{ s.codigo }}</span>
+        <span class="truncate flex-1 mx-3 text-slate-700">{{ s.razon_social|default:s.nombre_contacto }}</span>
+        <span class="badge badge-sm badge-{{ s.color_estado }}">{{ s.get_estado_display }}</span>
+      </a>
+      {% empty %}<div class="text-sm text-slate-500 px-5 py-6 text-center">Sin solicitudes aún.</div>{% endfor %}
     </div>
   </div>
 
-  <div class="card bg-base-100 border border-base-300">
-    <div class="card-body p-4">
-      <h3 class="font-bold mb-2">Últimas cotizaciones</h3>
-      <div class="space-y-1">
-        {% for c in ultimas_cotizaciones %}
-        <a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="block hover:bg-base-200 -mx-2 px-2 py-1 rounded flex justify-between text-sm">
-          <span class="font-mono">{{ c.codigo }}</span><span class="truncate flex-1 mx-2">{{ c.cliente.razon_social }}</span><span class="font-semibold">S/ {{ c.total|floatformat:2|intcomma }}</span><span class="badge badge-sm badge-{{ c.color_estado }} ml-2">{{ c.get_estado_display }}</span>
-        </a>
-        {% empty %}<p class="text-sm text-base-content/60">Sin cotizaciones.</p>{% endfor %}
+  <div class="data-card">
+    <div class="px-5 py-4 border-b border-base-300 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="icon-box icon-box-blue" style="width:2rem;height:2rem;border-radius:.5rem"><i data-lucide="file-text" style="width:1rem;height:1rem"></i></div>
+        <h3 class="font-bold text-accent">Últimas cotizaciones</h3>
       </div>
+      <a href="{% url 'intranet:cotizaciones' %}" class="text-xs text-primary font-semibold hover:underline">Ver todas →</a>
+    </div>
+    <div class="divide-y divide-base-200">
+      {% for c in ultimas_cotizaciones %}
+      <a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="flex items-center justify-between px-5 py-3 hover:bg-base-200/60 transition text-sm">
+        <span class="font-mono text-xs font-semibold text-accent">{{ c.codigo }}</span>
+        <span class="truncate flex-1 mx-3 text-slate-700">{{ c.cliente.razon_social }}</span>
+        <span class="font-semibold text-primary mr-2">S/ {{ c.total|floatformat:2|intcomma }}</span>
+        <span class="badge badge-sm badge-{{ c.color_estado }}">{{ c.get_estado_display }}</span>
+      </a>
+      {% empty %}<div class="text-sm text-slate-500 px-5 py-6 text-center">Sin cotizaciones.</div>{% endfor %}
     </div>
   </div>
 
-  <div class="card bg-base-100 border border-base-300">
-    <div class="card-body p-4">
-      <h3 class="font-bold mb-2">Últimos pedidos</h3>
-      <div class="space-y-1">
-        {% for p in ultimos_pedidos %}
-        <a href="{% url 'intranet:pedido_detalle' p.codigo %}" class="block hover:bg-base-200 -mx-2 px-2 py-1 rounded flex justify-between text-sm">
-          <span class="font-mono">{{ p.codigo }}</span><span class="truncate flex-1 mx-2">{{ p.cliente.razon_social }}</span><span class="badge badge-sm badge-{{ p.color_estado }}">{{ p.get_estado_display }}</span>
-        </a>
-        {% empty %}<p class="text-sm text-base-content/60">Sin pedidos.</p>{% endfor %}
+  <div class="data-card">
+    <div class="px-5 py-4 border-b border-base-300 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="icon-box icon-box-green" style="width:2rem;height:2rem;border-radius:.5rem"><i data-lucide="package" style="width:1rem;height:1rem"></i></div>
+        <h3 class="font-bold text-accent">Últimos pedidos</h3>
       </div>
+      <a href="{% url 'intranet:pedidos' %}" class="text-xs text-primary font-semibold hover:underline">Ver todos →</a>
+    </div>
+    <div class="divide-y divide-base-200">
+      {% for p in ultimos_pedidos %}
+      <a href="{% url 'intranet:pedido_detalle' p.codigo %}" class="flex items-center justify-between px-5 py-3 hover:bg-base-200/60 transition text-sm">
+        <span class="font-mono text-xs font-semibold text-accent">{{ p.codigo }}</span>
+        <span class="truncate flex-1 mx-3 text-slate-700">{{ p.cliente.razon_social }}</span>
+        <span class="badge badge-sm badge-{{ p.color_estado }}">{{ p.get_estado_display }}</span>
+      </a>
+      {% empty %}<div class="text-sm text-slate-500 px-5 py-6 text-center">Sin pedidos.</div>{% endfor %}
     </div>
   </div>
 
-  <div class="card bg-base-100 border border-base-300">
-    <div class="card-body p-4">
-      <h3 class="font-bold mb-2">Últimas facturas</h3>
-      <div class="space-y-1">
-        {% for f in ultimas_facturas %}
-        <a href="{% url 'intranet:factura_detalle' f.pk %}" class="block hover:bg-base-200 -mx-2 px-2 py-1 rounded flex justify-between text-sm">
-          <span class="font-mono">{{ f.numero }}</span><span class="truncate flex-1 mx-2">{{ f.cliente.razon_social }}</span><span class="font-semibold">S/ {{ f.total|floatformat:2|intcomma }}</span><span class="badge badge-sm badge-{{ f.color_estado }} ml-2">{{ f.get_estado_display }}</span>
-        </a>
-        {% empty %}<p class="text-sm text-base-content/60">Sin facturas.</p>{% endfor %}
+  <div class="data-card">
+    <div class="px-5 py-4 border-b border-base-300 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="icon-box icon-box-rose" style="width:2rem;height:2rem;border-radius:.5rem"><i data-lucide="receipt" style="width:1rem;height:1rem"></i></div>
+        <h3 class="font-bold text-accent">Últimas facturas</h3>
       </div>
+      <a href="{% url 'intranet:facturas' %}" class="text-xs text-primary font-semibold hover:underline">Ver todas →</a>
+    </div>
+    <div class="divide-y divide-base-200">
+      {% for f in ultimas_facturas %}
+      <a href="{% url 'intranet:factura_detalle' f.pk %}" class="flex items-center justify-between px-5 py-3 hover:bg-base-200/60 transition text-sm">
+        <span class="font-mono text-xs font-semibold text-accent">{{ f.numero }}</span>
+        <span class="truncate flex-1 mx-3 text-slate-700">{{ f.cliente.razon_social }}</span>
+        <span class="font-semibold text-primary mr-2">S/ {{ f.total|floatformat:2|intcomma }}</span>
+        <span class="badge badge-sm badge-{{ f.color_estado }}">{{ f.get_estado_display }}</span>
+      </a>
+      {% empty %}<div class="text-sm text-slate-500 px-5 py-6 text-center">Sin facturas.</div>{% endfor %}
     </div>
   </div>
 </div>
+
 {% endblock %}

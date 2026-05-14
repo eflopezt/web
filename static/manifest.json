@@ -1,0 +1,50 @@
+{
+  "name": "ProClean Servid Innova",
+  "short_name": "ProClean",
+  "description": "Productos de limpieza profesional para tu hogar o negocio en Lima y Callao.",
+  "lang": "es-PE",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1B75BC",
+  "background_color": "#ffffff",
+  "categories": ["business", "shopping", "productivity"],
+  "icons": [
+    {
+      "src": "/static/img/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/img/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catálogo",
+      "short_name": "Catálogo",
+      "description": "Ver todos los productos",
+      "url": "/productos/",
+      "icons": [{ "src": "/static/img/favicon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Cotizar por WhatsApp",
+      "short_name": "WhatsApp",
+      "description": "Solicita una cotización",
+      "url": "/contacto/",
+      "icons": [{ "src": "/static/img/favicon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

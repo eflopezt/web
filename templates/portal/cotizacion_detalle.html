@@ -1,88 +1,190 @@
 {% extends "portal/_layout.html" %}
 {% load humanize %}
 {% block portal_title %}{{ cotizacion.codigo }}{% endblock %}
+
 {% block portal_content %}
 
-<div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-  <div>
-    <a href="{% url 'portal:cotizaciones' %}" class="text-sm text-base-content/60 hover:text-primary">← Mis cotizaciones</a>
-    <h1 class="text-2xl font-bold">Cotización {{ cotizacion.codigo }}</h1>
-    <p class="text-sm text-base-content/60">Emitida {{ cotizacion.fecha_emision|date:"d/m/Y" }} · Válida hasta {{ cotizacion.fecha_vencimiento|date:"d/m/Y" }}</p>
-  </div>
-  <div class="flex items-center gap-2">
-    <span class="badge badge-lg badge-{{ cotizacion.color_estado }}">{{ cotizacion.get_estado_display }}</span>
-    <a href="{% url 'portal:cotizacion_pdf' cotizacion.codigo %}" target="_blank" class="btn btn-sm btn-outline">⬇ PDF</a>
+<!-- ============ Encabezado ============ -->
+<div class="mb-5">
+  <a href="{% url 'portal:cotizaciones' %}" class="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-primary transition">
+    <i data-lucide="arrow-left" class="w-4 h-4"></i> Mis cotizaciones
+  </a>
+  <div class="flex flex-wrap items-start justify-between gap-3 mt-2">
+    <div>
+      <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Cotización</span>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-accent tracking-tight mt-1">
+        <span class="font-mono">{{ cotizacion.codigo }}</span>
+      </h1>
+      <p class="text-sm text-slate-500 mt-0.5">
+        Emitida {{ cotizacion.fecha_emision|date:"d/m/Y" }} · Válida hasta <strong>{{ cotizacion.fecha_vencimiento|date:"d/m/Y" }}</strong>
+      </p>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="badge badge-lg badge-{{ cotizacion.color_estado }} font-bold">{{ cotizacion.get_estado_display }}</span>
+      <a href="{% url 'portal:cotizacion_pdf' cotizacion.codigo %}" target="_blank" class="inline-flex items-center gap-2 bg-white border border-base-300 hover:border-primary text-accent text-sm font-semibold rounded-xl px-4 h-10 transition">
+        <i data-lucide="download" class="w-4 h-4"></i> PDF
+      </a>
+    </div>
   </div>
 </div>
 
+<!-- ============ Alerta vencimiento ============ -->
 {% if cotizacion.vencida and cotizacion.estado == 'enviada' %}
-<div class="alert alert-warning text-sm mb-3">⚠ Esta cotización venció el {{ cotizacion.fecha_vencimiento|date:"d/m/Y" }}. Solicita una actualización al equipo comercial.</div>
+<div class="bento bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4 flex items-start gap-3">
+  <div class="icon-box bg-amber-100 text-amber-700 flex-shrink-0"><i data-lucide="alert-triangle"></i></div>
+  <div class="flex-1">
+    <h4 class="font-bold text-amber-900">Cotización vencida</h4>
+    <p class="text-sm text-amber-800 mt-0.5">Esta cotización venció el {{ cotizacion.fecha_vencimiento|date:"d/m/Y" }}. Solicita una actualización al equipo comercial.</p>
+  </div>
+</div>
 {% endif %}
 
-<div class="card bg-base-100 border border-base-300 mb-4">
+<!-- ============ Líneas de cotización ============ -->
+<div class="bento bg-white border border-base-300 rounded-2xl overflow-hidden shadow-sm mb-4">
+  <div class="px-5 py-4 border-b border-base-200 flex items-center gap-2.5">
+    <div class="icon-box icon-box-blue !w-9 !h-9"><i data-lucide="list" class="!w-4 !h-4"></i></div>
+    <h3 class="font-extrabold text-accent">Detalle de cotización</h3>
+  </div>
   <div class="overflow-x-auto">
-    <table class="table">
-      <thead><tr><th class="text-center">Cant.</th><th>Descripción</th><th class="text-right">P. Unit.</th><th class="text-right">Dscto</th><th class="text-right">Subtotal</th></tr></thead>
+    <table class="table table-zebra">
+      <thead>
+        <tr class="bg-base-200 text-accent">
+          <th class="font-bold uppercase text-xs tracking-wider text-center">Cant.</th>
+          <th class="font-bold uppercase text-xs tracking-wider">Descripción</th>
+          <th class="font-bold uppercase text-xs tracking-wider text-right">P. Unit.</th>
+          <th class="font-bold uppercase text-xs tracking-wider text-right">Dscto</th>
+          <th class="font-bold uppercase text-xs tracking-wider text-right">Subtotal</th>
+        </tr>
+      </thead>
       <tbody>
         {% for l in cotizacion.lineas.all %}
-        <tr>
-          <td class="text-center">{{ l.cantidad|floatformat:"-2" }} {{ l.unidad }}</td>
-          <td><div class="font-medium">{{ l.descripcion }}</div>{% if l.sku %}<div class="text-xs text-base-content/60 font-mono">{{ l.sku }}</div>{% endif %}</td>
-          <td class="text-right">S/ {{ l.precio_unitario|floatformat:2|intcomma }}</td>
-          <td class="text-right">{{ l.descuento_pct|floatformat:1 }}%</td>
-          <td class="text-right font-semibold">S/ {{ l.subtotal|floatformat:2|intcomma }}</td>
+        <tr class="hover">
+          <td class="text-center font-semibold">{{ l.cantidad|floatformat:"-2" }} <span class="text-xs text-slate-500">{{ l.unidad }}</span></td>
+          <td>
+            <div class="font-semibold text-accent">{{ l.descripcion }}</div>
+            {% if l.sku %}<div class="text-xs text-slate-500 font-mono mt-0.5">SKU {{ l.sku }}</div>{% endif %}
+          </td>
+          <td class="text-right text-slate-700">S/ {{ l.precio_unitario|floatformat:2|intcomma }}</td>
+          <td class="text-right">{% if l.descuento_pct %}<span class="text-secondary font-semibold">{{ l.descuento_pct|floatformat:1 }}%</span>{% else %}<span class="text-slate-400">—</span>{% endif %}</td>
+          <td class="text-right font-bold text-accent">S/ {{ l.subtotal|floatformat:2|intcomma }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
-  <div class="card-body p-4 pt-0 grid grid-cols-2 gap-2 text-sm max-w-sm ml-auto">
-    <div class="text-base-content/60">Subtotal</div><div class="text-right">S/ {{ cotizacion.subtotal|floatformat:2|intcomma }}</div>
-    <div class="text-base-content/60">IGV (18%)</div><div class="text-right">S/ {{ cotizacion.igv|floatformat:2|intcomma }}</div>
-    <div class="font-bold text-primary border-t pt-1">TOTAL</div><div class="text-right font-bold text-primary text-lg border-t pt-1">S/ {{ cotizacion.total|floatformat:2|intcomma }}</div>
-  </div>
-</div>
-
-{% if cotizacion.observaciones %}
-<div class="card bg-base-100 border border-base-300 mb-4"><div class="card-body p-4"><h4 class="font-bold mb-1">Observaciones</h4><p class="text-sm whitespace-pre-line">{{ cotizacion.observaciones }}</p></div></div>
-{% endif %}
-{% if cotizacion.condiciones %}
-<div class="card bg-base-100 border border-base-300 mb-4"><div class="card-body p-4"><h4 class="font-bold mb-1">Condiciones</h4><p class="text-sm whitespace-pre-line">{{ cotizacion.condiciones }}</p></div></div>
-{% endif %}
-
-{% if cotizacion.estado == 'enviada' and not cotizacion.vencida %}
-<div class="card bg-base-100 border-2 border-primary">
-  <div class="card-body p-4">
-    <h3 class="font-bold mb-1">¿Aceptas esta cotización?</h3>
-    <p class="text-sm text-base-content/70 mb-3">Al aceptar generaremos automáticamente tu pedido y comenzaremos la preparación.</p>
-    <div class="flex flex-wrap gap-2">
-      <form method="post" action="{% url 'portal:cotizacion_aceptar' cotizacion.codigo %}">
-        {% csrf_token %}
-        <button class="btn btn-success gap-2">✓ Aceptar y generar pedido</button>
-      </form>
-      <button type="button" class="btn btn-ghost text-error" onclick="document.getElementById('mdlRechazar').showModal()">✕ Rechazar</button>
+  <!-- Totales -->
+  <div class="border-t border-base-200 bg-base-200/40 px-5 py-4">
+    <div class="ml-auto max-w-sm grid grid-cols-2 gap-y-1.5 text-sm">
+      <div class="text-slate-600">Subtotal</div>
+      <div class="text-right font-semibold text-accent">S/ {{ cotizacion.subtotal|floatformat:2|intcomma }}</div>
+      <div class="text-slate-600">IGV (18%)</div>
+      <div class="text-right font-semibold text-accent">S/ {{ cotizacion.igv|floatformat:2|intcomma }}</div>
+      <div class="col-span-2 border-t border-base-300 my-1"></div>
+      <div class="font-extrabold text-accent text-base">TOTAL</div>
+      <div class="text-right font-black text-primary text-xl">S/ {{ cotizacion.total|floatformat:2|intcomma }}</div>
     </div>
   </div>
 </div>
 
+<!-- ============ Observaciones / Condiciones ============ -->
+{% if cotizacion.observaciones or cotizacion.condiciones %}
+<div class="grid md:grid-cols-2 gap-4 mb-4">
+  {% if cotizacion.observaciones %}
+  <div class="bento bg-white border border-base-300 rounded-2xl p-5 shadow-sm">
+    <div class="flex items-center gap-2.5 mb-2">
+      <div class="icon-box icon-box-blue !w-9 !h-9"><i data-lucide="message-square" class="!w-4 !h-4"></i></div>
+      <h4 class="font-extrabold text-accent">Observaciones</h4>
+    </div>
+    <p class="text-sm text-slate-700 whitespace-pre-line">{{ cotizacion.observaciones }}</p>
+  </div>
+  {% endif %}
+  {% if cotizacion.condiciones %}
+  <div class="bento bg-white border border-base-300 rounded-2xl p-5 shadow-sm">
+    <div class="flex items-center gap-2.5 mb-2">
+      <div class="icon-box icon-box-green !w-9 !h-9"><i data-lucide="shield-check" class="!w-4 !h-4"></i></div>
+      <h4 class="font-extrabold text-accent">Condiciones</h4>
+    </div>
+    <p class="text-sm text-slate-700 whitespace-pre-line">{{ cotizacion.condiciones }}</p>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- ============ Acción aceptar/rechazar ============ -->
+{% if cotizacion.estado == 'enviada' and not cotizacion.vencida %}
+<div class="bento bg-gradient-brand-soft border-2 border-secondary/30 rounded-2xl p-6 shadow-md">
+  <div class="flex items-start gap-4 mb-4">
+    <div class="icon-box icon-box-green flex-shrink-0"><i data-lucide="check-circle-2"></i></div>
+    <div class="flex-1">
+      <h3 class="font-extrabold text-accent text-lg">¿Aceptas esta cotización?</h3>
+      <p class="text-sm text-slate-600 mt-1">
+        Al aceptar generaremos automáticamente tu pedido por <strong class="text-accent">S/ {{ cotizacion.total|floatformat:2|intcomma }}</strong> y comenzaremos la preparación.
+      </p>
+    </div>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <form method="post" action="{% url 'portal:cotizacion_aceptar' cotizacion.codigo %}" class="flex-1 md:flex-none">
+      {% csrf_token %}
+      <button class="bg-gradient-green text-white font-bold rounded-xl px-6 h-12 btn-shine inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition w-full md:w-auto text-base">
+        <i data-lucide="check" class="w-5 h-5"></i>
+        Aceptar y generar pedido
+      </button>
+    </form>
+    <button type="button" onclick="document.getElementById('mdlRechazar').showModal()" class="inline-flex items-center justify-center gap-2 bg-white text-error border-2 border-error/30 hover:bg-error/5 hover:border-error font-semibold rounded-xl px-5 h-12 transition">
+      <i data-lucide="x" class="w-4 h-4"></i>
+      Rechazar
+    </button>
+    <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-white text-accent border border-base-300 hover:border-primary font-semibold rounded-xl px-5 h-12 transition">
+      <i data-lucide="message-circle" class="w-4 h-4"></i>
+      Consultar
+    </a>
+  </div>
+</div>
+
+<!-- Modal rechazo -->
 <dialog id="mdlRechazar" class="modal">
-  <div class="modal-box">
-    <h3 class="font-bold text-lg">Rechazar cotización</h3>
-    <p class="text-sm text-base-content/60 mb-2">Cuéntanos brevemente por qué (opcional):</p>
+  <div class="modal-box rounded-2xl">
+    <div class="flex items-start gap-3 mb-2">
+      <div class="icon-box bg-red-50 text-error"><i data-lucide="x-octagon"></i></div>
+      <div>
+        <h3 class="font-extrabold text-lg text-accent">Rechazar cotización</h3>
+        <p class="text-sm text-slate-500">Cuéntanos brevemente por qué (opcional):</p>
+      </div>
+    </div>
     <form method="post" action="{% url 'portal:cotizacion_rechazar' cotizacion.codigo %}">
       {% csrf_token %}
-      <textarea name="motivo" rows="3" class="textarea textarea-bordered w-full" placeholder="Precio, plazo, ya compré, etc."></textarea>
+      <textarea name="motivo" rows="3" class="textarea textarea-bordered w-full mt-2" placeholder="Precio, plazo, ya compré, etc."></textarea>
       <div class="modal-action">
         <button type="button" class="btn btn-ghost" onclick="document.getElementById('mdlRechazar').close()">Cancelar</button>
-        <button type="submit" class="btn btn-error">Confirmar rechazo</button>
+        <button type="submit" class="btn btn-error gap-2">
+          <i data-lucide="x" class="w-4 h-4"></i> Confirmar rechazo
+        </button>
       </div>
     </form>
   </div>
   <form method="dialog" class="modal-backdrop"><button>cerrar</button></form>
 </dialog>
+
 {% elif cotizacion.estado == 'aceptada' %}
-<div class="alert alert-success">✓ Cotización aceptada. Pedido generado.</div>
+<div class="bento bg-green-50 border border-green-200 rounded-2xl p-5 flex items-start gap-3">
+  <div class="icon-box icon-box-green flex-shrink-0"><i data-lucide="check-circle-2"></i></div>
+  <div class="flex-1">
+    <h4 class="font-bold text-green-900">Cotización aceptada</h4>
+    <p class="text-sm text-green-800 mt-0.5">Hemos generado el pedido y estamos en preparación.</p>
+  </div>
+  <a href="{% url 'portal:pedidos' %}" class="bg-gradient-green text-white font-bold rounded-xl px-4 h-10 btn-shine inline-flex items-center gap-2 shadow-md whitespace-nowrap">
+    <i data-lucide="package" class="w-4 h-4"></i> Ver pedidos
+  </a>
+</div>
+
 {% elif cotizacion.estado == 'rechazada' %}
-<div class="alert alert-error">Cotización rechazada{% if cotizacion.motivo_rechazo %}: {{ cotizacion.motivo_rechazo }}{% endif %}</div>
+<div class="bento bg-red-50 border border-red-200 rounded-2xl p-5 flex items-start gap-3">
+  <div class="icon-box bg-red-100 text-error flex-shrink-0"><i data-lucide="x-octagon"></i></div>
+  <div class="flex-1">
+    <h4 class="font-bold text-red-900">Cotización rechazada</h4>
+    {% if cotizacion.motivo_rechazo %}<p class="text-sm text-red-800 mt-0.5">Motivo: {{ cotizacion.motivo_rechazo }}</p>{% endif %}
+  </div>
+</div>
 {% endif %}
+
 {% endblock %}

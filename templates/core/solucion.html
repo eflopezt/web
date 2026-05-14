@@ -1,80 +1,158 @@
 {% extends "base.html" %}
-{% block title %}{{ data.titulo }} — {{ SITE_NAME }}{% endblock %}
+{% load producto_extras %}
+{% block title %}{{ data.titulo }} — {{ SITE_BRAND }}{% endblock %}
 {% block description %}{{ data.tagline }}{% endblock %}
 
 {% block content %}
-<section class="bg-slate-900 text-slate-50 relative overflow-hidden">
-  <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 24px 24px;"></div>
-  <div class="absolute -top-32 -right-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
-  <div class="container mx-auto px-4 py-20 max-w-5xl relative">
-    <div class="text-5xl mb-5">{{ data.emoji }}</div>
-    <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-400 mb-4">— Solución para tu industria —</span>
-    <h1 class="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">{{ data.titulo }}</h1>
-    <p class="text-base md:text-lg text-slate-300 mt-4 max-w-2xl leading-relaxed">{{ data.tagline }}</p>
-    <div class="mt-8 flex flex-wrap gap-3">
-      <a href="{% url 'catalogo:lista' %}" class="btn btn-lg bg-white text-slate-900 hover:bg-slate-100 border-0">{{ data.cta }} →</a>
-      <a href="https://wa.me/{{ SITE_WHATSAPP }}?text=Hola%2C%20me%20interesa%20cotizar%20para%20{{ data.titulo|urlencode }}." target="_blank" class="btn btn-lg btn-ghost text-slate-200 hover:bg-white/10 border border-white/15">💬 WhatsApp</a>
+
+<!-- ============ HERO ============ -->
+<section class="relative bg-gradient-brand text-white overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[600px] h-[600px] rounded-full bg-secondary/25 blur-3xl"></div>
+  <div class="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-info/20 blur-3xl"></div>
+
+  <div class="container mx-auto px-4 py-20 lg:py-24 relative">
+    <nav class="text-xs breadcrumbs text-white/80">
+      <ul>
+        <li><a href="{% url 'core:home' %}" class="hover:text-white">Inicio</a></li>
+        <li><span class="text-white/60">Soluciones</span></li>
+        <li class="text-white">{{ data.titulo }}</li>
+      </ul>
+    </nav>
+
+    <div class="grid lg:grid-cols-[1fr_auto] gap-10 items-center mt-6">
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide backdrop-blur">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+          Solución para tu industria
+        </span>
+        <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mt-5">
+          <span class="text-3xl md:text-5xl mr-2">{{ data.emoji }}</span>
+          {{ data.titulo }}
+        </h1>
+        <p class="text-lg md:text-xl text-white/90 mt-6 leading-relaxed max-w-2xl">{{ data.tagline }}</p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="{% whatsapp_url 'Hola, me interesa cotizar para '|add:data.titulo %}" target="_blank" rel="noopener"
+             class="btn-whatsapp btn-shine font-bold px-7 h-14 rounded-full inline-flex items-center gap-3 text-lg shadow-2xl">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+            {{ data.cta }}
+          </a>
+          <a href="{% url 'catalogo:lista' %}" class="bg-white text-primary font-bold px-6 h-14 rounded-full inline-flex items-center gap-2 shadow-xl hover:bg-base-200 transition">
+            Ver catálogo
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Trust card lateral -->
+      <div class="hidden lg:block w-72">
+        <div class="bg-white/[0.08] backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-2xl">
+          <p class="text-xs font-bold tracking-[0.25em] uppercase text-white/80">Compromiso</p>
+          <ul class="mt-4 space-y-3 text-sm text-white">
+            <li class="flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-secondary"></i> Respuesta &lt; 24h</li>
+            <li class="flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4 text-secondary"></i> Factura SUNAT</li>
+            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-secondary"></i> Calidad garantizada</li>
+            <li class="flex items-center gap-2"><i data-lucide="truck" class="w-4 h-4 text-secondary"></i> {{ SITE_DELIVERY_AREA }}</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="container mx-auto px-4 py-16 max-w-5xl">
-  <div class="grid md:grid-cols-2 gap-10">
+<!-- ============ DIFERENCIADORES ============ -->
+<section class="container mx-auto px-4 py-20 max-w-6xl">
+  <div class="grid lg:grid-cols-2 gap-12">
     <div>
-      <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-500 mb-3">— Diferenciadores —</span>
-      <h2 class="text-3xl font-bold tracking-tight text-slate-900">¿Por qué nosotros?</h2>
-      <p class="text-slate-600 leading-relaxed mt-4">{{ data.descripcion }}</p>
+      <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Diferenciadores</span>
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-accent mt-2">¿Por qué nosotros?</h2>
+      <p class="text-slate-600 leading-relaxed mt-5 text-lg">{{ data.descripcion }}</p>
     </div>
-    <div class="grid sm:grid-cols-2 gap-3">
+    <div class="grid sm:grid-cols-2 gap-4">
       {% for icon, titulo, desc in data.puntos %}
-      <div class="bg-white border border-slate-200 rounded-xl p-4">
-        <div class="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center text-lg mb-2">{{ icon }}</div>
-        <h3 class="font-semibold text-slate-900 text-sm">{{ titulo }}</h3>
-        <p class="text-xs text-slate-500 mt-1 leading-relaxed">{{ desc }}</p>
+      <div class="bento bg-white border border-base-300 rounded-2xl p-5">
+        <div class="text-2xl">{{ icon }}</div>
+        <h3 class="font-extrabold text-accent mt-3">{{ titulo }}</h3>
+        <p class="text-sm text-slate-600 mt-2 leading-relaxed">{{ desc }}</p>
       </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
+<!-- ============ PRODUCTOS RECOMENDADOS ============ -->
 {% if productos %}
-<section class="bg-slate-50 border-y border-slate-200">
-  <div class="container mx-auto px-4 py-16 max-w-6xl">
-    <h2 class="text-3xl font-bold tracking-tight text-slate-900 mb-1">Productos recomendados</h2>
-    <p class="text-slate-500 mb-8">Una selección curada por nuestros especialistas. Solicita la cotización completa.</p>
+<section class="bg-bubbles relative overflow-hidden">
+  <div class="absolute inset-0 bg-base-200/60"></div>
+  <div class="container mx-auto px-4 py-20 max-w-6xl relative">
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Selección curada</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-accent mt-2">Productos recomendados</h2>
+        <p class="text-slate-600 mt-2">Una selección curada por nuestros especialistas. Cotiza la lista completa.</p>
+      </div>
+      <a href="{% url 'catalogo:lista' %}" class="hidden md:inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:gap-2.5 transition-all">
+        Ver catálogo completo <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {% for p in productos %}
         {% include "catalogo/_card.html" with producto=p %}
       {% endfor %}
     </div>
-    <div class="text-center mt-8"><a href="{% url 'catalogo:lista' %}" class="text-sm font-medium text-slate-900 hover:underline">Ver catálogo completo →</a></div>
   </div>
 </section>
 {% endif %}
 
-<section class="container mx-auto px-4 py-16 max-w-5xl">
-  <h2 class="text-2xl font-bold tracking-tight text-slate-900 mb-8 text-center">Otras industrias que atendemos</h2>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<!-- ============ OTRAS INDUSTRIAS ============ -->
+<section class="container mx-auto px-4 py-20 max-w-6xl">
+  <div class="max-w-3xl mx-auto text-center mb-12">
+    <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">También atendemos</span>
+    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-accent mt-2">Otras industrias</h2>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     {% for k, s in soluciones.items %}
       {% if k != data.slug %}
-      <a href="{% url 'core:solucion' k %}" class="bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl p-4 transition group flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-slate-100 group-hover:bg-slate-900 group-hover:text-white text-slate-700 flex items-center justify-center text-lg transition">{{ s.emoji }}</div>
-        <div class="font-medium text-sm text-slate-900">{{ s.titulo }}</div>
+      <a href="{% url 'core:solucion' k %}" class="bento bg-white border border-base-300 rounded-2xl p-5 group flex items-center gap-4">
+        <div class="icon-box icon-box-blue group-hover:bg-primary group-hover:text-white transition shrink-0">
+          {% if k == "hoteles" %}<i data-lucide="hotel"></i>
+          {% elif k == "clinicas" %}<i data-lucide="cross"></i>
+          {% elif k == "industria" %}<i data-lucide="factory"></i>
+          {% elif k == "oficinas" %}<i data-lucide="building-2"></i>
+          {% else %}<i data-lucide="shopping-bag"></i>{% endif %}
+        </div>
+        <div>
+          <div class="font-bold text-accent text-sm leading-tight">{{ s.titulo }}</div>
+          <div class="text-xs text-primary mt-1 flex items-center gap-1 group-hover:gap-2 transition-all font-semibold">Ver <i data-lucide="arrow-right" class="w-3 h-3"></i></div>
+        </div>
       </a>
       {% endif %}
     {% endfor %}
   </div>
 </section>
 
-<section class="bg-slate-900 text-slate-50 relative overflow-hidden">
-  <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 24px 24px;"></div>
-  <div class="container mx-auto px-4 py-16 text-center max-w-2xl relative">
-    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Coordinemos una visita técnica</h2>
-    <p class="mt-3 text-slate-300">Un especialista visita tu local sin costo, evalúa tus consumos y arma tu plan de suministro.</p>
-    <div class="mt-7 flex flex-wrap justify-center gap-3">
-      <a href="{% url 'core:contacto' %}" class="btn btn-lg bg-white text-slate-900 hover:bg-slate-100 border-0">Agendar visita</a>
-      <a href="{% url 'catalogo:lista' %}" class="btn btn-lg btn-ghost text-slate-200 hover:bg-white/10 border border-white/15">Cotizar online</a>
+<!-- ============ CTA FINAL ============ -->
+<section class="bg-gradient-brand text-white relative overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-50"></div>
+  <div class="container mx-auto px-4 py-16 relative">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-xs font-bold tracking-[0.25em] uppercase text-white/80">Asesoría sin costo</p>
+      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight mt-3">Coordinemos una visita técnica</h2>
+      <p class="text-white/90 mt-4 text-lg max-w-2xl mx-auto leading-relaxed">Un especialista visita tu local sin costo, evalúa tus consumos y arma tu plan de suministro.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+           class="btn-whatsapp btn-shine font-bold px-7 h-14 rounded-full inline-flex items-center gap-3 text-lg shadow-2xl">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+          Cotizar por WhatsApp
+        </a>
+        <a href="{% url 'core:contacto' %}" class="bg-white text-primary font-bold px-7 h-14 rounded-full inline-flex items-center gap-2 shadow-xl hover:bg-base-200 transition">
+          Agendar visita
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
     </div>
   </div>
 </section>
+
 {% endblock %}

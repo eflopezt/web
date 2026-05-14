@@ -1,16 +1,63 @@
 {% load static %}<!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="proclean">
 <head>
   <meta charset="UTF-8">
-  <title>Error del servidor — LimpiaPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error del servidor — ProClean Servid Innova</title>
+  <meta name="theme-color" content="#1B75BC" />
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+  <style>
+    :root {
+      --pc-green: #3FAE2A;
+      --pc-blue: #1B75BC;
+      --pc-blue-dark: #1A4F8B;
+      --pc-wa: #25D366;
+    }
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .bg-gradient-brand { background: linear-gradient(135deg, var(--pc-blue-dark) 0%, var(--pc-blue) 45%, var(--pc-green) 100%); }
+    .text-gradient-light { background: linear-gradient(90deg, #fff 0%, #CFE8F7 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .bg-bubbles-dark { background-image: radial-gradient(rgba(255,255,255,0.10) 12%, transparent 13%), radial-gradient(rgba(255,255,255,0.07) 8%, transparent 9%); background-size: 80px 80px, 60px 60px; background-position: 0 0, 40px 40px; }
+    .btn-whatsapp { background-color: var(--pc-wa); color: #fff; }
+    .btn-whatsapp:hover { background-color: #1DA851; }
+  </style>
 </head>
-<body class="bg-white text-slate-800 min-h-screen flex items-center justify-center p-4">
-  <div class="text-center max-w-md">
-    <div class="text-6xl mb-3">⚠️</div>
-    <h1 class="text-2xl font-bold">Algo salió mal</h1>
-    <p class="text-slate-500 mt-2">Tuvimos un problema técnico. Por favor intenta de nuevo en unos minutos. Si persiste, escríbenos a ventas@limpiapro.pe.</p>
-    <a href="/" class="inline-block mt-5 px-5 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-lg">Volver al inicio</a>
+<body class="bg-white text-slate-800 min-h-screen flex items-center justify-center p-4 bg-gradient-brand relative overflow-hidden">
+
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-green-500/20 blur-3xl"></div>
+  <div class="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-sky-400/20 blur-3xl"></div>
+
+  <div class="text-center max-w-xl relative text-white">
+    <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-white/15 border border-white/25 backdrop-blur mb-6">
+      <i data-lucide="alert-triangle" class="w-12 h-12 text-white"></i>
+    </div>
+
+    <div class="text-7xl md:text-9xl font-black tracking-tight text-gradient-light leading-none">500</div>
+    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mt-6">Algo salió mal</h1>
+    <p class="text-white/90 mt-4 text-lg leading-relaxed">
+      Tuvimos un problema técnico. Por favor intenta de nuevo en unos minutos. Si persiste, escríbenos por WhatsApp y te asistimos.
+    </p>
+
+    <div class="mt-10 flex flex-wrap justify-center gap-3">
+      <a href="/" class="bg-white text-sky-700 font-bold px-7 py-3 rounded-full inline-flex items-center gap-2 shadow-xl hover:bg-slate-100 transition">
+        <i data-lucide="home" class="w-4 h-4"></i>
+        Volver al inicio
+      </a>
+      <a href="https://wa.me/51918570814" target="_blank" rel="noopener"
+         class="btn-whatsapp font-bold px-7 py-3 rounded-full inline-flex items-center gap-2 shadow-xl transition">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+
+    <p class="text-xs text-white/70 mt-10 tracking-wider">ProClean Servid Innova · Envío gratis en Lima y Callao</p>
   </div>
+
+  <script>window.addEventListener('load', () => { if (window.lucide) window.lucide.createIcons(); });</script>
 </body>
 </html>

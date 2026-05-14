@@ -1,33 +1,90 @@
 {% extends "intranet/_layout.html" %}
 {% block intra_title %}Clientes{% endblock %}
+{% block intra_section %}Clientes{% endblock %}
 {% block intra_content %}
-<div class="flex flex-wrap justify-between items-center gap-2 mb-3">
-  <h1 class="text-2xl font-bold">Clientes</h1>
-  <div class="flex gap-2">
-    <a href="{% url 'intranet:export_csv' 'clientes' %}" class="btn btn-outline btn-sm">⬇ CSV</a>
-    <a href="{% url 'intranet:cliente_nuevo' %}" class="btn btn-primary btn-sm">+ Nuevo cliente</a>
+
+<!-- Page header -->
+<div class="flex flex-wrap items-end justify-between gap-3 mb-6">
+  <div>
+    <div class="text-xs breadcrumbs text-slate-500 mb-1">
+      <ul>
+        <li><a href="{% url 'intranet:dashboard' %}" class="breadcrumb-link">Intranet</a></li>
+        <li class="text-accent font-semibold">Clientes</li>
+      </ul>
+    </div>
+    <h1 class="page-title flex items-center gap-3">
+      <span class="icon-box icon-box-blue"><i data-lucide="users"></i></span>
+      Clientes
+    </h1>
+    <p class="text-sm text-slate-500 mt-1">Cartera de empresas y consumidores finales.</p>
+  </div>
+  <div class="flex gap-2 flex-wrap">
+    <a href="{% url 'intranet:export_csv' 'clientes' %}" class="btn btn-outline btn-sm gap-1">
+      <i data-lucide="download" class="w-4 h-4"></i> CSV
+    </a>
+    <a href="{% url 'intranet:cliente_nuevo' %}" class="btn btn-primary btn-sm btn-shine gap-1">
+      <i data-lucide="user-plus" class="w-4 h-4"></i> Nuevo cliente
+    </a>
   </div>
 </div>
-<form class="mb-3"><input type="search" name="q" value="{{ q }}" placeholder="Buscar por razón social, RUC, email..." class="input input-bordered input-sm w-full max-w-md"/></form>
-<div class="card bg-base-100 border border-base-300 overflow-x-auto">
-  <table class="table">
-    <thead><tr><th>Razón social</th><th>Doc.</th><th>Email</th><th>Tel.</th><th class="text-center">Cot.</th><th class="text-center">Ped.</th><th class="text-center">Fact.</th><th></th></tr></thead>
-    <tbody>
-      {% for c in clientes %}
-      <tr class="hover">
-        <td><a href="{% url 'intranet:cliente_detalle' c.pk %}" class="link link-primary font-semibold">{{ c.razon_social }}</a><div class="text-xs text-base-content/60">{{ c.nombre_comercial }}</div></td>
-        <td class="font-mono text-xs">{{ c.documento|default:"—" }}</td>
-        <td class="text-xs">{{ c.email }}</td>
-        <td class="text-xs">{{ c.telefono }}</td>
-        <td class="text-center">{{ c.n_cotizaciones }}</td>
-        <td class="text-center">{{ c.n_pedidos }}</td>
-        <td class="text-center">{{ c.n_facturas }}</td>
-        <td><a href="{% url 'intranet:cliente_detalle' c.pk %}" class="btn btn-xs btn-primary">Ver</a></td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="8" class="text-center py-6 text-base-content/60">Sin clientes.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+
+<!-- Filtros -->
+<div class="data-card p-4 mb-4">
+  <form>
+    <label class="field-label block mb-1">Buscar</label>
+    <div class="relative max-w-md">
+      <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+      <input type="search" name="q" value="{{ q }}" placeholder="Razón social, RUC, email…" class="input input-bordered input-sm w-full pl-9"/>
+    </div>
+  </form>
 </div>
+
+<!-- Tabla -->
+<div class="data-card overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="table table-pc table-zebra">
+      <thead>
+        <tr>
+          <th>Razón social</th>
+          <th>Documento</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th class="text-center">Cot.</th>
+          <th class="text-center">Ped.</th>
+          <th class="text-center">Fact.</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in clientes %}
+        <tr>
+          <td>
+            <a href="{% url 'intranet:cliente_detalle' c.pk %}" class="font-semibold text-accent hover:text-primary hover:underline">{{ c.razon_social }}</a>
+            {% if c.nombre_comercial %}<div class="text-xs text-slate-500">{{ c.nombre_comercial }}</div>{% endif %}
+          </td>
+          <td class="font-mono text-xs">{{ c.documento|default:"—" }}</td>
+          <td class="text-xs text-slate-600">{{ c.email }}</td>
+          <td class="text-xs text-slate-600">{{ c.telefono }}</td>
+          <td class="text-center"><span class="badge badge-sm badge-ghost">{{ c.n_cotizaciones }}</span></td>
+          <td class="text-center"><span class="badge badge-sm badge-ghost">{{ c.n_pedidos }}</span></td>
+          <td class="text-center"><span class="badge badge-sm badge-ghost">{{ c.n_facturas }}</span></td>
+          <td class="text-right">
+            <a href="{% url 'intranet:cliente_detalle' c.pk %}" class="btn btn-xs btn-primary gap-1">
+              <i data-lucide="eye" class="w-3 h-3"></i> Ver
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center py-12">
+            <i data-lucide="users" class="w-10 h-10 text-slate-300 mx-auto mb-2"></i>
+            <div class="text-slate-500">Sin clientes.</div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
 {% endblock %}

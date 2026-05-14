@@ -1,67 +1,195 @@
 {% extends "intranet/_layout.html" %}
 {% load humanize %}
 {% block intra_title %}{{ cliente.razon_social }}{% endblock %}
+{% block intra_section %}Cliente · {{ cliente.razon_social }}{% endblock %}
 {% block intra_content %}
-<div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+
+<!-- Page header -->
+<div class="flex flex-wrap items-start justify-between gap-3 mb-6">
   <div>
-    <a href="{% url 'intranet:clientes' %}" class="text-sm text-base-content/60 hover:text-primary">← Clientes</a>
-    <h1 class="text-2xl font-bold">{{ cliente.razon_social }}</h1>
-    <p class="text-sm text-base-content/60">{{ cliente.get_tipo_display }} · {{ cliente.documento|default:"sin doc." }}</p>
+    <div class="text-xs breadcrumbs text-slate-500 mb-1">
+      <ul>
+        <li><a href="{% url 'intranet:dashboard' %}" class="breadcrumb-link">Intranet</a></li>
+        <li><a href="{% url 'intranet:clientes' %}" class="breadcrumb-link">Clientes</a></li>
+        <li class="text-accent font-semibold">{{ cliente.razon_social }}</li>
+      </ul>
+    </div>
+    <h1 class="page-title flex items-center gap-3">
+      <span class="icon-box icon-box-blue"><i data-lucide="building-2"></i></span>
+      {{ cliente.razon_social }}
+    </h1>
+    <p class="text-sm text-slate-500 mt-1">
+      <span class="badge badge-sm badge-ghost">{{ cliente.get_tipo_display }}</span>
+      <span class="ml-1 font-mono">{{ cliente.documento|default:"sin documento" }}</span>
+    </p>
   </div>
-  <a href="{% url 'intranet:cliente_editar' cliente.pk %}" class="btn btn-primary btn-sm">Editar</a>
+  <a href="{% url 'intranet:cliente_editar' cliente.pk %}" class="btn btn-primary btn-sm btn-shine gap-1">
+    <i data-lucide="edit-3" class="w-4 h-4"></i> Editar
+  </a>
 </div>
 
-<div class="grid md:grid-cols-3 gap-3 mb-4">
-  <div class="md:col-span-2 card bg-base-100 border border-base-300"><div class="card-body p-4 text-sm space-y-1">
-    <div><span class="text-base-content/60">Email:</span> {{ cliente.email }}</div>
-    <div><span class="text-base-content/60">Tel:</span> {{ cliente.telefono|default:"—" }}</div>
-    <div><span class="text-base-content/60">Dirección:</span> {{ cliente.direccion|default:"—" }}, {{ cliente.ciudad }}{% if cliente.departamento %}, {{ cliente.departamento }}{% endif %}</div>
-    <div><span class="text-base-content/60">Usuario portal:</span> {% if cliente.usuario %}<strong>{{ cliente.usuario.username }}</strong>{% else %}<span class="text-base-content/50">sin cuenta</span>{% endif %}</div>
-    {% if cliente.notas %}<div><span class="text-base-content/60">Notas internas:</span><p class="whitespace-pre-line">{{ cliente.notas }}</p></div>{% endif %}
-  </div></div>
-  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
-    <h3 class="font-bold mb-2 text-sm">Métricas</h3>
-    <div class="text-2xl font-bold text-primary">{{ cliente.cotizaciones.count }}</div><div class="text-xs">cotizaciones</div>
-    <div class="text-2xl font-bold text-secondary mt-2">{{ cliente.pedidos.count }}</div><div class="text-xs">pedidos</div>
-    <div class="text-2xl font-bold text-info mt-2">{{ cliente.facturas.count }}</div><div class="text-xs">facturas</div>
-  </div></div>
+<!-- Info principal -->
+<div class="grid md:grid-cols-3 gap-4 mb-4">
+  <div class="md:col-span-2 data-card">
+    <div class="px-5 py-4 border-b border-base-300 flex items-center gap-2">
+      <i data-lucide="info" class="w-5 h-5 text-accent"></i>
+      <h3 class="font-bold text-accent">Datos del cliente</h3>
+    </div>
+    <div class="p-5 text-sm space-y-2.5">
+      <div class="flex gap-2">
+        <i data-lucide="mail" class="w-4 h-4 text-slate-400 mt-0.5"></i>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Email</div>
+          <div class="text-slate-700">{{ cliente.email|default:"—" }}</div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <i data-lucide="phone" class="w-4 h-4 text-slate-400 mt-0.5"></i>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Teléfono</div>
+          <div class="text-slate-700">{{ cliente.telefono|default:"—" }}</div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 mt-0.5"></i>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Dirección</div>
+          <div class="text-slate-700">{{ cliente.direccion|default:"—" }}, {{ cliente.ciudad }}{% if cliente.departamento %}, {{ cliente.departamento }}{% endif %}</div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <i data-lucide="user-check" class="w-4 h-4 text-slate-400 mt-0.5"></i>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Usuario portal</div>
+          <div class="text-slate-700">
+            {% if cliente.usuario %}<strong>{{ cliente.usuario.username }}</strong>{% else %}<span class="text-slate-400">sin cuenta</span>{% endif %}
+          </div>
+        </div>
+      </div>
+      {% if cliente.notas %}
+      <div class="flex gap-2 border-t border-base-200 pt-3 mt-3">
+        <i data-lucide="sticky-note" class="w-4 h-4 text-slate-400 mt-0.5"></i>
+        <div class="flex-1">
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Notas internas</div>
+          <p class="text-slate-700 whitespace-pre-line">{{ cliente.notas }}</p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Métricas -->
+  <div class="data-card overflow-hidden">
+    <div class="bg-gradient-brand text-white px-5 py-3">
+      <h3 class="font-bold flex items-center gap-2"><i data-lucide="trending-up" class="w-4 h-4"></i> Métricas</h3>
+    </div>
+    <div class="p-5 space-y-4">
+      <div class="flex items-center gap-3">
+        <div class="icon-box icon-box-blue" style="width:2.25rem;height:2.25rem"><i data-lucide="file-text" style="width:1rem;height:1rem"></i></div>
+        <div>
+          <div class="stat-num text-2xl font-extrabold text-primary leading-none">{{ cliente.cotizaciones.count }}</div>
+          <div class="text-xs text-slate-500">cotizaciones</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="icon-box icon-box-green" style="width:2.25rem;height:2.25rem"><i data-lucide="package" style="width:1rem;height:1rem"></i></div>
+        <div>
+          <div class="stat-num text-2xl font-extrabold text-secondary leading-none">{{ cliente.pedidos.count }}</div>
+          <div class="text-xs text-slate-500">pedidos</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="icon-box icon-box-rose" style="width:2.25rem;height:2.25rem"><i data-lucide="receipt" style="width:1rem;height:1rem"></i></div>
+        <div>
+          <div class="stat-num text-2xl font-extrabold text-info leading-none">{{ cliente.facturas.count }}</div>
+          <div class="text-xs text-slate-500">facturas</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- Listas -->
 <div class="grid lg:grid-cols-2 gap-4">
-  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
-    <h3 class="font-bold mb-2">Solicitudes recientes</h3>
-    <table class="table table-sm"><tbody>
-      {% for s in solicitudes %}
-      <tr><td class="font-mono text-xs"><a href="{% url 'intranet:solicitud_detalle' s.codigo %}" class="link link-primary">{{ s.codigo }}</a></td><td class="text-xs">{{ s.creado|date:"d/m/Y" }}</td><td><span class="badge badge-{{ s.color_estado }} badge-sm">{{ s.get_estado_display }}</span></td></tr>
-      {% empty %}<tr><td class="text-base-content/60">Sin solicitudes.</td></tr>{% endfor %}
-    </tbody></table>
-  </div></div>
+  <div class="data-card">
+    <div class="px-5 py-4 border-b border-base-300 flex items-center gap-2">
+      <i data-lucide="inbox" class="w-5 h-5 text-accent"></i>
+      <h3 class="font-bold text-accent">Solicitudes recientes</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table table-pc table-sm">
+        <tbody>
+          {% for s in solicitudes %}
+          <tr>
+            <td><a href="{% url 'intranet:solicitud_detalle' s.codigo %}" class="font-mono text-xs font-semibold text-primary hover:underline">{{ s.codigo }}</a></td>
+            <td class="text-xs text-slate-500">{{ s.creado|date:"d/m/Y" }}</td>
+            <td><span class="badge badge-{{ s.color_estado }} badge-sm">{{ s.get_estado_display }}</span></td>
+          </tr>
+          {% empty %}<tr><td class="text-slate-500 text-center py-4">Sin solicitudes.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
-    <h3 class="font-bold mb-2">Cotizaciones recientes</h3>
-    <table class="table table-sm"><tbody>
-      {% for c in cotizaciones %}
-      <tr><td class="font-mono text-xs"><a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="link link-primary">{{ c.codigo }}</a></td><td class="text-right">S/ {{ c.total|floatformat:2|intcomma }}</td><td><span class="badge badge-{{ c.color_estado }} badge-sm">{{ c.get_estado_display }}</span></td></tr>
-      {% empty %}<tr><td class="text-base-content/60">Sin cotizaciones.</td></tr>{% endfor %}
-    </tbody></table>
-  </div></div>
+  <div class="data-card">
+    <div class="px-5 py-4 border-b border-base-300 flex items-center gap-2">
+      <i data-lucide="file-text" class="w-5 h-5 text-accent"></i>
+      <h3 class="font-bold text-accent">Cotizaciones recientes</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table table-pc table-sm">
+        <tbody>
+          {% for c in cotizaciones %}
+          <tr>
+            <td><a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="font-mono text-xs font-semibold text-primary hover:underline">{{ c.codigo }}</a></td>
+            <td class="text-right font-bold text-primary">S/ {{ c.total|floatformat:2|intcomma }}</td>
+            <td><span class="badge badge-{{ c.color_estado }} badge-sm">{{ c.get_estado_display }}</span></td>
+          </tr>
+          {% empty %}<tr><td class="text-slate-500 text-center py-4">Sin cotizaciones.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
-    <h3 class="font-bold mb-2">Pedidos</h3>
-    <table class="table table-sm"><tbody>
-      {% for p in pedidos %}
-      <tr><td class="font-mono text-xs"><a href="{% url 'intranet:pedido_detalle' p.codigo %}" class="link link-primary">{{ p.codigo }}</a></td><td class="text-right">S/ {{ p.total|floatformat:2|intcomma }}</td><td><span class="badge badge-{{ p.color_estado }} badge-sm">{{ p.get_estado_display }}</span></td></tr>
-      {% empty %}<tr><td class="text-base-content/60">Sin pedidos.</td></tr>{% endfor %}
-    </tbody></table>
-  </div></div>
+  <div class="data-card">
+    <div class="px-5 py-4 border-b border-base-300 flex items-center gap-2">
+      <i data-lucide="package" class="w-5 h-5 text-accent"></i>
+      <h3 class="font-bold text-accent">Pedidos</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table table-pc table-sm">
+        <tbody>
+          {% for p in pedidos %}
+          <tr>
+            <td><a href="{% url 'intranet:pedido_detalle' p.codigo %}" class="font-mono text-xs font-semibold text-primary hover:underline">{{ p.codigo }}</a></td>
+            <td class="text-right font-bold text-primary">S/ {{ p.total|floatformat:2|intcomma }}</td>
+            <td><span class="badge badge-{{ p.color_estado }} badge-sm">{{ p.get_estado_display }}</span></td>
+          </tr>
+          {% empty %}<tr><td class="text-slate-500 text-center py-4">Sin pedidos.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
-    <h3 class="font-bold mb-2">Facturas</h3>
-    <table class="table table-sm"><tbody>
-      {% for f in facturas %}
-      <tr><td class="font-mono text-xs"><a href="{% url 'intranet:factura_detalle' f.pk %}" class="link link-primary">{{ f.numero }}</a></td><td class="text-right">S/ {{ f.total|floatformat:2|intcomma }}</td><td><span class="badge badge-{{ f.color_estado }} badge-sm">{{ f.get_estado_display }}</span></td></tr>
-      {% empty %}<tr><td class="text-base-content/60">Sin facturas.</td></tr>{% endfor %}
-    </tbody></table>
-  </div></div>
+  <div class="data-card">
+    <div class="px-5 py-4 border-b border-base-300 flex items-center gap-2">
+      <i data-lucide="receipt" class="w-5 h-5 text-accent"></i>
+      <h3 class="font-bold text-accent">Facturas</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table table-pc table-sm">
+        <tbody>
+          {% for f in facturas %}
+          <tr>
+            <td><a href="{% url 'intranet:factura_detalle' f.pk %}" class="font-mono text-xs font-semibold text-primary hover:underline">{{ f.numero }}</a></td>
+            <td class="text-right font-bold text-primary">S/ {{ f.total|floatformat:2|intcomma }}</td>
+            <td><span class="badge badge-{{ f.color_estado }} badge-sm">{{ f.get_estado_display }}</span></td>
+          </tr>
+          {% empty %}<tr><td class="text-slate-500 text-center py-4">Sin facturas.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+
 {% endblock %}

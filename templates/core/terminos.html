@@ -1,29 +1,92 @@
 {% extends "base.html" %}
-{% block title %}Términos y condiciones — {{ SITE_NAME }}{% endblock %}
+{% block title %}Términos y condiciones — {{ SITE_BRAND }}{% endblock %}
+{% block description %}Términos y condiciones de uso de {{ SITE_BRAND }}.{% endblock %}
+
 {% block content %}
-<div class="container mx-auto px-4 py-12 max-w-3xl prose prose-sm">
-  <h1>Términos y condiciones</h1>
-  <p class="text-base-content/60">Última actualización: {% now "d/m/Y" %}</p>
 
-  <h2>1. Quiénes somos</h2>
-  <p>{{ SITE_NAME }} es una distribuidora peruana de productos de limpieza profesional, con domicilio fiscal en {{ SITE_ADDRESS }}. Esta web es una demo en construcción.</p>
+<!-- ============ HEADER ============ -->
+<section class="relative bg-gradient-brand text-white overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[400px] h-[400px] rounded-full bg-secondary/25 blur-3xl"></div>
 
-  <h2>2. Catálogo y cotizaciones</h2>
-  <p>Los productos publicados son referenciales. Los precios y la disponibilidad se confirman al recibir tu solicitud de cotización. Una cotización emitida tiene validez por el plazo indicado en el documento (15 días por defecto).</p>
+  <div class="container mx-auto px-4 py-14 lg:py-16 relative">
+    <nav class="text-xs breadcrumbs text-white/80">
+      <ul>
+        <li><a href="{% url 'core:home' %}" class="hover:text-white">Inicio</a></li>
+        <li class="text-white">Términos y condiciones</li>
+      </ul>
+    </nav>
+    <div class="max-w-3xl mt-4">
+      <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide backdrop-blur">
+        <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+        Documento legal
+      </span>
+      <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-[1.1] mt-4">Términos y condiciones</h1>
+      <p class="text-white/85 mt-3 text-sm">Última actualización: {% now "d/m/Y" %}</p>
+    </div>
+  </div>
+</section>
 
-  <h2>3. Aceptación de cotización</h2>
-  <p>Al aceptar una cotización desde el portal o por escrito, se genera un pedido. La empresa coordinará la entrega según fecha estimada y emitirá el comprobante electrónico SUNAT (factura o boleta).</p>
+<!-- ============ CONTENIDO ============ -->
+<div class="container mx-auto px-4 py-14 max-w-4xl">
+  <div class="grid lg:grid-cols-[220px_1fr] gap-10">
 
-  <h2>4. Forma de pago</h2>
-  <p>Salvo acuerdo distinto, los pagos se realizan por transferencia bancaria al BCP / BBVA / Interbank, depósito, Yape/Plin, efectivo o tarjeta. El crédito a 15 días está sujeto a evaluación.</p>
+    <!-- Tabla de contenidos (sticky en desktop) -->
+    <aside class="hidden lg:block">
+      <div class="sticky top-24 bg-white border border-base-300 rounded-2xl p-5">
+        <p class="text-xs font-bold tracking-wider uppercase text-secondary mb-3">Contenido</p>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#s1" class="text-accent hover:text-primary link-anim">1. Quiénes somos</a></li>
+          <li><a href="#s2" class="text-accent hover:text-primary link-anim">2. Catálogo y cotizaciones</a></li>
+          <li><a href="#s3" class="text-accent hover:text-primary link-anim">3. Aceptación</a></li>
+          <li><a href="#s4" class="text-accent hover:text-primary link-anim">4. Forma de pago</a></li>
+          <li><a href="#s5" class="text-accent hover:text-primary link-anim">5. Entregas</a></li>
+          <li><a href="#s6" class="text-accent hover:text-primary link-anim">6. Responsabilidad</a></li>
+          <li><a href="#s7" class="text-accent hover:text-primary link-anim">7. Modificaciones</a></li>
+        </ul>
+      </div>
+    </aside>
 
-  <h2>5. Entregas</h2>
-  <p>Despachamos a Lima Metropolitana, Lima provincias y todas las regiones del Perú. Los plazos varían entre 1 y 7 días hábiles según ubicación.</p>
+    <!-- Cuerpo -->
+    <article class="bg-white border border-base-300 rounded-2xl p-8 md:p-10">
+      <div class="prose prose-slate prose-headings:text-accent prose-headings:font-extrabold prose-a:text-primary max-w-none">
+        <h2 id="s1">1. Quiénes somos</h2>
+        <p>{{ SITE_BRAND }} es una distribuidora peruana de productos de limpieza profesional, con domicilio fiscal en {{ SITE_ADDRESS }}. Esta web es una demo en construcción.</p>
 
-  <h2>6. Limitación de responsabilidad</h2>
-  <p>La empresa no se responsabiliza por usos inapropiados de los productos. Se entrega ficha técnica con cada despacho.</p>
+        <h2 id="s2">2. Catálogo y cotizaciones</h2>
+        <p>Los productos publicados son referenciales. Los precios y la disponibilidad se confirman al recibir tu solicitud de cotización. Una cotización emitida tiene validez por el plazo indicado en el documento (15 días por defecto).</p>
 
-  <h2>7. Modificaciones</h2>
-  <p>Estos términos pueden actualizarse sin aviso previo. La versión vigente es la publicada en esta página.</p>
+        <h2 id="s3">3. Aceptación de cotización</h2>
+        <p>Al aceptar una cotización desde el portal o por escrito, se genera un pedido. La empresa coordinará la entrega según fecha estimada y emitirá el comprobante electrónico SUNAT (factura o boleta).</p>
+
+        <h2 id="s4">4. Forma de pago</h2>
+        <p>Salvo acuerdo distinto, los pagos se realizan por transferencia bancaria al BCP / BBVA / Interbank, depósito, Yape/Plin, efectivo o tarjeta. El crédito a 15 días está sujeto a evaluación.</p>
+
+        <h2 id="s5">5. Entregas</h2>
+        <p>Despachamos a Lima Metropolitana, Lima provincias y todas las regiones del Perú. Los plazos varían entre 1 y 7 días hábiles según ubicación.</p>
+
+        <h2 id="s6">6. Limitación de responsabilidad</h2>
+        <p>La empresa no se responsabiliza por usos inapropiados de los productos. Se entrega ficha técnica con cada despacho.</p>
+
+        <h2 id="s7">7. Modificaciones</h2>
+        <p>Estos términos pueden actualizarse sin aviso previo. La versión vigente es la publicada en esta página.</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- Pie con enlaces relacionados -->
+  <div class="mt-10 bg-gradient-brand-soft border border-base-300 rounded-2xl p-6 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="icon-box icon-box-blue"><i data-lucide="shield"></i></div>
+      <div>
+        <p class="font-extrabold text-accent">¿Buscas otra política?</p>
+        <p class="text-sm text-slate-600">Revisa nuestra política de privacidad.</p>
+      </div>
+    </div>
+    <a href="{% url 'core:privacidad' %}" class="btn btn-outline btn-primary rounded-full px-5 h-11 inline-flex items-center gap-2 font-bold text-sm">
+      Política de privacidad <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+    </a>
+  </div>
 </div>
+
 {% endblock %}

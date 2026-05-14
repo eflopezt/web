@@ -1,43 +1,88 @@
 {% extends "base.html" %}
-{% block title %}Iniciar sesión — {{ SITE_NAME }}{% endblock %}
+{% block title %}Iniciar sesión — {{ SITE_BRAND }}{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-12 max-w-md">
-  <div class="card bg-base-100 border border-base-300 shadow-sm">
-    <div class="card-body">
-      <h1 class="text-2xl font-bold text-center">Iniciar sesión</h1>
-      <p class="text-center text-sm text-base-content/60 mb-4">Accede a tu portal de cliente o intranet.</p>
+<section class="relative bg-gradient-brand min-h-[calc(100vh-12rem)] py-12 overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-secondary/25 blur-3xl"></div>
+  <div class="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-info/20 blur-3xl"></div>
 
-      {% if form.errors %}
-      <div class="alert alert-error text-sm">Usuario o contraseña incorrectos.</div>
-      {% endif %}
-      {% if next %}<input type="hidden" form="login-form" name="next" value="{{ next }}"/>{% endif %}
+  <div class="container mx-auto px-4 relative">
+    <div class="max-w-md mx-auto">
 
-      <form id="login-form" method="post" class="space-y-3">
-        {% csrf_token %}
-        <div>
-          <label class="label-text font-semibold">Usuario</label>
-          <input type="text" name="username" required autofocus class="input input-bordered w-full mt-1"/>
+      <!-- Encabezado -->
+      <div class="text-center mb-6">
+        <a href="{% url 'core:home' %}" class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/15 border border-white/25 backdrop-blur mb-4">
+          <i data-lucide="sparkles" class="w-7 h-7 text-white"></i>
+        </a>
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">Bienvenido de vuelta</h1>
+        <p class="text-white/85 mt-2">Accede a tu portal de cliente o intranet.</p>
+      </div>
+
+      <!-- Card de login -->
+      <div class="bg-white rounded-3xl shadow-2xl border border-base-300 p-8">
+        {% if form.errors %}
+        <div class="alert alert-error text-sm mb-4">
+          <i data-lucide="alert-circle" class="w-4 h-4"></i>
+          <span>Usuario o contraseña incorrectos.</span>
         </div>
-        <div>
-          <label class="label-text font-semibold">Contraseña</label>
-          <input type="password" name="password" required class="input input-bordered w-full mt-1"/>
-        </div>
-        {% if next %}<input type="hidden" name="next" value="{{ next }}"/>{% endif %}
-        <button type="submit" class="btn btn-primary w-full">Ingresar</button>
-      </form>
+        {% endif %}
 
-      <div class="divider text-xs">o</div>
-      <a href="{% url 'registro' %}" class="btn btn-outline btn-sm w-full">Crear cuenta de cliente</a>
+        <form id="login-form" method="post" class="space-y-4">
+          {% csrf_token %}
+          <div>
+            <label class="block text-sm font-bold text-accent mb-1.5">Usuario</label>
+            <div class="relative">
+              <i data-lucide="user" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+              <input type="text" name="username" required autofocus
+                     class="input input-bordered w-full pl-10 focus:border-primary"
+                     placeholder="tu_usuario" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-bold text-accent mb-1.5">Contraseña</label>
+            <div class="relative">
+              <i data-lucide="lock" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+              <input type="password" name="password" required
+                     class="input input-bordered w-full pl-10 focus:border-primary"
+                     placeholder="••••••••" />
+            </div>
+          </div>
+          {% if next %}<input type="hidden" name="next" value="{{ next }}"/>{% endif %}
+          <button type="submit" class="btn btn-primary w-full rounded-full h-12 font-bold text-base shadow-lg btn-shine">
+            Ingresar
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
 
-      <details class="mt-4 text-xs text-base-content/60">
-        <summary class="cursor-pointer">Usuarios demo</summary>
-        <div class="mt-2 space-y-1 font-mono">
-          <div>👔 staff / staff (intranet)</div>
-          <div>🧑‍💼 cliente / cliente (portal)</div>
-        </div>
-      </details>
+        <div class="divider text-xs text-slate-400">o</div>
+
+        <a href="{% url 'registro' %}" class="btn btn-outline btn-primary w-full rounded-full h-12 font-bold text-base">
+          <i data-lucide="user-plus" class="w-4 h-4"></i>
+          Crear cuenta de cliente
+        </a>
+
+        <details class="mt-5 text-xs text-slate-500 group">
+          <summary class="cursor-pointer flex items-center gap-1.5 font-semibold text-accent hover:text-primary transition">
+            <i data-lucide="info" class="w-3.5 h-3.5"></i>
+            Usuarios demo
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 ml-auto group-open:rotate-180 transition"></i>
+          </summary>
+          <div class="mt-3 space-y-2 bg-base-200 rounded-xl p-3 font-mono">
+            <div class="flex justify-between"><span class="text-accent font-bold">staff / staff</span> <span class="text-slate-500">(intranet)</span></div>
+            <div class="flex justify-between"><span class="text-accent font-bold">cliente / cliente</span> <span class="text-slate-500">(portal)</span></div>
+          </div>
+        </details>
+      </div>
+
+      <!-- Pie -->
+      <div class="text-center mt-6">
+        <a href="{% url 'core:home' %}" class="text-white/90 hover:text-white text-sm inline-flex items-center gap-1.5 link-anim">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          Volver al sitio
+        </a>
+      </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock %}

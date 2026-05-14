@@ -1,11 +1,39 @@
 {% extends "base.html" %}
-{% block title %}Sesión cerrada — {{ SITE_NAME }}{% endblock %}
+{% block title %}Sesión cerrada — {{ SITE_BRAND }}{% endblock %}
+
 {% block content %}
-<div class="container mx-auto px-4 py-16 max-w-md text-center">
-  <div class="text-5xl mb-3">👋</div>
-  <h1 class="text-2xl font-bold mb-2">Sesión cerrada</h1>
-  <p class="text-base-content/60 mb-6">Hasta pronto.</p>
-  <a href="{% url 'login' %}" class="btn btn-primary">Volver a iniciar sesión</a>
-  <a href="{% url 'core:home' %}" class="btn btn-ghost ml-2">Ir al sitio</a>
-</div>
+<section class="relative bg-gradient-brand min-h-[calc(100vh-12rem)] py-16 overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-secondary/25 blur-3xl"></div>
+
+  <div class="container mx-auto px-4 relative">
+    <div class="max-w-md mx-auto text-center">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-white/15 border border-white/25 backdrop-blur mb-6">
+        <i data-lucide="log-out" class="w-9 h-9 text-white"></i>
+      </div>
+
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">Sesión cerrada</h1>
+      <p class="text-white/90 mt-3 text-lg">Gracias por usar {{ SITE_BRAND }}. ¡Hasta pronto!</p>
+
+      <div class="bg-white rounded-3xl shadow-2xl border border-base-300 p-7 mt-8">
+        <p class="text-sm text-slate-600">Si lo necesitas, vuelve a iniciar sesión o explora nuestro catálogo público.</p>
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <a href="{% url 'login' %}" class="btn btn-primary rounded-full h-12 font-bold flex-1 btn-shine">
+            <i data-lucide="log-in" class="w-4 h-4"></i>
+            Iniciar sesión
+          </a>
+          <a href="{% url 'core:home' %}" class="btn btn-outline btn-primary rounded-full h-12 font-bold flex-1">
+            Ir al sitio
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+      <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-white/90 hover:text-white text-sm mt-6 link-anim">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+        ¿Necesitas algo? Escríbenos por WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
 {% endblock %}

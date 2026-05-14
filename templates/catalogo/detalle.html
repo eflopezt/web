@@ -1,7 +1,76 @@
 {% extends "base.html" %}
-{% load producto_extras %}
-{% block title %}{{ producto.nombre }} — {{ SITE_BRAND }}{% endblock %}
-{% block description %}{{ producto.descripcion_corta|default:producto.nombre }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endblock %}
+{% load static producto_extras %}
+{% block title %}{{ producto.nombre }}{% if producto.marca %} {{ producto.marca.nombre }}{% endif %} — {{ SITE_BRAND }}{% endblock %}
+{% block description %}{{ producto.descripcion_corta|default:producto.nombre }}{% if producto.presentacion %} · {{ producto.presentacion }}{% endif %}. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endblock %}
+
+{# ====== Open Graph: producto ====== #}
+{% block og_type %}product{% endblock %}
+{% block og_title %}{{ producto.nombre }} — {{ SITE_BRAND }}{% endblock %}
+{% block og_description %}{{ producto.descripcion_corta|default:producto.nombre }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endblock %}
+{% block og_image %}{% if producto.imagen %}{{ request.scheme }}://{{ request.get_host }}{{ producto.imagen.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
+{% block tw_title %}{{ producto.nombre }} — {{ SITE_BRAND }}{% endblock %}
+{% block tw_description %}{{ producto.descripcion_corta|default:producto.nombre }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endblock %}
+{% block tw_image %}{% if producto.imagen %}{{ request.scheme }}://{{ request.get_host }}{{ producto.imagen.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ producto.nombre|escapejs }}",
+  "sku": "{{ producto.sku|escapejs }}",
+  "description": "{{ producto.descripcion_corta|default:producto.nombre|escapejs }}",
+  "image": "{% if producto.imagen %}{{ request.scheme }}://{{ request.get_host }}{{ producto.imagen.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.png' %}{% endif %}",
+  "url": "{{ request.scheme }}://{{ request.get_host }}{{ producto.get_absolute_url }}",
+  "category": "{{ producto.categoria.nombre|escapejs }}",
+  {% if producto.marca %}"brand": { "@type": "Brand", "name": "{{ producto.marca.nombre|escapejs }}" },{% endif %}
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "PEN",
+    "availability": "https://schema.org/{% if producto.disponibilidad == 'en_stock' %}InStock{% elif producto.disponibilidad == 'bajo_pedido' %}PreOrder{% else %}OutOfStock{% endif %}",
+    "url": "{{ request.scheme }}://{{ request.get_host }}{{ producto.get_absolute_url }}",
+    "businessFunction": "https://schema.org/Sell",
+    "seller": {
+      "@type": "Organization",
+      "name": "ProClean Servid Innova",
+      "url": "{{ request.scheme }}://{{ request.get_host }}/"
+    }
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "{{ request.scheme }}://{{ request.get_host }}/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Catálogo",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'catalogo:lista' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ producto.categoria.nombre|escapejs }}",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{{ producto.categoria.get_absolute_url }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "{{ producto.nombre|escapejs }}",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{{ producto.get_absolute_url }}"
+    }
+  ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <div class="bg-base-200 border-b border-base-300">

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="ProClean">
+  <title>ProClean — imagotipo</title>
   <defs>
     <linearGradient id="mark-ribbonBlue" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#1A4F8B"/>
@@ -19,56 +20,90 @@
       <stop offset="0%" stop-color="#2BA0E0"/>
       <stop offset="100%" stop-color="#1A4F8B"/>
     </linearGradient>
+    <radialGradient id="mark-sparkle" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="60%" stop-color="#E6F3FB" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#1B75BC" stop-opacity="0"/>
+    </radialGradient>
   </defs>
 
-  <!-- Anillo exterior verde+azul (circular) -->
-  <circle cx="100" cy="100" r="92" fill="none" stroke="url(#mark-ribbonGreen)" stroke-width="10"/>
-  <path d="M 100,192 A 92,92 0 0,1 8,100" fill="none" stroke="url(#mark-ribbonBlue)" stroke-width="10" stroke-linecap="round"/>
+  <!-- Anillo: arco superior verde + arco inferior azul (forman círculo) -->
+  <path d="M 100,8 A 92,92 0 0,1 192,100" fill="none" stroke="url(#mark-ribbonGreen)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 100,8 A 92,92 0 0,0 8,100" fill="none" stroke="url(#mark-ribbonGreen)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 192,100 A 92,92 0 0,1 100,192" fill="none" stroke="url(#mark-ribbonBlue)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 8,100 A 92,92 0 0,0 100,192" fill="none" stroke="url(#mark-ribbonBlue)" stroke-width="10" stroke-linecap="round"/>
 
-  <!-- Skyline edificios centrado -->
-  <g transform="translate(58,42)">
-    <rect x="0" y="42" width="9" height="40" fill="url(#mark-bldgGreen)"/>
-    <rect x="10" y="28" width="12" height="54" fill="url(#mark-bldgGreen)"/>
-    <rect x="23" y="6" width="14" height="76" fill="url(#mark-bldgGreen)"/>
-    <polygon points="38,16 52,16 52,82 38,82" fill="url(#mark-bldgGreen)"/>
-    <rect x="53" y="24" width="11" height="58" fill="url(#mark-bldgBlue)"/>
-    <rect x="65" y="10" width="10" height="72" fill="url(#mark-bldgBlue)"/>
-    <rect x="76" y="32" width="13" height="50" fill="url(#mark-bldgBlue)"/>
+  <!-- Skyline edificios centrado, alturas variadas -->
+  <g transform="translate(54,42)">
+    <!-- 1 bajo verde -->
+    <rect x="0" y="46" width="8" height="36" fill="url(#mark-bldgGreen)"/>
+    <!-- 2 medio -->
+    <rect x="9" y="30" width="11" height="52" fill="url(#mark-bldgGreen)"/>
+    <!-- 3 alto -->
+    <rect x="21" y="10" width="14" height="72" fill="url(#mark-bldgGreen)"/>
+    <!-- 4 pico verde (techo en V invertida) -->
+    <polygon points="36,18 50,18 50,82 36,82" fill="url(#mark-bldgGreen)"/>
+    <!-- 5 medio azul -->
+    <rect x="51" y="26" width="11" height="56" fill="url(#mark-bldgBlue)"/>
+    <!-- 6 alto azul con techo a dos aguas -->
+    <polygon points="63,14 75,14 75,82 63,82" fill="url(#mark-bldgBlue)"/>
+    <polygon points="63,14 69,6 75,14" fill="url(#mark-bldgBlue)"/>
+    <!-- 7 medio -->
+    <rect x="76" y="34" width="13" height="48" fill="url(#mark-bldgBlue)"/>
 
     <!-- Ventanas -->
-    <g fill="#ffffff" opacity="0.40">
-      <rect x="2" y="52" width="5" height="2"/>
-      <rect x="2" y="62" width="5" height="2"/>
-      <rect x="13" y="38" width="6" height="2"/>
-      <rect x="13" y="52" width="6" height="2"/>
-      <rect x="13" y="66" width="6" height="2"/>
-      <rect x="26" y="20" width="8" height="2"/>
-      <rect x="26" y="36" width="8" height="2"/>
-      <rect x="26" y="52" width="8" height="2"/>
-      <rect x="26" y="68" width="8" height="2"/>
-      <rect x="41" y="30" width="8" height="2"/>
-      <rect x="41" y="48" width="8" height="2"/>
-      <rect x="41" y="66" width="8" height="2"/>
-      <rect x="56" y="38" width="6" height="2"/>
-      <rect x="56" y="54" width="6" height="2"/>
-      <rect x="56" y="70" width="6" height="2"/>
-      <rect x="67" y="22" width="6" height="2"/>
-      <rect x="67" y="42" width="6" height="2"/>
-      <rect x="67" y="62" width="6" height="2"/>
+    <g fill="#ffffff" opacity="0.42">
+      <rect x="2" y="54" width="4" height="2"/>
+      <rect x="2" y="66" width="4" height="2"/>
+      <rect x="11" y="40" width="7" height="2"/>
+      <rect x="11" y="54" width="7" height="2"/>
+      <rect x="11" y="68" width="7" height="2"/>
+      <rect x="24" y="22" width="8" height="2"/>
+      <rect x="24" y="38" width="8" height="2"/>
+      <rect x="24" y="54" width="8" height="2"/>
+      <rect x="24" y="70" width="8" height="2"/>
+      <rect x="38" y="30" width="10" height="2"/>
+      <rect x="38" y="48" width="10" height="2"/>
+      <rect x="38" y="66" width="10" height="2"/>
+      <rect x="54" y="36" width="6" height="2"/>
+      <rect x="54" y="52" width="6" height="2"/>
+      <rect x="54" y="68" width="6" height="2"/>
+      <rect x="65" y="22" width="7" height="2"/>
+      <rect x="65" y="40" width="7" height="2"/>
+      <rect x="65" y="58" width="7" height="2"/>
+      <rect x="65" y="74" width="7" height="2"/>
       <rect x="79" y="44" width="7" height="2"/>
       <rect x="79" y="60" width="7" height="2"/>
+      <rect x="79" y="74" width="7" height="2"/>
     </g>
   </g>
 
-  <!-- Destellos -->
-  <g transform="translate(46,68)">
-    <path d="M 0,-9 L 2.2,-2.2 L 9,0 L 2.2,2.2 L 0,9 L -2.2,2.2 L -9,0 L -2.2,-2.2 Z" fill="#ffffff"/>
-    <path d="M 14,12 L 15.5,7 L 20,5.5 L 15.5,4 L 14,-1 L 12.5,4 L 8,5.5 L 12.5,7 Z" fill="#ffffff" opacity="0.9"/>
+  <!-- Destellos (3 estrellas decrecientes) -->
+  <g transform="translate(40,68)">
+    <g>
+      <circle cx="0" cy="0" r="7" fill="url(#mark-sparkle)" opacity="0.5"/>
+      <path d="M 0,-10 L 2.5,-2.5 L 10,0 L 2.5,2.5 L 0,10 L -2.5,2.5 L -10,0 L -2.5,-2.5 Z" fill="#ffffff"/>
+    </g>
+    <g transform="translate(14,12)">
+      <path d="M 0,-7 L 1.8,-1.8 L 7,0 L 1.8,1.8 L 0,7 L -1.8,1.8 L -7,0 L -1.8,-1.8 Z" fill="#ffffff" opacity="0.95"/>
+    </g>
+    <g transform="translate(22,-4)">
+      <path d="M 0,-5 L 1.3,-1.3 L 5,0 L 1.3,1.3 L 0,5 L -1.3,1.3 L -5,0 L -1.3,-1.3 Z" fill="#ffffff" opacity="0.85"/>
+    </g>
   </g>
 
-  <!-- Hoja -->
-  <g transform="translate(58,138)">
-    <path d="M 0,8 C 8,-8 30,-14 60,-12 C 70,2 60,16 30,18 C 10,18 -4,16 0,8 Z" fill="url(#mark-ribbonGreen)"/>
-    <path d="M 2,9 C 22,3 50,3 60,7" stroke="#ffffff" stroke-width="1.4" fill="none" opacity="0.9"/>
+  <!-- Hoja eco (almendra con venas) -->
+  <g transform="translate(56,140)">
+    <path d="M 0,6
+             C 4,-8 26,-14 56,-12
+             C 76,-8 80,4 70,14
+             C 50,20 22,20 6,16
+             C -2,12 -2,9 0,6 Z" fill="url(#mark-ribbonGreen)"/>
+    <!-- Vena central -->
+    <path d="M 2,8 C 20,0 46,-2 68,4" stroke="#ffffff" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.9"/>
+    <!-- Venas laterales -->
+    <path d="M 16,4 C 18,8 18,12 16,15" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <path d="M 34,0 C 36,5 36,10 34,14" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <path d="M 52,0 C 54,5 54,10 52,13" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.6"/>
   </g>
 </svg>

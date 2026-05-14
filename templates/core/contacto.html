@@ -1,46 +1,129 @@
 {% extends "base.html" %}
-{% block title %}Contacto — {{ SITE_NAME }}{% endblock %}
+{% block title %}Contacto — {{ SITE_BRAND }}{% endblock %}
+{% block description %}Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }} o escríbenos al email. {{ SITE_DELIVERY_AREA }}.{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-12 grid md:grid-cols-2 gap-10 max-w-5xl">
-  <div>
-    <h1 class="text-3xl md:text-4xl font-bold">Hablemos</h1>
-    <p class="text-base-content/70 mt-2">Estamos disponibles para asesorarte sobre productos, dispensadores y planes recurrentes para tu empresa.</p>
 
-    <ul class="mt-8 space-y-4">
-      <li class="flex items-start gap-3">
-        <span class="text-2xl">📞</span>
-        <div><div class="font-semibold">Teléfono</div><a href="tel:{{ SITE_PHONE }}" class="text-base-content/70 hover:text-primary">{{ SITE_PHONE }}</a></div>
-      </li>
-      <li class="flex items-start gap-3">
-        <span class="text-2xl">✉</span>
-        <div><div class="font-semibold">Email</div><a href="mailto:{{ SITE_EMAIL }}" class="text-base-content/70 hover:text-primary">{{ SITE_EMAIL }}</a></div>
-      </li>
-      <li class="flex items-start gap-3">
-        <span class="text-2xl">📍</span>
-        <div><div class="font-semibold">Dirección</div><div class="text-base-content/70">{{ SITE_ADDRESS }}</div></div>
-      </li>
-      <li class="flex items-start gap-3">
-        <span class="text-2xl">🕒</span>
-        <div><div class="font-semibold">Horario de atención</div><div class="text-base-content/70">Lunes a viernes 8:30 — 18:00 · Sábados 9:00 — 13:00</div></div>
-      </li>
-    </ul>
+<!-- ============ HERO ============ -->
+<section class="relative bg-gradient-brand text-white overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-secondary/25 blur-3xl"></div>
 
-    <a href="https://wa.me/{{ SITE_WHATSAPP }}" target="_blank" rel="noopener" class="btn btn-success mt-8 gap-2">
-      <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
-      Chatear por WhatsApp
-    </a>
+  <div class="container mx-auto px-4 py-16 lg:py-20 relative">
+    <nav class="text-xs breadcrumbs text-white/80">
+      <ul>
+        <li><a href="{% url 'core:home' %}" class="hover:text-white">Inicio</a></li>
+        <li class="text-white">Contacto</li>
+      </ul>
+    </nav>
+    <div class="max-w-3xl mt-4">
+      <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide backdrop-blur">
+        <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+        Hablemos
+      </span>
+      <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mt-5">
+        Estamos a un <span class="text-gradient-light">WhatsApp</span> de distancia
+      </h1>
+      <p class="text-lg text-white/90 mt-5 max-w-2xl leading-relaxed">
+        Asesoría sobre productos, dispensadores y planes recurrentes para tu empresa. Respondemos en menos de 24 horas hábiles.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTENIDO ============ -->
+<div class="container mx-auto px-4 py-16 grid lg:grid-cols-2 gap-8 max-w-6xl">
+
+  <!-- Columna izquierda: datos de contacto -->
+  <div class="space-y-5">
+    <div class="bento bg-white border border-base-300 rounded-2xl p-7">
+      <div class="flex items-start gap-4">
+        <div class="icon-box icon-box-green shrink-0"><i data-lucide="message-circle"></i></div>
+        <div class="flex-1">
+          <div class="text-xs font-bold tracking-wider uppercase text-secondary">Canal preferido</div>
+          <h3 class="font-extrabold text-accent text-xl mt-1">WhatsApp</h3>
+          <p class="text-sm text-slate-600 mt-1">Respuesta inmediata en horario laboral.</p>
+          <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+             class="btn-whatsapp btn-shine font-bold px-6 h-12 rounded-full inline-flex items-center gap-2 mt-4 shadow-lg">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+            {{ SITE_WHATSAPP_DISPLAY }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div class="bento bg-white border border-base-300 rounded-2xl p-6">
+        <div class="icon-box icon-box-blue"><i data-lucide="phone"></i></div>
+        <div class="text-xs font-bold tracking-wider uppercase text-primary mt-4">Teléfono</div>
+        <a href="tel:{{ SITE_PHONE }}" class="block font-bold text-accent text-lg mt-1 hover:text-primary transition link-anim">{{ SITE_PHONE }}</a>
+      </div>
+      <div class="bento bg-white border border-base-300 rounded-2xl p-6">
+        <div class="icon-box icon-box-blue"><i data-lucide="mail"></i></div>
+        <div class="text-xs font-bold tracking-wider uppercase text-primary mt-4">Email</div>
+        <a href="mailto:{{ SITE_EMAIL }}" class="block font-bold text-accent text-base mt-1 hover:text-primary transition link-anim break-all">{{ SITE_EMAIL }}</a>
+      </div>
+      <div class="bento bg-white border border-base-300 rounded-2xl p-6">
+        <div class="icon-box icon-box-green"><i data-lucide="map-pin"></i></div>
+        <div class="text-xs font-bold tracking-wider uppercase text-secondary mt-4">Dirección</div>
+        <div class="font-bold text-accent text-base mt-1">{{ SITE_ADDRESS }}</div>
+      </div>
+      <div class="bento bg-white border border-base-300 rounded-2xl p-6">
+        <div class="icon-box icon-box-green"><i data-lucide="clock"></i></div>
+        <div class="text-xs font-bold tracking-wider uppercase text-secondary mt-4">Horario</div>
+        <div class="font-bold text-accent text-sm mt-1 leading-snug">Lun a Vie 8:30–18:00<br/>Sáb 9:00–13:00</div>
+      </div>
+    </div>
+
+    <!-- Cobertura -->
+    <div class="bg-gradient-brand-soft border border-base-300 rounded-2xl p-6">
+      <div class="text-xs font-bold tracking-[0.2em] uppercase text-secondary">Cobertura</div>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-accent font-semibold mt-3">
+        <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-secondary"></i> Lima Metropolitana</span>
+        <span class="flex items-center gap-2"><i data-lucide="truck" class="w-4 h-4 text-secondary"></i> Callao</span>
+        <span class="flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-primary"></i> Provincias vía operador</span>
+      </div>
+    </div>
   </div>
 
-  <div class="card bg-base-100 border border-base-300">
-    <div class="card-body">
-      <h2 class="card-title">¿Necesitas cotizar productos?</h2>
-      <p class="text-sm text-base-content/70">La forma más rápida es armar tu lista desde el catálogo y enviarla con un clic.</p>
-      <a href="{% url 'catalogo:lista' %}" class="btn btn-primary mt-3">Ir al catálogo</a>
-      <div class="divider">o</div>
-      <p class="text-sm text-base-content/70">Si prefieres que te contactemos nosotros, escríbenos al email y te responderemos en menos de 24 horas hábiles.</p>
-      <a href="mailto:{{ SITE_EMAIL }}?subject=Consulta%20desde%20la%20web" class="btn btn-outline mt-2">Enviar email</a>
+  <!-- Columna derecha: caminos rápidos -->
+  <div class="space-y-5">
+    <div class="bento bg-white border border-base-300 rounded-2xl p-8">
+      <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Camino rápido</span>
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-accent mt-2">¿Necesitas cotizar productos?</h2>
+      <p class="text-slate-600 mt-3 leading-relaxed">La forma más rápida es explorar nuestro catálogo, identificar lo que necesitas y enviarnos la lista por WhatsApp.</p>
+      <a href="{% url 'catalogo:lista' %}" class="btn btn-primary btn-shine rounded-full px-6 h-12 mt-5 inline-flex items-center gap-2 font-bold">
+        Ir al catálogo
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+    <div class="bento bg-white border border-base-300 rounded-2xl p-8">
+      <span class="text-xs font-bold tracking-[0.25em] uppercase text-primary">Por email</span>
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-accent mt-2">¿Prefieres que te contactemos?</h2>
+      <p class="text-slate-600 mt-3 leading-relaxed">Escríbenos al email con tu solicitud y te responderemos en menos de 24 horas hábiles.</p>
+      <a href="mailto:{{ SITE_EMAIL }}?subject=Consulta%20desde%20la%20web" class="btn btn-outline btn-primary rounded-full px-6 h-12 mt-5 inline-flex items-center gap-2 font-bold">
+        <i data-lucide="mail" class="w-4 h-4"></i>
+        Enviar email
+      </a>
+    </div>
+
+    <!-- Trust block -->
+    <div class="grid grid-cols-3 gap-3">
+      <div class="bg-white border border-base-300 rounded-xl p-4 text-center">
+        <i data-lucide="shield-check" class="w-6 h-6 text-secondary mx-auto"></i>
+        <p class="text-xs font-semibold text-accent mt-2 leading-tight">Calidad garantizada</p>
+      </div>
+      <div class="bg-white border border-base-300 rounded-xl p-4 text-center">
+        <i data-lucide="zap" class="w-6 h-6 text-primary mx-auto"></i>
+        <p class="text-xs font-semibold text-accent mt-2 leading-tight">Respuesta &lt; 24h</p>
+      </div>
+      <div class="bg-white border border-base-300 rounded-xl p-4 text-center">
+        <i data-lucide="file-text" class="w-6 h-6 text-accent mx-auto"></i>
+        <p class="text-xs font-semibold text-accent mt-2 leading-tight">Factura SUNAT</p>
+      </div>
     </div>
   </div>
 </div>
+
 {% endblock %}

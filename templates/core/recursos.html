@@ -1,43 +1,90 @@
 {% extends "base.html" %}
-{% block title %}Centro de recursos — {{ SITE_NAME }}{% endblock %}
+{% block title %}Centro de recursos — {{ SITE_BRAND }}{% endblock %}
 {% block description %}Guías prácticas para optimizar el consumo de suministros de limpieza profesional.{% endblock %}
 
 {% block content %}
-<section class="bg-slate-950 text-slate-50 relative overflow-hidden">
-  <div class="absolute inset-0 bg-grid-dark opacity-40"></div>
-  <div class="absolute inset-x-0 top-0 h-80" style="background: radial-gradient(ellipse 50% 100% at 50% 0%, rgba(30,64,175,0.18), transparent);"></div>
-  <div class="container mx-auto px-4 py-24 max-w-4xl relative">
-    <span class="text-xs font-medium tracking-[0.2em] uppercase text-slate-400">Centro de recursos</span>
-    <h1 class="text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05] mt-3">
-      Guías para comprar<br/><span class="text-gradient">mejor y ahorrar.</span>
-    </h1>
-    <p class="text-lg text-slate-400 mt-6 max-w-2xl">Recursos prácticos escritos por nuestros especialistas para que tomes mejores decisiones de compra.</p>
+
+<!-- ============ HERO ============ -->
+<section class="relative bg-gradient-brand text-white overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-secondary/25 blur-3xl"></div>
+  <div class="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-info/20 blur-3xl"></div>
+
+  <div class="container mx-auto px-4 py-20 lg:py-24 relative">
+    <nav class="text-xs breadcrumbs text-white/80">
+      <ul>
+        <li><a href="{% url 'core:home' %}" class="hover:text-white">Inicio</a></li>
+        <li class="text-white">Centro de recursos</li>
+      </ul>
+    </nav>
+    <div class="max-w-3xl mt-4">
+      <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide backdrop-blur">
+        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+        Centro de recursos
+      </span>
+      <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mt-5">
+        Guías para <br/>
+        <span class="text-gradient-light">comprar mejor y ahorrar</span>
+      </h1>
+      <p class="text-lg text-white/90 mt-6 max-w-2xl leading-relaxed">
+        Recursos prácticos escritos por nuestros especialistas para que tomes mejores decisiones de compra.
+      </p>
+    </div>
   </div>
 </section>
 
+<!-- ============ LISTADO DE GUÍAS ============ -->
 <section class="container mx-auto px-4 py-20 max-w-6xl">
-  <div class="grid md:grid-cols-2 gap-4">
+  <div class="grid md:grid-cols-2 gap-5">
     {% for g in guias %}
-    <a href="{% url 'core:guia' g.slug %}" class="bento bg-white border border-slate-200 rounded-2xl p-7 group flex flex-col">
+    <a href="{% url 'core:guia' g.slug %}" class="bento bg-white border border-base-300 rounded-2xl p-7 group flex flex-col">
       <div class="flex items-center justify-between mb-6">
-        <div class="icon-box bg-slate-100 group-hover:bg-slate-900 group-hover:text-white text-slate-700 transition">
+        <div class="icon-box {% cycle 'icon-box-blue' 'icon-box-green' as iconcycle %} group-hover:bg-primary group-hover:text-white transition">
           <i data-lucide="{{ g.icon }}"></i>
         </div>
-        <span class="text-[10px] font-medium tracking-wider uppercase text-slate-500 bg-slate-100 px-2 py-1 rounded">{{ g.categoria }}</span>
+        <span class="text-[10px] font-bold tracking-wider uppercase text-secondary bg-secondary/10 px-2.5 py-1 rounded-full">{{ g.categoria }}</span>
       </div>
-      <h3 class="text-xl font-semibold text-slate-900 leading-snug">{{ g.titulo }}</h3>
-      <p class="text-sm text-slate-500 mt-3 leading-relaxed flex-1">{{ g.resumen }}</p>
-      <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
-        <span class="text-xs text-slate-400 flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5"></i> {{ g.lectura }}</span>
-        <span class="text-sm font-medium text-slate-900 group-hover:text-slate-700 transition flex items-center gap-1">Leer <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition group-hover:translate-x-0.5"></i></span>
+      <h3 class="text-xl font-extrabold text-accent leading-snug">{{ g.titulo }}</h3>
+      <p class="text-sm text-slate-600 mt-3 leading-relaxed flex-1">{{ g.resumen }}</p>
+      <div class="mt-6 pt-5 border-t border-base-300 flex items-center justify-between">
+        <span class="text-xs text-slate-500 flex items-center gap-1.5 font-medium">
+          <i data-lucide="clock" class="w-3.5 h-3.5 text-primary"></i> {{ g.lectura }}
+        </span>
+        <span class="text-sm font-bold text-primary group-hover:gap-2.5 transition-all flex items-center gap-1.5">
+          Leer guía <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </span>
       </div>
     </a>
     {% endfor %}
   </div>
 
-  <div class="mt-16 text-center">
-    <p class="text-sm text-slate-500">¿Te interesa un tema específico?</p>
-    <a href="{% url 'core:contacto' %}" class="text-sm font-medium text-slate-900 link-anim inline-flex items-center gap-1.5 mt-2">Sugerir tema <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+  <!-- Sugerir tema -->
+  <div class="mt-16 bg-gradient-brand-soft border border-base-300 rounded-2xl p-8 text-center">
+    <div class="icon-box icon-box-green mx-auto"><i data-lucide="lightbulb"></i></div>
+    <h3 class="font-extrabold text-accent text-lg mt-4">¿Te interesa un tema específico?</h3>
+    <p class="text-sm text-slate-600 mt-2">Sugiérenos un tema y lo agregamos al próximo recurso.</p>
+    <a href="{% url 'core:contacto' %}" class="btn btn-outline btn-primary rounded-full px-6 h-11 mt-5 inline-flex items-center gap-2 font-bold text-sm">
+      Sugerir tema <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+    </a>
   </div>
 </section>
+
+<!-- ============ CTA WHATSAPP ============ -->
+<section class="bg-gradient-green relative overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-40"></div>
+  <div class="container mx-auto px-4 py-10 relative">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6 max-w-5xl mx-auto">
+      <div class="text-white text-center md:text-left">
+        <p class="text-xs font-bold tracking-[0.25em] uppercase text-white/85">¿Necesitas asesoría aplicada?</p>
+        <h3 class="text-2xl md:text-3xl font-extrabold mt-1">Cotiza por WhatsApp</h3>
+      </div>
+      <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+         class="bg-white text-secondary font-extrabold px-8 h-14 rounded-full inline-flex items-center gap-3 text-lg shadow-2xl hover:scale-105 transition">
+        <svg class="h-6 w-6 text-[#25D366]" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+        {{ SITE_WHATSAPP_DISPLAY }}
+      </a>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    "django.contrib.sitemaps",
     "apps.core",
     "apps.catalogo",
     "apps.clientes",
@@ -140,3 +141,5 @@ SITE_PHONE = os.environ.get("SITE_PHONE", "+51 918 570 814")
 SITE_EMAIL = os.environ.get("SITE_EMAIL", "ventas@proclean.pe")
 SITE_ADDRESS = os.environ.get("SITE_ADDRESS", "Lima y Callao, Perú")
 SITE_DELIVERY_AREA = "Envío gratis en Lima y Callao"
+SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "proclean.pe")
+SITE_PROTOCOL = os.environ.get("SITE_PROTOCOL", "https")

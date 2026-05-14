@@ -1,21 +1,37 @@
-# LimpiaPro — Plataforma B2B de productos de limpieza profesional
+# ProClean Servid Innova — Catálogo de productos de limpieza profesional
 
-Demo completa de e-commerce + cotizaciones + intranet + portal cliente para una empresa peruana de productos de limpieza profesional.
+Catálogo web + intranet + portal cliente para **ProClean Servid Innova**, proveedor peruano de
+productos de limpieza profesional para hogares, negocios e industria en Lima y Callao.
+
+> **Tagline**: *Catálogo de productos de limpieza profesional. Cotiza por WhatsApp.*
 
 **Stack**: Django 5.2 · Python 3.12+ · Tailwind CSS + DaisyUI · HTMX · Alpine.js · reportlab · SQLite (dev) / PostgreSQL-ready (prod).
 
 ---
 
-## ¿Qué incluye la demo?
+## Scope actual del sitio público
 
-### 🌐 Sitio público (`/`)
+El sitio público es **un catálogo orientado a cotización por WhatsApp**, NO un e-commerce con pasarela
+de pago. Cada producto y cada categoría tienen un CTA de WhatsApp con mensaje prellenado que abre
+una conversación directa con ventas. El carrito y el checkout siguen disponibles internamente como
+ruta opcional para generar una solicitud de cotización formal desde el sitio.
+
+- **Sí**: catálogo navegable, búsqueda, filtros, fichas de producto, CTAs de WhatsApp, formulario
+  de solicitud, intranet, portal cliente, cotizaciones formales con PDF, facturación SUNAT
+  simulada.
+- **No** (al menos en sitio público): pasarela de pago online, carrito persistente, precios públicos
+  visibles. Los precios se acuerdan en la cotización formal.
+
+## ¿Qué incluye?
+
+### Sitio público (`/`)
 - Home con hero, categorías destacadas y productos
 - Catálogo con búsqueda, filtros por categoría/marca/disponibilidad y paginación
-- Detalle de producto con galería y CTA WhatsApp
-- **Sin precios visibles** — todo se gestiona por solicitud de cotización
+- Detalle de producto con galería y **CTA WhatsApp con mensaje prellenado** (producto + ficha)
+- **Sin precios visibles** — todo se gestiona por solicitud de cotización o WhatsApp
 - Carrito en sesión + checkout que genera una solicitud y crea cliente automáticamente
 
-### 🧑‍💼 Portal cliente (`/portal/`)
+### Portal cliente (`/portal/`)
 - Login + registro propio (auto-vincula `User` ↔ `Cliente` por email)
 - Dashboard con KPIs personales (solicitudes, cotizaciones, pedidos, saldo pendiente)
 - Mis solicitudes (con seguimiento de estado)
@@ -24,7 +40,7 @@ Demo completa de e-commerce + cotizaciones + intranet + portal cliente para una 
 - Mis facturas con saldo pendiente, descarga PDF e historial de pagos
 - Mi perfil editable + cambio de contraseña
 
-### 🏢 Intranet (`/intranet/`)
+### Intranet (`/intranet/`)
 - Dashboard con KPIs operativos (solicitudes nuevas, cotizaciones pendientes, pedidos activos, facturas por cobrar, ventas y cobranza del mes)
 - **Solicitudes**: lista + detalle + cambio de estado + crear cotización en 1 clic (copia items)
 - **Cotizaciones**: CRUD completo, agregar/quitar líneas, recalcular IGV automático, marcar enviada/aceptada/rechazada, duplicar, generar pedido, PDF descargable
@@ -33,17 +49,17 @@ Demo completa de e-commerce + cotizaciones + intranet + portal cliente para una 
 - **Clientes**: CRM básico — listado con contador de cotizaciones/pedidos/facturas, ficha con histórico completo, edición
 - **Productos**: listado con búsqueda, link al admin Django para edición
 
-### 📄 PDFs profesionales (reportlab)
+### PDFs profesionales (reportlab)
 - Cotización y factura/boleta con header de emisor, datos del cliente, líneas con totales IGV y condiciones
 
-### 🇵🇪 Normativa peruana implementada
+### Normativa peruana implementada
 - IGV 18% calculado automáticamente
 - RUC (11 dígitos) o DNI (8 dígitos) validados
 - Factura (F001) para empresas / Boleta (B001) para personas naturales
 - Series y correlativos por tipo de documento
 - Simulación de envío a SUNAT con CDR aceptado/rechazado
 
-### 🗄️ Apps del proyecto
+### Apps del proyecto
 ```
 apps/
 ├── core/         decoradores, PDF builder, context processor
@@ -103,7 +119,7 @@ python manage.py runserver
 |-----|-------------|
 | `/` | Home pública |
 | `/productos/` | Catálogo |
-| `/productos/p/<slug>/` | Detalle de producto |
+| `/productos/p/<slug>/` | Detalle de producto (con CTA WhatsApp) |
 | `/cotizacion/` | Carrito |
 | `/cotizacion/checkout/` | Formulario solicitud |
 | `/accounts/login/` | Login |
@@ -111,6 +127,8 @@ python manage.py runserver
 | `/portal/` | Portal cliente |
 | `/intranet/` | Backoffice staff |
 | `/admin/` | Django admin |
+
+En producción: `https://proclean.pe/` (dominio referencial).
 
 ## Commands útiles
 
@@ -128,22 +146,30 @@ Copia `.env.example` y ajusta para producción. En dev funciona sin `.env`.
 ```
 SECRET_KEY=...
 DEBUG=1
-EMISOR_RAZON_SOCIAL=LimpiaPro S.A.C.
-EMISOR_RUC=20612345678
-EMISOR_DIRECCION=Av. Industrial 123, Ate, Lima
-EMISOR_EMAIL=ventas@limpiapro.pe
+EMISOR_RAZON_SOCIAL=ProClean Servid Innova S.A.C.
+EMISOR_RUC=20XXXXXXXXX
+EMISOR_DIRECCION=Av. ..., Lima
+EMISOR_EMAIL=ventas@proclean.pe
 EMISOR_TELEFONO=+51 999 999 999
+WHATSAPP_NUMERO=51999999999
 ```
+
+## Branding
+
+El logo y la paleta están finalizados. Ver [`BRAND.md`](BRAND.md) para la guía de marca completa
+(colores hex, archivos disponibles en `static/img/`, tono de comunicación y convenciones de
+mensajes de WhatsApp).
 
 ## Pendientes para producción
 
 - [ ] Fotos reales de productos (subir vía admin)
-- [ ] Logo y branding definitivo (reemplazar SVG en `templates/components/_logo.html` y `static/img/favicon.svg`)
+- [ ] RUC real de la empresa + datos de emisor (`EMISOR_*`)
+- [ ] Número real de WhatsApp Business (`WHATSAPP_NUMERO`)
 - [ ] SMTP real (actual: console backend)
-- [ ] Pasarela de pago (Culqi / Izipay / Mercado Pago) para productos con precio fijo
 - [ ] Integración real Nubefact para SUNAT (actualmente simulado)
-- [ ] PostgreSQL en prod + DATABASE_URL
+- [ ] PostgreSQL en prod + `DATABASE_URL`
 - [ ] Sitemap.xml + meta SEO + schema.org Product
 - [ ] Deploy en VPS Contabo con Docker Compose
 - [ ] Plantilla de notas de crédito
 - [ ] Reportes y exportes (Excel)
+- [ ] Inscripción ANPDP (si se manejan datos personales sensibles)

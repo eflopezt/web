@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse
 
 from apps.catalogo.models import Categoria, Producto
 
@@ -279,3 +281,61 @@ def newsletter_subscribe(request):
             messages.success(request, f"Gracias, te enviaremos novedades a {email}.")
     from django.shortcuts import redirect
     return redirect(request.META.get("HTTP_REFERER", "core:home"))
+
+
+# ============ SEO ============
+
+def robots_txt(request):
+    """Devuelve robots.txt con referencia al sitemap.xml absoluto."""
+    domain = getattr(settings, "SITE_DOMAIN", "proclean.pe")
+    protocol = getattr(settings, "SITE_PROTOCOL", "https")
+    lines = [
+        "User-agent: *",
+        "Allow: /",
+        "Disallow: /admin/",
+        "Disallow: /intranet/",
+        "Disallow: /portal/",
+        "Disallow: /accounts/",
+        "Disallow: /post-login/",
+        "Disallow: /registro/",
+        "Disallow: /cotizacion/",
+        "",
+        f"Sitemap: {protocol}://{domain}/sitemap.xml",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
+def sitemap_html(request):
+    """Mapa del sitio en HTML (humanos + SEO secundario)."""
+    categorias = Categoria.objects.filter(activa=True).order_by("orden", "nombre")
+    productos = (
+        Producto.objects.filter(activo=True)
+        .select_related("categoria")
+        .order_by("categoria__nombre", "nombre")
+    )
+    soluciones = [
+        {"slug": s, "titulo": data["titulo"]}
+        for s, data in SOLUCIONES.items()
+    ]
+    paginas = [
+        {"url": reverse("core:home"), "titulo": "Inicio"},
+        {"url": reverse("core:nosotros"), "titulo": "Nosotros"},
+        {"url": reverse("catalogo:lista"), "titulo": "Catálogo"},
+        {"url": reverse("core:contacto"), "titulo": "Contacto"},
+        {"url": reverse("core:faq"), "titulo": "Preguntas frecuentes"},
+        {"url": reverse("core:recursos"), "titulo": "Recursos y guías"},
+        {"url": reverse("core:terminos"), "titulo": "Términos y condiciones"},
+        {"url": reverse("core:privacidad"), "titulo": "Política de privacidad"},
+    ]
+    guias = [{"url": reverse("core:guia", args=[g["slug"]]), "titulo": g["titulo"]} for g in GUIAS]
+    return render(
+        request,
+        "core/sitemap.html",
+        {
+            "paginas": paginas,
+            "soluciones": soluciones,
+            "categorias": categorias,
+            "productos": productos,
+            "guias": guias,
+        },
+    )

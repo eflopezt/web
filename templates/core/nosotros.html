@@ -1,34 +1,165 @@
 {% extends "base.html" %}
-{% block title %}Nosotros — {{ SITE_NAME }}{% endblock %}
+{% block title %}Nosotros — {{ SITE_BRAND }}{% endblock %}
+{% block description %}Quiénes somos: distribuidores peruanos de productos de limpieza profesional. {{ SITE_DELIVERY_AREA }}.{% endblock %}
 
 {% block content %}
-<section class="bg-slate-900 text-slate-50 py-20 relative overflow-hidden">
-  <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 24px 24px;"></div>
-  <div class="container mx-auto px-4 text-center max-w-3xl relative">
-    <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-400 mb-4">— Quiénes somos —</span>
-    <h1 class="text-4xl md:text-5xl font-bold tracking-tight">Sobre {{ SITE_NAME }}</h1>
-    <p class="mt-4 text-slate-300">{{ SITE_TAGLINE }}.</p>
+
+<!-- ============ HERO ============ -->
+<section class="relative bg-gradient-brand text-white overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-secondary/25 blur-3xl"></div>
+  <div class="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-info/20 blur-3xl"></div>
+
+  <div class="container mx-auto px-4 py-20 lg:py-24 relative">
+    <nav class="text-xs breadcrumbs text-white/80">
+      <ul>
+        <li><a href="{% url 'core:home' %}" class="hover:text-white">Inicio</a></li>
+        <li class="text-white">Nosotros</li>
+      </ul>
+    </nav>
+    <div class="max-w-3xl mt-4">
+      <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide backdrop-blur">
+        <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+        Quiénes somos
+      </span>
+      <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mt-5">
+        Limpieza profesional <br/>
+        <span class="text-gradient-light">hecha en el Perú</span>
+      </h1>
+      <p class="text-lg text-white/90 mt-6 leading-relaxed max-w-2xl">
+        {{ SITE_BRAND }} es una distribuidora peruana de productos e insumos de limpieza profesional. Atendemos hoteles, clínicas, oficinas, industrias y retail con marcas líderes y entregas rápidas en Lima y Callao.
+      </p>
+    </div>
   </div>
 </section>
 
-<section class="container mx-auto px-4 py-12 max-w-3xl prose prose-lg">
-  <p><strong>{{ SITE_NAME }}</strong> es una distribuidora peruana de productos e insumos de limpieza profesional para empresas de todo tamaño y rubro. Nuestro foco está en hoteles, restaurantes, clínicas, industrias manufactureras, retail, oficinas corporativas y empresas de servicios de limpieza.</p>
-
-  <h2>¿Qué nos diferencia?</h2>
-  <ul>
-    <li><strong>Cotización personalizada</strong>: tus precios dependen de tu volumen, frecuencia y ubicación. Por eso ofrecemos cotización por solicitud, no precios fijos en web.</li>
-    <li><strong>Productos certificados</strong>: trabajamos sólo con marcas registradas en DIGESA y proveedores con buenas prácticas de manufactura.</li>
-    <li><strong>Logística en todo el Perú</strong>: despachamos a Lima Metropolitana, Lima provincias y las 24 regiones, con coordinación de transporte.</li>
-    <li><strong>Asesoría técnica</strong>: te ayudamos a elegir las concentraciones, presentaciones y dispensadores adecuados según tu operación.</li>
-  </ul>
-
-  <h2>Nuestro compromiso</h2>
-  <p>Atender tu solicitud en menos de 24 horas hábiles, emitir factura electrónica SUNAT y entregar productos de calidad consistente.</p>
-
-  <div class="not-prose grid md:grid-cols-3 gap-4 mt-8">
-    <div class="card bg-base-200"><div class="card-body items-center text-center"><div class="text-3xl">🏨</div><div class="font-bold">Hoteles & Restaurantes</div></div></div>
-    <div class="card bg-base-200"><div class="card-body items-center text-center"><div class="text-3xl">🏥</div><div class="font-bold">Clínicas & Salud</div></div></div>
-    <div class="card bg-base-200"><div class="card-body items-center text-center"><div class="text-3xl">🏭</div><div class="font-bold">Industria & Oficinas</div></div></div>
+<!-- ============ STATS ============ -->
+<section class="container mx-auto px-4 -mt-12 relative z-10">
+  <div class="bg-white border border-base-300 rounded-3xl shadow-soft p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="text-center">
+      <div class="text-4xl font-black text-accent stat-num"><span data-counter="500" data-suffix="+">500+</span></div>
+      <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">productos en catálogo</div>
+    </div>
+    <div class="text-center">
+      <div class="text-4xl font-black text-accent stat-num"><span data-counter="11">11</span></div>
+      <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">marcas líderes</div>
+    </div>
+    <div class="text-center">
+      <div class="text-4xl font-black text-accent">24<span class="text-slate-400 text-2xl">h</span></div>
+      <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">respuesta WhatsApp</div>
+    </div>
+    <div class="text-center">
+      <div class="text-4xl font-black text-accent">100<span class="text-slate-400 text-2xl">%</span></div>
+      <div class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">factura SUNAT</div>
+    </div>
   </div>
 </section>
+
+<!-- ============ MISIÓN / DIFERENCIADORES ============ -->
+<section class="container mx-auto px-4 py-20">
+  <div class="max-w-3xl mb-14 text-center mx-auto">
+    <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Lo que nos diferencia</span>
+    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-accent mt-2">Más que un proveedor, un aliado</h2>
+    <p class="text-slate-600 mt-3 text-lg">Foco en B2B peruano: hoteles, restaurantes, clínicas, industrias, retail y oficinas corporativas.</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="bento bg-white border border-base-300 rounded-2xl p-7">
+      <div class="icon-box icon-box-blue"><i data-lucide="file-check-2"></i></div>
+      <h3 class="font-extrabold text-accent text-lg mt-5">Cotización personalizada</h3>
+      <p class="text-sm text-slate-600 mt-2 leading-relaxed">Precios según tu volumen, frecuencia y ubicación. Por eso no publicamos lista pública — cotizamos a tu medida.</p>
+    </div>
+    <div class="bento bg-white border border-base-300 rounded-2xl p-7">
+      <div class="icon-box icon-box-green"><i data-lucide="shield-check"></i></div>
+      <h3 class="font-extrabold text-accent text-lg mt-5">Productos certificados</h3>
+      <p class="text-sm text-slate-600 mt-2 leading-relaxed">Marcas registradas en DIGESA y proveedores con buenas prácticas de manufactura comprobadas.</p>
+    </div>
+    <div class="bento bg-white border border-base-300 rounded-2xl p-7">
+      <div class="icon-box icon-box-blue"><i data-lucide="truck"></i></div>
+      <h3 class="font-extrabold text-accent text-lg mt-5">Logística nacional</h3>
+      <p class="text-sm text-slate-600 mt-2 leading-relaxed">Despachamos a Lima Metropolitana, Lima provincias y las 24 regiones con coordinación de transporte.</p>
+    </div>
+    <div class="bento bg-white border border-base-300 rounded-2xl p-7">
+      <div class="icon-box icon-box-green"><i data-lucide="headphones"></i></div>
+      <h3 class="font-extrabold text-accent text-lg mt-5">Asesoría técnica</h3>
+      <p class="text-sm text-slate-600 mt-2 leading-relaxed">Te ayudamos a elegir concentraciones, presentaciones y dispensadores adecuados según tu operación.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPROMISO ============ -->
+<section class="bg-bubbles relative overflow-hidden">
+  <div class="absolute inset-0 bg-base-200/60"></div>
+  <div class="container mx-auto px-4 py-20 relative">
+    <div class="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+      <div>
+        <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Nuestro compromiso</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-accent mt-2">Atención rápida, calidad consistente</h2>
+        <p class="text-slate-600 mt-5 leading-relaxed text-lg">
+          Atender tu solicitud en menos de 24 horas hábiles, emitir factura electrónica SUNAT y entregar productos de calidad consistente. Sin sorpresas.
+        </p>
+        <ul class="mt-7 space-y-3">
+          <li class="flex items-start gap-3">
+            <span class="icon-box icon-box-green !w-9 !h-9 shrink-0"><i data-lucide="check" class="!w-4 !h-4"></i></span>
+            <div><div class="font-bold text-accent">Respuesta en menos de 24 horas hábiles</div></div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="icon-box icon-box-green !w-9 !h-9 shrink-0"><i data-lucide="check" class="!w-4 !h-4"></i></span>
+            <div><div class="font-bold text-accent">Factura electrónica SUNAT en cada despacho</div></div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="icon-box icon-box-green !w-9 !h-9 shrink-0"><i data-lucide="check" class="!w-4 !h-4"></i></span>
+            <div><div class="font-bold text-accent">Fichas técnicas y MSDS al alcance</div></div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="icon-box icon-box-green !w-9 !h-9 shrink-0"><i data-lucide="check" class="!w-4 !h-4"></i></span>
+            <div><div class="font-bold text-accent">Crédito a 15 días para clientes recurrentes</div></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <a href="{% url 'core:solucion' 'hoteles' %}" class="bento bg-white border border-base-300 rounded-2xl p-6 group">
+          <div class="icon-box icon-box-blue group-hover:bg-primary group-hover:text-white transition"><i data-lucide="hotel"></i></div>
+          <div class="font-bold text-accent mt-4">Hoteles & Restaurantes</div>
+        </a>
+        <a href="{% url 'core:solucion' 'clinicas' %}" class="bento bg-white border border-base-300 rounded-2xl p-6 group">
+          <div class="icon-box icon-box-green group-hover:bg-secondary group-hover:text-white transition"><i data-lucide="cross"></i></div>
+          <div class="font-bold text-accent mt-4">Clínicas & Salud</div>
+        </a>
+        <a href="{% url 'core:solucion' 'industria' %}" class="bento bg-white border border-base-300 rounded-2xl p-6 group">
+          <div class="icon-box icon-box-blue group-hover:bg-primary group-hover:text-white transition"><i data-lucide="factory"></i></div>
+          <div class="font-bold text-accent mt-4">Industria</div>
+        </a>
+        <a href="{% url 'core:solucion' 'oficinas' %}" class="bento bg-white border border-base-300 rounded-2xl p-6 group">
+          <div class="icon-box icon-box-green group-hover:bg-secondary group-hover:text-white transition"><i data-lucide="building-2"></i></div>
+          <div class="font-bold text-accent mt-4">Oficinas</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="container mx-auto px-4 py-20">
+  <div class="bg-gradient-brand rounded-3xl text-white p-10 md:p-14 relative overflow-hidden">
+    <div class="absolute inset-0 bg-bubbles-dark opacity-40"></div>
+    <div class="relative max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">¿Hablamos de tu operación?</h2>
+      <p class="text-white/90 mt-3 text-lg">Cuéntanos qué necesitas. Cotizamos en menos de 24 horas hábiles y te entregamos donde estés.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+           class="btn-whatsapp btn-shine font-bold px-8 h-14 rounded-full inline-flex items-center gap-3 text-lg shadow-2xl">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+          Cotiza por WhatsApp
+        </a>
+        <a href="{% url 'core:contacto' %}" class="bg-white text-primary font-bold px-7 h-14 rounded-full inline-flex items-center gap-2 text-base shadow-xl hover:bg-base-200 transition">
+          Ver todos los contactos
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

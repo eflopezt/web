@@ -1,38 +1,107 @@
 {% extends "base.html" %}
-{% block title %}Política de privacidad — {{ SITE_NAME }}{% endblock %}
+{% block title %}Política de privacidad — {{ SITE_BRAND }}{% endblock %}
+{% block description %}Política de privacidad y protección de datos personales conforme a la Ley 29733.{% endblock %}
+
 {% block content %}
-<div class="container mx-auto px-4 py-12 max-w-3xl prose prose-sm">
-  <h1>Política de privacidad</h1>
-  <p class="text-base-content/60">Última actualización: {% now "d/m/Y" %} · Conforme a la Ley 29733 — Protección de Datos Personales del Perú.</p>
 
-  <h2>1. Datos que recolectamos</h2>
-  <p>Cuando solicitas una cotización o creas una cuenta de cliente, recolectamos: razón social/nombre, RUC/DNI, email, teléfono, dirección, productos solicitados y mensajes que nos envías.</p>
+<!-- ============ HEADER ============ -->
+<section class="relative bg-gradient-brand text-white overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[400px] h-[400px] rounded-full bg-secondary/25 blur-3xl"></div>
 
-  <h2>2. Finalidad del tratamiento</h2>
-  <ul>
-    <li>Atender tu solicitud de cotización y emitir comprobantes electrónicos.</li>
-    <li>Comunicarnos contigo por temas comerciales (cotizaciones, pedidos, facturas).</li>
-    <li>Cumplir obligaciones legales (SUNAT, contables, tributarias).</li>
-  </ul>
+  <div class="container mx-auto px-4 py-14 lg:py-16 relative">
+    <nav class="text-xs breadcrumbs text-white/80">
+      <ul>
+        <li><a href="{% url 'core:home' %}" class="hover:text-white">Inicio</a></li>
+        <li class="text-white">Política de privacidad</li>
+      </ul>
+    </nav>
+    <div class="max-w-3xl mt-4">
+      <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide backdrop-blur">
+        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+        Ley 29733 — Perú
+      </span>
+      <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-[1.1] mt-4">Política de privacidad</h1>
+      <p class="text-white/85 mt-3 text-sm">Última actualización: {% now "d/m/Y" %} · Conforme a la Ley 29733 — Protección de Datos Personales del Perú.</p>
+    </div>
+  </div>
+</section>
 
-  <h2>3. Compartición de datos</h2>
-  <p>Tus datos no se venden ni comparten con terceros, excepto:</p>
-  <ul>
-    <li>SUNAT y entes regulatorios, cuando lo exija la ley.</li>
-    <li>Proveedores de logística para entregas (sólo nombre, dirección y teléfono).</li>
-    <li>Pasarelas de pago (cuando apliquen).</li>
-  </ul>
+<!-- ============ CONTENIDO ============ -->
+<div class="container mx-auto px-4 py-14 max-w-4xl">
+  <div class="grid lg:grid-cols-[220px_1fr] gap-10">
 
-  <h2>4. Tus derechos (ARCO)</h2>
-  <p>Puedes solicitar el acceso, rectificación, cancelación u oposición al tratamiento de tus datos escribiendo a <a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a>.</p>
+    <!-- Tabla de contenidos sticky -->
+    <aside class="hidden lg:block">
+      <div class="sticky top-24 bg-white border border-base-300 rounded-2xl p-5">
+        <p class="text-xs font-bold tracking-wider uppercase text-secondary mb-3">Contenido</p>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#s1" class="text-accent hover:text-primary link-anim">1. Datos que recolectamos</a></li>
+          <li><a href="#s2" class="text-accent hover:text-primary link-anim">2. Finalidad</a></li>
+          <li><a href="#s3" class="text-accent hover:text-primary link-anim">3. Compartición</a></li>
+          <li><a href="#s4" class="text-accent hover:text-primary link-anim">4. Tus derechos</a></li>
+          <li><a href="#s5" class="text-accent hover:text-primary link-anim">5. Seguridad</a></li>
+          <li><a href="#s6" class="text-accent hover:text-primary link-anim">6. Retención</a></li>
+          <li><a href="#s7" class="text-accent hover:text-primary link-anim">7. Cookies</a></li>
+        </ul>
+      </div>
+    </aside>
 
-  <h2>5. Seguridad</h2>
-  <p>Aplicamos medidas técnicas (HTTPS, contraseñas hasheadas, auditoría) y organizativas para proteger tus datos.</p>
+    <!-- Cuerpo -->
+    <article class="bg-white border border-base-300 rounded-2xl p-8 md:p-10">
+      <div class="prose prose-slate prose-headings:text-accent prose-headings:font-extrabold prose-a:text-primary max-w-none">
+        <h2 id="s1">1. Datos que recolectamos</h2>
+        <p>Cuando solicitas una cotización o creas una cuenta de cliente, recolectamos: razón social/nombre, RUC/DNI, email, teléfono, dirección, productos solicitados y mensajes que nos envías.</p>
 
-  <h2>6. Retención</h2>
-  <p>Conservamos los datos por el tiempo necesario para cumplir las finalidades. Los datos contables se mantienen 5 años por exigencia tributaria.</p>
+        <h2 id="s2">2. Finalidad del tratamiento</h2>
+        <ul>
+          <li>Atender tu solicitud de cotización y emitir comprobantes electrónicos.</li>
+          <li>Comunicarnos contigo por temas comerciales (cotizaciones, pedidos, facturas).</li>
+          <li>Cumplir obligaciones legales (SUNAT, contables, tributarias).</li>
+        </ul>
 
-  <h2>7. Cookies</h2>
-  <p>Esta web usa cookies de sesión y CSRF para el funcionamiento. No usamos cookies de seguimiento publicitario.</p>
+        <h2 id="s3">3. Compartición de datos</h2>
+        <p>Tus datos no se venden ni comparten con terceros, excepto:</p>
+        <ul>
+          <li>SUNAT y entes regulatorios, cuando lo exija la ley.</li>
+          <li>Proveedores de logística para entregas (sólo nombre, dirección y teléfono).</li>
+          <li>Pasarelas de pago (cuando apliquen).</li>
+        </ul>
+
+        <h2 id="s4">4. Tus derechos (ARCO)</h2>
+        <p>Puedes solicitar el acceso, rectificación, cancelación u oposición al tratamiento de tus datos escribiendo a <a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a>.</p>
+
+        <h2 id="s5">5. Seguridad</h2>
+        <p>Aplicamos medidas técnicas (HTTPS, contraseñas hasheadas, auditoría) y organizativas para proteger tus datos.</p>
+
+        <h2 id="s6">6. Retención</h2>
+        <p>Conservamos los datos por el tiempo necesario para cumplir las finalidades. Los datos contables se mantienen 5 años por exigencia tributaria.</p>
+
+        <h2 id="s7">7. Cookies</h2>
+        <p>Esta web usa cookies de sesión y CSRF para el funcionamiento. No usamos cookies de seguimiento publicitario.</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- ============ Contacto para ejercer derechos ============ -->
+  <div class="mt-10 grid md:grid-cols-2 gap-5">
+    <div class="bento bg-white border border-base-300 rounded-2xl p-7">
+      <div class="icon-box icon-box-green"><i data-lucide="mail"></i></div>
+      <h3 class="font-extrabold text-accent text-lg mt-5">Ejerce tus derechos ARCO</h3>
+      <p class="text-sm text-slate-600 mt-2 leading-relaxed">Escríbenos para acceso, rectificación, cancelación u oposición al tratamiento de tus datos.</p>
+      <a href="mailto:{{ SITE_EMAIL }}?subject=Derechos%20ARCO" class="btn btn-outline btn-primary rounded-full px-5 h-11 mt-4 inline-flex items-center gap-2 font-bold text-sm">
+        <i data-lucide="mail" class="w-3.5 h-3.5"></i> Escribir email
+      </a>
+    </div>
+    <div class="bento bg-white border border-base-300 rounded-2xl p-7">
+      <div class="icon-box icon-box-blue"><i data-lucide="file-text"></i></div>
+      <h3 class="font-extrabold text-accent text-lg mt-5">Términos y condiciones</h3>
+      <p class="text-sm text-slate-600 mt-2 leading-relaxed">Revisa también nuestros términos y condiciones de uso del sitio.</p>
+      <a href="{% url 'core:terminos' %}" class="btn btn-outline btn-primary rounded-full px-5 h-11 mt-4 inline-flex items-center gap-2 font-bold text-sm">
+        Ver términos <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+      </a>
+    </div>
+  </div>
 </div>
+
 {% endblock %}

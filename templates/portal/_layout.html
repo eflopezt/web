@@ -1,39 +1,115 @@
 {% extends "base.html" %}
-{% load humanize %}
+{% load humanize static %}
 {% block title %}{% block portal_title %}Portal{% endblock %} — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<div class="bg-slate-900 text-slate-100 border-b border-slate-800">
-  <div class="container mx-auto px-4 py-5 flex flex-wrap items-center justify-between gap-3">
-    <div>
-      <div class="text-[10px] uppercase tracking-[0.15em] text-slate-400">Portal cliente</div>
-      <div class="text-lg font-semibold mt-0.5">{{ request.user.cliente.display_name|default:request.user.username }}</div>
+{% with rn=request.resolver_match.url_name %}
+<div class="bg-base-200 min-h-[calc(100vh-5rem)]">
+  <div class="container mx-auto px-4 py-6 lg:py-8">
+
+    <!-- ============ Top header del portal ============ -->
+    <div class="bento bg-gradient-brand text-white rounded-2xl overflow-hidden relative mb-6">
+      <div class="absolute inset-0 bg-bubbles-dark opacity-60"></div>
+      <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-secondary/25 blur-3xl"></div>
+      <div class="relative px-5 lg:px-8 py-5 lg:py-6 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div class="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] backdrop-blur">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+            Portal cliente
+          </div>
+          <h2 class="text-xl lg:text-2xl font-extrabold tracking-tight mt-1.5">
+            Hola, {{ request.user.first_name|default:request.user.cliente.display_name|default:request.user.username }}
+          </h2>
+          <p class="text-xs lg:text-sm text-white/80 mt-0.5">
+            {% if request.user.cliente %}{{ request.user.cliente.display_name }}{% else %}Bienvenido a tu portal{% endif %}
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="{% url 'catalogo:lista' %}" class="hidden md:inline-flex items-center gap-1.5 text-sm font-medium bg-white/10 hover:bg-white/20 border border-white/15 rounded-full px-4 h-10 transition">
+            <i data-lucide="layout-grid" class="w-4 h-4"></i> Catálogo
+          </a>
+          <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-whatsapp btn-shine inline-flex items-center gap-2 rounded-full px-4 h-10 text-sm font-semibold shadow-lg">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">WhatsApp</span>
+          </a>
+          <form action="{% url 'logout' %}" method="post" class="inline">
+            {% csrf_token %}
+            <button class="inline-flex items-center gap-1.5 text-sm bg-white/10 hover:bg-white/20 border border-white/15 rounded-full px-4 h-10 text-white transition">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span class="hidden sm:inline">Salir</span>
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="flex items-center gap-2">
-      <a href="{% url 'catalogo:lista' %}" class="text-sm text-slate-300 hover:text-white px-3 py-1.5">Catálogo</a>
-      <form action="{% url 'logout' %}" method="post" class="inline">
-        {% csrf_token %}
-        <button class="text-sm bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-md transition">Cerrar sesión</button>
-      </form>
+
+    <!-- ============ Layout: sidebar + content ============ -->
+    <div class="grid lg:grid-cols-[260px_1fr] gap-6">
+
+      <!-- ============ Sidebar ============ -->
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <div class="bento bg-white border border-base-300 rounded-2xl p-3 shadow-sm">
+          <div class="px-3 py-2 mb-1">
+            <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-base-content/50">Menú</p>
+          </div>
+          <nav class="flex flex-col gap-0.5">
+            <a href="{% url 'portal:dashboard' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if rn == 'dashboard' %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+              <span class="icon-box {% if rn == 'dashboard' %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="home" class="!w-4 !h-4"></i></span>
+              <span>Inicio</span>
+            </a>
+            <a href="{% url 'portal:solicitudes' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if 'solicitud' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+              <span class="icon-box {% if 'solicitud' in rn %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="inbox" class="!w-4 !h-4"></i></span>
+              <span>Solicitudes</span>
+            </a>
+            <a href="{% url 'portal:cotizaciones' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if 'cotizacion' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+              <span class="icon-box {% if 'cotizacion' in rn %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="file-text" class="!w-4 !h-4"></i></span>
+              <span>Cotizaciones</span>
+            </a>
+            <a href="{% url 'portal:pedidos' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if 'pedido' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+              <span class="icon-box {% if 'pedido' in rn %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="package" class="!w-4 !h-4"></i></span>
+              <span>Pedidos</span>
+            </a>
+            <a href="{% url 'portal:facturas' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if 'factura' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+              <span class="icon-box {% if 'factura' in rn %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="receipt" class="!w-4 !h-4"></i></span>
+              <span>Facturas</span>
+            </a>
+            <div class="my-2 border-t border-base-200"></div>
+            <a href="{% url 'portal:perfil' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if rn == 'perfil' %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+              <span class="icon-box {% if rn == 'perfil' %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="settings" class="!w-4 !h-4"></i></span>
+              <span>Mi perfil</span>
+            </a>
+          </nav>
+
+          <a href="{% url 'catalogo:lista' %}" class="mt-3 inline-flex w-full items-center justify-center gap-2 bg-gradient-green text-white text-sm font-bold rounded-xl px-4 h-11 btn-shine shadow-md hover:shadow-lg transition">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            Nueva solicitud
+          </a>
+        </div>
+
+        <!-- Tarjeta de soporte -->
+        <div class="bento bg-white border border-base-300 rounded-2xl p-4 mt-4 shadow-sm">
+          <div class="flex items-start gap-3">
+            <div class="icon-box icon-box-green flex-shrink-0">
+              <i data-lucide="headphones"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-accent text-sm">¿Necesitas ayuda?</h4>
+              <p class="text-xs text-slate-500 mt-0.5">Escríbenos por WhatsApp y te respondemos en minutos.</p>
+            </div>
+          </div>
+          <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-whatsapp btn-shine mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl px-3 h-10 text-sm font-semibold">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            {{ SITE_WHATSAPP_DISPLAY }}
+          </a>
+        </div>
+      </aside>
+
+      <!-- ============ Main content ============ -->
+      <main class="min-w-0">
+        {% block portal_content %}{% endblock %}
+      </main>
     </div>
   </div>
 </div>
-
-<div class="container mx-auto px-4 py-6 grid lg:grid-cols-[230px_1fr] gap-6">
-  <aside>
-    <ul class="menu bg-base-100 border border-base-300 rounded-box w-full">
-      <li><a href="{% url 'portal:dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">🏠 Inicio</a></li>
-      <li><a href="{% url 'portal:solicitudes' %}" class="{% if 'solicitud' in request.resolver_match.url_name %}active{% endif %}">📨 Mis solicitudes</a></li>
-      <li><a href="{% url 'portal:cotizaciones' %}" class="{% if 'cotizacion' in request.resolver_match.url_name %}active{% endif %}">📄 Mis cotizaciones</a></li>
-      <li><a href="{% url 'portal:pedidos' %}" class="{% if 'pedido' in request.resolver_match.url_name %}active{% endif %}">📦 Mis pedidos</a></li>
-      <li><a href="{% url 'portal:facturas' %}" class="{% if 'factura' in request.resolver_match.url_name %}active{% endif %}">🧾 Mis facturas</a></li>
-      <li><a href="{% url 'portal:perfil' %}" class="{% if request.resolver_match.url_name == 'perfil' %}active{% endif %}">⚙ Mi perfil</a></li>
-    </ul>
-    <a href="{% url 'catalogo:lista' %}" class="btn btn-primary btn-sm w-full mt-3">+ Nueva solicitud</a>
-  </aside>
-
-  <main>
-    {% block portal_content %}{% endblock %}
-  </main>
-</div>
+{% endwith %}
 {% endblock %}

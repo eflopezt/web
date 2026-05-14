@@ -1,37 +1,78 @@
 {% extends "base.html" %}
-{% block title %}Preguntas frecuentes — {{ SITE_NAME }}{% endblock %}
+{% block title %}Preguntas frecuentes — {{ SITE_BRAND }}{% endblock %}
+{% block description %}Respuestas a las preguntas más comunes sobre cotizaciones, despachos, factura SUNAT y crédito.{% endblock %}
 
 {% block content %}
-<section class="bg-slate-900 text-slate-50 relative overflow-hidden">
-  <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 24px 24px;"></div>
-  <div class="container mx-auto px-4 py-16 text-center max-w-3xl relative">
-    <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-400 mb-4">— Centro de ayuda —</span>
-    <h1 class="text-4xl md:text-5xl font-bold tracking-tight">Preguntas frecuentes</h1>
-    <p class="text-slate-300 mt-3">¿No encuentras lo que buscas? Escríbenos a <a href="mailto:{{ SITE_EMAIL }}" class="text-white underline">{{ SITE_EMAIL }}</a></p>
-  </div>
-</section>
 
-<section class="container mx-auto px-4 py-16 max-w-3xl">
-  <div class="divide-y divide-slate-200 border-y border-slate-200">
-    {% for faq in faqs %}
-    <details class="group py-5" {% if forloop.first %}open{% endif %}>
-      <summary class="font-medium text-slate-900 cursor-pointer list-none flex justify-between items-start gap-4">
-        <span><span class="text-slate-400 font-mono text-xs mr-3">0{{ forloop.counter }}</span>{{ faq.q }}</span>
-        <span class="text-slate-400 group-open:rotate-180 transition shrink-0">▾</span>
-      </summary>
-      <p class="text-sm text-slate-600 mt-3 leading-relaxed pl-10">{{ faq.a }}</p>
-    </details>
-    {% endfor %}
-  </div>
+<!-- ============ HERO ============ -->
+<section class="relative bg-gradient-brand text-white overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-70"></div>
+  <div class="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-secondary/25 blur-3xl"></div>
+  <div class="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-info/20 blur-3xl"></div>
 
-  <div class="mt-12 bg-slate-50 border border-slate-200 rounded-xl p-8 text-center">
-    <div class="text-3xl mb-3">💬</div>
-    <h3 class="font-semibold text-slate-900">¿Tu pregunta no está aquí?</h3>
-    <p class="text-sm text-slate-500 mt-1">Estamos online de lunes a sábado para resolverte cualquier consulta.</p>
-    <div class="flex gap-2 mt-5 justify-center">
-      <a href="https://wa.me/{{ SITE_WHATSAPP }}" target="_blank" class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition">WhatsApp</a>
-      <a href="mailto:{{ SITE_EMAIL }}" class="bg-white hover:bg-slate-100 text-slate-900 border border-slate-300 text-sm font-medium px-4 py-2 rounded-lg transition">Email</a>
+  <div class="container mx-auto px-4 py-16 lg:py-20 relative">
+    <nav class="text-xs breadcrumbs text-white/80">
+      <ul>
+        <li><a href="{% url 'core:home' %}" class="hover:text-white">Inicio</a></li>
+        <li class="text-white">Preguntas frecuentes</li>
+      </ul>
+    </nav>
+    <div class="max-w-3xl mt-4 text-center mx-auto">
+      <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide backdrop-blur">
+        <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+        Centro de ayuda
+      </span>
+      <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mt-5">
+        Preguntas <span class="text-gradient-light">frecuentes</span>
+      </h1>
+      <p class="text-lg text-white/90 mt-5 max-w-xl mx-auto leading-relaxed">
+        Lo que la mayoría de nuestros clientes nos pregunta sobre cotizaciones, despachos y forma de pago.
+      </p>
     </div>
   </div>
 </section>
+
+<!-- ============ FAQs ============ -->
+<section class="container mx-auto px-4 py-20 max-w-3xl">
+  <div class="bg-white border border-base-300 rounded-2xl shadow-soft divide-y divide-base-300">
+    {% for faq in faqs %}
+    <details class="group p-6 md:p-7" {% if forloop.first %}open{% endif %}>
+      <summary class="font-bold text-accent cursor-pointer list-none flex justify-between items-start gap-4">
+        <span class="flex items-start gap-3 flex-1">
+          <span class="icon-box icon-box-blue !w-9 !h-9 shrink-0 text-sm font-black">{{ forloop.counter|stringformat:"02d" }}</span>
+          <span class="pt-1.5">{{ faq.q }}</span>
+        </span>
+        <i data-lucide="chevron-down" class="w-5 h-5 text-primary group-open:rotate-180 transition shrink-0 mt-2"></i>
+      </summary>
+      <p class="text-slate-600 mt-4 leading-relaxed pl-12">{{ faq.a }}</p>
+    </details>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ============ CTA WHATSAPP ============ -->
+<section class="container mx-auto px-4 pb-20 max-w-3xl">
+  <div class="bg-gradient-green text-white rounded-3xl p-10 md:p-12 relative overflow-hidden text-center">
+    <div class="absolute inset-0 bg-bubbles-dark opacity-30"></div>
+    <div class="relative">
+      <div class="icon-box bg-white/20 text-white mx-auto !w-14 !h-14">
+        <i data-lucide="message-circle" class="!w-6 !h-6"></i>
+      </div>
+      <h3 class="text-2xl md:text-3xl font-extrabold mt-5">¿Tu pregunta no está aquí?</h3>
+      <p class="text-white/90 mt-3 leading-relaxed max-w-md mx-auto">Escríbenos por WhatsApp o email. Respondemos en horario laboral peruano.</p>
+      <div class="mt-7 flex flex-wrap justify-center gap-3">
+        <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+           class="bg-white text-secondary font-extrabold px-6 h-12 rounded-full inline-flex items-center gap-2 shadow-xl hover:scale-105 transition">
+          <svg class="h-5 w-5 text-[#25D366]" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+          WhatsApp
+        </a>
+        <a href="mailto:{{ SITE_EMAIL }}" class="bg-white/15 border border-white/30 text-white font-bold px-6 h-12 rounded-full inline-flex items-center gap-2 backdrop-blur hover:bg-white/25 transition">
+          <i data-lucide="mail" class="w-4 h-4"></i>
+          Email
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

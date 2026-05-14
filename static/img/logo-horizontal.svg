@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" role="img" aria-label="ProClean Servid Innova">
-  <title>ProClean Servid Innova</title>
+  <title>ProClean Servid Innova — versión horizontal</title>
 
   <defs>
     <linearGradient id="hz-ribbonBlue" x1="0%" y1="100%" x2="100%" y2="0%">
@@ -23,37 +23,43 @@
     </linearGradient>
   </defs>
 
-  <!-- Imagotipo (izquierda, contenido en círculo) -->
+  <!-- ============ IMAGOTIPO IZQUIERDA (versión circular compacta) ============ -->
   <g transform="translate(60,60)">
-    <!-- Anillo circular -->
-    <circle cx="0" cy="0" r="52" fill="none" stroke="url(#hz-ribbonGreen)" stroke-width="6"/>
-    <path d="M 0,52 A 52,52 0 0,1 -52,0" fill="none" stroke="url(#hz-ribbonBlue)" stroke-width="6" stroke-linecap="round"/>
+    <!-- Anillo verde superior + azul inferior -->
+    <path d="M 0,-52 A 52,52 0 0,1 52,0" fill="none" stroke="url(#hz-ribbonGreen)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 0,-52 A 52,52 0 0,0 -52,0" fill="none" stroke="url(#hz-ribbonGreen)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 52,0 A 52,52 0 0,1 0,52" fill="none" stroke="url(#hz-ribbonBlue)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M -52,0 A 52,52 0 0,0 0,52" fill="none" stroke="url(#hz-ribbonBlue)" stroke-width="6" stroke-linecap="round"/>
 
-    <!-- Edificios -->
-    <g transform="translate(-23,-30)">
-      <rect x="0" y="22" width="5" height="22" fill="url(#hz-bldgGreen)"/>
-      <rect x="6" y="14" width="7" height="30" fill="url(#hz-bldgGreen)"/>
-      <rect x="14" y="2" width="8" height="42" fill="url(#hz-bldgGreen)"/>
-      <polygon points="23,8 30,8 30,44 23,44" fill="url(#hz-bldgGreen)"/>
-      <rect x="31" y="12" width="6" height="32" fill="url(#hz-bldgBlue)"/>
-      <rect x="38" y="4" width="6" height="40" fill="url(#hz-bldgBlue)"/>
-      <rect x="45" y="18" width="7" height="26" fill="url(#hz-bldgBlue)"/>
+    <!-- Edificios variados -->
+    <g transform="translate(-26,-32)">
+      <rect x="0" y="26" width="5" height="20" fill="url(#hz-bldgGreen)"/>
+      <rect x="6" y="16" width="7" height="30" fill="url(#hz-bldgGreen)"/>
+      <rect x="14" y="2" width="9" height="44" fill="url(#hz-bldgGreen)"/>
+      <polygon points="24,10 32,10 32,46 24,46" fill="url(#hz-bldgGreen)"/>
+      <rect x="33" y="14" width="7" height="32" fill="url(#hz-bldgBlue)"/>
+      <polygon points="41,6 49,6 49,46 41,46" fill="url(#hz-bldgBlue)"/>
+      <polygon points="41,6 45,2 49,6" fill="url(#hz-bldgBlue)"/>
+      <rect x="50" y="18" width="8" height="28" fill="url(#hz-bldgBlue)"/>
     </g>
 
     <!-- Destellos -->
     <g transform="translate(-28,8)" fill="#ffffff">
-      <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z"/>
-      <path d="M 9,7 L 10,3.5 L 13.5,2.5 L 10,1.5 L 9,-2 L 8,1.5 L 4.5,2.5 L 8,3.5 Z" opacity="0.9"/>
+      <path d="M 0,-6 L 1.5,-1.5 L 6,0 L 1.5,1.5 L 0,6 L -1.5,1.5 L -6,0 L -1.5,-1.5 Z"/>
+      <path d="M 9,7 L 10.2,3.5 L 13.5,2.5 L 10.2,1.5 L 9,-2 L 7.8,1.5 L 4.5,2.5 L 7.8,3.5 Z" opacity="0.9"/>
+      <path d="M 16,-3 L 17,0 L 20,1 L 17,2 L 16,5 L 15,2 L 12,1 L 15,0 Z" opacity="0.8"/>
     </g>
 
-    <!-- Hoja -->
-    <g transform="translate(-18,33)">
-      <path d="M 0,4 C 5,-5 18,-9 35,-7 C 40,1 35,9 18,10 C 6,10 -2,9 0,4 Z" fill="url(#hz-ribbonGreen)"/>
-      <path d="M 2,5 C 14,1 30,1 36,3" stroke="#ffffff" stroke-width="0.9" fill="none" opacity="0.85"/>
+    <!-- Hoja almendra -->
+    <g transform="translate(-20,32)">
+      <path d="M 0,4 C 3,-6 18,-10 38,-8 C 46,-4 44,6 30,10 C 14,12 -2,10 0,4 Z" fill="url(#hz-ribbonGreen)"/>
+      <path d="M 2,5 C 14,1 30,1 38,4" stroke="#ffffff" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.9"/>
+      <path d="M 12,4 C 14,7 14,9 12,11" stroke="#ffffff" stroke-width="0.6" fill="none" opacity="0.55"/>
+      <path d="M 24,2 C 26,6 26,9 24,11" stroke="#ffffff" stroke-width="0.6" fill="none" opacity="0.55"/>
     </g>
   </g>
 
-  <!-- Texto a la derecha -->
+  <!-- ============ TEXTO A LA DERECHA ============ -->
   <g font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-weight="800" font-style="italic">
     <text x="135" y="70" font-size="56" fill="#3FAE2A" letter-spacing="-1">Pro</text>
     <text x="232" y="70" font-size="56" fill="#1B75BC" letter-spacing="-1">Clean</text>

@@ -1,6 +1,56 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{% if categoria_actual %}{{ categoria_actual.nombre }}{% else %}Catálogo{% endif %} — {{ SITE_BRAND }}{% endblock %}
+{% block title %}{% if categoria_actual %}{{ categoria_actual.nombre }}{% else %}Catálogo de productos de limpieza{% endif %} — {{ SITE_BRAND }}{% endblock %}
+{% block description %}{% if categoria_actual %}{% if categoria_actual.descripcion %}{{ categoria_actual.descripcion|truncatechars:160 }}{% else %}{{ categoria_actual.nombre }} para limpieza profesional. Las mejores marcas del mercado peruano. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endif %}{% else %}Catálogo completo de productos de limpieza profesional: papeles, lejía, desinfectantes, detergentes, bolsas, escobas y trapeadores. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endif %}{% endblock %}
+
+{% block og_title %}{% if categoria_actual %}{{ categoria_actual.nombre }}{% else %}Catálogo{% endif %} — {{ SITE_BRAND }}{% endblock %}
+{% block og_description %}{% if categoria_actual.descripcion %}{{ categoria_actual.descripcion|truncatechars:200 }}{% else %}Productos de limpieza profesional. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endif %}{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "{{ request.scheme }}://{{ request.get_host }}/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Catálogo",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'catalogo:lista' %}"
+    }{% if categoria_actual %},
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ categoria_actual.nombre|escapejs }}",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{{ categoria_actual.get_absolute_url }}"
+    }{% endif %}
+  ]
+}
+</script>
+{% if productos %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "{% if categoria_actual %}{{ categoria_actual.nombre|escapejs }}{% else %}Catálogo de productos{% endif %}",
+  "itemListElement": [
+    {% for p in productos %}{
+      "@type": "ListItem",
+      "position": {{ forloop.counter }},
+      "url": "{{ request.scheme }}://{{ request.get_host }}{{ p.get_absolute_url }}",
+      "name": "{{ p.nombre|escapejs }}"
+    }{% if not forloop.last %},{% endif %}{% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <!-- Hero del catálogo -->

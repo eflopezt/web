@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Mapa del sitio — {{ SITE_BRAND }}{% endblock %}
+{% block description %}Mapa del sitio de ProClean Servid Innova. Encuentra todas las páginas: catálogo, categorías, soluciones por industria, guías y recursos.{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-brand text-white relative overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-50"></div>
+  <div class="container mx-auto px-4 py-14 relative">
+    <nav class="text-xs breadcrumbs text-white/80">
+      <ul>
+        <li><a href="{% url 'core:home' %}" class="hover:text-white">Inicio</a></li>
+        <li class="text-white">Mapa del sitio</li>
+      </ul>
+    </nav>
+    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mt-4">Mapa del sitio</h1>
+    <p class="text-white/90 mt-2 max-w-2xl">Todas las secciones públicas de {{ SITE_BRAND }} organizadas para que encuentres rápido lo que buscas.</p>
+  </div>
+</section>
+
+<div class="container mx-auto px-4 py-12 grid lg:grid-cols-2 gap-10">
+
+  <section class="card bg-white border border-base-300 rounded-2xl">
+    <div class="card-body p-6">
+      <h2 class="font-extrabold text-accent text-lg mb-4">Páginas principales</h2>
+      <ul class="space-y-2 text-sm">
+        {% for p in paginas %}
+        <li>
+          <a href="{{ p.url }}" class="link-anim text-primary font-medium">{{ p.titulo }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section class="card bg-white border border-base-300 rounded-2xl">
+    <div class="card-body p-6">
+      <h2 class="font-extrabold text-accent text-lg mb-4">Soluciones por industria</h2>
+      <ul class="space-y-2 text-sm">
+        {% for s in soluciones %}
+        <li>
+          <a href="{% url 'core:solucion' s.slug %}" class="link-anim text-primary font-medium">{{ s.titulo }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section class="card bg-white border border-base-300 rounded-2xl lg:col-span-2">
+    <div class="card-body p-6">
+      <h2 class="font-extrabold text-accent text-lg mb-4">Categorías del catálogo</h2>
+      {% if categorias %}
+      <ul class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+        {% for c in categorias %}
+        <li>
+          <a href="{{ c.get_absolute_url }}" class="link-anim text-primary font-medium">{{ c.nombre }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-sm text-slate-500">Próximamente.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card bg-white border border-base-300 rounded-2xl lg:col-span-2">
+    <div class="card-body p-6">
+      <h2 class="font-extrabold text-accent text-lg mb-4">Productos</h2>
+      {% if productos %}
+      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-1 text-sm">
+        {% for p in productos %}
+        <li>
+          <a href="{{ p.get_absolute_url }}" class="text-primary hover:underline">{{ p.nombre }}</a>
+          <span class="text-slate-400">· {{ p.categoria.nombre }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-sm text-slate-500">Próximamente.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card bg-white border border-base-300 rounded-2xl lg:col-span-2">
+    <div class="card-body p-6">
+      <h2 class="font-extrabold text-accent text-lg mb-4">Guías y recursos</h2>
+      {% if guias %}
+      <ul class="space-y-2 text-sm">
+        {% for g in guias %}
+        <li>
+          <a href="{{ g.url }}" class="link-anim text-primary font-medium">{{ g.titulo }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card bg-base-200 border border-base-300 rounded-2xl lg:col-span-2">
+    <div class="card-body p-6 text-sm text-slate-600">
+      <p>¿Buscas la versión XML para buscadores? <a href="{% url 'django.contrib.sitemaps.views.sitemap' %}" class="link-anim text-primary font-semibold">sitemap.xml</a></p>
+    </div>
+  </section>
+</div>
+{% endblock %}

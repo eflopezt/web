@@ -14,4 +14,5 @@ urlpatterns = [
     path("recursos/<slug:slug>/", views.guia, name="guia"),
     path("soluciones/<slug:slug>/", views.solucion, name="solucion"),
     path("newsletter/", views.newsletter_subscribe, name="newsletter"),
+    path("sitemap-html/", views.sitemap_html, name="sitemap_html"),
 ]
