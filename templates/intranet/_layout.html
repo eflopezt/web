@@ -189,7 +189,7 @@
               <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 hidden md:block"></i>
             </label>
             <ul tabindex="0" class="dropdown-content menu p-2 shadow-lg bg-white border border-base-300 rounded-xl w-52 mt-2 z-50">
-              <li><a href="/admin/" target="_blank" class="text-sm"><i data-lucide="settings" class="w-4 h-4"></i> Django admin</a></li>
+              <li><a href="{% url 'admin:index' %}" target="_blank" class="text-sm"><i data-lucide="settings" class="w-4 h-4"></i> Django admin</a></li>
               <li>
                 <form method="post" action="{% url 'logout' %}" class="w-full">{% csrf_token %}
                   <button class="w-full text-left flex items-center gap-2 text-sm text-error"><i data-lucide="log-out" class="w-4 h-4"></i> Cerrar sesión</button>
@@ -259,7 +259,7 @@
         </a>
 
         <div class="section-label">Sistema</div>
-        <a href="/admin/" target="_blank" class="nav-link">
+        <a href="{% url 'admin:index' %}" target="_blank" class="nav-link">
           <i data-lucide="settings-2"></i> Django admin
         </a>
       </nav>
