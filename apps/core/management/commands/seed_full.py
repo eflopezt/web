@@ -100,21 +100,24 @@ class Command(BaseCommand):
         staff_group, _ = Group.objects.get_or_create(name="Staff Intranet")
         cliente_group, _ = Group.objects.get_or_create(name="Cliente")
 
-        # 3) usuarios demo
+        # 3) usuarios demo (passwords solo se setean al crear; nunca se sobreescriben)
+        created_msgs = []
         admin, created = User.objects.get_or_create(
             username="admin",
-            defaults={"email": "admin@limpiapro.pe", "is_staff": True, "is_superuser": True},
+            defaults={"email": "admin@proclean.pe", "is_staff": True, "is_superuser": True},
         )
         if created:
             admin.set_password("admin")
             admin.save()
+            created_msgs.append("admin/admin")
         staff, created = User.objects.get_or_create(
             username="staff",
-            defaults={"email": "staff@limpiapro.pe", "is_staff": True, "first_name": "Vendedor", "last_name": "Demo"},
+            defaults={"email": "staff@proclean.pe", "is_staff": True, "first_name": "Vendedor", "last_name": "Demo"},
         )
         if created:
             staff.set_password("staff")
             staff.save()
+            created_msgs.append("staff/staff")
         staff.groups.add(staff_group)
 
         cliente_user, created = User.objects.get_or_create(
@@ -124,8 +127,12 @@ class Command(BaseCommand):
         if created:
             cliente_user.set_password("cliente")
             cliente_user.save()
+            created_msgs.append("cliente/cliente")
         cliente_user.groups.add(cliente_group)
-        self.stdout.write(self.style.SUCCESS("[OK] usuarios: admin/admin · staff/staff · cliente/cliente"))
+        if created_msgs:
+            self.stdout.write(self.style.SUCCESS(f"[OK] usuarios creados con pwd default: {' · '.join(created_msgs)}"))
+        else:
+            self.stdout.write(self.style.SUCCESS("[OK] usuarios ya existían (passwords no modificadas)"))
 
         # 4) Clientes
         clientes = {}
