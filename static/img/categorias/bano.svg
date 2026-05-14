@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">Limpieza de Baño</title>
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2BA0E0"/>
+      <stop offset="1" stop-color="#1A4F8B"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7AD83C"/>
+      <stop offset="1" stop-color="#2E8B1F"/>
+    </linearGradient>
+    <linearGradient id="gWhite" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfe4f3"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="180" height="180" rx="28" fill="#E6F3FB"/>
+  <!-- Tanque inodoro -->
+  <rect x="62" y="50" width="76" height="50" rx="6" fill="url(#gWhite)" stroke="#1B75BC" stroke-width="2"/>
+  <!-- Botón flush -->
+  <circle cx="100" cy="62" r="5" fill="#3FAE2A"/>
+  <!-- Conector tanque-taza -->
+  <rect x="86" y="98" width="28" height="10" fill="#cfe4f3" stroke="#1B75BC" stroke-width="2"/>
+  <!-- Taza (vista frontal) -->
+  <path d="M50 108 L150 108 L138 148 Q132 162 118 162 L82 162 Q68 162 62 148 Z" fill="url(#gWhite)" stroke="#1B75BC" stroke-width="2"/>
+  <!-- Asiento -->
+  <ellipse cx="100" cy="115" rx="44" ry="9" fill="#ffffff" stroke="#1B75BC" stroke-width="2"/>
+  <ellipse cx="100" cy="116" rx="32" ry="6" fill="url(#gBlue)" opacity=".85"/>
+  <!-- Base -->
+  <rect x="68" y="160" width="64" height="12" rx="3" fill="#1A4F8B"/>
+  <!-- Gotitas de limpieza -->
+  <path d="M40 60 Q34 70 40 78 Q46 70 40 60 Z" fill="url(#gGreen)"/>
+  <path d="M160 80 Q154 90 160 98 Q166 90 160 80 Z" fill="url(#gBlue)"/>
+  <path d="M44 130 Q40 138 44 144 Q48 138 44 130 Z" fill="url(#gGreen)"/>
+  <!-- Brillo sparkle -->
+  <g fill="#3FAE2A">
+    <path d="M158 40 L161 47 L168 50 L161 53 L158 60 L155 53 L148 50 L155 47 Z"/>
+  </g>
+  <g fill="#1B75BC">
+    <path d="M36 158 L38 163 L43 165 L38 167 L36 172 L34 167 L29 165 L34 163 Z"/>
+  </g>
+</svg>

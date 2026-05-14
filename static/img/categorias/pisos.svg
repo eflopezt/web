@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">Pisos y Superficies</title>
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2BA0E0"/>
+      <stop offset="1" stop-color="#1A4F8B"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7AD83C"/>
+      <stop offset="1" stop-color="#2E8B1F"/>
+    </linearGradient>
+    <linearGradient id="gFloor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfe4f3"/>
+      <stop offset="1" stop-color="#E6F3FB"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="180" height="180" rx="28" fill="#E6F3FB"/>
+  <!-- Piso (perspectiva) -->
+  <path d="M20 160 L180 160 L160 180 L40 180 Z" fill="url(#gFloor)" stroke="#1B75BC" stroke-width="1.5" opacity=".85"/>
+  <!-- Líneas de baldosa -->
+  <line x1="60" y1="160" x2="48" y2="180" stroke="#1B75BC" stroke-width="1" opacity=".4"/>
+  <line x1="100" y1="160" x2="100" y2="180" stroke="#1B75BC" stroke-width="1" opacity=".4"/>
+  <line x1="140" y1="160" x2="152" y2="180" stroke="#1B75BC" stroke-width="1" opacity=".4"/>
+  <!-- Mango trapeador -->
+  <rect x="118" y="28" width="8" height="118" rx="4" fill="url(#gBlue)" transform="rotate(12 122 87)"/>
+  <!-- Conector -->
+  <rect x="100" y="138" width="44" height="10" rx="3" fill="#1A4F8B" transform="rotate(8 122 143)"/>
+  <!-- Mecha del trapeador -->
+  <path d="M58 148 Q60 142 70 142 L150 148 Q160 150 158 158 L156 162 Q140 164 120 162 L80 160 Q62 158 56 156 Z" fill="url(#gGreen)"/>
+  <!-- Hebras -->
+  <g stroke="#2E8B1F" stroke-width="2" stroke-linecap="round">
+    <line x1="70" y1="158" x2="68" y2="170"/>
+    <line x1="82" y1="160" x2="80" y2="172"/>
+    <line x1="94" y1="161" x2="93" y2="173"/>
+    <line x1="106" y1="161" x2="106" y2="173"/>
+    <line x1="118" y1="161" x2="119" y2="173"/>
+    <line x1="130" y1="161" x2="132" y2="173"/>
+    <line x1="142" y1="160" x2="144" y2="172"/>
+  </g>
+  <!-- Brillos reflejo en piso -->
+  <g fill="#3FAE2A">
+    <path d="M40 50 L42 56 L48 58 L42 60 L40 66 L38 60 L32 58 L38 56 Z"/>
+  </g>
+  <g fill="#1B75BC">
+    <path d="M165 70 L167 75 L172 77 L167 79 L165 84 L163 79 L158 77 L163 75 Z"/>
+  </g>
+  <g fill="#3FAE2A">
+    <path d="M28 110 L29 113 L32 114 L29 115 L28 118 L27 115 L24 114 L27 113 Z"/>
+  </g>
+</svg>

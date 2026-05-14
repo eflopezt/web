@@ -1,0 +1,41 @@
+{# ============ Mobile sticky WhatsApp bar (solo <md) ============ #}
+{# Aparece sólo en pantallas <768px. Reserva espacio inferior en el body. #}
+<style>
+  @media (max-width: 767.98px) {
+    body { padding-bottom: 84px; }
+    /* El FAB del chat WA flotante se mueve arriba para no chocar */
+    .wa-fab-shift { bottom: 100px !important; }
+  }
+  @media (min-width: 768px) {
+    #mobile-wa-bar { display: none !important; }
+  }
+  /* Animación sutil de aparición */
+  @keyframes waBarUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  #mobile-wa-bar { animation: waBarUp 380ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both; }
+</style>
+
+<div id="mobile-wa-bar"
+     class="md:hidden fixed bottom-0 left-0 right-0 z-40 print:hidden bg-gradient-brand text-white shadow-[0_-8px_24px_-6px_rgba(15,42,77,0.25)]"
+     role="region" aria-label="Cotizar por WhatsApp">
+  <div class="px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]">
+    <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+       class="btn-whatsapp btn-shine w-full font-bold rounded-full inline-flex items-center justify-center gap-2.5 px-4 h-12 shadow-xl text-[15px]"
+       aria-label="Cotizar por WhatsApp al {{ SITE_WHATSAPP_DISPLAY }}">
+      <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
+      <span class="flex flex-col leading-tight text-left">
+        <span class="text-[15px] font-extrabold">Cotizar por WhatsApp</span>
+        <span class="text-[11px] font-medium text-white/85">{{ SITE_WHATSAPP_DISPLAY }} · respuesta inmediata</span>
+      </span>
+    </a>
+  </div>
+</div>
+
+<script>
+  // Mover el FAB flotante arriba del sticky bar en mobile
+  (function(){
+    if (window.matchMedia && window.matchMedia('(max-width: 767.98px)').matches) {
+      var fab = document.querySelector('.fixed.bottom-5.right-5');
+      if (fab) fab.classList.add('wa-fab-shift');
+    }
+  })();
+</script>

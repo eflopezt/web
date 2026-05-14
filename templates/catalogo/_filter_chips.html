@@ -1,0 +1,34 @@
+{% comment %}
+Renders active filter chips with HTMX "X" removal.
+
+Context required:
+  chips           list[{label, remove_url}]
+  clear_all_url   string (URL to wipe every filter)
+{% endcomment %}
+{% if chips %}
+<div class="flex flex-wrap items-center gap-2 mb-4">
+  <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold mr-1">Filtros:</span>
+  {% for chip in chips %}
+    <a class="badge badge-lg gap-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 cursor-pointer no-underline"
+       href="{{ chip.remove_url }}"
+       hx-get="{{ chip.remove_url }}"
+       hx-target="#productos-grid"
+       hx-push-url="true"
+       hx-indicator=".htmx-indicator">
+      {{ chip.label }}
+      <span class="font-bold ml-0.5" aria-label="Quitar filtro">×</span>
+    </a>
+  {% endfor %}
+
+  {% if chips|length >= 2 %}
+  <a href="{{ clear_all_url }}"
+     hx-get="{{ clear_all_url }}"
+     hx-target="#productos-grid"
+     hx-push-url="true"
+     hx-indicator=".htmx-indicator"
+     class="btn btn-ghost btn-xs text-error font-semibold">
+    Limpiar todo
+  </a>
+  {% endif %}
+</div>
+{% endif %}

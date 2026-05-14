@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">EPP — Equipos de Protección Personal</title>
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2BA0E0"/>
+      <stop offset="1" stop-color="#1A4F8B"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7AD83C"/>
+      <stop offset="1" stop-color="#2E8B1F"/>
+    </linearGradient>
+    <linearGradient id="gHelmet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7AD83C"/>
+      <stop offset="1" stop-color="#2E8B1F"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="180" height="180" rx="28" fill="#E6F3FB"/>
+  <!-- CASCO arriba -->
+  <path d="M52 78 Q52 38 100 38 Q148 38 148 78 L148 84 L52 84 Z" fill="url(#gHelmet)"/>
+  <!-- Borde casco -->
+  <rect x="44" y="80" width="112" height="10" rx="4" fill="#1A4F8B"/>
+  <!-- Cresta casco -->
+  <path d="M88 38 Q100 32 112 38 L110 80 L90 80 Z" fill="#2E8B1F" opacity=".6"/>
+  <!-- Brillo casco -->
+  <path d="M64 58 Q70 50 88 48" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".6"/>
+  <!-- LENTES centro -->
+  <rect x="44" y="100" width="112" height="22" rx="11" fill="url(#gBlue)"/>
+  <!-- Lente izquierdo -->
+  <ellipse cx="74" cy="111" rx="20" ry="9" fill="#1A4F8B"/>
+  <ellipse cx="74" cy="111" rx="16" ry="6.5" fill="#2BA0E0"/>
+  <ellipse cx="70" cy="108" rx="5" ry="3" fill="#ffffff" opacity=".7"/>
+  <!-- Lente derecho -->
+  <ellipse cx="126" cy="111" rx="20" ry="9" fill="#1A4F8B"/>
+  <ellipse cx="126" cy="111" rx="16" ry="6.5" fill="#2BA0E0"/>
+  <ellipse cx="122" cy="108" rx="5" ry="3" fill="#ffffff" opacity=".7"/>
+  <!-- Puente -->
+  <rect x="94" y="108" width="12" height="6" fill="#1A4F8B"/>
+  <!-- MASCARILLA abajo -->
+  <path d="M40 140 Q40 132 50 132 L150 132 Q160 132 160 140 L160 168 Q160 178 150 180 Q100 188 50 180 Q40 178 40 168 Z" fill="#ffffff" stroke="#1B75BC" stroke-width="2"/>
+  <!-- Pliegues mascarilla -->
+  <g stroke="#1B75BC" stroke-width="1.5" opacity=".6">
+    <line x1="50" y1="146" x2="150" y2="146"/>
+    <line x1="50" y1="156" x2="150" y2="156"/>
+    <line x1="50" y1="166" x2="150" y2="166"/>
+  </g>
+  <!-- Tiras orejas -->
+  <path d="M40 138 Q26 144 30 158" stroke="#1A4F8B" stroke-width="2.5" fill="none"/>
+  <path d="M160 138 Q174 144 170 158" stroke="#1A4F8B" stroke-width="2.5" fill="none"/>
+  <!-- Banda nasal -->
+  <rect x="80" y="134" width="40" height="4" rx="2" fill="#3FAE2A"/>
+</svg>

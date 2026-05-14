@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">Desinfectantes</title>
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2BA0E0"/>
+      <stop offset="1" stop-color="#1A4F8B"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7AD83C"/>
+      <stop offset="1" stop-color="#2E8B1F"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="180" height="180" rx="28" fill="#E6F3FB"/>
+  <!-- Cuerpo botella spray -->
+  <path d="M70 92 Q70 84 78 84 L122 84 Q130 84 130 92 L130 168 Q130 174 124 174 L76 174 Q70 174 70 168 Z" fill="url(#gBlue)"/>
+  <!-- Etiqueta -->
+  <rect x="74" y="120" width="52" height="42" rx="4" fill="#ffffff"/>
+  <!-- Cruz salud -->
+  <rect x="94" y="128" width="12" height="26" rx="2" fill="#3FAE2A"/>
+  <rect x="87" y="135" width="26" height="12" rx="2" fill="#3FAE2A"/>
+  <!-- Cuello -->
+  <rect x="92" y="76" width="16" height="10" fill="#1A4F8B"/>
+  <!-- Gatillo spray -->
+  <path d="M60 60 L94 60 L94 74 L80 74 L78 88 L60 88 Z" fill="url(#gGreen)"/>
+  <!-- Boquilla -->
+  <rect x="50" y="64" width="14" height="8" rx="2" fill="#1A4F8B"/>
+  <!-- Gotas spray -->
+  <circle cx="38" cy="50" r="4" fill="#2BA0E0"/>
+  <circle cx="28" cy="62" r="3" fill="#3FAE2A"/>
+  <circle cx="22" cy="76" r="3.5" fill="#2BA0E0"/>
+  <circle cx="32" cy="86" r="2.5" fill="#3FAE2A"/>
+  <circle cx="44" cy="38" r="2.5" fill="#1B75BC"/>
+  <!-- Bacterias muertas (X) -->
+  <g stroke="#2E8B1F" stroke-width="2.5" stroke-linecap="round">
+    <line x1="150" y1="58" x2="160" y2="68"/>
+    <line x1="160" y1="58" x2="150" y2="68"/>
+  </g>
+  <circle cx="155" cy="63" r="9" fill="none" stroke="#3FAE2A" stroke-width="2"/>
+  <g stroke="#2E8B1F" stroke-width="2.5" stroke-linecap="round">
+    <line x1="160" y1="100" x2="170" y2="110"/>
+    <line x1="170" y1="100" x2="160" y2="110"/>
+  </g>
+  <circle cx="165" cy="105" r="8" fill="none" stroke="#3FAE2A" stroke-width="2"/>
+  <!-- Brillo -->
+  <path d="M78 100 Q76 130 80 160" stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none" opacity=".35"/>
+</svg>

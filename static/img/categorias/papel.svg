@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">Papel y Descartables</title>
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2BA0E0"/>
+      <stop offset="1" stop-color="#1A4F8B"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7AD83C"/>
+      <stop offset="1" stop-color="#2E8B1F"/>
+    </linearGradient>
+    <radialGradient id="gPaper" cx=".5" cy=".5" r=".6">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfe4f3"/>
+    </radialGradient>
+    <linearGradient id="gSheet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#E6F3FB"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="180" height="180" rx="28" fill="#E6F3FB"/>
+  <!-- Rollo cuerpo (cilindro vertical visto desde lado) -->
+  <ellipse cx="100" cy="58" rx="56" ry="14" fill="url(#gPaper)" stroke="#1B75BC" stroke-width="2"/>
+  <path d="M44 58 L44 142 Q44 156 100 156 Q156 156 156 142 L156 58" fill="url(#gPaper)" stroke="#1B75BC" stroke-width="2"/>
+  <ellipse cx="100" cy="58" rx="56" ry="14" fill="none" stroke="#1B75BC" stroke-width="2"/>
+  <!-- Núcleo cartón -->
+  <ellipse cx="100" cy="58" rx="18" ry="5" fill="#3FAE2A"/>
+  <ellipse cx="100" cy="58" rx="14" ry="3.5" fill="#2E8B1F"/>
+  <!-- Líneas de pliegues verticales -->
+  <g stroke="#1B75BC" stroke-width="1.2" opacity=".35">
+    <line x1="60" y1="68" x2="60" y2="150"/>
+    <line x1="76" y1="70" x2="76" y2="154"/>
+    <line x1="92" y1="71" x2="92" y2="156"/>
+    <line x1="108" y1="71" x2="108" y2="156"/>
+    <line x1="124" y1="70" x2="124" y2="154"/>
+    <line x1="140" y1="68" x2="140" y2="150"/>
+  </g>
+  <!-- Hoja saliente -->
+  <path d="M156 100 Q172 102 178 116 L178 152 Q172 158 162 156 L156 154 Z" fill="url(#gSheet)" stroke="#1B75BC" stroke-width="1.5"/>
+  <!-- Perforación línea -->
+  <line x1="156" y1="100" x2="156" y2="154" stroke="#1B75BC" stroke-width="1" stroke-dasharray="2 2" opacity=".7"/>
+  <!-- Sello calidad -->
+  <circle cx="100" cy="112" r="14" fill="url(#gGreen)"/>
+  <path d="M94 112 L98 116 L107 107" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">Paños y Abrasivos</title>
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2BA0E0"/>
+      <stop offset="1" stop-color="#1A4F8B"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7AD83C"/>
+      <stop offset="1" stop-color="#2E8B1F"/>
+    </linearGradient>
+    <linearGradient id="gWhite" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfe4f3"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="180" height="180" rx="28" fill="#E6F3FB"/>
+
+  <!-- Paño 3 (abajo, blanco) -->
+  <path d="M28 130 L162 122 L168 162 Q168 168 162 168 L34 174 Q28 174 28 168 Z" fill="url(#gWhite)" stroke="#1B75BC" stroke-width="2"/>
+  <!-- Textura microfibra -->
+  <g stroke="#1B75BC" stroke-width="0.8" opacity=".4">
+    <line x1="40" y1="138" x2="155" y2="132"/>
+    <line x1="40" y1="146" x2="156" y2="140"/>
+    <line x1="40" y1="154" x2="157" y2="148"/>
+    <line x1="40" y1="162" x2="158" y2="156"/>
+  </g>
+  <!-- Pliegue -->
+  <path d="M28 130 Q34 120 50 122 L50 130 Z" fill="#cfe4f3"/>
+
+  <!-- Paño 2 (medio, azul) -->
+  <path d="M36 90 L168 80 L172 122 Q172 128 166 128 L40 134 Q34 134 34 128 Z" fill="url(#gBlue)"/>
+  <!-- Textura -->
+  <g stroke="#ffffff" stroke-width="0.9" opacity=".4">
+    <line x1="46" y1="98" x2="160" y2="90"/>
+    <line x1="46" y1="106" x2="161" y2="98"/>
+    <line x1="46" y1="114" x2="162" y2="106"/>
+    <line x1="46" y1="122" x2="163" y2="114"/>
+  </g>
+  <!-- Pliegue -->
+  <path d="M36 90 Q42 80 58 84 L58 92 Z" fill="#1A4F8B"/>
+  <!-- Etiqueta -->
+  <rect x="116" y="96" width="32" height="14" rx="2" fill="#ffffff"/>
+  <rect x="120" y="100" width="18" height="2.5" rx="1.25" fill="#3FAE2A"/>
+  <rect x="120" y="105" width="14" height="2" rx="1" fill="#1B75BC"/>
+
+  <!-- Paño 1 (arriba, verde) -->
+  <path d="M44 50 L160 42 L168 86 Q168 92 162 92 L48 96 Q42 96 42 90 Z" fill="url(#gGreen)"/>
+  <!-- Textura microfibra zigzag -->
+  <g stroke="#ffffff" stroke-width="0.9" opacity=".45">
+    <line x1="54" y1="56" x2="156" y2="50"/>
+    <line x1="54" y1="64" x2="156" y2="58"/>
+    <line x1="54" y1="72" x2="156" y2="66"/>
+    <line x1="54" y1="80" x2="156" y2="74"/>
+    <line x1="54" y1="88" x2="156" y2="82"/>
+  </g>
+  <!-- Pliegue -->
+  <path d="M44 50 Q50 40 66 44 L66 52 Z" fill="#2E8B1F"/>
+
+  <!-- Brillo sparkle -->
+  <g fill="#ffffff" opacity=".85">
+    <path d="M28 40 L30 46 L36 48 L30 50 L28 56 L26 50 L20 48 L26 46 Z"/>
+  </g>
+  <g fill="#3FAE2A">
+    <path d="M178 96 L180 100 L184 102 L180 104 L178 108 L176 104 L172 102 L176 100 Z"/>
+  </g>
+</svg>

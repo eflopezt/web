@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">Dispensadores y Accesorios</title>
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2BA0E0"/>
+      <stop offset="1" stop-color="#1A4F8B"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7AD83C"/>
+      <stop offset="1" stop-color="#2E8B1F"/>
+    </linearGradient>
+    <linearGradient id="gBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfe4f3"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="180" height="180" rx="28" fill="#E6F3FB"/>
+  <!-- Soporte de pared (atrás) -->
+  <rect x="38" y="36" width="124" height="14" rx="3" fill="#1B75BC" opacity=".35"/>
+  <!-- Cuerpo dispensador -->
+  <path d="M58 50 L142 50 Q150 50 150 58 L150 138 Q150 146 142 146 L122 146 L122 156 Q122 162 116 162 L84 162 Q78 162 78 156 L78 146 L58 146 Q50 146 50 138 L50 58 Q50 50 58 50 Z" fill="url(#gBody)" stroke="#1B75BC" stroke-width="2"/>
+  <!-- Ventana visor con jabón -->
+  <rect x="68" y="62" width="64" height="60" rx="6" fill="url(#gBlue)" opacity=".85"/>
+  <!-- Nivel jabón onda -->
+  <path d="M68 92 Q84 86 100 92 Q116 98 132 92 L132 122 L68 122 Z" fill="url(#gGreen)" opacity=".9"/>
+  <!-- Botón presionar -->
+  <rect x="86" y="128" width="28" height="12" rx="3" fill="url(#gGreen)"/>
+  <rect x="90" y="131" width="20" height="3" rx="1.5" fill="#ffffff" opacity=".5"/>
+  <!-- Boquilla -->
+  <rect x="92" y="156" width="16" height="8" rx="2" fill="#1A4F8B"/>
+  <!-- Gota saliendo -->
+  <path d="M100 174 Q94 184 100 192 Q106 184 100 174 Z" fill="url(#gBlue)"/>
+  <!-- Brillo -->
+  <rect x="60" y="58" width="6" height="80" rx="3" fill="#ffffff" opacity=".5"/>
+  <!-- Tornillos de fijación -->
+  <circle cx="46" cy="43" r="3" fill="#3FAE2A"/>
+  <circle cx="154" cy="43" r="3" fill="#3FAE2A"/>
+</svg>

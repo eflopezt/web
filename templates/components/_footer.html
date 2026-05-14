@@ -1,4 +1,31 @@
 {% load static %}
+<style>
+  /* En desktop (md+), siempre mostrar contenido del <details> independiente del estado open */
+  @media (min-width: 768px) {
+    .footer-accordion > summary { list-style: none; }
+    .footer-accordion > summary::-webkit-details-marker { display: none; }
+    .footer-accordion > *:not(summary) { display: revert !important; }
+  }
+  /* Quitar caret nativo */
+  .footer-accordion > summary::-webkit-details-marker { display: none; }
+  .footer-accordion > summary { list-style: none; }
+</style>
+<script>
+  // En mobile, los <details> arrancan cerrados (sin open). En md+ se mantienen visibles vía CSS.
+  (function(){
+    var mq = window.matchMedia('(max-width: 767.98px)');
+    var apply = function(){
+      document.querySelectorAll('.footer-accordion').forEach(function(d){
+        if (mq.matches) d.removeAttribute('open');
+        else d.setAttribute('open', '');
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', apply);
+    } else { apply(); }
+    if (mq.addEventListener) mq.addEventListener('change', apply);
+  })();
+</script>
 <!-- ============ CTA WhatsApp grande pre-footer ============ -->
 <section class="bg-gradient-brand text-white relative overflow-hidden">
   <div class="absolute inset-0 bg-bubbles-dark opacity-50"></div>
@@ -20,7 +47,12 @@
 <footer class="bg-[#0A2540] text-slate-300">
   <div class="container mx-auto px-4 py-16 grid md:grid-cols-5 gap-10">
     <div class="md:col-span-2">
-      <img src="{% static 'img/logo-white-real.png' %}" alt="{{ SITE_BRAND }}" class="h-16 w-auto mb-4" />
+      <img src="{% static 'img/logo-white-real.png' %}"
+           alt="{{ SITE_BRAND }} - Logo en color blanco"
+           width="886" height="566"
+           class="h-16 w-auto mb-4"
+           loading="lazy"
+           decoding="async" />
       <p class="text-sm text-slate-200">{{ SITE_TAGLINE }}.</p>
       <p class="text-xs text-slate-400 mt-3 leading-relaxed max-w-md">
         Proveedores de productos de limpieza profesional para hogar, oficinas, hoteles, restaurantes, clínicas e industria. Marcas líderes del mercado peruano.
@@ -41,37 +73,49 @@
       </div>
     </div>
 
-    <div>
-      <h4 class="text-xs font-semibold tracking-wider uppercase text-white mb-4">Catálogo</h4>
-      <ul class="space-y-2.5 text-sm">
-        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition">Todos los productos</a></li>
-        <li><a href="{% url 'catalogo:lista' %}?disp=en_stock" class="hover:text-white transition">Disponibles ahora</a></li>
-        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition">Por categoría</a></li>
-        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition">Por marca</a></li>
+    <!-- Catálogo: <details> en mobile, expandido permanentemente en md+ -->
+    <details class="footer-accordion group border-b border-white/10 md:border-0 pb-2 md:pb-0" open>
+      <summary class="md:pointer-events-none list-none flex items-center justify-between cursor-pointer py-2 md:py-0 min-h-[44px] md:min-h-0">
+        <h4 class="text-xs font-semibold tracking-wider uppercase text-white md:mb-4">Catálogo</h4>
+        <svg class="md:hidden w-4 h-4 text-slate-300 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <ul class="space-y-2.5 text-sm mt-2 md:mt-0">
+        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition inline-block py-1">Todos los productos</a></li>
+        <li><a href="{% url 'catalogo:lista' %}?disp=en_stock" class="hover:text-white transition inline-block py-1">Disponibles ahora</a></li>
+        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition inline-block py-1">Por categoría</a></li>
+        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition inline-block py-1">Por marca</a></li>
       </ul>
-    </div>
+    </details>
 
-    <div>
-      <h4 class="text-xs font-semibold tracking-wider uppercase text-white mb-4">Soluciones</h4>
-      <ul class="space-y-2.5 text-sm">
-        <li><a href="{% url 'core:solucion' 'hoteles' %}" class="hover:text-white transition">Hoteles & Restaurantes</a></li>
-        <li><a href="{% url 'core:solucion' 'clinicas' %}" class="hover:text-white transition">Clínicas & Salud</a></li>
-        <li><a href="{% url 'core:solucion' 'industria' %}" class="hover:text-white transition">Industria</a></li>
-        <li><a href="{% url 'core:solucion' 'oficinas' %}" class="hover:text-white transition">Oficinas</a></li>
-        <li><a href="{% url 'core:solucion' 'retail' %}" class="hover:text-white transition">Retail & Cadenas</a></li>
+    <!-- Soluciones: <details> en mobile -->
+    <details class="footer-accordion group border-b border-white/10 md:border-0 pb-2 md:pb-0" open>
+      <summary class="md:pointer-events-none list-none flex items-center justify-between cursor-pointer py-2 md:py-0 min-h-[44px] md:min-h-0">
+        <h4 class="text-xs font-semibold tracking-wider uppercase text-white md:mb-4">Soluciones</h4>
+        <svg class="md:hidden w-4 h-4 text-slate-300 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <ul class="space-y-2.5 text-sm mt-2 md:mt-0">
+        <li><a href="{% url 'core:solucion' 'hoteles' %}" class="hover:text-white transition inline-block py-1">Hoteles & Restaurantes</a></li>
+        <li><a href="{% url 'core:solucion' 'clinicas' %}" class="hover:text-white transition inline-block py-1">Clínicas & Salud</a></li>
+        <li><a href="{% url 'core:solucion' 'industria' %}" class="hover:text-white transition inline-block py-1">Industria</a></li>
+        <li><a href="{% url 'core:solucion' 'oficinas' %}" class="hover:text-white transition inline-block py-1">Oficinas</a></li>
+        <li><a href="{% url 'core:solucion' 'retail' %}" class="hover:text-white transition inline-block py-1">Retail & Cadenas</a></li>
       </ul>
-    </div>
+    </details>
 
-    <div>
-      <h4 class="text-xs font-semibold tracking-wider uppercase text-white mb-4">Empresa</h4>
-      <ul class="space-y-2.5 text-sm">
-        <li><a href="{% url 'core:nosotros' %}" class="hover:text-white transition">Nosotros</a></li>
-        <li><a href="{% url 'core:contacto' %}" class="hover:text-white transition">Contacto</a></li>
-        <li><a href="{% url 'core:faq' %}" class="hover:text-white transition">Preguntas frecuentes</a></li>
-        <li><a href="{% url 'core:recursos' %}" class="hover:text-white transition">Centro de recursos</a></li>
-        <li><a href="{% url 'admin:index' %}" class="hover:text-white transition">Acceso interno</a></li>
+    <!-- Empresa: <details> en mobile -->
+    <details class="footer-accordion group border-b border-white/10 md:border-0 pb-2 md:pb-0" open>
+      <summary class="md:pointer-events-none list-none flex items-center justify-between cursor-pointer py-2 md:py-0 min-h-[44px] md:min-h-0">
+        <h4 class="text-xs font-semibold tracking-wider uppercase text-white md:mb-4">Empresa</h4>
+        <svg class="md:hidden w-4 h-4 text-slate-300 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <ul class="space-y-2.5 text-sm mt-2 md:mt-0">
+        <li><a href="{% url 'core:nosotros' %}" class="hover:text-white transition inline-block py-1">Nosotros</a></li>
+        <li><a href="{% url 'core:contacto' %}" class="hover:text-white transition inline-block py-1">Contacto</a></li>
+        <li><a href="{% url 'core:faq' %}" class="hover:text-white transition inline-block py-1">Preguntas frecuentes</a></li>
+        <li><a href="{% url 'core:recursos' %}" class="hover:text-white transition inline-block py-1">Centro de recursos</a></li>
+        <li><a href="{% url 'admin:index' %}" class="hover:text-white transition inline-block py-1">Acceso interno</a></li>
       </ul>
-    </div>
+    </details>
   </div>
 
   <div class="border-t border-white/10">

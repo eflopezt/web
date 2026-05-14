@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}{% if categoria_actual %}{{ categoria_actual.nombre }}{% else %}Catálogo de productos de limpieza{% endif %} — {{ SITE_BRAND }}{% endblock %}
-{% block description %}{% if categoria_actual %}{% if categoria_actual.descripcion %}{{ categoria_actual.descripcion|truncatechars:160 }}{% else %}{{ categoria_actual.nombre }} para limpieza profesional. Las mejores marcas del mercado peruano. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endif %}{% else %}Catálogo completo de productos de limpieza profesional: papeles, lejía, desinfectantes, detergentes, bolsas, escobas y trapeadores. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endif %}{% endblock %}
+{% block description %}{% if categoria_actual %}{% if categoria_actual.descripcion %}{{ categoria_actual.descripcion|truncatechars:160 }}{% else %}{{ categoria_actual.nombre }} para limpieza profesional. Las mejores marcas del mercado peruano. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endif %}{% elif q %}Resultados de "{{ q|truncatechars:80 }}" en el catálogo de {{ SITE_BRAND }}. Productos de limpieza profesional. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% else %}Catálogo completo de productos de limpieza profesional: papeles, lejía, desinfectantes, detergentes, bolsas, escobas y trapeadores. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endif %}{% endblock %}
+
+{# Canonical sin parámetros (q, marca, disp, page) para evitar duplicados en buscadores #}
+{% block canonical %}{{ request.scheme }}://{{ request.get_host }}{% if categoria_actual %}{{ categoria_actual.get_absolute_url }}{% else %}{% url 'catalogo:lista' %}{% endif %}{% endblock %}
+
+{# Si hay búsqueda/filtros/paginación, evita indexar duplicados (canonical sigue siendo la URL limpia) #}
+{% if q or marca_slugs or disp_actual or page_obj.number > 1 %}{% block robots %}noindex, follow, max-image-preview:large{% endblock %}{% endif %}
 
 {% block og_title %}{% if categoria_actual %}{{ categoria_actual.nombre }}{% else %}Catálogo{% endif %} — {{ SITE_BRAND }}{% endblock %}
 {% block og_description %}{% if categoria_actual.descripcion %}{{ categoria_actual.descripcion|truncatechars:200 }}{% else %}Productos de limpieza profesional. {{ SITE_DELIVERY_AREA }}. Cotiza por WhatsApp {{ SITE_WHATSAPP_DISPLAY }}.{% endif %}{% endblock %}
@@ -71,6 +77,26 @@
         </h1>
         {% if categoria_actual.descripcion %}<p class="text-white/90 mt-2 max-w-2xl">{{ categoria_actual.descripcion }}</p>
         {% else %}<p class="text-white/90 mt-2">Útiles de limpieza profesional. Las marcas más solicitadas, listas para tu negocio.</p>{% endif %}
+
+        <!-- Buscador principal en el hero -->
+        <form method="get"
+              action="{% if categoria_actual %}{{ categoria_actual.get_absolute_url }}{% else %}{% url 'catalogo:lista' %}{% endif %}"
+              hx-get="{% if categoria_actual %}{{ categoria_actual.get_absolute_url }}{% else %}{% url 'catalogo:lista' %}{% endif %}"
+              hx-target="#productos-grid"
+              hx-push-url="true"
+              hx-trigger="submit, search"
+              hx-indicator=".htmx-indicator"
+              class="mt-5 max-w-xl flex gap-2">
+          {% if marca_slugs_csv %}<input type="hidden" name="marca" value="{{ marca_slugs_csv }}"/>{% endif %}
+          {% if categoria_slugs_csv %}<input type="hidden" name="categoria" value="{{ categoria_slugs_csv }}"/>{% endif %}
+          {% if disp_actual %}<input type="hidden" name="disp" value="{{ disp_actual }}"/>{% endif %}
+          {% if orden_actual and orden_actual != 'destacado' %}<input type="hidden" name="orden" value="{{ orden_actual }}"/>{% endif %}
+          <input type="search" name="q" value="{{ q }}"
+                 placeholder="Buscar por nombre, marca, SKU o presentación..."
+                 class="input input-bordered w-full text-base-content"
+                 autocomplete="off"/>
+          <button type="submit" class="btn btn-secondary font-bold">Buscar</button>
+        </form>
       </div>
       <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
          class="btn-whatsapp btn-shine font-bold px-6 h-12 rounded-full inline-flex items-center gap-2 shadow-xl">
@@ -81,42 +107,144 @@
   </div>
 </div>
 
-<div class="container mx-auto px-4 py-8 grid lg:grid-cols-[280px_1fr] gap-8">
-  <aside class="space-y-5">
+<div class="container mx-auto px-4 py-6 lg:py-8 grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-8"
+     x-data="{ filtersOpen: false }"
+     @keydown.escape.window="filtersOpen = false">
+
+  <!-- ============ Botón "Filtros" mobile (solo <lg) ============ -->
+  <div class="lg:hidden flex items-center justify-between gap-3 -mb-2">
+    <button type="button"
+            @click="filtersOpen = true"
+            :aria-expanded="filtersOpen"
+            aria-controls="catalogo-filtros-drawer"
+            class="inline-flex items-center gap-2 px-4 h-11 rounded-full bg-white border border-base-300 text-accent font-semibold text-sm shadow-sm hover:border-primary transition active:scale-[0.98]">
+      <i data-lucide="sliders-horizontal" class="w-4 h-4 text-primary"></i>
+      Filtros
+      {% if categoria_slugs or marca_slugs or disp_actual %}
+        <span class="ml-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-white text-[10px] font-bold" aria-label="filtros activos">•</span>
+      {% endif %}
+    </button>
+    <span class="text-xs text-slate-500">{{ total_productos|default:0 }} producto{{ total_productos|default:0|pluralize }}</span>
+  </div>
+
+  <!-- ============ Overlay mobile filtros ============ -->
+  <div x-show="filtersOpen"
+       x-transition.opacity
+       @click="filtersOpen = false"
+       class="lg:hidden fixed inset-0 bg-slate-900/55 backdrop-blur-sm z-[60]"
+       x-cloak
+       aria-hidden="true"></div>
+
+  <!-- ============ Sidebar / drawer mobile ============ -->
+  <aside id="catalogo-filtros-drawer"
+         class="space-y-5
+                lg:relative lg:translate-x-0 lg:block lg:bg-transparent lg:shadow-none lg:w-auto lg:max-w-none lg:p-0 lg:overflow-visible lg:z-auto
+                fixed top-0 left-0 bottom-0 w-[88%] max-w-md bg-base-200 z-[70]
+                overflow-y-auto p-4 pb-32 shadow-2xl"
+         :class="filtersOpen ? 'translate-x-0' : '-translate-x-full lg:!translate-x-0'"
+         style="transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);"
+         role="dialog" aria-modal="true" aria-label="Filtros de catálogo">
+
+    <!-- Header del drawer mobile -->
+    <div class="lg:hidden sticky top-0 -mx-4 -mt-4 mb-4 px-4 py-3 bg-white border-b border-base-300 flex items-center justify-between z-10">
+      <h2 class="font-extrabold text-accent text-base flex items-center gap-2">
+        <i data-lucide="sliders-horizontal" class="w-4 h-4 text-primary"></i>
+        Filtros
+      </h2>
+      <button type="button" @click="filtersOpen = false"
+              class="w-10 h-10 rounded-full bg-base-200 hover:bg-base-300 flex items-center justify-center text-accent transition"
+              aria-label="Cerrar filtros">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- ============ CATEGORÍAS (multi-select) ============ -->
     <div class="card bg-white border border-base-300 rounded-2xl">
       <div class="card-body p-5">
-        <h3 class="font-extrabold text-accent text-sm uppercase tracking-wider mb-3">Categorías</h3>
-        <ul class="space-y-1.5 text-sm">
-          <li><a href="{% url 'catalogo:lista' %}" class="block px-2 py-1.5 rounded-lg hover:bg-base-200 {% if not categoria_actual %}bg-primary text-white font-semibold hover:bg-primary{% endif %}">Todas</a></li>
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-extrabold text-accent text-sm uppercase tracking-wider">Categorías</h3>
+          {% if categoria_slugs %}
+          <a href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if marca_slugs_csv %}marca={{ marca_slugs_csv }}&{% endif %}{% if disp_actual %}disp={{ disp_actual }}&{% endif %}{% if orden_actual and orden_actual != 'destacado' %}orden={{ orden_actual }}{% endif %}"
+             hx-get="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if marca_slugs_csv %}marca={{ marca_slugs_csv }}&{% endif %}{% if disp_actual %}disp={{ disp_actual }}&{% endif %}{% if orden_actual and orden_actual != 'destacado' %}orden={{ orden_actual }}{% endif %}"
+             hx-target="#productos-grid" hx-push-url="true"
+             class="text-xs text-error font-semibold hover:underline">limpiar</a>
+          {% endif %}
+        </div>
+        <ul class="space-y-1.5 text-sm max-h-72 overflow-auto pr-1">
           {% for c in categorias %}
-          <li><a href="{{ c.get_absolute_url }}" class="block px-2 py-1.5 rounded-lg hover:bg-base-200 {% if categoria_actual.id == c.id %}bg-primary text-white font-semibold hover:bg-primary{% endif %}">{{ c.nombre }}</a></li>
+          <li>
+            <a href="{{ c.toggle_url }}"
+               hx-get="{{ c.toggle_url }}"
+               hx-target="#productos-grid"
+               hx-push-url="true"
+               hx-indicator=".htmx-indicator"
+               class="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg hover:bg-base-200 {% if c.selected %}bg-primary/10 text-primary font-semibold{% endif %}">
+              <span class="flex items-center gap-2">
+                <input type="checkbox" {% if c.selected %}checked{% endif %} tabindex="-1" aria-hidden="true"
+                       class="checkbox checkbox-xs checkbox-primary pointer-events-none"/>
+                <span>{{ c.nombre }}</span>
+              </span>
+              <span class="text-xs text-slate-400">{{ c.count }}</span>
+            </a>
+          </li>
           {% endfor %}
         </ul>
       </div>
     </div>
 
+    <!-- ============ DISPONIBILIDAD ============ -->
     <div class="card bg-white border border-base-300 rounded-2xl">
       <div class="card-body p-5">
         <h3 class="font-extrabold text-accent text-sm uppercase tracking-wider mb-3">Disponibilidad</h3>
-        <form hx-get="{% if categoria_actual %}{{ categoria_actual.get_absolute_url }}{% else %}{% url 'catalogo:lista' %}{% endif %}"
-              hx-target="#productos-grid" hx-push-url="true" hx-trigger="change">
-          {% if q %}<input type="hidden" name="q" value="{{ q }}"/>{% endif %}
-          {% if marca_slug %}<input type="hidden" name="marca" value="{{ marca_slug }}"/>{% endif %}
-          <label class="label cursor-pointer justify-start gap-2 py-1"><input type="radio" name="disp" value="" class="radio radio-sm radio-primary" {% if not disp_actual %}checked{% endif %}/><span class="label-text text-sm">Todas</span></label>
-          <label class="label cursor-pointer justify-start gap-2 py-1"><input type="radio" name="disp" value="en_stock" class="radio radio-sm radio-success" {% if disp_actual == "en_stock" %}checked{% endif %}/><span class="label-text text-sm">En stock</span></label>
-          <label class="label cursor-pointer justify-start gap-2 py-1"><input type="radio" name="disp" value="bajo_pedido" class="radio radio-sm radio-warning" {% if disp_actual == "bajo_pedido" %}checked{% endif %}/><span class="label-text text-sm">Bajo pedido</span></label>
-        </form>
+        <ul class="space-y-1 text-sm">
+          {% for value, label, url in disp_options %}
+          <li>
+            <a href="{{ url }}"
+               hx-get="{{ url }}"
+               hx-target="#productos-grid"
+               hx-push-url="true"
+               hx-indicator=".htmx-indicator"
+               class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-base-200 {% if disp_actual == value or not disp_actual and not value %}bg-primary/10 text-primary font-semibold{% endif %}">
+              <input type="radio" {% if disp_actual == value or not disp_actual and not value %}checked{% endif %} tabindex="-1" aria-hidden="true"
+                     class="radio radio-xs radio-primary pointer-events-none"/>
+              <span>{{ label }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
 
+    <!-- ============ MARCAS (multi-select) ============ -->
     {% if marcas %}
     <div class="card bg-white border border-base-300 rounded-2xl">
       <div class="card-body p-5">
-        <h3 class="font-extrabold text-accent text-sm uppercase tracking-wider mb-3">Marcas</h3>
-        <ul class="space-y-1 text-sm max-h-72 overflow-auto pr-1">
-          <li><a href="?" class="block px-2 py-1.5 rounded-lg hover:bg-base-200 {% if not marca_slug %}bg-secondary text-white font-semibold hover:bg-secondary{% endif %}">Todas</a></li>
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-extrabold text-accent text-sm uppercase tracking-wider">Marcas</h3>
+          {% if marca_slugs %}
+          <a href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if categoria_slugs_csv %}categoria={{ categoria_slugs_csv }}&{% endif %}{% if disp_actual %}disp={{ disp_actual }}&{% endif %}{% if orden_actual and orden_actual != 'destacado' %}orden={{ orden_actual }}{% endif %}"
+             hx-get="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if categoria_slugs_csv %}categoria={{ categoria_slugs_csv }}&{% endif %}{% if disp_actual %}disp={{ disp_actual }}&{% endif %}{% if orden_actual and orden_actual != 'destacado' %}orden={{ orden_actual }}{% endif %}"
+             hx-target="#productos-grid" hx-push-url="true"
+             class="text-xs text-error font-semibold hover:underline">limpiar</a>
+          {% endif %}
+        </div>
+        <ul class="space-y-1 text-sm max-h-80 overflow-auto pr-1">
           {% for m in marcas %}
-          <li><a href="?marca={{ m.slug }}{% if disp_actual %}&disp={{ disp_actual }}{% endif %}{% if q %}&q={{ q }}{% endif %}" class="block px-2 py-1.5 rounded-lg hover:bg-base-200 {% if marca_slug == m.slug %}bg-secondary text-white font-semibold hover:bg-secondary{% endif %}">{{ m.nombre }}</a></li>
+          <li>
+            <a href="{{ m.toggle_url }}"
+               hx-get="{{ m.toggle_url }}"
+               hx-target="#productos-grid"
+               hx-push-url="true"
+               hx-indicator=".htmx-indicator"
+               class="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg hover:bg-base-200 {% if m.selected %}bg-secondary/10 text-secondary font-semibold{% endif %} {% if m.count == 0 and not m.selected %}opacity-50{% endif %}">
+              <span class="flex items-center gap-2">
+                <input type="checkbox" {% if m.selected %}checked{% endif %} tabindex="-1" aria-hidden="true"
+                       class="checkbox checkbox-xs checkbox-secondary pointer-events-none"/>
+                <span>{{ m.nombre }}</span>
+              </span>
+              <span class="text-xs text-slate-400">{{ m.count }}</span>
+            </a>
+          </li>
           {% endfor %}
         </ul>
       </div>
@@ -137,16 +265,58 @@
         </a>
       </div>
     </div>
+
+    <!-- ============ Footer drawer mobile: aplicar filtros ============ -->
+    <div class="lg:hidden sticky bottom-0 -mx-4 -mb-32 mt-4 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] bg-white border-t border-base-300 flex gap-2 shadow-[0_-8px_24px_-12px_rgba(15,42,77,0.18)]">
+      <button type="button" @click="filtersOpen = false"
+              class="flex-1 inline-flex items-center justify-center gap-2 h-12 rounded-full bg-primary text-white font-bold text-sm shadow-md hover:bg-accent transition">
+        Ver {{ total_productos|default:0 }} resultado{{ total_productos|default:0|pluralize }}
+      </button>
+    </div>
   </aside>
 
   <section>
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
-      <p class="text-sm text-slate-600">
-        {% if q %}Resultados para "<strong class="text-accent">{{ q }}</strong>": {% endif %}
-        <strong class="text-accent">{{ page_obj.paginator.count }}</strong> producto{{ page_obj.paginator.count|pluralize }}
-      </p>
-      <span class="loading loading-spinner loading-sm htmx-indicator text-primary"></span>
+    <!-- ============ TOPBAR: contador + selector orden ============ -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-3">
+        <p class="text-base font-semibold text-accent">
+          <span class="text-2xl font-extrabold">{{ total_productos }}</span>
+          producto{{ total_productos|pluralize }} encontrado{{ total_productos|pluralize }}
+          {% if q %}<span class="text-slate-500 font-normal text-sm">para "<strong class="text-primary">{{ q }}</strong>"</span>{% endif %}
+        </p>
+        <span class="loading loading-spinner loading-sm htmx-indicator text-primary"></span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <label class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Ordenar:</label>
+        <select class="select select-sm select-bordered"
+                onchange="window.location.href = this.value"
+                aria-label="Ordenar productos">
+          {% for value, label, url in orden_options %}
+            <option value="{{ url }}" {% if orden_actual == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
+
+    <!-- ============ SUGERENCIA INTELIGENTE (q coincide con marca) ============ -->
+    {% if marca_sugerida and aplicar_marca_url %}
+    <div class="alert bg-secondary/10 border border-secondary/30 text-secondary mb-4 py-2">
+      <i data-lucide="lightbulb" class="w-5 h-5"></i>
+      <div class="flex-1 text-sm">
+        ¿Buscas la marca <strong>{{ marca_sugerida.nombre }}</strong>?
+      </div>
+      <a href="{{ aplicar_marca_url }}"
+         hx-get="{{ aplicar_marca_url }}"
+         hx-target="#productos-grid"
+         hx-push-url="true"
+         class="btn btn-sm btn-secondary">Aplicar filtro</a>
+    </div>
+    {% endif %}
+
+    <!-- ============ CHIPS DE FILTROS ACTIVOS ============ -->
+    {% include "catalogo/_filter_chips.html" %}
+
     <div id="productos-grid">
       {% include "catalogo/_lista_productos.html" %}
     </div>

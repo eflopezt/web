@@ -101,19 +101,32 @@
   }
   </script>
 
+  <!-- ============ Performance: preconnect / dns-prefetch ============ -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <!-- Preload del CSS de fuentes para que el navegador lo priorice -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- Tailwind (CDN dev mode) — necesita estar disponible antes de tailwind.config -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
-  <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+  <!-- Scripts no críticos: defer para no bloquear el render -->
+  <script defer src="https://unpkg.com/htmx.org@2.0.3"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.14.1/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
   <!-- Preline UI (Tailwind components) -->
-  <script src="https://preline.co/assets/js/hs-ui.bundle.js" defer></script>
+  <script defer src="https://preline.co/assets/js/hs-ui.bundle.js"></script>
   <!-- Lucide Icons - estándar 2025 reemplaza emojis decorativos -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+  <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <meta name="view-transition" content="same-origin">
   <style>
     @view-transition { navigation: auto; }
@@ -278,6 +291,12 @@
 </head>
 <body class="bg-base-100 text-neutral antialiased">
 
+<!-- Skip to content (accesibilidad: salta navegación con teclado) -->
+<a href="#main-content"
+   class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg focus:ring-2 focus:ring-white focus:shadow-lg focus:font-semibold">
+  Saltar al contenido principal
+</a>
+
 {% include "components/_navbar.html" %}
 
 {% if messages %}
@@ -290,13 +309,15 @@
 </div>
 {% endif %}
 
-<main>
+<main id="main-content" tabindex="-1">
   {% block content %}{% endblock %}
 </main>
 
 {% include "components/_footer.html" %}
 
 {% include "components/_whatsapp_fab.html" %}
+
+{% include "components/_mobile_wa_bar.html" %}
 
 </body>
 </html>

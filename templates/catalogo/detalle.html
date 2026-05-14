@@ -86,23 +86,24 @@
   </div>
 </div>
 
-<div class="container mx-auto px-4 py-10 grid lg:grid-cols-2 gap-12">
-  <!-- ============ Imagen ============ -->
-  <div>
-    <div class="aspect-square bg-gradient-to-br from-blue-50 to-green-50 rounded-3xl overflow-hidden border border-base-300 flex items-center justify-center relative">
+<div class="container mx-auto px-4 py-6 sm:py-10 grid lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-12">
+  <!-- ============ Imagen (primero en mobile, sticky en desktop) ============ -->
+  {% producto_ilustracion producto as ilus %}
+  <div class="lg:sticky lg:top-24 lg:self-start">
+    <div class="aspect-square bg-gradient-to-br from-blue-50 to-green-50 rounded-2xl sm:rounded-3xl overflow-hidden border border-base-300 flex items-center justify-center relative">
       {% if producto.imagen %}
       <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="w-full h-full object-cover"/>
       {% else %}
-      <div class="text-[160px] opacity-60">{% producto_emoji producto %}</div>
+      <img src="{% static ilus %}" alt="{{ producto.categoria.nombre|default:producto.nombre }}" class="w-full h-full object-contain p-8 sm:p-12"/>
       {% endif %}
       {% if producto.destacado %}
-      <span class="absolute top-5 left-5 bg-secondary text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow">★ Destacado</span>
+      <span class="absolute top-4 left-4 sm:top-5 sm:left-5 bg-secondary text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full shadow">★ Destacado</span>
       {% endif %}
     </div>
     {% if producto.imagenes.all %}
-    <div class="grid grid-cols-4 gap-3 mt-4">
+    <div class="grid grid-cols-4 gap-2 sm:gap-3 mt-3 sm:mt-4">
       {% for img in producto.imagenes.all %}
-      <div class="aspect-square bg-base-200 rounded-xl overflow-hidden border border-base-300 hover:border-primary cursor-pointer transition">
+      <div class="aspect-square bg-base-200 rounded-lg sm:rounded-xl overflow-hidden border border-base-300 hover:border-primary cursor-pointer transition">
         <img src="{{ img.imagen.url }}" alt="{{ img.alt }}" class="w-full h-full object-cover"/>
       </div>
       {% endfor %}
@@ -113,59 +114,59 @@
   <!-- ============ Info ============ -->
   <div>
     {% if producto.marca %}
-    <a href="?marca={{ producto.marca.slug }}" class="text-xs uppercase tracking-[0.2em] text-primary font-extrabold">{{ producto.marca.nombre }}</a>
+    <a href="?marca={{ producto.marca.slug }}" class="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-primary font-extrabold">{{ producto.marca.nombre }}</a>
     {% endif %}
-    <h1 class="text-3xl md:text-4xl font-extrabold text-accent mt-2 leading-tight">{{ producto.nombre }}</h1>
+    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-accent mt-1.5 sm:mt-2 leading-tight">{{ producto.nombre }}</h1>
 
-    <div class="flex flex-wrap items-center gap-2 mt-4">
-      <span class="badge badge-disp-{{ producto.disponibilidad }} px-3 h-7 text-sm">{{ producto.get_disponibilidad_display }}</span>
-      <span class="badge badge-ghost h-7">SKU {{ producto.sku }}</span>
-      {% if producto.presentacion %}<span class="badge badge-outline h-7 border-primary text-primary">{{ producto.presentacion }}</span>{% endif %}
+    <div class="flex flex-wrap items-center gap-2 mt-3 sm:mt-4">
+      <span class="badge badge-disp-{{ producto.disponibilidad }} px-3 h-7 text-xs sm:text-sm">{{ producto.get_disponibilidad_display }}</span>
+      <span class="badge badge-ghost h-7 text-xs">SKU {{ producto.sku }}</span>
+      {% if producto.presentacion %}<span class="badge badge-outline h-7 border-primary text-primary text-xs">{{ producto.presentacion }}</span>{% endif %}
     </div>
 
     {% if producto.descripcion_corta %}
-    <p class="text-slate-700 mt-5 text-lg leading-relaxed">{{ producto.descripcion_corta }}</p>
+    <p class="text-slate-700 mt-4 sm:mt-5 text-base sm:text-lg leading-relaxed">{{ producto.descripcion_corta }}</p>
     {% endif %}
 
     <!-- ============ CTA WhatsApp principal ============ -->
-    <div class="bg-gradient-brand-soft border border-primary/20 rounded-2xl p-6 mt-6">
-      <div class="flex items-start gap-3 mb-4">
-        <div class="icon-box icon-box-green">
+    <div class="bg-gradient-brand-soft border border-primary/20 rounded-2xl p-4 sm:p-6 mt-5 sm:mt-6">
+      <div class="flex items-start gap-3 mb-3 sm:mb-4">
+        <div class="icon-box icon-box-green shrink-0">
           <i data-lucide="message-circle"></i>
         </div>
         <div>
-          <h3 class="font-extrabold text-accent text-lg">Solicita tu cotización</h3>
-          <p class="text-sm text-slate-600">Atención inmediata por WhatsApp. {{ SITE_DELIVERY_AREA }}.</p>
+          <h3 class="font-extrabold text-accent text-base sm:text-lg">Solicita tu cotización</h3>
+          <p class="text-xs sm:text-sm text-slate-600">Atención inmediata por WhatsApp. {{ SITE_DELIVERY_AREA }}.</p>
         </div>
       </div>
       <a href="{% whatsapp_producto producto %}" target="_blank" rel="noopener"
-         class="btn-whatsapp btn-shine font-bold px-6 h-14 w-full rounded-full inline-flex items-center justify-center gap-3 text-lg shadow-xl">
-        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
+         class="btn-whatsapp btn-shine font-bold px-4 sm:px-6 h-14 w-full rounded-full inline-flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg shadow-xl">
+        <svg class="h-5 w-5 sm:h-6 sm:w-6 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
         Cotizar por WhatsApp
       </a>
-      <p class="text-xs text-slate-500 text-center mt-3">o llámanos al {{ SITE_PHONE }}</p>
+      <p class="text-[11px] sm:text-xs text-slate-500 text-center mt-2 sm:mt-3">o llámanos al {{ SITE_PHONE }}</p>
     </div>
 
     <!-- ============ Beneficios ============ -->
-    <div class="grid grid-cols-3 gap-3 mt-6">
-      <div class="bg-white border border-base-300 rounded-xl p-4 text-center">
-        <i data-lucide="shield-check" class="w-6 h-6 text-secondary mx-auto"></i>
-        <p class="text-xs font-semibold text-accent mt-2">Calidad garantizada</p>
+    <div class="grid grid-cols-3 gap-2 sm:gap-3 mt-5 sm:mt-6">
+      <div class="bg-white border border-base-300 rounded-xl p-3 sm:p-4 text-center">
+        <i data-lucide="shield-check" class="w-5 h-5 sm:w-6 sm:h-6 text-secondary mx-auto"></i>
+        <p class="text-[11px] sm:text-xs font-semibold text-accent mt-1.5 sm:mt-2 leading-tight">Calidad garantizada</p>
       </div>
-      <div class="bg-white border border-base-300 rounded-xl p-4 text-center">
-        <i data-lucide="truck" class="w-6 h-6 text-primary mx-auto"></i>
-        <p class="text-xs font-semibold text-accent mt-2">Envío rápido</p>
+      <div class="bg-white border border-base-300 rounded-xl p-3 sm:p-4 text-center">
+        <i data-lucide="truck" class="w-5 h-5 sm:w-6 sm:h-6 text-primary mx-auto"></i>
+        <p class="text-[11px] sm:text-xs font-semibold text-accent mt-1.5 sm:mt-2 leading-tight">Envío rápido</p>
       </div>
-      <div class="bg-white border border-base-300 rounded-xl p-4 text-center">
-        <i data-lucide="file-text" class="w-6 h-6 text-accent mx-auto"></i>
-        <p class="text-xs font-semibold text-accent mt-2">Factura SUNAT</p>
+      <div class="bg-white border border-base-300 rounded-xl p-3 sm:p-4 text-center">
+        <i data-lucide="file-text" class="w-5 h-5 sm:w-6 sm:h-6 text-accent mx-auto"></i>
+        <p class="text-[11px] sm:text-xs font-semibold text-accent mt-1.5 sm:mt-2 leading-tight">Factura SUNAT</p>
       </div>
     </div>
 
     {% if producto.descripcion %}
-    <div class="mt-8 pt-8 border-t border-base-300">
-      <h2 class="font-extrabold text-accent text-xl mb-3">Descripción</h2>
-      <div class="prose prose-slate max-w-none text-slate-700">{{ producto.descripcion|linebreaks }}</div>
+    <div class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-base-300">
+      <h2 class="font-extrabold text-accent text-lg sm:text-xl mb-2 sm:mb-3">Descripción</h2>
+      <div class="prose prose-sm sm:prose-base prose-slate max-w-none text-slate-700">{{ producto.descripcion|linebreaks }}</div>
     </div>
     {% endif %}
   </div>

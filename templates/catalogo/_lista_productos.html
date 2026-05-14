@@ -6,13 +6,24 @@
 </div>
 
 {% if page_obj.has_other_pages %}
+{% comment %}
+Build a query string suffix that preserves every active filter so each page
+link round-trips the full search state.
+{% endcomment %}
+{% spaceless %}{% with suffix='' %}{% endwith %}{% endspaceless %}
 <div class="join mt-8 flex justify-center">
   {% if page_obj.has_previous %}
-  <a class="join-item btn btn-sm" href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}{% if marca_slug %}&marca={{ marca_slug }}{% endif %}{% if disp_actual %}&disp={{ disp_actual }}{% endif %}">«</a>
+  <a class="join-item btn btn-sm"
+     href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if marca_slugs_csv %}&marca={{ marca_slugs_csv }}{% endif %}{% if categoria_slugs_csv %}&categoria={{ categoria_slugs_csv }}{% endif %}{% if disp_actual %}&disp={{ disp_actual }}{% endif %}{% if orden_actual and orden_actual != 'destacado' %}&orden={{ orden_actual }}{% endif %}"
+     hx-get="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if marca_slugs_csv %}&marca={{ marca_slugs_csv }}{% endif %}{% if categoria_slugs_csv %}&categoria={{ categoria_slugs_csv }}{% endif %}{% if disp_actual %}&disp={{ disp_actual }}{% endif %}{% if orden_actual and orden_actual != 'destacado' %}&orden={{ orden_actual }}{% endif %}"
+     hx-target="#productos-grid" hx-push-url="true" hx-indicator=".htmx-indicator">«</a>
   {% endif %}
   <span class="join-item btn btn-sm btn-disabled">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
   {% if page_obj.has_next %}
-  <a class="join-item btn btn-sm" href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}{% if marca_slug %}&marca={{ marca_slug }}{% endif %}{% if disp_actual %}&disp={{ disp_actual }}{% endif %}">»</a>
+  <a class="join-item btn btn-sm"
+     href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if marca_slugs_csv %}&marca={{ marca_slugs_csv }}{% endif %}{% if categoria_slugs_csv %}&categoria={{ categoria_slugs_csv }}{% endif %}{% if disp_actual %}&disp={{ disp_actual }}{% endif %}{% if orden_actual and orden_actual != 'destacado' %}&orden={{ orden_actual }}{% endif %}"
+     hx-get="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if marca_slugs_csv %}&marca={{ marca_slugs_csv }}{% endif %}{% if categoria_slugs_csv %}&categoria={{ categoria_slugs_csv }}{% endif %}{% if disp_actual %}&disp={{ disp_actual }}{% endif %}{% if orden_actual and orden_actual != 'destacado' %}&orden={{ orden_actual }}{% endif %}"
+     hx-target="#productos-grid" hx-push-url="true" hx-indicator=".htmx-indicator">»</a>
   {% endif %}
 </div>
 {% endif %}
@@ -22,6 +33,10 @@
   <div class="text-6xl mb-3">🔎</div>
   <p class="font-semibold mb-1">No encontramos productos con esos filtros</p>
   <p class="text-sm text-base-content/60 mb-4">Probá ajustar la búsqueda o ver el catálogo completo.</p>
-  <a href="{% url 'catalogo:lista' %}" class="btn btn-primary btn-sm">Ver todo el catálogo</a>
+  <a href="{% url 'catalogo:lista' %}"
+     hx-get="{% url 'catalogo:lista' %}"
+     hx-target="#productos-grid"
+     hx-push-url="true"
+     class="btn btn-primary btn-sm">Ver todo el catálogo</a>
 </div>
 {% endif %}

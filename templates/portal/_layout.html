@@ -4,37 +4,50 @@
 
 {% block content %}
 {% with rn=request.resolver_match.url_name %}
-<div class="bg-base-200 min-h-[calc(100vh-5rem)]">
+<div class="bg-base-200 min-h-[calc(100vh-5rem)]"
+     x-data="{ portalMenu: false }"
+     @keydown.escape.window="portalMenu = false">
   <div class="container mx-auto px-4 py-6 lg:py-8">
 
     <!-- ============ Top header del portal ============ -->
     <div class="bento bg-gradient-brand text-white rounded-2xl overflow-hidden relative mb-6">
       <div class="absolute inset-0 bg-bubbles-dark opacity-60"></div>
       <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-secondary/25 blur-3xl"></div>
-      <div class="relative px-5 lg:px-8 py-5 lg:py-6 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <div class="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] backdrop-blur">
-            <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-            Portal cliente
+      <div class="relative px-4 lg:px-8 py-4 lg:py-6 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <!-- Botón menú mobile -->
+          <button type="button"
+                  @click="portalMenu = true"
+                  :aria-expanded="portalMenu"
+                  aria-controls="portal-mobile-drawer"
+                  aria-label="Abrir menú del portal"
+                  class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white/15 hover:bg-white/25 border border-white/15 transition shrink-0">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <div class="min-w-0">
+            <div class="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] backdrop-blur">
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+              Portal cliente
+            </div>
+            <h2 class="text-lg sm:text-xl lg:text-2xl font-extrabold tracking-tight mt-1.5 truncate">
+              Hola, {{ request.user.first_name|default:request.user.cliente.display_name|default:request.user.username }}
+            </h2>
+            <p class="text-xs lg:text-sm text-white/80 mt-0.5 truncate">
+              {% if request.user.cliente %}{{ request.user.cliente.display_name }}{% else %}Bienvenido a tu portal{% endif %}
+            </p>
           </div>
-          <h2 class="text-xl lg:text-2xl font-extrabold tracking-tight mt-1.5">
-            Hola, {{ request.user.first_name|default:request.user.cliente.display_name|default:request.user.username }}
-          </h2>
-          <p class="text-xs lg:text-sm text-white/80 mt-0.5">
-            {% if request.user.cliente %}{{ request.user.cliente.display_name }}{% else %}Bienvenido a tu portal{% endif %}
-          </p>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 shrink-0">
           <a href="{% url 'catalogo:lista' %}" class="hidden md:inline-flex items-center gap-1.5 text-sm font-medium bg-white/10 hover:bg-white/20 border border-white/15 rounded-full px-4 h-10 transition">
             <i data-lucide="layout-grid" class="w-4 h-4"></i> Catálogo
           </a>
-          <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-whatsapp btn-shine inline-flex items-center gap-2 rounded-full px-4 h-10 text-sm font-semibold shadow-lg">
+          <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-whatsapp btn-shine inline-flex items-center gap-2 rounded-full px-3 sm:px-4 h-10 text-sm font-semibold shadow-lg" aria-label="Cotizar por WhatsApp">
             <i data-lucide="message-circle" class="w-4 h-4"></i>
             <span class="hidden sm:inline">WhatsApp</span>
           </a>
           <form action="{% url 'logout' %}" method="post" class="inline">
             {% csrf_token %}
-            <button class="inline-flex items-center gap-1.5 text-sm bg-white/10 hover:bg-white/20 border border-white/15 rounded-full px-4 h-10 text-white transition">
+            <button class="hidden sm:inline-flex items-center gap-1.5 text-sm bg-white/10 hover:bg-white/20 border border-white/15 rounded-full px-4 h-10 text-white transition">
               <i data-lucide="log-out" class="w-4 h-4"></i>
               <span class="hidden sm:inline">Salir</span>
             </button>
@@ -43,41 +56,75 @@
       </div>
     </div>
 
+    <!-- ============ Overlay drawer mobile ============ -->
+    <div x-show="portalMenu"
+         x-transition.opacity
+         @click="portalMenu = false"
+         class="lg:hidden fixed inset-0 bg-slate-900/55 backdrop-blur-sm z-[60]"
+         x-cloak aria-hidden="true"></div>
+
     <!-- ============ Layout: sidebar + content ============ -->
     <div class="grid lg:grid-cols-[260px_1fr] gap-6">
 
-      <!-- ============ Sidebar ============ -->
-      <aside class="lg:sticky lg:top-24 lg:self-start">
+      <!-- ============ Sidebar (drawer en mobile, sticky en desktop) ============ -->
+      <aside id="portal-mobile-drawer"
+             class="lg:sticky lg:top-24 lg:self-start
+                    lg:relative lg:translate-x-0 lg:bg-transparent lg:shadow-none lg:w-auto lg:max-w-none lg:p-0 lg:overflow-visible lg:z-auto
+                    fixed top-0 left-0 bottom-0 w-[85%] max-w-sm bg-base-200 z-[70] overflow-y-auto p-4 pb-32 shadow-2xl"
+             :class="portalMenu ? 'translate-x-0' : '-translate-x-full lg:!translate-x-0'"
+             style="transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);"
+             role="dialog" aria-modal="true" aria-label="Menú del portal cliente">
+
+        <!-- Header del drawer mobile -->
+        <div class="lg:hidden sticky top-0 -mx-4 -mt-4 mb-4 px-4 py-3 bg-white border-b border-base-300 flex items-center justify-between z-10">
+          <h2 class="font-extrabold text-accent text-base flex items-center gap-2">
+            <i data-lucide="user-circle" class="w-5 h-5 text-primary"></i>
+            Mi portal
+          </h2>
+          <button type="button" @click="portalMenu = false"
+                  class="w-10 h-10 rounded-full bg-base-200 hover:bg-base-300 flex items-center justify-center text-accent transition"
+                  aria-label="Cerrar menú">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
         <div class="bento bg-white border border-base-300 rounded-2xl p-3 shadow-sm">
           <div class="px-3 py-2 mb-1">
             <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-base-content/50">Menú</p>
           </div>
           <nav class="flex flex-col gap-0.5">
-            <a href="{% url 'portal:dashboard' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if rn == 'dashboard' %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+            <a href="{% url 'portal:dashboard' %}" @click="portalMenu = false" class="group flex items-center gap-3 px-3 py-3 lg:py-2.5 rounded-xl text-sm font-medium transition min-h-[48px] lg:min-h-0 {% if rn == 'dashboard' %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
               <span class="icon-box {% if rn == 'dashboard' %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="home" class="!w-4 !h-4"></i></span>
               <span>Inicio</span>
             </a>
-            <a href="{% url 'portal:solicitudes' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if 'solicitud' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+            <a href="{% url 'portal:solicitudes' %}" @click="portalMenu = false" class="group flex items-center gap-3 px-3 py-3 lg:py-2.5 rounded-xl text-sm font-medium transition min-h-[48px] lg:min-h-0 {% if 'solicitud' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
               <span class="icon-box {% if 'solicitud' in rn %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="inbox" class="!w-4 !h-4"></i></span>
               <span>Solicitudes</span>
             </a>
-            <a href="{% url 'portal:cotizaciones' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if 'cotizacion' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+            <a href="{% url 'portal:cotizaciones' %}" @click="portalMenu = false" class="group flex items-center gap-3 px-3 py-3 lg:py-2.5 rounded-xl text-sm font-medium transition min-h-[48px] lg:min-h-0 {% if 'cotizacion' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
               <span class="icon-box {% if 'cotizacion' in rn %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="file-text" class="!w-4 !h-4"></i></span>
               <span>Cotizaciones</span>
             </a>
-            <a href="{% url 'portal:pedidos' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if 'pedido' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+            <a href="{% url 'portal:pedidos' %}" @click="portalMenu = false" class="group flex items-center gap-3 px-3 py-3 lg:py-2.5 rounded-xl text-sm font-medium transition min-h-[48px] lg:min-h-0 {% if 'pedido' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
               <span class="icon-box {% if 'pedido' in rn %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="package" class="!w-4 !h-4"></i></span>
               <span>Pedidos</span>
             </a>
-            <a href="{% url 'portal:facturas' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if 'factura' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+            <a href="{% url 'portal:facturas' %}" @click="portalMenu = false" class="group flex items-center gap-3 px-3 py-3 lg:py-2.5 rounded-xl text-sm font-medium transition min-h-[48px] lg:min-h-0 {% if 'factura' in rn %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
               <span class="icon-box {% if 'factura' in rn %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="receipt" class="!w-4 !h-4"></i></span>
               <span>Facturas</span>
             </a>
             <div class="my-2 border-t border-base-200"></div>
-            <a href="{% url 'portal:perfil' %}" class="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition {% if rn == 'perfil' %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
+            <a href="{% url 'portal:perfil' %}" @click="portalMenu = false" class="group flex items-center gap-3 px-3 py-3 lg:py-2.5 rounded-xl text-sm font-medium transition min-h-[48px] lg:min-h-0 {% if rn == 'perfil' %}bg-gradient-brand-soft text-accent border border-primary/20{% else %}text-slate-600 hover:bg-base-200 hover:text-accent{% endif %}">
               <span class="icon-box {% if rn == 'perfil' %}icon-box-blue{% else %}bg-base-200 text-slate-500 group-hover:bg-white{% endif %} !w-8 !h-8 !rounded-lg"><i data-lucide="settings" class="!w-4 !h-4"></i></span>
               <span>Mi perfil</span>
             </a>
+            <!-- Logout visible solo en mobile (en desktop está en el header) -->
+            <form action="{% url 'logout' %}" method="post" class="lg:hidden mt-1">
+              {% csrf_token %}
+              <button class="w-full group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition min-h-[48px] text-error hover:bg-error/10">
+                <span class="icon-box bg-error/10 text-error !w-8 !h-8 !rounded-lg"><i data-lucide="log-out" class="!w-4 !h-4"></i></span>
+                <span>Cerrar sesión</span>
+              </button>
+            </form>
           </nav>
 
           <a href="{% url 'catalogo:lista' %}" class="mt-3 inline-flex w-full items-center justify-center gap-2 bg-gradient-green text-white text-sm font-bold rounded-xl px-4 h-11 btn-shine shadow-md hover:shadow-lg transition">
