@@ -1,119 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-label="ProClean Servid Innova">
   <title>ProClean Servid Innova (versión blanca)</title>
-  <desc>Variante monocroma blanca para fondos oscuros. Las opacidades sutiles diferencian los planos.</desc>
+  <desc>Variante monocroma blanca para fondos oscuros.</desc>
 
-  <!-- Cinta inferior (90%) -->
-  <path d="M 92,298
-           C 90,420 200,498 450,508
-           C 700,498 810,420 808,298
-           C 805,250 762,222 700,222
-           C 693,222 686,224 680,228
-           L 706,247
-           C 712,246 718,246 723,247
-           C 758,254 778,278 778,310
-           C 778,418 626,472 450,472
-           C 274,472 122,418 122,310
-           C 122,278 142,254 177,247
-           C 182,246 188,246 194,247
-           L 220,228
-           C 214,224 207,222 200,222
-           C 138,222 95,250 92,298 Z"
-        fill="#ffffff" opacity="0.90"/>
+  <!-- Cinta inferior -->
+  <path d="M 100,300
+           C 100,440 240,505 450,508
+           C 660,505 800,440 800,300
+           C 800,258 762,232 706,232
+           C 700,232 694,234 690,238
+           L 712,254
+           C 716,253 720,253 724,254
+           C 752,260 770,280 770,308
+           C 770,408 620,460 450,460
+           C 280,460 130,408 130,308
+           C 130,280 148,260 176,254
+           C 180,253 184,253 188,254
+           L 210,238
+           C 206,234 200,232 194,232
+           C 138,232 100,258 100,300 Z"
+        fill="#ffffff" opacity="0.92"/>
 
-  <!-- Cinta superior (100%) -->
-  <path d="M 100,262
-           C 102,140 230,90 450,86
-           C 670,90 798,140 800,262
-           C 800,308 760,332 700,332
-           C 692,332 685,330 680,326
-           L 706,308
-           C 712,309 718,309 723,308
-           C 758,302 770,282 770,260
-           C 770,160 620,124 450,124
-           C 280,124 130,160 130,260
-           C 130,282 142,302 177,308
-           C 182,309 188,309 194,308
-           L 220,326
-           C 214,330 207,332 200,332
-           C 140,332 100,308 100,262 Z"
+  <!-- Cinta superior -->
+  <path d="M 100,260
+           C 100,140 240,92 450,90
+           C 660,92 800,140 800,260
+           C 800,302 762,328 706,328
+           C 700,328 694,326 690,322
+           L 712,306
+           C 716,307 720,307 724,306
+           C 752,300 770,280 770,252
+           C 770,152 620,120 450,120
+           C 280,120 130,152 130,252
+           C 130,280 148,300 176,306
+           C 180,307 184,307 188,306
+           L 210,322
+           C 206,326 200,328 194,328
+           C 138,328 100,302 100,260 Z"
         fill="#ffffff"/>
 
-  <!-- Sombras de cruce -->
-  <path d="M 200,222 L 220,228 L 194,247 L 177,247 Z" fill="#000000" opacity="0.18"/>
-  <path d="M 700,222 L 680,228 L 706,247 L 723,247 Z" fill="#000000" opacity="0.18"/>
+  <path d="M 194,232 L 210,238 L 188,254 L 176,254 Z" fill="#000000" opacity="0.20"/>
+  <path d="M 706,232 L 690,238 L 712,254 L 724,254 Z" fill="#000000" opacity="0.20"/>
 
-  <!-- Skyline -->
-  <g transform="translate(370,90)" fill="#ffffff" opacity="0.95">
-    <rect x="0" y="142" width="18" height="58"/>
-    <rect x="20" y="108" width="24" height="92"/>
-    <rect x="46" y="62" width="32" height="138"/>
-    <polygon points="80,32 110,32 96,200 80,200"/>
-    <rect x="112" y="80" width="22" height="120"/>
-    <polygon points="136,48 158,48 158,200 136,200"/>
-    <polygon points="136,48 146,38 158,48"/>
-    <rect x="160" y="98" width="26" height="102"/>
-    <rect x="188" y="132" width="22" height="68"/>
+  <!-- Edificios -->
+  <g transform="translate(355,82)" fill="#ffffff">
+    <rect x="0" y="150" width="20" height="55"/>
+    <rect x="22" y="120" width="26" height="85"/>
+    <rect x="50" y="70" width="34" height="135"/>
+    <rect x="86" y="40" width="28" height="165"/>
+    <rect x="116" y="90" width="24" height="115"/>
+    <rect x="142" y="55" width="32" height="150"/>
+    <rect x="176" y="105" width="22" height="100"/>
+    <rect x="200" y="135" width="20" height="70"/>
 
-    <!-- Ventanas (tono ligeramente más oscuro para distinguir) -->
-    <g fill="#1A4F8B" opacity="0.35">
-      <rect x="4" y="155" width="10" height="3"/>
-      <rect x="4" y="175" width="10" height="3"/>
-      <rect x="24" y="122" width="16" height="3"/>
-      <rect x="24" y="142" width="16" height="3"/>
-      <rect x="24" y="162" width="16" height="3"/>
-      <rect x="50" y="78" width="24" height="3"/>
-      <rect x="50" y="102" width="24" height="3"/>
-      <rect x="50" y="126" width="24" height="3"/>
-      <rect x="50" y="150" width="24" height="3"/>
-      <rect x="86" y="56" width="14" height="3"/>
-      <rect x="86" y="90" width="14" height="3"/>
-      <rect x="86" y="124" width="14" height="3"/>
-      <rect x="86" y="158" width="14" height="3"/>
-      <rect x="116" y="100" width="14" height="3"/>
-      <rect x="116" y="130" width="14" height="3"/>
-      <rect x="116" y="160" width="14" height="3"/>
-      <rect x="140" y="70" width="14" height="3"/>
-      <rect x="140" y="100" width="14" height="3"/>
-      <rect x="140" y="130" width="14" height="3"/>
-      <rect x="140" y="160" width="14" height="3"/>
-      <rect x="164" y="116" width="18" height="3"/>
-      <rect x="164" y="142" width="18" height="3"/>
-      <rect x="164" y="168" width="18" height="3"/>
-      <rect x="192" y="148" width="14" height="3"/>
-      <rect x="192" y="172" width="14" height="3"/>
+    <!-- Ventanas en azul oscuro para distinguir -->
+    <g fill="#1A4F8B" opacity="0.30">
+      <rect x="4" y="162" width="12" height="2.5"/>
+      <rect x="4" y="180" width="12" height="2.5"/>
+      <rect x="26" y="132" width="18" height="2.5"/>
+      <rect x="26" y="152" width="18" height="2.5"/>
+      <rect x="26" y="172" width="18" height="2.5"/>
+      <rect x="54" y="82" width="26" height="2.5"/>
+      <rect x="54" y="104" width="26" height="2.5"/>
+      <rect x="54" y="126" width="26" height="2.5"/>
+      <rect x="54" y="148" width="26" height="2.5"/>
+      <rect x="54" y="170" width="26" height="2.5"/>
+      <rect x="90" y="52" width="20" height="2.5"/>
+      <rect x="90" y="76" width="20" height="2.5"/>
+      <rect x="90" y="100" width="20" height="2.5"/>
+      <rect x="90" y="124" width="20" height="2.5"/>
+      <rect x="90" y="148" width="20" height="2.5"/>
+      <rect x="90" y="172" width="20" height="2.5"/>
+      <rect x="120" y="102" width="16" height="2.5"/>
+      <rect x="120" y="124" width="16" height="2.5"/>
+      <rect x="120" y="146" width="16" height="2.5"/>
+      <rect x="120" y="170" width="16" height="2.5"/>
+      <rect x="146" y="68" width="24" height="2.5"/>
+      <rect x="146" y="90" width="24" height="2.5"/>
+      <rect x="146" y="112" width="24" height="2.5"/>
+      <rect x="146" y="134" width="24" height="2.5"/>
+      <rect x="146" y="156" width="24" height="2.5"/>
+      <rect x="180" y="118" width="14" height="2.5"/>
+      <rect x="180" y="140" width="14" height="2.5"/>
+      <rect x="180" y="162" width="14" height="2.5"/>
+      <rect x="204" y="148" width="12" height="2.5"/>
+      <rect x="204" y="170" width="12" height="2.5"/>
     </g>
   </g>
 
   <!-- Destellos -->
-  <g transform="translate(290,180)" fill="#ffffff">
-    <path d="M 0,-24 L 5.5,-5.5 L 24,0 L 5.5,5.5 L 0,24 L -5.5,5.5 L -24,0 L -5.5,-5.5 Z"/>
-    <path d="M 38,12 L 42,24 L 54,28 L 42,32 L 38,44 L 34,32 L 22,28 L 34,24 Z" opacity="0.9"/>
-    <path d="M 72,-10 L 75,-1 L 84,2 L 75,5 L 72,14 L 69,5 L 60,2 L 69,-1 Z" opacity="0.85"/>
+  <g transform="translate(290,175)" fill="#ffffff">
+    <path d="M 0,-22 L 5,-5 L 22,0 L 5,5 L 0,22 L -5,5 L -22,0 L -5,-5 Z"/>
+    <path d="M 36,24 L 39,11 L 50,8 L 39,5 L 36,-8 L 33,5 L 22,8 L 33,11 Z" opacity="0.9"/>
+    <path d="M 60,-8 L 62,-1 L 69,1 L 62,3 L 60,10 L 58,3 L 51,1 L 58,-1 Z" opacity="0.85"/>
   </g>
 
   <!-- Texto -->
-  <g font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-weight="800" font-style="italic" fill="#ffffff">
-    <text x="230" y="335" font-size="120" letter-spacing="-2">Pro</text>
-    <text x="430" y="335" font-size="120" letter-spacing="-2">Clean</text>
+  <g font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-style="italic" fill="#ffffff">
+    <text x="225" y="345" font-size="125" letter-spacing="-3">Pro</text>
+    <text x="425" y="345" font-size="125" letter-spacing="-3">Clean</text>
   </g>
-
-  <text x="450" y="395"
+  <text x="450" y="403"
         text-anchor="middle"
         font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
-        font-weight="700"
-        font-size="36"
-        letter-spacing="6"
-        fill="#ffffff" opacity="0.92">SERVID INNOVA</text>
+        font-weight="700" font-size="38" letter-spacing="8"
+        fill="#ffffff" opacity="0.95">SERVID INNOVA</text>
 
   <!-- Hoja -->
-  <g transform="translate(255,395)" fill="#ffffff" opacity="0.95">
-    <path d="M 0,8 C -8,-14 18,-44 70,-50 C 122,-52 160,-32 178,-2 C 172,12 138,28 78,32 C 32,32 6,24 0,8 Z"/>
-    <!-- Vena central + laterales tenues -->
-    <path d="M -2,4 C 30,-22 80,-30 130,-20 C 152,-14 168,-6 178,-2"
-          stroke="#1A4F8B" stroke-width="2" fill="none" opacity="0.5"/>
-    <path d="M 48,-18 C 56,-8 60,0 58,12" stroke="#1A4F8B" stroke-width="1.2" fill="none" opacity="0.35"/>
-    <path d="M 82,-26 C 90,-14 94,-4 94,10" stroke="#1A4F8B" stroke-width="1.2" fill="none" opacity="0.35"/>
-    <path d="M 118,-22 C 124,-12 126,-2 124,10" stroke="#1A4F8B" stroke-width="1.2" fill="none" opacity="0.35"/>
+  <g transform="translate(255,405)" fill="#ffffff">
+    <path d="M -10,8 C -22,-12 0,-44 50,-52 C 110,-58 168,-38 180,-4 C 174,12 142,30 78,34 C 22,34 -4,24 -10,8 Z"/>
+    <path d="M -8,4 C 30,-22 90,-30 140,-22 C 160,-18 174,-10 180,-4"
+          stroke="#1A4F8B" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.45"/>
+    <path d="M 55,-30 C 64,-18 68,-6 66,8" stroke="#1A4F8B" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.30"/>
+    <path d="M 95,-32 C 102,-20 104,-6 100,8" stroke="#1A4F8B" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.30"/>
+    <path d="M 130,-28 C 134,-16 132,-4 126,8" stroke="#1A4F8B" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.30"/>
   </g>
 </svg>

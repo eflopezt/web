@@ -1,4 +1,4 @@
-"""Django settings for LimpiaPro project."""
+"""Django settings for ProClean Servid Innova project."""
 
 from pathlib import Path
 import os
@@ -20,6 +20,22 @@ CSRF_TRUSTED_ORIGINS = [
     if o.strip()
 ]
 
+# --- Subpath deploy (e.g. harmoni.pe/proclean) ---
+FORCE_SCRIPT_NAME = os.environ.get("FORCE_SCRIPT_NAME", "") or None
+USE_X_FORWARDED_HOST = os.environ.get("USE_X_FORWARDED_HOST", "0") == "1"
+if os.environ.get("SECURE_PROXY_SSL_HEADER", "0") == "1":
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Cookies con el prefix correcto cuando se sirve bajo subpath
+if FORCE_SCRIPT_NAME:
+    SESSION_COOKIE_PATH = FORCE_SCRIPT_NAME
+    CSRF_COOKIE_PATH = FORCE_SCRIPT_NAME
+    LANGUAGE_COOKIE_PATH = FORCE_SCRIPT_NAME
+
+# Domain/protocolo del sitio (para sitemap.xml y JSON-LD)
+SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "proclean.pe")
+SITE_PROTOCOL = os.environ.get("SITE_PROTOCOL", "https")
+
 # --- Apps ---
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -40,10 +56,12 @@ INSTALLED_APPS = [
     "apps.portal",
 ]
 
-# Login/logout redirects
-LOGIN_URL = "/accounts/login/"
-LOGIN_REDIRECT_URL = "/post-login/"
-LOGOUT_REDIRECT_URL = "/"
+# Login/logout redirects (Django prepende FORCE_SCRIPT_NAME automáticamente al usar reverse(),
+# pero para rutas absolutas en settings necesitamos hacerlo manual)
+_SCRIPT_NAME = (FORCE_SCRIPT_NAME or "").rstrip("/")
+LOGIN_URL = f"{_SCRIPT_NAME}/accounts/login/"
+LOGIN_REDIRECT_URL = f"{_SCRIPT_NAME}/post-login/"
+LOGOUT_REDIRECT_URL = f"{_SCRIPT_NAME}/"
 
 # Datos del emisor para PDFs (modificables vía env)
 import os as _os
@@ -108,13 +126,15 @@ TIME_ZONE = "America/Lima"
 USE_I18N = True
 USE_TZ = True
 
-# --- Static + media ---
-STATIC_URL = "/static/"
+# --- Static + media (con soporte de subpath) ---
+_STATIC_PREFIX = f"{_SCRIPT_NAME}/static/" if _SCRIPT_NAME else "/static/"
+_MEDIA_PREFIX = f"{_SCRIPT_NAME}/media/" if _SCRIPT_NAME else "/media/"
+STATIC_URL = os.environ.get("STATIC_URL", _STATIC_PREFIX)
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-MEDIA_URL = "/media/"
+MEDIA_URL = os.environ.get("MEDIA_URL", _MEDIA_PREFIX)
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -141,5 +161,3 @@ SITE_PHONE = os.environ.get("SITE_PHONE", "+51 918 570 814")
 SITE_EMAIL = os.environ.get("SITE_EMAIL", "ventas@proclean.pe")
 SITE_ADDRESS = os.environ.get("SITE_ADDRESS", "Lima y Callao, Perú")
 SITE_DELIVERY_AREA = "Envío gratis en Lima y Callao"
-SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "proclean.pe")
-SITE_PROTOCOL = os.environ.get("SITE_PROTOCOL", "https")

@@ -1,109 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="ProClean">
-  <title>ProClean — imagotipo</title>
   <defs>
-    <linearGradient id="mark-ribbonBlue" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#1A4F8B"/>
-      <stop offset="55%" stop-color="#1B75BC"/>
-      <stop offset="100%" stop-color="#2BA0E0"/>
+    <linearGradient id="mk-ribbonBlue" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1A4F8B"/><stop offset="100%" stop-color="#2BA0E0"/>
     </linearGradient>
-    <linearGradient id="mark-ribbonGreen" x1="100%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#2E8B1F"/>
-      <stop offset="55%" stop-color="#3FAE2A"/>
-      <stop offset="100%" stop-color="#6BCB3A"/>
+    <linearGradient id="mk-ribbonGreen" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2E8B1F"/><stop offset="100%" stop-color="#6BCB3A"/>
     </linearGradient>
-    <linearGradient id="mark-bldgGreen" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#6BCB3A"/>
-      <stop offset="100%" stop-color="#2E8B1F"/>
+    <linearGradient id="mk-bldgGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7AD83C"/><stop offset="100%" stop-color="#2E8B1F"/>
     </linearGradient>
-    <linearGradient id="mark-bldgBlue" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#2BA0E0"/>
-      <stop offset="100%" stop-color="#1A4F8B"/>
+    <linearGradient id="mk-bldgBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3DB5E8"/><stop offset="100%" stop-color="#1A4F8B"/>
     </linearGradient>
-    <radialGradient id="mark-sparkle" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="60%" stop-color="#E6F3FB" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#1B75BC" stop-opacity="0"/>
-    </radialGradient>
   </defs>
 
-  <!-- Anillo: arco superior verde + arco inferior azul (forman círculo) -->
-  <path d="M 100,8 A 92,92 0 0,1 192,100" fill="none" stroke="url(#mark-ribbonGreen)" stroke-width="10" stroke-linecap="round"/>
-  <path d="M 100,8 A 92,92 0 0,0 8,100" fill="none" stroke="url(#mark-ribbonGreen)" stroke-width="10" stroke-linecap="round"/>
-  <path d="M 192,100 A 92,92 0 0,1 100,192" fill="none" stroke="url(#mark-ribbonBlue)" stroke-width="10" stroke-linecap="round"/>
-  <path d="M 8,100 A 92,92 0 0,0 100,192" fill="none" stroke="url(#mark-ribbonBlue)" stroke-width="10" stroke-linecap="round"/>
+  <!-- Anillo: verde arriba, azul abajo -->
+  <circle cx="100" cy="100" r="92" fill="none" stroke="url(#mk-ribbonGreen)" stroke-width="11" stroke-linecap="round"/>
+  <path d="M 100,192 A 92,92 0 0,1 8,100" fill="none" stroke="url(#mk-ribbonBlue)" stroke-width="11" stroke-linecap="round"/>
 
-  <!-- Skyline edificios centrado, alturas variadas -->
-  <g transform="translate(54,42)">
-    <!-- 1 bajo verde -->
-    <rect x="0" y="46" width="8" height="36" fill="url(#mark-bldgGreen)"/>
-    <!-- 2 medio -->
-    <rect x="9" y="30" width="11" height="52" fill="url(#mark-bldgGreen)"/>
-    <!-- 3 alto -->
-    <rect x="21" y="10" width="14" height="72" fill="url(#mark-bldgGreen)"/>
-    <!-- 4 pico verde (techo en V invertida) -->
-    <polygon points="36,18 50,18 50,82 36,82" fill="url(#mark-bldgGreen)"/>
-    <!-- 5 medio azul -->
-    <rect x="51" y="26" width="11" height="56" fill="url(#mark-bldgBlue)"/>
-    <!-- 6 alto azul con techo a dos aguas -->
-    <polygon points="63,14 75,14 75,82 63,82" fill="url(#mark-bldgBlue)"/>
-    <polygon points="63,14 69,6 75,14" fill="url(#mark-bldgBlue)"/>
-    <!-- 7 medio -->
-    <rect x="76" y="34" width="13" height="48" fill="url(#mark-bldgBlue)"/>
+  <!-- Skyline rectangular limpio -->
+  <g transform="translate(58,40)">
+    <rect x="0" y="44" width="10" height="38" fill="url(#mk-bldgGreen)"/>
+    <rect x="11" y="30" width="13" height="52" fill="url(#mk-bldgGreen)"/>
+    <rect x="25" y="6" width="16" height="76" fill="url(#mk-bldgGreen)"/>
+    <rect x="42" y="20" width="13" height="62" fill="url(#mk-bldgGreen)"/>
+    <rect x="56" y="14" width="15" height="68" fill="url(#mk-bldgBlue)"/>
+    <rect x="72" y="34" width="11" height="48" fill="url(#mk-bldgBlue)"/>
+    <rect x="84" y="44" width="9" height="38" fill="url(#mk-bldgBlue)"/>
 
     <!-- Ventanas -->
     <g fill="#ffffff" opacity="0.42">
-      <rect x="2" y="54" width="4" height="2"/>
-      <rect x="2" y="66" width="4" height="2"/>
-      <rect x="11" y="40" width="7" height="2"/>
-      <rect x="11" y="54" width="7" height="2"/>
-      <rect x="11" y="68" width="7" height="2"/>
-      <rect x="24" y="22" width="8" height="2"/>
-      <rect x="24" y="38" width="8" height="2"/>
-      <rect x="24" y="54" width="8" height="2"/>
-      <rect x="24" y="70" width="8" height="2"/>
-      <rect x="38" y="30" width="10" height="2"/>
-      <rect x="38" y="48" width="10" height="2"/>
-      <rect x="38" y="66" width="10" height="2"/>
-      <rect x="54" y="36" width="6" height="2"/>
-      <rect x="54" y="52" width="6" height="2"/>
-      <rect x="54" y="68" width="6" height="2"/>
-      <rect x="65" y="22" width="7" height="2"/>
-      <rect x="65" y="40" width="7" height="2"/>
-      <rect x="65" y="58" width="7" height="2"/>
-      <rect x="65" y="74" width="7" height="2"/>
-      <rect x="79" y="44" width="7" height="2"/>
-      <rect x="79" y="60" width="7" height="2"/>
-      <rect x="79" y="74" width="7" height="2"/>
+      <rect x="2" y="54" width="6" height="2"/>
+      <rect x="2" y="66" width="6" height="2"/>
+      <rect x="14" y="38" width="7" height="2"/>
+      <rect x="14" y="52" width="7" height="2"/>
+      <rect x="14" y="66" width="7" height="2"/>
+      <rect x="28" y="16" width="10" height="2"/>
+      <rect x="28" y="32" width="10" height="2"/>
+      <rect x="28" y="48" width="10" height="2"/>
+      <rect x="28" y="64" width="10" height="2"/>
+      <rect x="45" y="28" width="8" height="2"/>
+      <rect x="45" y="44" width="8" height="2"/>
+      <rect x="45" y="60" width="8" height="2"/>
+      <rect x="59" y="22" width="10" height="2"/>
+      <rect x="59" y="38" width="10" height="2"/>
+      <rect x="59" y="54" width="10" height="2"/>
+      <rect x="59" y="70" width="10" height="2"/>
+      <rect x="74" y="42" width="7" height="2"/>
+      <rect x="74" y="58" width="7" height="2"/>
+      <rect x="85" y="52" width="6" height="2"/>
+      <rect x="85" y="66" width="6" height="2"/>
     </g>
   </g>
 
-  <!-- Destellos (3 estrellas decrecientes) -->
-  <g transform="translate(40,68)">
-    <g>
-      <circle cx="0" cy="0" r="7" fill="url(#mark-sparkle)" opacity="0.5"/>
-      <path d="M 0,-10 L 2.5,-2.5 L 10,0 L 2.5,2.5 L 0,10 L -2.5,2.5 L -10,0 L -2.5,-2.5 Z" fill="#ffffff"/>
-    </g>
-    <g transform="translate(14,12)">
-      <path d="M 0,-7 L 1.8,-1.8 L 7,0 L 1.8,1.8 L 0,7 L -1.8,1.8 L -7,0 L -1.8,-1.8 Z" fill="#ffffff" opacity="0.95"/>
-    </g>
-    <g transform="translate(22,-4)">
-      <path d="M 0,-5 L 1.3,-1.3 L 5,0 L 1.3,1.3 L 0,5 L -1.3,1.3 L -5,0 L -1.3,-1.3 Z" fill="#ffffff" opacity="0.85"/>
-    </g>
+  <!-- Destellos -->
+  <g transform="translate(44,72)" fill="#ffffff">
+    <path d="M 0,-10 L 2.5,-2.5 L 10,0 L 2.5,2.5 L 0,10 L -2.5,2.5 L -10,0 L -2.5,-2.5 Z"/>
+    <path d="M 14,12 L 15.5,7 L 21,5.5 L 15.5,4 L 14,-1 L 12.5,4 L 7,5.5 L 12.5,7 Z" opacity="0.9"/>
+    <path d="M 24,2 L 25,5 L 28,6 L 25,7 L 24,10 L 23,7 L 20,6 L 23,5 Z" opacity="0.85"/>
   </g>
 
-  <!-- Hoja eco (almendra con venas) -->
-  <g transform="translate(56,140)">
-    <path d="M 0,6
-             C 4,-8 26,-14 56,-12
-             C 76,-8 80,4 70,14
-             C 50,20 22,20 6,16
-             C -2,12 -2,9 0,6 Z" fill="url(#mark-ribbonGreen)"/>
-    <!-- Vena central -->
-    <path d="M 2,8 C 20,0 46,-2 68,4" stroke="#ffffff" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.9"/>
-    <!-- Venas laterales -->
-    <path d="M 16,4 C 18,8 18,12 16,15" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.6"/>
-    <path d="M 34,0 C 36,5 36,10 34,14" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.6"/>
-    <path d="M 52,0 C 54,5 54,10 52,13" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <!-- Hoja -->
+  <g transform="translate(58,140)">
+    <path d="M -2,4 C 4,-10 32,-15 60,-12 C 78,-8 78,8 60,14 C 30,18 -6,14 -2,4 Z" fill="url(#mk-ribbonGreen)"/>
+    <path d="M 0,5 C 18,-5 50,-7 70,-2 C 75,0 78,4 78,4" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.9"/>
+    <path d="M 22,-9 C 26,-4 28,2 26,8" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.5"/>
+    <path d="M 42,-11 C 46,-4 46,2 44,8" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.5"/>
+    <path d="M 60,-9 C 62,-3 60,3 58,8" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.5"/>
   </g>
 </svg>
