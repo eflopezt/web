@@ -14,7 +14,10 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.14.1/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <!-- Preline UI (Tailwind components) -->
+  <script src="https://preline.co/assets/js/hs-ui.bundle.js" defer></script>
 
   <script>
     tailwind.config = {
@@ -65,6 +68,24 @@
     .htmx-request.htmx-indicator { opacity: 1; }
     /* Card hover sutil estilo Linear/Stripe */
     .card.transition:hover { transform: translateY(-1px); box-shadow: 0 8px 24px -8px rgb(15 23 42 / 0.10); }
+    /* Marquee infinito de logos */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .animate-marquee { animation: marquee 35s linear infinite; }
+    .marquee-mask { mask-image: linear-gradient(90deg, transparent, white 10%, white 90%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, white 10%, white 90%, transparent); }
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(8px); transition: opacity 700ms, transform 700ms; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    /* Gradient text */
+    .text-gradient { background: linear-gradient(90deg, #fff 0%, #cbd5e1 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .text-gradient-dark { background: linear-gradient(90deg, #0F172A 0%, #475569 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    /* Grid pattern */
+    .bg-grid { background-image: linear-gradient(rgba(15,23,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px); background-size: 32px 32px; }
+    .bg-grid-dark { background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 32px 32px; }
+    /* Dot pattern */
+    .bg-dots-dark { background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 0); background-size: 22px 22px; }
+    /* Bento card hover */
+    .bento { transition: transform 300ms, box-shadow 300ms, border-color 300ms; }
+    .bento:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -12px rgb(15 23 42 / 0.15); border-color: #cbd5e1; }
   </style>
   {% block extra_head %}{% endblock %}
 </head>
