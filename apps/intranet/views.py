@@ -638,6 +638,63 @@ def cliente_editar(request, pk):
 # ---------------------------------------------------------------------------
 
 @staff_intranet_required
+def reportes(request):
+    """Reportes simples: top productos vendidos, top clientes, ventas por mes."""
+    from django.db.models import F
+    from apps.facturacion.models import LineaFactura
+    from apps.pedidos.models import LineaPedido
+
+    # Top productos por unidades vendidas (suma de cantidad en líneas de pedido)
+    top_productos = (
+        LineaPedido.objects.exclude(producto__isnull=True)
+        .values("producto__nombre", "producto__sku")
+        .annotate(unidades=Sum("cantidad"), monto=Sum("subtotal"))
+        .order_by("-unidades")[:10]
+    )
+
+    # Top clientes por facturación (suma de total de facturas no anuladas)
+    top_clientes = (
+        Cliente.objects.exclude(facturas=None)
+        .annotate(
+            facturado=Sum("facturas__total", filter=~Q(facturas__estado="anulada")),
+            n_facturas=Count("facturas", filter=~Q(facturas__estado="anulada")),
+        )
+        .order_by("-facturado")[:10]
+    )
+
+    # Ventas por mes (últimos 6 meses)
+    from datetime import date
+    from collections import OrderedDict
+    hoy = timezone.localdate()
+    inicio = hoy.replace(day=1)
+    meses = []
+    for i in range(5, -1, -1):
+        year = inicio.year
+        m = inicio.month - i
+        while m <= 0:
+            m += 12
+            year -= 1
+        meses.append(date(year, m, 1))
+    series = OrderedDict()
+    for m_inicio in meses:
+        from calendar import monthrange
+        last_day = monthrange(m_inicio.year, m_inicio.month)[1]
+        m_fin = m_inicio.replace(day=last_day)
+        total = Factura.objects.filter(
+            fecha_emision__gte=m_inicio, fecha_emision__lte=m_fin
+        ).exclude(estado="anulada").aggregate(t=Sum("total"))["t"] or Decimal("0")
+        series[m_inicio.strftime("%b %Y")] = total
+    max_val = max(series.values()) or Decimal("1")
+
+    return render(request, "intranet/reportes.html", {
+        "top_productos": top_productos,
+        "top_clientes": top_clientes,
+        "ventas_series": series,
+        "ventas_max": max_val,
+    })
+
+
+@staff_intranet_required
 def productos_lista(request):
     qs = Producto.objects.select_related("categoria", "marca").order_by("nombre")
     q = request.GET.get("q", "").strip()

@@ -75,6 +75,7 @@
         <li><a href="{% url 'intranet:facturas' %}" class="nav-link {% if 'factura' in request.resolver_match.url_name %}active{% endif %}">🧾 Facturas</a></li>
         <li><a href="{% url 'intranet:clientes' %}" class="nav-link {% if 'cliente' in request.resolver_match.url_name %}active{% endif %}">👥 Clientes</a></li>
         <li><a href="{% url 'intranet:productos' %}" class="nav-link {% if 'producto' in request.resolver_match.url_name %}active{% endif %}">🧴 Productos</a></li>
+        <li><a href="{% url 'intranet:reportes' %}" class="nav-link {% if 'reporte' in request.resolver_match.url_name %}active{% endif %}">📊 Reportes</a></li>
         <li class="mt-4 menu-title">Administración</li>
         <li><a href="/admin/" class="nav-link" target="_blank">⚙ Django admin</a></li>
       </ul>

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Términos y condiciones — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-12 max-w-3xl prose prose-sm">
+  <h1>Términos y condiciones</h1>
+  <p class="text-base-content/60">Última actualización: {% now "d/m/Y" %}</p>
+
+  <h2>1. Quiénes somos</h2>
+  <p>{{ SITE_NAME }} es una distribuidora peruana de productos de limpieza profesional, con domicilio fiscal en {{ SITE_ADDRESS }}. Esta web es una demo en construcción.</p>
+
+  <h2>2. Catálogo y cotizaciones</h2>
+  <p>Los productos publicados son referenciales. Los precios y la disponibilidad se confirman al recibir tu solicitud de cotización. Una cotización emitida tiene validez por el plazo indicado en el documento (15 días por defecto).</p>
+
+  <h2>3. Aceptación de cotización</h2>
+  <p>Al aceptar una cotización desde el portal o por escrito, se genera un pedido. La empresa coordinará la entrega según fecha estimada y emitirá el comprobante electrónico SUNAT (factura o boleta).</p>
+
+  <h2>4. Forma de pago</h2>
+  <p>Salvo acuerdo distinto, los pagos se realizan por transferencia bancaria al BCP / BBVA / Interbank, depósito, Yape/Plin, efectivo o tarjeta. El crédito a 15 días está sujeto a evaluación.</p>
+
+  <h2>5. Entregas</h2>
+  <p>Despachamos a Lima Metropolitana, Lima provincias y todas las regiones del Perú. Los plazos varían entre 1 y 7 días hábiles según ubicación.</p>
+
+  <h2>6. Limitación de responsabilidad</h2>
+  <p>La empresa no se responsabiliza por usos inapropiados de los productos. Se entrega ficha técnica con cada despacho.</p>
+
+  <h2>7. Modificaciones</h2>
+  <p>Estos términos pueden actualizarse sin aviso previo. La versión vigente es la publicada en esta página.</p>
+</div>
+{% endblock %}

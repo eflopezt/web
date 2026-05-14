@@ -24,3 +24,11 @@ def nosotros(request):
 
 def contacto(request):
     return render(request, "core/contacto.html")
+
+
+def terminos(request):
+    return render(request, "core/terminos.html")
+
+
+def privacidad(request):
+    return render(request, "core/privacidad.html")

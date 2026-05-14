@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Política de privacidad — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-12 max-w-3xl prose prose-sm">
+  <h1>Política de privacidad</h1>
+  <p class="text-base-content/60">Última actualización: {% now "d/m/Y" %} · Conforme a la Ley 29733 — Protección de Datos Personales del Perú.</p>
+
+  <h2>1. Datos que recolectamos</h2>
+  <p>Cuando solicitas una cotización o creas una cuenta de cliente, recolectamos: razón social/nombre, RUC/DNI, email, teléfono, dirección, productos solicitados y mensajes que nos envías.</p>
+
+  <h2>2. Finalidad del tratamiento</h2>
+  <ul>
+    <li>Atender tu solicitud de cotización y emitir comprobantes electrónicos.</li>
+    <li>Comunicarnos contigo por temas comerciales (cotizaciones, pedidos, facturas).</li>
+    <li>Cumplir obligaciones legales (SUNAT, contables, tributarias).</li>
+  </ul>
+
+  <h2>3. Compartición de datos</h2>
+  <p>Tus datos no se venden ni comparten con terceros, excepto:</p>
+  <ul>
+    <li>SUNAT y entes regulatorios, cuando lo exija la ley.</li>
+    <li>Proveedores de logística para entregas (sólo nombre, dirección y teléfono).</li>
+    <li>Pasarelas de pago (cuando apliquen).</li>
+  </ul>
+
+  <h2>4. Tus derechos (ARCO)</h2>
+  <p>Puedes solicitar el acceso, rectificación, cancelación u oposición al tratamiento de tus datos escribiendo a <a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a>.</p>
+
+  <h2>5. Seguridad</h2>
+  <p>Aplicamos medidas técnicas (HTTPS, contraseñas hasheadas, auditoría) y organizativas para proteger tus datos.</p>
+
+  <h2>6. Retención</h2>
+  <p>Conservamos los datos por el tiempo necesario para cumplir las finalidades. Los datos contables se mantienen 5 años por exigencia tributaria.</p>
+
+  <h2>7. Cookies</h2>
+  <p>Esta web usa cookies de sesión y CSRF para el funcionamiento. No usamos cookies de seguimiento publicitario.</p>
+</div>
+{% endblock %}

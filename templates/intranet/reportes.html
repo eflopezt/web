@@ -1,0 +1,64 @@
+{% extends "intranet/_layout.html" %}
+{% load humanize %}
+{% block intra_title %}Reportes{% endblock %}
+{% block intra_content %}
+<h1 class="text-2xl font-bold mb-4">Reportes</h1>
+
+<div class="card bg-base-100 border border-base-300 mb-4">
+  <div class="card-body p-4">
+    <h3 class="font-bold mb-3">Ventas por mes (últimos 6 meses)</h3>
+    <div class="flex items-end gap-3 h-48">
+      {% for mes, total in ventas_series.items %}
+      <div class="flex-1 flex flex-col items-center gap-1">
+        <div class="text-xs font-semibold text-primary">S/ {{ total|floatformat:0|intcomma }}</div>
+        <div class="w-full bg-gradient-to-t from-primary to-secondary rounded-t-md transition" style="height: {% widthratio total ventas_max 100 %}%;"></div>
+        <div class="text-xs text-base-content/60">{{ mes }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-4">
+  <div class="card bg-base-100 border border-base-300">
+    <div class="card-body p-4">
+      <h3 class="font-bold mb-2">Top productos por unidades</h3>
+      <table class="table table-sm">
+        <thead><tr><th>SKU</th><th>Producto</th><th class="text-right">Unidades</th><th class="text-right">Monto</th></tr></thead>
+        <tbody>
+          {% for r in top_productos %}
+          <tr>
+            <td class="font-mono text-xs">{{ r.producto__sku }}</td>
+            <td>{{ r.producto__nombre }}</td>
+            <td class="text-right font-semibold">{{ r.unidades|floatformat:"-2" }}</td>
+            <td class="text-right">S/ {{ r.monto|floatformat:2|intcomma }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="text-center py-4 text-base-content/60">Sin pedidos aún.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 border border-base-300">
+    <div class="card-body p-4">
+      <h3 class="font-bold mb-2">Top clientes por facturación</h3>
+      <table class="table table-sm">
+        <thead><tr><th>Cliente</th><th class="text-center">Facturas</th><th class="text-right">Facturado</th></tr></thead>
+        <tbody>
+          {% for c in top_clientes %}
+          <tr>
+            <td><a href="{% url 'intranet:cliente_detalle' c.pk %}" class="link link-primary">{{ c.razon_social }}</a></td>
+            <td class="text-center">{{ c.n_facturas }}</td>
+            <td class="text-right font-semibold">S/ {{ c.facturado|floatformat:2|intcomma }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="3" class="text-center py-4 text-base-content/60">Sin facturación aún.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

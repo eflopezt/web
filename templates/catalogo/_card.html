@@ -1,9 +1,10 @@
+{% load producto_extras %}
 <div class="card bg-base-100 border border-base-300 hover:border-primary transition group overflow-hidden">
-  <a href="{{ producto.get_absolute_url }}" class="block aspect-square bg-base-200 relative overflow-hidden">
+  <a href="{{ producto.get_absolute_url }}" class="block aspect-square bg-gradient-to-br from-base-200 to-base-300 relative overflow-hidden">
     {% if producto.imagen %}
     <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="w-full h-full object-cover group-hover:scale-105 transition" loading="lazy"/>
     {% else %}
-    <div class="w-full h-full flex items-center justify-center text-6xl opacity-60">🧴</div>
+    <div class="w-full h-full flex items-center justify-center text-6xl opacity-70 group-hover:scale-110 transition">{% producto_emoji producto %}</div>
     {% endif %}
     {% if producto.destacado %}<span class="badge badge-secondary badge-sm absolute top-2 left-2">★ Destacado</span>{% endif %}
     <span class="badge badge-sm absolute top-2 right-2 badge-disp-{{ producto.disponibilidad }}">{{ producto.get_disponibilidad_display }}</span>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Página no encontrada — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-20 max-w-md text-center">
+  <div class="text-7xl mb-3">🧹</div>
+  <h1 class="text-3xl font-bold">Limpio… demasiado limpio.</h1>
+  <p class="text-base-content/60 mt-2 mb-6">La página que buscas no existe o fue movida.</p>
+  <a href="{% url 'core:home' %}" class="btn btn-primary">Volver al inicio</a>
+  <a href="{% url 'catalogo:lista' %}" class="btn btn-ghost ml-2">Ver catálogo</a>
+</div>
+{% endblock %}

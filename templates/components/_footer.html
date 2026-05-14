@@ -48,7 +48,11 @@
   <div class="border-t border-white/10">
     <div class="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-2 text-xs opacity-70">
       <span>© {% now "Y" %} {{ SITE_NAME }}. Todos los derechos reservados.</span>
-      <span>Hecho en Perú 🇵🇪</span>
+      <div class="flex gap-3">
+        <a href="{% url 'core:terminos' %}" class="hover:text-primary">Términos</a>
+        <a href="{% url 'core:privacidad' %}" class="hover:text-primary">Privacidad</a>
+        <span>Hecho en Perú 🇵🇪</span>
+      </div>
     </div>
   </div>
 </footer>

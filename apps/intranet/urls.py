@@ -47,4 +47,7 @@ urlpatterns = [
 
     # Productos (shortcut a admin)
     path("productos/", views.productos_lista, name="productos"),
+
+    # Reportes
+    path("reportes/", views.reportes, name="reportes"),
 ]
