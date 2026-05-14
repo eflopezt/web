@@ -20,6 +20,16 @@
 
       <nav class="flex items-center gap-1">
         <a href="{% url 'catalogo:lista' %}" class="btn btn-ghost btn-sm hidden lg:inline-flex">Catálogo</a>
+        <div class="dropdown dropdown-hover hidden lg:inline-block">
+          <label tabindex="0" class="btn btn-ghost btn-sm">Soluciones ▾</label>
+          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-56 z-10 border border-base-300">
+            <li><a href="{% url 'core:solucion' 'hoteles' %}">🏨 Hoteles & Restaurantes</a></li>
+            <li><a href="{% url 'core:solucion' 'clinicas' %}">🏥 Clínicas & Salud</a></li>
+            <li><a href="{% url 'core:solucion' 'industria' %}">🏭 Industria</a></li>
+            <li><a href="{% url 'core:solucion' 'oficinas' %}">🏢 Oficinas</a></li>
+            <li><a href="{% url 'core:solucion' 'retail' %}">🛒 Retail & Cadenas</a></li>
+          </ul>
+        </div>
         <a href="{% url 'core:nosotros' %}" class="btn btn-ghost btn-sm hidden lg:inline-flex">Nosotros</a>
         <a href="{% url 'core:contacto' %}" class="btn btn-ghost btn-sm hidden lg:inline-flex">Contacto</a>
 

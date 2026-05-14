@@ -79,6 +79,14 @@ class Producto(models.Model):
     presentacion = models.CharField(
         max_length=120, blank=True, help_text="Ej: Galón 4L, Bolsa 25kg, Caja 12u"
     )
+    precio_referencia = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0,
+        help_text="Precio referencial CON IGV. Se auto-llena al cotizar (se puede ajustar).",
+    )
+    descuento_volumen = models.CharField(
+        max_length=200, blank=True,
+        help_text="Ej: 'Desde 10 unid: 5% · Desde 50: 10% · Desde 100: 15%'",
+    )
     imagen = models.ImageField(upload_to="productos/", blank=True, null=True)
     disponibilidad = models.CharField(
         max_length=20, choices=DISPONIBILIDAD_CHOICES, default="en_stock"

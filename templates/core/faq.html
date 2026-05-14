@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Preguntas frecuentes — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-br from-primary to-secondary text-primary-content">
+  <div class="container mx-auto px-4 py-14 text-center max-w-3xl">
+    <span class="badge badge-secondary mb-3">Centro de ayuda</span>
+    <h1 class="text-4xl font-extrabold">Preguntas frecuentes</h1>
+    <p class="opacity-90 mt-2">¿No encuentras lo que buscas? Escríbenos a <a href="mailto:{{ SITE_EMAIL }}" class="underline">{{ SITE_EMAIL }}</a></p>
+  </div>
+</section>
+
+<section class="container mx-auto px-4 py-12 max-w-3xl">
+  <div class="space-y-2">
+    {% for faq in faqs %}
+    <div class="collapse collapse-arrow bg-base-200 border border-base-300">
+      <input type="checkbox" {% if forloop.first %}checked{% endif %} />
+      <div class="collapse-title font-semibold">{{ forloop.counter }}. {{ faq.q }}</div>
+      <div class="collapse-content"><p class="text-sm text-base-content/80">{{ faq.a }}</p></div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="mt-10 card bg-base-100 border border-base-300">
+    <div class="card-body items-center text-center">
+      <div class="text-4xl">💬</div>
+      <h3 class="font-bold">¿Tu pregunta no está aquí?</h3>
+      <p class="text-sm text-base-content/60">Estamos online de lunes a sábado para resolverte cualquier consulta.</p>
+      <div class="flex gap-2 mt-2">
+        <a href="https://wa.me/{{ SITE_WHATSAPP }}" target="_blank" class="btn btn-success btn-sm">WhatsApp</a>
+        <a href="mailto:{{ SITE_EMAIL }}" class="btn btn-primary btn-sm">Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

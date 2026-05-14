@@ -50,4 +50,11 @@ urlpatterns = [
 
     # Reportes
     path("reportes/", views.reportes, name="reportes"),
+
+    # Exports CSV
+    path("export/<str:tipo>.csv", views.export_csv, name="export_csv"),
+
+    # Quick state change
+    path("solicitudes/<str:codigo>/quick-estado/<str:estado>/", views.solicitud_quick_estado, name="solicitud_quick_estado"),
+    path("pedidos/<str:codigo>/quick-estado/<str:estado>/", views.pedido_quick_estado, name="pedido_quick_estado"),
 ]

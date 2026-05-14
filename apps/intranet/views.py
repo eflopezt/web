@@ -139,8 +139,7 @@ def solicitud_cotizar(request, codigo):
         creada_por=request.user,
     )
     for it in s.items.all():
-        precio_default = Decimal("0.00")
-        # Precio sugerido: si el producto tiene atributo "precio" lo usaríamos; aquí 0
+        precio = it.producto.precio_referencia if it.producto and it.producto.precio_referencia else Decimal("0.00")
         LineaCotizacion.objects.create(
             cotizacion=cot,
             producto=it.producto,
@@ -148,7 +147,7 @@ def solicitud_cotizar(request, codigo):
             sku=it.sku_snapshot or (it.producto.sku if it.producto else ""),
             unidad="UND",
             cantidad=it.cantidad,
-            precio_unitario=precio_default,
+            precio_unitario=precio,
             orden=it.pk,
         )
     cot.recalcular_totales()
@@ -631,6 +630,98 @@ def cliente_editar(request, pk):
     else:
         form = ClienteForm(instance=c)
     return render(request, "intranet/cliente_form.html", {"form": form, "modo": "editar", "cliente": c})
+
+
+# ---------------------------------------------------------------------------
+# Quick actions y exports
+# ---------------------------------------------------------------------------
+
+@staff_intranet_required
+@require_POST
+def solicitud_quick_estado(request, codigo, estado):
+    s = get_object_or_404(SolicitudCotizacion, codigo=codigo)
+    if estado in dict(SolicitudCotizacion.ESTADO_CHOICES):
+        s.estado = estado
+        s.save(update_fields=["estado"])
+        if request.headers.get("HX-Request"):
+            return HttpResponse(
+                f'<span class="badge badge-{s.color_estado}">{s.get_estado_display()}</span>'
+            )
+        messages.success(request, f"Solicitud {s.codigo} → {s.get_estado_display()}")
+    return redirect(request.META.get("HTTP_REFERER", reverse("intranet:solicitudes")))
+
+
+@staff_intranet_required
+@require_POST
+def pedido_quick_estado(request, codigo, estado):
+    p = get_object_or_404(Pedido, codigo=codigo)
+    if estado in dict(Pedido.ESTADO_CHOICES):
+        p.estado = estado
+        if estado == "entregado" and not p.fecha_entrega_real:
+            p.fecha_entrega_real = timezone.localdate()
+        p.save()
+        if request.headers.get("HX-Request"):
+            return HttpResponse(
+                f'<span class="badge badge-{p.color_estado}">{p.get_estado_display()}</span>'
+            )
+        messages.success(request, f"Pedido {p.codigo} → {p.get_estado_display()}")
+    return redirect(request.META.get("HTTP_REFERER", reverse("intranet:pedidos")))
+
+
+@staff_intranet_required
+def export_csv(request, tipo):
+    """Exporta cotizaciones/pedidos/facturas/clientes a CSV (UTF-8 BOM para Excel)."""
+    import csv
+    from io import StringIO
+
+    buf = StringIO()
+    buf.write("﻿")  # BOM para Excel
+    w = csv.writer(buf, delimiter=";")
+
+    if tipo == "cotizaciones":
+        w.writerow(["Código", "Cliente", "RUC", "Fecha", "Vencimiento", "Subtotal", "IGV", "Total", "Estado"])
+        for c in Cotizacion.objects.select_related("cliente").order_by("-creada"):
+            w.writerow([c.codigo, c.cliente.razon_social, c.cliente.documento,
+                        c.fecha_emision, c.fecha_vencimiento, c.subtotal, c.igv, c.total, c.get_estado_display()])
+        filename = "cotizaciones.csv"
+
+    elif tipo == "pedidos":
+        w.writerow(["Código", "Cliente", "Fecha", "Entrega est.", "Entrega real", "Subtotal", "IGV", "Total", "Estado"])
+        for p in Pedido.objects.select_related("cliente").order_by("-creado"):
+            w.writerow([p.codigo, p.cliente.razon_social, p.fecha,
+                        p.fecha_entrega_estimada or "", p.fecha_entrega_real or "",
+                        p.subtotal, p.igv, p.total, p.get_estado_display()])
+        filename = "pedidos.csv"
+
+    elif tipo == "facturas":
+        w.writerow(["Número", "Tipo", "Cliente", "RUC", "Fecha", "Vencimiento", "Subtotal", "IGV", "Total", "Saldo", "Estado pago", "Estado SUNAT"])
+        for f in Factura.objects.select_related("cliente").order_by("-fecha_emision"):
+            w.writerow([f.numero, f.get_tipo_display(), f.cliente.razon_social, f.cliente.documento,
+                        f.fecha_emision, f.fecha_vencimiento or "",
+                        f.subtotal, f.igv, f.total, f.saldo,
+                        f.get_estado_display(), f.get_estado_sunat_display()])
+        filename = "facturas.csv"
+
+    elif tipo == "clientes":
+        w.writerow(["Razón social", "Tipo", "Documento", "Email", "Teléfono", "Ciudad", "Cotizaciones", "Pedidos", "Facturas", "Total facturado"])
+        for c in Cliente.objects.annotate(
+            n_cot=Count("cotizaciones", distinct=True),
+            n_ped=Count("pedidos", distinct=True),
+            n_fac=Count("facturas", distinct=True),
+            facturado=Sum("facturas__total", filter=~Q(facturas__estado="anulada")),
+        ).order_by("razon_social"):
+            w.writerow([c.razon_social, c.get_tipo_display(), c.documento,
+                        c.email, c.telefono, c.ciudad,
+                        c.n_cot, c.n_ped, c.n_fac, c.facturado or 0])
+        filename = "clientes.csv"
+
+    else:
+        from django.http import HttpResponseNotFound
+        return HttpResponseNotFound("Tipo de export desconocido")
+
+    resp = HttpResponse(buf.getvalue(), content_type="text/csv; charset=utf-8")
+    resp["Content-Disposition"] = f'attachment; filename="{filename}"'
+    return resp
 
 
 # ---------------------------------------------------------------------------

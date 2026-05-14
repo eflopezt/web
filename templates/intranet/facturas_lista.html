@@ -2,7 +2,10 @@
 {% load humanize %}
 {% block intra_title %}Facturas{% endblock %}
 {% block intra_content %}
-<h1 class="text-2xl font-bold mb-3">Facturas y Boletas</h1>
+<div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+  <h1 class="text-2xl font-bold">Facturas y Boletas</h1>
+  <a href="{% url 'intranet:export_csv' 'facturas' %}" class="btn btn-outline btn-sm">⬇ CSV</a>
+</div>
 <form class="flex flex-wrap gap-2 mb-3">
   <input type="search" name="q" value="{{ q }}" placeholder="Número, cliente, RUC..." class="input input-bordered input-sm flex-1 min-w-[200px]"/>
   <select name="estado" class="select select-bordered select-sm">

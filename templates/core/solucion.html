@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}{{ data.titulo }} — {{ SITE_NAME }}{% endblock %}
+{% block description %}{{ data.tagline }}{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-br from-primary to-secondary text-primary-content">
+  <div class="container mx-auto px-4 py-14 max-w-5xl">
+    <div class="text-7xl mb-3">{{ data.emoji }}</div>
+    <span class="badge badge-secondary mb-3">Solución para tu industria</span>
+    <h1 class="text-4xl md:text-5xl font-extrabold">{{ data.titulo }}</h1>
+    <p class="text-lg md:text-xl opacity-90 mt-3 max-w-3xl">{{ data.tagline }}</p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href="{% url 'catalogo:lista' %}" class="btn btn-secondary btn-lg gap-2">{{ data.cta }} →</a>
+      <a href="https://wa.me/{{ SITE_WHATSAPP }}?text=Hola%2C%20me%20interesa%20cotizar%20para%20{{ data.titulo|urlencode }}." target="_blank" class="btn btn-lg btn-outline border-white text-white hover:bg-white hover:text-primary">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="container mx-auto px-4 py-12 max-w-5xl">
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="prose">
+      <h2>¿Por qué nosotros?</h2>
+      <p>{{ data.descripcion }}</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-3">
+      {% for icon, titulo, desc in data.puntos %}
+      <div class="card bg-base-100 border border-base-300">
+        <div class="card-body p-4">
+          <div class="text-3xl">{{ icon }}</div>
+          <h3 class="font-bold">{{ titulo }}</h3>
+          <p class="text-sm text-base-content/70">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if productos %}
+<section class="bg-base-200">
+  <div class="container mx-auto px-4 py-12 max-w-6xl">
+    <h2 class="text-2xl md:text-3xl font-bold mb-2">Productos recomendados para {{ data.titulo|lower }}</h2>
+    <p class="text-base-content/60 mb-6">Una selección curada por nuestros especialistas. Solicita la cotización completa.</p>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {% for p in productos %}
+        {% include "catalogo/_card.html" with producto=p %}
+      {% endfor %}
+    </div>
+    <div class="text-center mt-6"><a href="{% url 'catalogo:lista' %}" class="btn btn-primary">Ver catálogo completo →</a></div>
+  </div>
+</section>
+{% endif %}
+
+<section class="container mx-auto px-4 py-12 max-w-5xl">
+  <h2 class="text-2xl md:text-3xl font-bold mb-5 text-center">Otras industrias que atendemos</h2>
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+    {% for k, s in soluciones.items %}
+      {% if k != data.slug %}
+      <a href="{% url 'core:solucion' k %}" class="card bg-base-100 hover:bg-primary hover:text-primary-content border border-base-300 hover:border-primary transition group">
+        <div class="card-body p-4 items-center text-center">
+          <div class="text-3xl group-hover:scale-110 transition">{{ s.emoji }}</div>
+          <div class="font-bold text-sm">{{ s.titulo }}</div>
+        </div>
+      </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="bg-gradient-to-r from-primary to-secondary text-primary-content">
+  <div class="container mx-auto px-4 py-12 text-center max-w-2xl">
+    <h2 class="text-2xl md:text-3xl font-bold">Coordinemos una visita técnica</h2>
+    <p class="mt-2 opacity-90">Un especialista visita tu local sin costo, evalúa tus consumos y arma tu plan de suministro.</p>
+    <div class="mt-5 flex flex-wrap justify-center gap-3">
+      <a href="{% url 'core:contacto' %}" class="btn btn-secondary btn-lg">Agendar visita</a>
+      <a href="{% url 'catalogo:lista' %}" class="btn btn-lg btn-outline border-white text-white hover:bg-white hover:text-primary">Cotizar online</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

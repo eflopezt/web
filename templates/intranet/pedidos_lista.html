@@ -2,7 +2,10 @@
 {% load humanize %}
 {% block intra_title %}Pedidos{% endblock %}
 {% block intra_content %}
-<h1 class="text-2xl font-bold mb-3">Pedidos</h1>
+<div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+  <h1 class="text-2xl font-bold">Pedidos</h1>
+  <a href="{% url 'intranet:export_csv' 'pedidos' %}" class="btn btn-outline btn-sm">⬇ CSV</a>
+</div>
 <form class="flex flex-wrap gap-2 mb-3">
   <input type="search" name="q" value="{{ q }}" placeholder="Código o cliente..." class="input input-bordered input-sm flex-1 min-w-[200px]"/>
   <select name="estado" class="select select-bordered select-sm">
@@ -22,7 +25,16 @@
         <td>{{ p.fecha|date:"d/m/Y" }}</td>
         <td>{{ p.fecha_entrega_estimada|date:"d/m/Y"|default:"—" }}</td>
         <td class="text-right font-semibold">S/ {{ p.total|floatformat:2|intcomma }}</td>
-        <td><span class="badge badge-{{ p.color_estado }}">{{ p.get_estado_display }}</span></td>
+        <td>
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="badge badge-{{ p.color_estado }} cursor-pointer">{{ p.get_estado_display }} ▾</label>
+            <ul tabindex="0" class="dropdown-content menu p-1 shadow bg-base-100 rounded-box w-44 z-10 text-xs border border-base-300">
+              {% for v,l in estados %}
+              <li><form method="post" action="{% url 'intranet:pedido_quick_estado' p.codigo v %}">{% csrf_token %}<button class="text-left">{{ l }}</button></form></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </td>
         <td class="text-right"><a href="{% url 'intranet:pedido_detalle' p.codigo %}" class="btn btn-xs btn-primary">Ver</a></td>
       </tr>
       {% empty %}

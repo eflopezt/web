@@ -25,7 +25,16 @@
         <td>{{ s.razon_social|default:"—" }}<div class="text-xs text-base-content/60">{{ s.ruc }}</div></td>
         <td>{{ s.nombre_contacto }}<div class="text-xs text-base-content/60">{{ s.email }} · {{ s.telefono }}</div></td>
         <td class="text-center">{{ s.total_items }}</td>
-        <td><span class="badge badge-{{ s.color_estado }}">{{ s.get_estado_display }}</span></td>
+        <td>
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="badge badge-{{ s.color_estado }} cursor-pointer">{{ s.get_estado_display }} ▾</label>
+            <ul tabindex="0" class="dropdown-content menu p-1 shadow bg-base-100 rounded-box w-44 z-10 text-xs border border-base-300">
+              {% for v,l in estados %}
+              <li><form method="post" action="{% url 'intranet:solicitud_quick_estado' s.codigo v %}">{% csrf_token %}<button class="text-left">{{ l }}</button></form></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </td>
         <td class="text-right">
           <a href="{% url 'intranet:solicitud_detalle' s.codigo %}" class="btn btn-xs btn-primary">Ver</a>
         </td>

@@ -1,6 +1,20 @@
-<footer class="bg-neutral text-neutral-content mt-16">
-  <div class="container mx-auto px-4 py-12 grid md:grid-cols-4 gap-8">
+<section class="bg-gradient-to-r from-primary to-info text-primary-content">
+  <div class="container mx-auto px-4 py-10 grid md:grid-cols-[1.5fr_1fr] gap-6 items-center">
     <div>
+      <h3 class="text-2xl font-bold">📩 Suscríbete a novedades B2B</h3>
+      <p class="opacity-90 text-sm mt-1">Tips de ahorro, nuevos productos y promociones exclusivas para empresas. Sin spam.</p>
+    </div>
+    <form method="post" action="{% url 'core:newsletter' %}" class="flex gap-2">
+      {% csrf_token %}
+      <input type="email" name="email" required placeholder="tu@empresa.pe" class="input input-bordered flex-1 text-neutral"/>
+      <button type="submit" class="btn btn-secondary">Suscribirme</button>
+    </form>
+  </div>
+</section>
+
+<footer class="bg-neutral text-neutral-content">
+  <div class="container mx-auto px-4 py-12 grid md:grid-cols-5 gap-8">
+    <div class="md:col-span-2">
       <div class="flex items-center gap-2 mb-3">
         <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs><linearGradient id="fg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#10B981"/></linearGradient></defs>
@@ -22,10 +36,22 @@
     </div>
 
     <div>
+      <h4 class="font-semibold mb-3 text-primary">Soluciones</h4>
+      <ul class="space-y-1.5 text-sm opacity-80">
+        <li><a href="{% url 'core:solucion' 'hoteles' %}" class="hover:text-primary">Hoteles & Restaurantes</a></li>
+        <li><a href="{% url 'core:solucion' 'clinicas' %}" class="hover:text-primary">Clínicas & Salud</a></li>
+        <li><a href="{% url 'core:solucion' 'industria' %}" class="hover:text-primary">Industria</a></li>
+        <li><a href="{% url 'core:solucion' 'oficinas' %}" class="hover:text-primary">Oficinas</a></li>
+        <li><a href="{% url 'core:solucion' 'retail' %}" class="hover:text-primary">Retail & Cadenas</a></li>
+      </ul>
+    </div>
+
+    <div>
       <h4 class="font-semibold mb-3 text-primary">Empresa</h4>
       <ul class="space-y-1.5 text-sm opacity-80">
         <li><a href="{% url 'core:nosotros' %}" class="hover:text-primary">Nosotros</a></li>
         <li><a href="{% url 'core:contacto' %}" class="hover:text-primary">Contacto</a></li>
+        <li><a href="{% url 'core:faq' %}" class="hover:text-primary">Preguntas frecuentes</a></li>
         <li><a href="/admin/" class="hover:text-primary">Acceso interno</a></li>
       </ul>
     </div>

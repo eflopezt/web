@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block title %}{{ SITE_NAME }} — {{ SITE_TAGLINE }}{% endblock %}
 
 {% block content %}
+<!-- HERO -->
 <section class="relative overflow-hidden bg-gradient-to-br from-primary via-info to-secondary text-primary-content">
   <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 30%, white 1px, transparent 1px), radial-gradient(circle at 80% 70%, white 1px, transparent 1px); background-size: 60px 60px;"></div>
   <div class="container mx-auto px-4 py-16 md:py-24 relative">
@@ -12,7 +14,7 @@
           Limpieza profesional para empresas que <span class="text-secondary">exigen calidad</span>.
         </h1>
         <p class="mt-5 text-lg md:text-xl opacity-90 max-w-xl">
-          Distribuimos detergentes, desinfectantes, papel, dispensadores y equipos para hoteles, restaurantes, clínicas, industrias y oficinas. Consulta precio y stock al instante.
+          +500 productos para hoteles, restaurantes, clínicas, industria, oficinas y retail. Cotización personalizada en menos de 24 horas hábiles.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="{% url 'catalogo:lista' %}" class="btn btn-secondary btn-lg gap-2">
@@ -26,18 +28,22 @@
         </div>
         <div class="mt-8 grid grid-cols-3 gap-4 max-w-md">
           <div><div class="text-2xl md:text-3xl font-bold">+500</div><div class="text-xs opacity-80">productos</div></div>
-          <div><div class="text-2xl md:text-3xl font-bold">24h</div><div class="text-xs opacity-80">respuesta a cotización</div></div>
+          <div><div class="text-2xl md:text-3xl font-bold">24h</div><div class="text-xs opacity-80">respuesta cotización</div></div>
           <div><div class="text-2xl md:text-3xl font-bold">100%</div><div class="text-xs opacity-80">factura electrónica</div></div>
         </div>
       </div>
 
       <div class="relative hidden lg:block">
-        <div class="aspect-square bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+        <div class="aspect-square bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 relative">
           <div class="grid grid-cols-2 gap-4 h-full">
-            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-6xl">🧴</div>
-            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-6xl">🧼</div>
-            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-6xl">🧽</div>
-            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-6xl">🧹</div>
+            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-7xl">🧴</div>
+            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-7xl">💧</div>
+            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-7xl">🧻</div>
+            <div class="bg-white/20 rounded-2xl flex items-center justify-center text-7xl">🧹</div>
+          </div>
+          <div class="absolute -bottom-3 -right-3 bg-white text-primary rounded-2xl shadow-xl px-4 py-3 flex items-center gap-2">
+            <div class="text-2xl">⚡</div>
+            <div><div class="font-bold text-sm leading-tight">Despacho</div><div class="text-xs">en 24 a 72 h</div></div>
           </div>
         </div>
       </div>
@@ -45,10 +51,85 @@
   </div>
 </section>
 
+<!-- BANNER DE SERVICIOS -->
+<section class="bg-base-100 border-b border-base-300">
+  <div class="container mx-auto px-4 py-5 grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
+    <div class="flex flex-col items-center gap-1">
+      <div class="text-2xl">🚚</div>
+      <div class="font-semibold">Despacho 24-72h</div>
+      <div class="text-xs text-base-content/60">Lima y provincias</div>
+    </div>
+    <div class="flex flex-col items-center gap-1">
+      <div class="text-2xl">💳</div>
+      <div class="font-semibold">Crédito 15 días</div>
+      <div class="text-xs text-base-content/60">Sujeto a evaluación</div>
+    </div>
+    <div class="flex flex-col items-center gap-1">
+      <div class="text-2xl">🧾</div>
+      <div class="font-semibold">Factura SUNAT</div>
+      <div class="text-xs text-base-content/60">Electrónica al instante</div>
+    </div>
+    <div class="flex flex-col items-center gap-1">
+      <div class="text-2xl">🎯</div>
+      <div class="font-semibold">Asesoría técnica</div>
+      <div class="text-xs text-base-content/60">Optimiza tu consumo</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUCIONES POR INDUSTRIA -->
+<section class="bg-base-200">
+  <div class="container mx-auto px-4 py-14">
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <span class="badge badge-primary mb-2">Soluciones B2B</span>
+      <h2 class="text-3xl md:text-4xl font-bold">Hecho a la medida de tu industria</h2>
+      <p class="text-base-content/60 mt-2">Cada sector tiene exigencias distintas. Te asesoramos con los productos correctos y volúmenes óptimos.</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+      <a href="{% url 'core:solucion' 'hoteles' %}" class="card bg-base-100 hover:bg-primary hover:text-primary-content border border-base-300 hover:border-primary transition group">
+        <div class="card-body p-5 items-center text-center">
+          <div class="text-4xl group-hover:scale-110 transition">🏨</div>
+          <div class="font-bold">Hoteles & Restaurantes</div>
+          <div class="text-xs opacity-70">Limpieza diaria + cocina + lavandería</div>
+        </div>
+      </a>
+      <a href="{% url 'core:solucion' 'clinicas' %}" class="card bg-base-100 hover:bg-primary hover:text-primary-content border border-base-300 hover:border-primary transition group">
+        <div class="card-body p-5 items-center text-center">
+          <div class="text-4xl group-hover:scale-110 transition">🏥</div>
+          <div class="font-bold">Clínicas & Salud</div>
+          <div class="text-xs opacity-70">Desinfección hospitalaria + DIGESA</div>
+        </div>
+      </a>
+      <a href="{% url 'core:solucion' 'industria' %}" class="card bg-base-100 hover:bg-primary hover:text-primary-content border border-base-300 hover:border-primary transition group">
+        <div class="card-body p-5 items-center text-center">
+          <div class="text-4xl group-hover:scale-110 transition">🏭</div>
+          <div class="font-bold">Industria</div>
+          <div class="text-xs opacity-70">Desengrasantes + equipos</div>
+        </div>
+      </a>
+      <a href="{% url 'core:solucion' 'oficinas' %}" class="card bg-base-100 hover:bg-primary hover:text-primary-content border border-base-300 hover:border-primary transition group">
+        <div class="card-body p-5 items-center text-center">
+          <div class="text-4xl group-hover:scale-110 transition">🏢</div>
+          <div class="font-bold">Oficinas</div>
+          <div class="text-xs opacity-70">Mantención corporativa</div>
+        </div>
+      </a>
+      <a href="{% url 'core:solucion' 'retail' %}" class="card bg-base-100 hover:bg-primary hover:text-primary-content border border-base-300 hover:border-primary transition group">
+        <div class="card-body p-5 items-center text-center">
+          <div class="text-4xl group-hover:scale-110 transition">🛒</div>
+          <div class="font-bold">Retail & Cadenas</div>
+          <div class="text-xs opacity-70">Multi-local + recurrente</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORÍAS -->
 <section class="container mx-auto px-4 py-12">
   <div class="flex items-end justify-between mb-6">
     <div>
-      <h2 class="text-2xl md:text-3xl font-bold">Categorías</h2>
+      <h2 class="text-2xl md:text-3xl font-bold">Categorías de productos</h2>
       <p class="text-base-content/60">Encuentra lo que necesitas, organizado por línea.</p>
     </div>
     <a href="{% url 'catalogo:lista' %}" class="btn btn-ghost btn-sm hidden md:inline-flex">Ver todas →</a>
@@ -66,6 +147,7 @@
   </div>
 </section>
 
+<!-- PRODUCTOS DESTACADOS -->
 <section class="bg-base-200">
   <div class="container mx-auto px-4 py-12">
     <div class="flex items-end justify-between mb-6">
@@ -85,28 +167,68 @@
   </div>
 </section>
 
-<section class="container mx-auto px-4 py-12">
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="card bg-base-100 border border-base-300">
-      <div class="card-body">
-        <div class="text-3xl">🚚</div>
-        <h3 class="font-bold text-lg">Despacho a todo el Perú</h3>
-        <p class="text-sm text-base-content/70">Coordinamos entregas en Lima provincias y todas las regiones, con seguimiento del envío.</p>
+<!-- CÓMO FUNCIONA -->
+<section class="container mx-auto px-4 py-14">
+  <div class="text-center max-w-2xl mx-auto mb-10">
+    <span class="badge badge-secondary mb-2">Proceso simple</span>
+    <h2 class="text-3xl md:text-4xl font-bold">Cómo funciona</h2>
+    <p class="text-base-content/60 mt-2">De la cotización a la entrega en 4 pasos.</p>
+  </div>
+  <div class="grid md:grid-cols-4 gap-4">
+    {% for step in pasos %}
+    <div class="card bg-base-100 border border-base-300 relative">
+      <div class="card-body p-5">
+        <div class="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-primary text-primary-content flex items-center justify-center font-bold">{{ forloop.counter }}</div>
+        <div class="text-3xl mb-2">{{ step.icon }}</div>
+        <h3 class="font-bold">{{ step.titulo }}</h3>
+        <p class="text-sm text-base-content/70">{{ step.descripcion }}</p>
       </div>
     </div>
-    <div class="card bg-base-100 border border-base-300">
-      <div class="card-body">
-        <div class="text-3xl">💼</div>
-        <h3 class="font-bold text-lg">Atención B2B especializada</h3>
-        <p class="text-sm text-base-content/70">Asesoría para hoteles, restaurantes, clínicas, industrias, retail y empresas de servicios.</p>
-      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- CLIENTES (LOGOS DEMO) -->
+<section class="bg-base-200">
+  <div class="container mx-auto px-4 py-10">
+    <p class="text-center text-sm text-base-content/60 mb-5">Empresas que confían en nosotros <span class="text-base-content/40">(demo)</span></p>
+    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 opacity-60">
+      <div class="font-bold text-xl">🏨 Brisamar Hotels</div>
+      <div class="font-bold text-xl">🏭 InduAndina</div>
+      <div class="font-bold text-xl">🏥 Vida Plena</div>
+      <div class="font-bold text-xl">☕ Café del Norte</div>
+      <div class="font-bold text-xl">🛒 SuperMercados Lima</div>
+      <div class="font-bold text-xl">🏢 Torre Empresarial</div>
     </div>
-    <div class="card bg-base-100 border border-base-300">
-      <div class="card-body">
-        <div class="text-3xl">🧾</div>
-        <h3 class="font-bold text-lg">Factura electrónica SUNAT</h3>
-        <p class="text-sm text-base-content/70">Emitimos comprobante electrónico al instante una vez confirmada tu compra.</p>
-      </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="container mx-auto px-4 py-14 max-w-3xl">
+  <div class="text-center mb-8">
+    <span class="badge badge-info mb-2">Preguntas frecuentes</span>
+    <h2 class="text-3xl font-bold">¿Tienes dudas?</h2>
+  </div>
+  <div class="space-y-2">
+    {% for faq in faqs %}
+    <div class="collapse collapse-arrow bg-base-200 border border-base-300">
+      <input type="checkbox" {% if forloop.first %}checked{% endif %} />
+      <div class="collapse-title font-semibold">{{ faq.q }}</div>
+      <div class="collapse-content"><p class="text-sm text-base-content/80">{{ faq.a }}</p></div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="text-center mt-6"><a href="{% url 'core:faq' %}" class="link link-primary text-sm">Ver todas las preguntas →</a></div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="bg-gradient-to-r from-primary to-secondary text-primary-content">
+  <div class="container mx-auto px-4 py-14 text-center max-w-2xl">
+    <h2 class="text-3xl md:text-4xl font-bold">¿Listo para optimizar tu limpieza?</h2>
+    <p class="mt-3 opacity-90">Recibe tu cotización personalizada en menos de 24 horas hábiles.</p>
+    <div class="mt-6 flex flex-wrap justify-center gap-3">
+      <a href="{% url 'catalogo:lista' %}" class="btn btn-lg btn-secondary">Ver catálogo</a>
+      <a href="{% url 'core:contacto' %}" class="btn btn-lg btn-outline border-white text-white hover:bg-white hover:text-primary">Hablar con ventas</a>
     </div>
   </div>
 </section>
