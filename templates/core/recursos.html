@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Centro de recursos — {{ SITE_NAME }}{% endblock %}
+{% block description %}Guías prácticas para optimizar el consumo de suministros de limpieza profesional.{% endblock %}
+
+{% block content %}
+<section class="bg-slate-950 text-slate-50 relative overflow-hidden">
+  <div class="absolute inset-0 bg-grid-dark opacity-40"></div>
+  <div class="absolute inset-x-0 top-0 h-80" style="background: radial-gradient(ellipse 50% 100% at 50% 0%, rgba(30,64,175,0.18), transparent);"></div>
+  <div class="container mx-auto px-4 py-24 max-w-4xl relative">
+    <span class="text-xs font-medium tracking-[0.2em] uppercase text-slate-400">Centro de recursos</span>
+    <h1 class="text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05] mt-3">
+      Guías para comprar<br/><span class="text-gradient">mejor y ahorrar.</span>
+    </h1>
+    <p class="text-lg text-slate-400 mt-6 max-w-2xl">Recursos prácticos escritos por nuestros especialistas para que tomes mejores decisiones de compra.</p>
+  </div>
+</section>
+
+<section class="container mx-auto px-4 py-20 max-w-6xl">
+  <div class="grid md:grid-cols-2 gap-4">
+    {% for g in guias %}
+    <a href="{% url 'core:guia' g.slug %}" class="bento bg-white border border-slate-200 rounded-2xl p-7 group flex flex-col">
+      <div class="flex items-center justify-between mb-6">
+        <div class="icon-box bg-slate-100 group-hover:bg-slate-900 group-hover:text-white text-slate-700 transition">
+          <i data-lucide="{{ g.icon }}"></i>
+        </div>
+        <span class="text-[10px] font-medium tracking-wider uppercase text-slate-500 bg-slate-100 px-2 py-1 rounded">{{ g.categoria }}</span>
+      </div>
+      <h3 class="text-xl font-semibold text-slate-900 leading-snug">{{ g.titulo }}</h3>
+      <p class="text-sm text-slate-500 mt-3 leading-relaxed flex-1">{{ g.resumen }}</p>
+      <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
+        <span class="text-xs text-slate-400 flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5"></i> {{ g.lectura }}</span>
+        <span class="text-sm font-medium text-slate-900 group-hover:text-slate-700 transition flex items-center gap-1">Leer <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition group-hover:translate-x-0.5"></i></span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <div class="mt-16 text-center">
+    <p class="text-sm text-slate-500">¿Te interesa un tema específico?</p>
+    <a href="{% url 'core:contacto' %}" class="text-sm font-medium text-slate-900 link-anim inline-flex items-center gap-1.5 mt-2">Sugerir tema <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+  </div>
+</section>
+{% endblock %}

@@ -18,6 +18,13 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
   <!-- Preline UI (Tailwind components) -->
   <script src="https://preline.co/assets/js/hs-ui.bundle.js" defer></script>
+  <!-- Lucide Icons - estándar 2025 reemplaza emojis decorativos -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+  <meta name="view-transition" content="same-origin">
+  <style>
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 200ms; }
+  </style>
 
   <script>
     tailwind.config = {
@@ -86,7 +93,50 @@
     /* Bento card hover */
     .bento { transition: transform 300ms, box-shadow 300ms, border-color 300ms; }
     .bento:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -12px rgb(15 23 42 / 0.15); border-color: #cbd5e1; }
+    /* Link underline animado (microinteracción premium) */
+    .link-anim { background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size 300ms ease; }
+    .link-anim:hover { background-size: 100% 1px; }
+    /* Botón con shine sutil */
+    .btn-shine { position: relative; overflow: hidden; }
+    .btn-shine::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%); transform: translateX(-100%); transition: transform 800ms; }
+    .btn-shine:hover::after { transform: translateX(100%); }
+    /* Icon container 2025 style */
+    .icon-box { display: inline-flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 0.625rem; }
+    .icon-box [data-lucide] { width: 1.125rem; height: 1.125rem; stroke-width: 1.75; }
+    /* Counter typography */
+    .stat-num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; }
   </style>
+  <script>
+    // Counter animation: cuenta de 0 al target cuando entra al viewport
+    document.addEventListener('DOMContentLoaded', () => {
+      const counters = document.querySelectorAll('[data-counter]');
+      const animate = (el) => {
+        const target = parseFloat(el.dataset.counter);
+        const suffix = el.dataset.suffix || '';
+        const prefix = el.dataset.prefix || '';
+        const duration = 1400;
+        const start = performance.now();
+        const tick = (now) => {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          const val = target * eased;
+          el.textContent = prefix + (Number.isInteger(target) ? Math.round(val) : val.toFixed(1)) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.3 });
+      counters.forEach(c => obs.observe(c));
+      // Inicializar Lucide cuando esté disponible
+      if (window.lucide) window.lucide.createIcons();
+    });
+    // Re-init Lucide después de cargar (defer)
+    window.addEventListener('load', () => { if (window.lucide) window.lucide.createIcons(); });
+  </script>
   {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-base-100 text-neutral antialiased">

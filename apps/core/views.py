@@ -168,6 +168,83 @@ def faq(request):
     return render(request, "core/faq.html", {"faqs": FAQS})
 
 
+GUIAS = [
+    {
+        "slug": "dispensadores-bano",
+        "titulo": "Guía de dispensadores para baños corporativos",
+        "categoria": "Equipamiento",
+        "lectura": "8 min",
+        "icon": "package",
+        "resumen": "Cómo elegir dispensadores de jabón, papel toalla y papel jumbo según el flujo diario de tu local. Incluye cálculo de capacidad por usuario.",
+        "body": (
+            "Tener el dispensador correcto reduce hasta 30% el consumo de insumos. "
+            "Esta guía cubre: capacidad por número de usuarios diarios, tipos de "
+            "dispensador (manual, sensor, palanca), materiales (ABS plástico vs. "
+            "acero inoxidable) y cálculo del retorno de inversión. Para un baño "
+            "corporativo con 50 personas/día recomendamos dispensador de papel "
+            "jumbo 300m y dispensador de jabón líquido 1L con recarga a granel."
+        ),
+    },
+    {
+        "slug": "desinfeccion-hospitalaria",
+        "titulo": "Protocolo de desinfección para áreas críticas hospitalarias",
+        "categoria": "Salud",
+        "lectura": "12 min",
+        "icon": "shield-check",
+        "resumen": "Concentraciones correctas de amonio cuaternario, hipoclorito y peróxido para quirófano, UCI, consulta y laboratorio. Cumple DIGESA.",
+        "body": (
+            "DIGESA exige protocolos diferenciados por área. Amonio cuaternario 5ta "
+            "generación al 1:200 para superficies de contacto, hipoclorito 0.5% "
+            "para áreas no críticas, peróxido al 7% nebulizado para quirófanos "
+            "post-procedimiento. Esta guía incluye tablas de dilución, tiempo de "
+            "contacto, EPP recomendado y registro obligatorio de aplicaciones."
+        ),
+    },
+    {
+        "slug": "ahorro-lavanderia-hotelera",
+        "titulo": "Reducir costo de lavandería hotelera sin perder calidad",
+        "categoria": "Hotelería",
+        "lectura": "6 min",
+        "icon": "trending-down",
+        "resumen": "5 ajustes operativos (temperatura, dilución, ciclo) que bajan el costo por kg de ropa procesada hasta un 22%.",
+        "body": (
+            "El 70% del costo en lavandería hotelera es químico mal dosificado. "
+            "Pasos para optimizar: 1) medir consumo actual por kg, 2) calibrar "
+            "dosificadores automáticos, 3) ajustar temperatura a 60°C (no más), "
+            "4) usar detergente líquido alta concentración, 5) neutralizar pH al "
+            "cierre con suavizante. Resultado típico: -22% costo en 60 días."
+        ),
+    },
+    {
+        "slug": "calculadora-roi-suministros",
+        "titulo": "Calculadora de ROI: cambiar de proveedor de suministros",
+        "categoria": "Finanzas",
+        "lectura": "4 min",
+        "icon": "calculator",
+        "resumen": "Plantilla simple para evaluar si conviene migrar de proveedor: precio, plazo de pago, costos ocultos de entrega y disponibilidad.",
+        "body": (
+            "Cambiar de proveedor B2B parece costoso pero suele pagar en 90 días. "
+            "Calcula: ahorro en precio unitario × volumen mensual − tiempo de "
+            "implementación. Variables ocultas: plazo de pago (crédito vs contado), "
+            "costo de quiebre de stock, calidad consistente (descarte por mal "
+            "producto). Solicita una propuesta paralela 30 días sin compromiso."
+        ),
+    },
+]
+
+
+def recursos(request):
+    return render(request, "core/recursos.html", {"guias": GUIAS})
+
+
+def guia(request, slug):
+    g = next((x for x in GUIAS if x["slug"] == slug), None)
+    if not g:
+        raise Http404("Guía no encontrada")
+    otras = [x for x in GUIAS if x["slug"] != slug][:3]
+    return render(request, "core/guia.html", {"guia": g, "otras": otras})
+
+
 def solucion(request, slug):
     data = SOLUCIONES.get(slug)
     if not data:

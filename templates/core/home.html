@@ -5,426 +5,375 @@
 
 {% block content %}
 
-<!-- ============ HERO con dashboard mockup ============ -->
+<!-- ============ HERO minimal ============ -->
 <section class="relative bg-slate-950 text-slate-50 overflow-hidden">
-  <div class="absolute inset-0 bg-grid-dark opacity-60"></div>
-  <div class="absolute inset-0" style="background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(30,64,175,0.25), transparent);"></div>
-  <div class="absolute -bottom-40 -left-40 w-[480px] h-[480px] bg-indigo-700/10 rounded-full blur-[120px]"></div>
+  <div class="absolute inset-0 bg-grid-dark opacity-40"></div>
+  <div class="absolute inset-x-0 top-0 h-[420px]" style="background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(30,64,175,0.20), transparent);"></div>
 
-  <div class="container mx-auto px-4 pt-24 pb-32 relative">
-    <div class="text-center max-w-3xl mx-auto">
+  <div class="container mx-auto px-4 pt-24 pb-28 relative">
+    <div class="max-w-3xl mx-auto text-center">
       <a href="{% url 'core:solucion' 'hoteles' %}" class="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full px-3 py-1 text-xs text-slate-300 transition">
         <span class="bg-emerald-500 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded">Nuevo</span>
         Solución dedicada para Hoteles & Restaurantes
-        <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none"><path d="M4 2L8 6L4 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <i data-lucide="arrow-right" class="w-3 h-3"></i>
       </a>
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mt-8">
-        Suministros de limpieza<br/>
-        <span class="text-gradient">para empresas serias.</span>
+
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05] mt-8">
+        Optimizamos la operación<br/>
+        <span class="text-gradient">de tu empresa.</span>
       </h1>
-      <p class="text-lg text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed">
-        +500 productos profesionales para hoteles, clínicas, industria, oficinas y retail. Cotización personalizada en 24 horas hábiles. Factura electrónica SUNAT al instante.
+
+      <p class="text-lg text-slate-400 mt-7 max-w-xl mx-auto leading-relaxed">
+        Suministros de limpieza profesional, consultoría técnica sin costo y entrega coordinada a todo el Perú. Cotización en menos de 24 horas hábiles.
       </p>
+
       <div class="mt-10 flex flex-wrap justify-center gap-3">
-        <a href="{% url 'catalogo:lista' %}" class="bg-white text-slate-900 hover:bg-slate-100 font-medium px-6 h-12 rounded-lg inline-flex items-center gap-2 transition">
+        <a href="{% url 'catalogo:lista' %}" class="btn-shine bg-white text-slate-900 hover:bg-slate-100 font-medium px-5 h-11 rounded-lg inline-flex items-center gap-2 transition">
           Ver catálogo
-          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </a>
-        <a href="https://wa.me/{{ SITE_WHATSAPP }}" target="_blank" class="bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 font-medium px-6 h-12 rounded-lg inline-flex items-center gap-2 transition">
-          <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M20.5 3.5A11.6 11.6 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.3-8.3z"/></svg>
+        <a href="{% url 'core:contacto' %}" class="border border-white/15 hover:bg-white/5 text-slate-200 font-medium px-5 h-11 rounded-lg inline-flex items-center gap-2 transition">
           Hablar con ventas
         </a>
       </div>
 
-      <!-- Trust signals inline -->
-      <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-slate-400">
-        <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Factura electrónica SUNAT</span>
-        <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Despacho a todo el Perú</span>
-        <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Crédito 15 días</span>
-        <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Portal cliente 24/7</span>
+      <!-- Trust signals minimal -->
+      <div class="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500">
+        <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400" style="stroke-width:2.5"></i> Factura SUNAT</span>
+        <span class="text-slate-700">·</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400" style="stroke-width:2.5"></i> Despacho a todo el Perú</span>
+        <span class="text-slate-700">·</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400" style="stroke-width:2.5"></i> Crédito 15 días</span>
+        <span class="text-slate-700">·</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400" style="stroke-width:2.5"></i> Portal 24/7</span>
       </div>
     </div>
 
-    <!-- Dashboard mockup ilustrativo -->
-    <div class="mt-20 max-w-5xl mx-auto relative">
-      <div class="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-transparent to-emerald-500/10 blur-3xl"></div>
-      <div class="relative bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
-        <!-- Browser chrome -->
-        <div class="bg-slate-950 border-b border-white/10 px-4 py-3 flex items-center gap-2">
-          <div class="flex gap-1.5">
-            <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
-            <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
-            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-          </div>
-          <div class="flex-1 bg-slate-800 rounded px-3 py-1 text-xs text-slate-400 text-center max-w-md mx-auto">limpiapro.pe / portal / cotizaciones</div>
+    <!-- Card flotante única (no mockup grande) -->
+    <div class="mt-20 max-w-md mx-auto">
+      <div class="bg-white/[0.03] backdrop-blur border border-white/10 rounded-2xl p-5 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+          <i data-lucide="zap" class="w-5 h-5 text-emerald-400"></i>
         </div>
-        <!-- Dashboard body -->
-        <div class="p-6 grid md:grid-cols-[200px_1fr] gap-6">
-          <!-- Sidebar mockup -->
-          <div class="hidden md:block">
-            <div class="text-xs text-slate-500 uppercase tracking-wider mb-3">Mi cuenta</div>
-            <div class="space-y-1.5 text-sm">
-              <div class="text-slate-400 px-2 py-1.5 rounded">🏠 Inicio</div>
-              <div class="bg-white/10 text-white px-2 py-1.5 rounded">📄 Cotizaciones <span class="float-right text-emerald-400">3</span></div>
-              <div class="text-slate-400 px-2 py-1.5 rounded">📦 Pedidos</div>
-              <div class="text-slate-400 px-2 py-1.5 rounded">🧾 Facturas</div>
-            </div>
-          </div>
-          <!-- Main mockup -->
-          <div>
-            <div class="flex justify-between items-center mb-4">
-              <div>
-                <div class="text-lg font-semibold text-white">Mis cotizaciones</div>
-                <div class="text-xs text-slate-500">3 pendientes de revisar</div>
-              </div>
-              <div class="bg-white text-slate-900 text-xs font-medium px-3 py-1.5 rounded-md">+ Nueva solicitud</div>
-            </div>
-            <div class="space-y-2">
-              <div class="bg-slate-800/60 border border-white/5 rounded-lg p-3 flex items-center justify-between">
-                <div>
-                  <div class="text-xs font-mono text-slate-500">COT-2026-00112</div>
-                  <div class="text-sm text-white mt-0.5">Hotel Brisamar — 24 items</div>
-                </div>
-                <div class="text-right">
-                  <div class="text-sm font-semibold text-white">S/ 4,890.00</div>
-                  <span class="text-[10px] font-medium uppercase tracking-wider text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded">Por aceptar</span>
-                </div>
-              </div>
-              <div class="bg-slate-800/60 border border-white/5 rounded-lg p-3 flex items-center justify-between">
-                <div>
-                  <div class="text-xs font-mono text-slate-500">COT-2026-00111</div>
-                  <div class="text-sm text-white mt-0.5">Clínica Vida Plena — 18 items</div>
-                </div>
-                <div class="text-right">
-                  <div class="text-sm font-semibold text-white">S/ 2,340.00</div>
-                  <span class="text-[10px] font-medium uppercase tracking-wider text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">Aceptada</span>
-                </div>
-              </div>
-              <div class="bg-slate-800/60 border border-white/5 rounded-lg p-3 flex items-center justify-between opacity-70">
-                <div>
-                  <div class="text-xs font-mono text-slate-500">COT-2026-00110</div>
-                  <div class="text-sm text-white mt-0.5">Inversiones Andinas — 7 items</div>
-                </div>
-                <div class="text-right">
-                  <div class="text-sm font-semibold text-white">S/ 890.00</div>
-                  <span class="text-[10px] font-medium uppercase tracking-wider text-slate-400 bg-slate-700/40 border border-slate-600/40 px-2 py-0.5 rounded">Entregada</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="flex-1">
+          <div class="text-xs text-slate-400">Tiempo promedio de cotización</div>
+          <div class="text-lg font-semibold text-white"><span class="stat-num" data-counter="18" data-suffix=" min">18 min</span></div>
         </div>
-      </div>
-      <!-- Floating badge -->
-      <div class="hidden md:block absolute -bottom-6 -right-6 bg-white rounded-xl shadow-xl border border-slate-200 px-4 py-3 flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-700 flex items-center justify-center">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </div>
-        <div>
-          <div class="text-xs text-slate-500">Cotización recibida</div>
-          <div class="text-sm font-semibold text-slate-900">en 18 minutos</div>
-        </div>
+        <a href="{% url 'catalogo:lista' %}" class="text-sm text-white hover:text-slate-300 transition flex items-center gap-1">Probar <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============ MARQUEE de logos ============ -->
-<section class="bg-white border-y border-slate-200 py-12 overflow-hidden">
-  <p class="text-center text-[11px] font-medium tracking-[0.2em] uppercase text-slate-400 mb-8">Empresas que confían en nosotros <span class="text-slate-300">(demo)</span></p>
+<section class="bg-white border-y border-slate-200 py-10 overflow-hidden">
+  <p class="text-center text-[10px] font-medium tracking-[0.25em] uppercase text-slate-400 mb-6">Empresas que confían en nosotros</p>
   <div class="marquee-mask">
-    <div class="flex gap-12 animate-marquee w-max">
+    <div class="flex gap-14 animate-marquee w-max">
       {% for _ in "12" %}
-      <div class="flex items-center gap-12 px-6 whitespace-nowrap">
-        <div class="text-xl font-semibold text-slate-400 flex items-center gap-2">🏨 Brisamar Hotels</div>
-        <div class="text-xl font-semibold text-slate-400 flex items-center gap-2">🏭 InduAndina</div>
-        <div class="text-xl font-semibold text-slate-400 flex items-center gap-2">🏥 Vida Plena</div>
-        <div class="text-xl font-semibold text-slate-400 flex items-center gap-2">☕ Café del Norte</div>
-        <div class="text-xl font-semibold text-slate-400 flex items-center gap-2">🛒 SuperMercados Lima</div>
-        <div class="text-xl font-semibold text-slate-400 flex items-center gap-2">🏢 Torre Empresarial</div>
-        <div class="text-xl font-semibold text-slate-400 flex items-center gap-2">🚀 Logística Sur</div>
-        <div class="text-xl font-semibold text-slate-400 flex items-center gap-2">🍽️ Restaurantes Gourmet</div>
+      <div class="flex items-center gap-14 px-7 whitespace-nowrap text-slate-400">
+        <div class="text-lg font-semibold flex items-center gap-2"><i data-lucide="hotel" class="w-4 h-4"></i> Brisamar Hotels</div>
+        <div class="text-lg font-semibold flex items-center gap-2"><i data-lucide="factory" class="w-4 h-4"></i> InduAndina</div>
+        <div class="text-lg font-semibold flex items-center gap-2"><i data-lucide="cross" class="w-4 h-4"></i> Vida Plena</div>
+        <div class="text-lg font-semibold flex items-center gap-2"><i data-lucide="coffee" class="w-4 h-4"></i> Café del Norte</div>
+        <div class="text-lg font-semibold flex items-center gap-2"><i data-lucide="shopping-bag" class="w-4 h-4"></i> SuperMercados Lima</div>
+        <div class="text-lg font-semibold flex items-center gap-2"><i data-lucide="building-2" class="w-4 h-4"></i> Torre Empresarial</div>
+        <div class="text-lg font-semibold flex items-center gap-2"><i data-lucide="truck" class="w-4 h-4"></i> Logística Sur</div>
+        <div class="text-lg font-semibold flex items-center gap-2"><i data-lucide="utensils" class="w-4 h-4"></i> Restaurantes Gourmet</div>
       </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- ============ STATS grandes ============ -->
-<section class="container mx-auto px-4 py-24">
-  <div class="grid md:grid-cols-4 gap-8 border-y border-slate-200 py-12">
-    <div x-data="{ shown: false }" x-intersect.once="shown = true" class="reveal" :class="{ 'in': shown }">
-      <div class="text-5xl font-bold tracking-tight text-slate-900">+500</div>
-      <div class="text-sm text-slate-500 mt-1">productos en catálogo</div>
+<!-- ============ STATS con counters animados ============ -->
+<section class="container mx-auto px-4 py-28">
+  <div class="grid md:grid-cols-4 gap-12 border-y border-slate-200 py-14">
+    <div class="text-left">
+      <div class="text-5xl font-semibold tracking-tight text-slate-900 stat-num"><span data-counter="500" data-prefix="+">0</span></div>
+      <div class="text-sm text-slate-500 mt-2">productos profesionales en catálogo</div>
     </div>
-    <div x-data="{ shown: false }" x-intersect.once="shown = true" class="reveal" :class="{ 'in': shown }" style="transition-delay:80ms">
-      <div class="text-5xl font-bold tracking-tight text-slate-900">24<span class="text-slate-400 text-3xl">h</span></div>
-      <div class="text-sm text-slate-500 mt-1">respuesta a cotización</div>
+    <div class="text-left">
+      <div class="text-5xl font-semibold tracking-tight text-slate-900 stat-num"><span data-counter="24">0</span><span class="text-slate-400 text-3xl">h</span></div>
+      <div class="text-sm text-slate-500 mt-2">respuesta máxima a cotización</div>
     </div>
-    <div x-data="{ shown: false }" x-intersect.once="shown = true" class="reveal" :class="{ 'in': shown }" style="transition-delay:160ms">
-      <div class="text-5xl font-bold tracking-tight text-slate-900">100<span class="text-slate-400 text-3xl">%</span></div>
-      <div class="text-sm text-slate-500 mt-1">factura electrónica SUNAT</div>
+    <div class="text-left">
+      <div class="text-5xl font-semibold tracking-tight text-slate-900 stat-num"><span data-counter="100">0</span><span class="text-slate-400 text-3xl">%</span></div>
+      <div class="text-sm text-slate-500 mt-2">factura electrónica SUNAT</div>
     </div>
-    <div x-data="{ shown: false }" x-intersect.once="shown = true" class="reveal" :class="{ 'in': shown }" style="transition-delay:240ms">
-      <div class="text-5xl font-bold tracking-tight text-slate-900">24<span class="text-slate-400 text-3xl">/</span>7</div>
-      <div class="text-sm text-slate-500 mt-1">portal cliente disponible</div>
+    <div class="text-left">
+      <div class="text-5xl font-semibold tracking-tight text-slate-900 stat-num"><span data-counter="24">0</span><span class="text-slate-400 text-3xl">/7</span></div>
+      <div class="text-sm text-slate-500 mt-2">portal cliente siempre disponible</div>
     </div>
   </div>
 </section>
 
-<!-- ============ BENTO GRID de features ============ -->
-<section class="container mx-auto px-4 pb-24">
-  <div class="text-center max-w-2xl mx-auto mb-12">
-    <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-500 mb-3">— Por qué elegirnos —</span>
-    <h2 class="text-4xl font-bold tracking-tight text-slate-900">Más que un proveedor, un socio operativo</h2>
-    <p class="text-slate-500 mt-3">Diseñado para empresas que necesitan consistencia, ahorro y trazabilidad.</p>
+<!-- ============ SOLUCIONES POR INDUSTRIA — Lucide icons ============ -->
+<section class="bg-slate-50 border-y border-slate-200">
+  <div class="container mx-auto px-4 py-24">
+    <div class="max-w-2xl mb-14">
+      <span class="text-xs font-medium tracking-[0.2em] uppercase text-slate-500">Soluciones B2B</span>
+      <h2 class="text-4xl font-semibold tracking-tight text-slate-900 mt-2">Hecho a la medida de tu industria</h2>
+      <p class="text-slate-500 mt-3">Cada sector tiene exigencias distintas. Te asesoramos con los productos correctos y volúmenes óptimos.</p>
+    </div>
+
+    {% with industrias_data="hoteles:hotel:Hoteles & Restaurantes:Limpieza diaria + cocina + lavandería|clinicas:cross:Clínicas & Salud:Desinfección hospitalaria + DIGESA|industria:factory:Industria:Desengrasantes + equipos|oficinas:building-2:Oficinas:Mantención corporativa|retail:shopping-bag:Retail & Cadenas:Multi-local + recurrente" %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+      {% for item in industrias_data|stringformat:"s"|cut:" "|slice:"0:9999" %}{% endfor %}
+      {% for slug, emoji, titulo, sub in industrias_home %}
+      <a href="{% url 'core:solucion' slug %}" class="bento bg-white border border-slate-200 rounded-2xl p-6 group">
+        <div class="icon-box bg-slate-100 group-hover:bg-slate-900 group-hover:text-white text-slate-700 transition">
+          {% if slug == "hoteles" %}<i data-lucide="hotel"></i>
+          {% elif slug == "clinicas" %}<i data-lucide="cross"></i>
+          {% elif slug == "industria" %}<i data-lucide="factory"></i>
+          {% elif slug == "oficinas" %}<i data-lucide="building-2"></i>
+          {% else %}<i data-lucide="shopping-bag"></i>{% endif %}
+        </div>
+        <div class="font-medium text-slate-900 mt-5">{{ titulo }}</div>
+        <div class="text-sm text-slate-500 mt-1">{{ sub }}</div>
+        <div class="text-xs text-slate-400 mt-5 group-hover:text-slate-900 transition flex items-center gap-1">Ver soluciones <i data-lucide="arrow-right" class="w-3 h-3 transition group-hover:translate-x-0.5"></i></div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endwith %}
+  </div>
+</section>
+
+<!-- ============ BENTO FEATURES — minimalista ============ -->
+<section class="container mx-auto px-4 py-28">
+  <div class="max-w-2xl mb-14">
+    <span class="text-xs font-medium tracking-[0.2em] uppercase text-slate-500">Por qué elegirnos</span>
+    <h2 class="text-4xl font-semibold tracking-tight text-slate-900 mt-2">Más que un proveedor.<br/>Un socio operativo.</h2>
   </div>
 
-  <div class="grid grid-cols-12 gap-4">
-    <!-- Tall card - Portal cliente -->
-    <div class="bento col-span-12 md:col-span-6 lg:col-span-5 row-span-2 bg-slate-950 text-slate-50 border border-slate-800 rounded-2xl p-8 relative overflow-hidden">
-      <div class="absolute inset-0 bg-dots-dark opacity-50"></div>
-      <div class="relative">
-        <div class="inline-flex items-center gap-2 text-[10px] font-medium tracking-wider uppercase text-slate-400 bg-white/5 border border-white/10 rounded-full px-3 py-1 mb-6">Portal cliente</div>
-        <h3 class="text-3xl font-bold tracking-tight">Todo tu historial, en un solo lugar</h3>
-        <p class="text-slate-400 mt-3 text-sm leading-relaxed">Cotizaciones, pedidos y facturas con un click. Acepta cotizaciones desde el portal, descarga PDFs y consulta el saldo pendiente.</p>
-        <div class="mt-6 bg-slate-900/80 border border-white/10 rounded-xl p-4 space-y-2">
-          <div class="flex items-center justify-between text-sm"><span class="text-slate-300">📄 Cotización COT-2026-00112</span><span class="text-emerald-400">Aceptada ✓</span></div>
-          <div class="flex items-center justify-between text-sm"><span class="text-slate-300">📦 Pedido PED-2026-00045</span><span class="text-amber-400">En camino</span></div>
-          <div class="flex items-center justify-between text-sm"><span class="text-slate-300">🧾 Factura F001-00000123</span><span class="text-slate-400">Pagada</span></div>
+  <div class="grid grid-cols-12 gap-3">
+    <!-- Portal cliente tall -->
+    <div class="bento col-span-12 lg:col-span-5 row-span-2 bg-slate-950 text-slate-50 rounded-2xl p-8 relative overflow-hidden">
+      <div class="absolute inset-0 bg-dots-dark opacity-40"></div>
+      <div class="relative h-full flex flex-col">
+        <div class="icon-box bg-white/5 border border-white/10 text-slate-300">
+          <i data-lucide="layout-dashboard"></i>
         </div>
+        <h3 class="text-2xl font-semibold mt-6">Portal cliente</h3>
+        <p class="text-sm text-slate-400 mt-2 leading-relaxed max-w-sm">Acepta cotizaciones, consulta pedidos, descarga facturas y revisa tu saldo desde un único lugar.</p>
+
+        <div class="mt-8 space-y-2">
+          <div class="bg-slate-900/80 border border-white/5 rounded-lg p-3 flex items-center justify-between text-sm">
+            <span class="text-slate-300 font-mono text-xs">COT-2026-00112</span>
+            <span class="text-emerald-400 text-xs flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Aceptada</span>
+          </div>
+          <div class="bg-slate-900/80 border border-white/5 rounded-lg p-3 flex items-center justify-between text-sm">
+            <span class="text-slate-300 font-mono text-xs">PED-2026-00045</span>
+            <span class="text-amber-400 text-xs flex items-center gap-1"><i data-lucide="truck" class="w-3 h-3"></i> En camino</span>
+          </div>
+          <div class="bg-slate-900/80 border border-white/5 rounded-lg p-3 flex items-center justify-between text-sm">
+            <span class="text-slate-300 font-mono text-xs">F001-00000123</span>
+            <span class="text-slate-400 text-xs flex items-center gap-1"><i data-lucide="receipt" class="w-3 h-3"></i> Pagada</span>
+          </div>
+        </div>
+
+        <a href="{% url 'login' %}" class="mt-auto pt-8 text-sm font-medium text-white link-anim inline-flex items-center gap-1.5 self-start">Ver el portal <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
       </div>
     </div>
 
     <!-- 24h response -->
     <div class="bento col-span-12 md:col-span-6 lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-8">
-      <div class="flex items-start justify-between">
+      <div class="flex items-start justify-between gap-6">
         <div class="max-w-md">
-          <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="icon-box bg-emerald-50 text-emerald-700">
+            <i data-lucide="zap"></i>
           </div>
-          <h3 class="text-xl font-semibold text-slate-900">Cotización en menos de 24h</h3>
-          <p class="text-sm text-slate-500 mt-2">Recibe tu propuesta personalizada con precios, plazos y condiciones en menos de 24 horas hábiles. Garantizado.</p>
+          <h3 class="text-2xl font-semibold text-slate-900 mt-5">Cotización en menos de 24h</h3>
+          <p class="text-sm text-slate-500 mt-2 leading-relaxed">Propuesta personalizada con precios, plazos y condiciones en menos de 24 horas hábiles. Garantizado o WhatsApp directo a gerencia.</p>
         </div>
-        <div class="text-7xl font-bold text-slate-100 select-none leading-none">24h</div>
+        <div class="text-6xl md:text-7xl font-semibold text-slate-100 select-none leading-none stat-num">24h</div>
       </div>
     </div>
 
     <!-- Factura SUNAT -->
     <div class="bento col-span-12 md:col-span-6 lg:col-span-4 bg-white border border-slate-200 rounded-2xl p-8">
-      <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center mb-4">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="icon-box bg-indigo-50 text-indigo-700">
+        <i data-lucide="file-text"></i>
       </div>
-      <h3 class="text-xl font-semibold text-slate-900">Factura electrónica SUNAT</h3>
-      <p class="text-sm text-slate-500 mt-2">Emisión automática vía PSE/OSE autorizado. XML + PDF en tu correo en menos de 1 hora.</p>
+      <h3 class="text-lg font-semibold text-slate-900 mt-5">Factura electrónica SUNAT</h3>
+      <p class="text-sm text-slate-500 mt-2 leading-relaxed">Emisión automática vía PSE/OSE. XML y PDF en tu correo en menos de 1 hora.</p>
     </div>
 
     <!-- Multi-local -->
     <div class="bento col-span-12 md:col-span-6 lg:col-span-3 bg-slate-100 border border-slate-200 rounded-2xl p-8">
-      <div class="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center mb-4">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m14 0h2m-2 0V11m0 10v-6m-9 6V11m0 10h-3m3 0h3m-3-10h3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="icon-box bg-slate-900 text-white">
+        <i data-lucide="map-pin"></i>
       </div>
-      <h3 class="text-xl font-semibold text-slate-900">Multi-local</h3>
-      <p class="text-sm text-slate-500 mt-2">Despachos a múltiples sucursales con orden única y facturación consolidada.</p>
+      <h3 class="text-lg font-semibold text-slate-900 mt-5">Multi-local</h3>
+      <p class="text-sm text-slate-500 mt-2 leading-relaxed">Despachos a múltiples sucursales con orden única y facturación consolidada.</p>
     </div>
 
-    <!-- Asesoría técnica -->
-    <div class="bento col-span-12 md:col-span-6 lg:col-span-5 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-8 border border-slate-800">
-      <div class="flex items-start gap-4">
-        <div class="text-5xl">🎯</div>
-        <div>
-          <h3 class="text-xl font-semibold">Asesoría técnica sin costo</h3>
-          <p class="text-sm text-slate-300 mt-2">Un especialista visita tu local, evalúa consumos y diseña tu plan de suministro. Sin compromiso.</p>
-          <a href="{% url 'core:contacto' %}" class="inline-flex items-center gap-1.5 text-sm font-medium text-white mt-4 hover:underline">Agendar visita →</a>
-        </div>
+    <!-- Asesoría -->
+    <div class="bento col-span-12 lg:col-span-5 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-8 border border-slate-800">
+      <div class="icon-box bg-white/10 border border-white/15 text-white">
+        <i data-lucide="target"></i>
       </div>
+      <h3 class="text-lg font-semibold mt-5">Asesoría técnica sin costo</h3>
+      <p class="text-sm text-slate-300 mt-2 leading-relaxed max-w-sm">Un especialista visita tu local, evalúa consumos y diseña tu plan de suministro. Sin compromiso.</p>
+      <a href="{% url 'core:contacto' %}" class="mt-5 text-sm font-medium text-white link-anim inline-flex items-center gap-1.5">Agendar visita <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
     </div>
 
     <!-- Crédito -->
     <div class="bento col-span-6 lg:col-span-3 bg-white border border-slate-200 rounded-2xl p-6">
-      <div class="text-3xl font-bold text-slate-900 mb-1">15 días</div>
-      <div class="text-xs text-slate-500">de crédito disponible</div>
-      <p class="text-xs text-slate-400 mt-3">Sujeto a evaluación crediticia.</p>
+      <div class="icon-box bg-slate-100 text-slate-700">
+        <i data-lucide="credit-card"></i>
+      </div>
+      <div class="text-3xl font-semibold tracking-tight text-slate-900 mt-5"><span data-counter="15">0</span><span class="text-slate-400 text-xl"> días</span></div>
+      <div class="text-xs text-slate-500 mt-1">de crédito disponible</div>
     </div>
 
     <!-- Reportes -->
     <div class="bento col-span-6 lg:col-span-4 bg-white border border-slate-200 rounded-2xl p-6">
-      <div class="flex items-end gap-1.5 h-12 mb-3">
-        <div class="w-2 bg-slate-200 rounded-t" style="height:30%"></div>
-        <div class="w-2 bg-slate-300 rounded-t" style="height:50%"></div>
-        <div class="w-2 bg-slate-400 rounded-t" style="height:40%"></div>
-        <div class="w-2 bg-slate-500 rounded-t" style="height:65%"></div>
-        <div class="w-2 bg-slate-700 rounded-t" style="height:80%"></div>
-        <div class="w-2 bg-slate-900 rounded-t" style="height:95%"></div>
+      <div class="flex items-end gap-1 h-10 mb-4">
+        <div class="w-1.5 bg-slate-200 rounded-t" style="height:30%"></div>
+        <div class="w-1.5 bg-slate-300 rounded-t" style="height:50%"></div>
+        <div class="w-1.5 bg-slate-400 rounded-t" style="height:40%"></div>
+        <div class="w-1.5 bg-slate-500 rounded-t" style="height:65%"></div>
+        <div class="w-1.5 bg-slate-700 rounded-t" style="height:80%"></div>
+        <div class="w-1.5 bg-slate-900 rounded-t" style="height:95%"></div>
       </div>
       <h3 class="text-base font-semibold text-slate-900">Reporte mensual de consumo</h3>
-      <p class="text-xs text-slate-500 mt-1">Cuánto, dónde y cómo ahorrar. Cada mes a tu correo.</p>
+      <p class="text-xs text-slate-500 mt-1">Cuánto, dónde y cómo ahorrar. A tu correo cada mes.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ SOLUCIONES POR INDUSTRIA ============ -->
+<!-- ============ CATÁLOGO destacados ============ -->
 <section class="bg-slate-50 border-y border-slate-200">
-  <div class="container mx-auto px-4 py-24">
-    <div class="text-center max-w-2xl mx-auto mb-12">
-      <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-500 mb-3">— Soluciones B2B —</span>
-      <h2 class="text-4xl font-bold tracking-tight text-slate-900">Hecho a la medida de tu industria</h2>
-      <p class="text-slate-500 mt-3">Cada sector tiene exigencias distintas. Te asesoramos con los productos correctos y volúmenes óptimos.</p>
+  <div class="container mx-auto px-4 py-28">
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <span class="text-xs font-medium tracking-[0.2em] uppercase text-slate-500">Catálogo</span>
+        <h2 class="text-4xl font-semibold tracking-tight text-slate-900 mt-2">Productos destacados</h2>
+      </div>
+      <a href="{% url 'catalogo:lista' %}" class="hidden md:inline-flex items-center gap-1.5 text-sm font-medium text-slate-900 link-anim">Ver todo el catálogo <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-      {% for slug, emoji, titulo, sub in industrias_home %}
-      <a href="{% url 'core:solucion' slug %}" class="bento bg-white border border-slate-200 rounded-xl p-5 transition group">
-        <div class="w-10 h-10 rounded-lg bg-slate-100 group-hover:bg-slate-900 group-hover:text-white text-slate-700 flex items-center justify-center text-xl transition">{{ emoji }}</div>
-        <div class="font-semibold text-slate-900 mt-3">{{ titulo }}</div>
-        <div class="text-xs text-slate-500 mt-0.5">{{ sub }}</div>
-        <div class="text-xs text-slate-400 mt-3 group-hover:text-slate-700 transition flex items-center gap-1">Ver soluciones <span class="transition group-hover:translate-x-0.5">→</span></div>
-      </a>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      {% for p in productos_destacados %}
+        {% include "catalogo/_card.html" with producto=p %}
+      {% empty %}
+        <div class="col-span-full text-center text-slate-500 py-8">Aún no hay productos destacados.</div>
       {% endfor %}
     </div>
-  </div>
-</section>
-
-<!-- ============ PRODUCTOS DESTACADOS ============ -->
-<section class="container mx-auto px-4 py-24">
-  <div class="flex items-end justify-between mb-10">
-    <div>
-      <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-500 mb-2">— Catálogo —</span>
-      <h2 class="text-4xl font-bold tracking-tight text-slate-900">Productos destacados</h2>
-      <p class="text-slate-500 mt-1">Los más solicitados por nuestros clientes.</p>
-    </div>
-    <a href="{% url 'catalogo:lista' %}" class="hidden md:inline-flex items-center gap-1.5 text-sm font-medium text-slate-900 hover:underline">Ver todo el catálogo →</a>
-  </div>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    {% for p in productos_destacados %}
-      {% include "catalogo/_card.html" with producto=p %}
-    {% empty %}
-      <div class="col-span-full text-center text-slate-500 py-8">Aún no hay productos destacados.</div>
-    {% endfor %}
   </div>
 </section>
 
 <!-- ============ TESTIMONIOS ============ -->
-<section class="bg-slate-50 border-y border-slate-200">
-  <div class="container mx-auto px-4 py-24">
-    <div class="text-center max-w-2xl mx-auto mb-12">
-      <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-500 mb-3">— Lo que dicen nuestros clientes —</span>
-      <h2 class="text-4xl font-bold tracking-tight text-slate-900">Resultados que se sienten</h2>
-    </div>
-    <div class="grid md:grid-cols-3 gap-6">
-      <figure class="bg-white border border-slate-200 rounded-2xl p-8">
-        <div class="flex gap-0.5 text-amber-400 mb-4">
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-        </div>
-        <blockquote class="text-slate-700 leading-relaxed">"Reducimos un 22% el costo mensual de insumos sin perder calidad. La asesoría técnica fue la clave."</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-lg">SP</div>
-          <div>
-            <div class="text-sm font-semibold text-slate-900">Sandra Pérez</div>
-            <div class="text-xs text-slate-500">Compras · Hoteles Brisamar</div>
-          </div>
-        </figcaption>
-      </figure>
+<section class="container mx-auto px-4 py-28">
+  <div class="max-w-2xl mb-14">
+    <span class="text-xs font-medium tracking-[0.2em] uppercase text-slate-500">Testimonios</span>
+    <h2 class="text-4xl font-semibold tracking-tight text-slate-900 mt-2">Resultados que se sienten</h2>
+  </div>
 
-      <figure class="bg-white border border-slate-200 rounded-2xl p-8">
-        <div class="flex gap-0.5 text-amber-400 mb-4">
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
+  <div class="grid md:grid-cols-3 gap-3">
+    <figure class="bento bg-white border border-slate-200 rounded-2xl p-7">
+      <i data-lucide="quote" class="w-6 h-6 text-slate-300"></i>
+      <blockquote class="text-slate-700 leading-relaxed mt-5">"Reducimos un 22% el costo mensual de insumos sin perder calidad. La asesoría técnica fue la clave."</blockquote>
+      <figcaption class="mt-7 flex items-center gap-3 pt-5 border-t border-slate-100">
+        <div class="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-semibold">SP</div>
+        <div>
+          <div class="text-sm font-medium text-slate-900">Sandra Pérez</div>
+          <div class="text-xs text-slate-500">Compras · Hoteles Brisamar</div>
         </div>
-        <blockquote class="text-slate-700 leading-relaxed">"El portal nos cambió la vida. Veo todas mis facturas, descargo PDFs y acepto cotizaciones sin llamar a nadie."</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-lg">RA</div>
-          <div>
-            <div class="text-sm font-semibold text-slate-900">Roberto Aguilar</div>
-            <div class="text-xs text-slate-500">Logística · InduAndina</div>
-          </div>
-        </figcaption>
-      </figure>
+      </figcaption>
+    </figure>
 
-      <figure class="bg-white border border-slate-200 rounded-2xl p-8">
-        <div class="flex gap-0.5 text-amber-400 mb-4">
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
-          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6h6.4l-5 4.5 2 6.5L10 14l-6 4 2-6.5L1 7h6.4z"/></svg>
+    <figure class="bento bg-white border border-slate-200 rounded-2xl p-7">
+      <i data-lucide="quote" class="w-6 h-6 text-slate-300"></i>
+      <blockquote class="text-slate-700 leading-relaxed mt-5">"El portal nos cambió la operación. Veo todas mis facturas, descargo PDFs y acepto cotizaciones sin llamar."</blockquote>
+      <figcaption class="mt-7 flex items-center gap-3 pt-5 border-t border-slate-100">
+        <div class="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-semibold">RA</div>
+        <div>
+          <div class="text-sm font-medium text-slate-900">Roberto Aguilar</div>
+          <div class="text-xs text-slate-500">Logística · InduAndina</div>
         </div>
-        <blockquote class="text-slate-700 leading-relaxed">"Cumplimos protocolos DIGESA sin estrés. Sus productos hospitalarios son confiables y la entrega es puntual."</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-lg">DM</div>
-          <div>
-            <div class="text-sm font-semibold text-slate-900">Dr. David Manrique</div>
-            <div class="text-xs text-slate-500">Admin · Clínica Vida Plena</div>
-          </div>
-        </figcaption>
-      </figure>
-    </div>
+      </figcaption>
+    </figure>
+
+    <figure class="bento bg-white border border-slate-200 rounded-2xl p-7">
+      <i data-lucide="quote" class="w-6 h-6 text-slate-300"></i>
+      <blockquote class="text-slate-700 leading-relaxed mt-5">"Cumplimos protocolos DIGESA sin estrés. Productos hospitalarios confiables y entrega puntual."</blockquote>
+      <figcaption class="mt-7 flex items-center gap-3 pt-5 border-t border-slate-100">
+        <div class="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-semibold">DM</div>
+        <div>
+          <div class="text-sm font-medium text-slate-900">Dr. David Manrique</div>
+          <div class="text-xs text-slate-500">Admin · Clínica Vida Plena</div>
+        </div>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- ============ CÓMO FUNCIONA ============ -->
-<section class="container mx-auto px-4 py-24">
-  <div class="text-center max-w-2xl mx-auto mb-14">
-    <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-500 mb-3">— Proceso simple —</span>
-    <h2 class="text-4xl font-bold tracking-tight text-slate-900">Cómo funciona</h2>
-    <p class="text-slate-500 mt-3">De la cotización a la entrega en 4 pasos.</p>
-  </div>
-  <div class="grid md:grid-cols-4 gap-x-6 gap-y-10 relative">
-    <!-- Línea de conexión -->
-    <div class="hidden md:block absolute top-8 left-12 right-12 h-px bg-slate-200"></div>
-    {% for step in pasos %}
-    <div class="relative">
-      <div class="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-2xl mb-5 relative z-10 shadow-card">
-        {{ step.icon }}
-      </div>
-      <div class="text-xs font-mono text-slate-400 mb-1">0{{ forloop.counter }}</div>
-      <h3 class="font-semibold text-slate-900">{{ step.titulo }}</h3>
-      <p class="text-sm text-slate-500 mt-1 leading-relaxed">{{ step.descripcion }}</p>
+<!-- ============ CÓMO FUNCIONA — minimalista ============ -->
+<section class="bg-slate-50 border-y border-slate-200">
+  <div class="container mx-auto px-4 py-28">
+    <div class="max-w-2xl mb-16">
+      <span class="text-xs font-medium tracking-[0.2em] uppercase text-slate-500">Proceso</span>
+      <h2 class="text-4xl font-semibold tracking-tight text-slate-900 mt-2">Cómo funciona</h2>
+      <p class="text-slate-500 mt-3">De la cotización a la entrega en 4 pasos.</p>
     </div>
-    {% endfor %}
+    <div class="grid md:grid-cols-4 gap-x-6 gap-y-12">
+      {% for step in pasos %}
+      <div class="relative">
+        <div class="text-xs font-mono text-slate-400 mb-3">{{ forloop.counter|stringformat:"02d" }}</div>
+        <div class="border-t border-slate-300 pt-5">
+          <div class="icon-box bg-white border border-slate-200 text-slate-700">
+            {% if forloop.counter == 1 %}<i data-lucide="search"></i>
+            {% elif forloop.counter == 2 %}<i data-lucide="file-plus"></i>
+            {% elif forloop.counter == 3 %}<i data-lucide="mail-check"></i>
+            {% else %}<i data-lucide="package-check"></i>{% endif %}
+          </div>
+          <h3 class="font-medium text-slate-900 mt-5">{{ step.titulo }}</h3>
+          <p class="text-sm text-slate-500 mt-2 leading-relaxed">{{ step.descripcion }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
 <!-- ============ FAQ ============ -->
-<section class="bg-slate-50 border-y border-slate-200">
-  <div class="container mx-auto px-4 py-24 max-w-3xl">
-    <div class="text-center mb-12">
-      <span class="inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase text-slate-500 mb-3">— Preguntas frecuentes —</span>
-      <h2 class="text-4xl font-bold tracking-tight text-slate-900">¿Tienes dudas?</h2>
-    </div>
-    <div class="divide-y divide-slate-200 bg-white rounded-2xl border border-slate-200 px-6">
-      {% for faq in faqs %}
-      <details class="group py-5" {% if forloop.first %}open{% endif %}>
-        <summary class="font-medium text-slate-900 cursor-pointer list-none flex justify-between items-center gap-4">
-          <span>{{ faq.q }}</span>
-          <span class="text-slate-400 group-open:rotate-180 transition shrink-0">
-            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </summary>
-        <p class="text-sm text-slate-600 mt-3 leading-relaxed">{{ faq.a }}</p>
-      </details>
-      {% endfor %}
-    </div>
-    <div class="text-center mt-8"><a href="{% url 'core:faq' %}" class="text-sm font-medium text-slate-900 hover:underline">Ver todas las preguntas →</a></div>
+<section class="container mx-auto px-4 py-28 max-w-3xl">
+  <div class="text-center mb-12">
+    <span class="text-xs font-medium tracking-[0.2em] uppercase text-slate-500">Preguntas frecuentes</span>
+    <h2 class="text-4xl font-semibold tracking-tight text-slate-900 mt-2">¿Tienes dudas?</h2>
+  </div>
+  <div class="divide-y divide-slate-200 border-y border-slate-200">
+    {% for faq in faqs %}
+    <details class="group py-6" {% if forloop.first %}open{% endif %}>
+      <summary class="font-medium text-slate-900 cursor-pointer list-none flex justify-between items-center gap-4">
+        <span>{{ faq.q }}</span>
+        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition shrink-0"></i>
+      </summary>
+      <p class="text-sm text-slate-600 mt-4 leading-relaxed max-w-2xl">{{ faq.a }}</p>
+    </details>
+    {% endfor %}
+  </div>
+  <div class="text-center mt-10">
+    <a href="{% url 'core:faq' %}" class="text-sm font-medium text-slate-900 link-anim inline-flex items-center gap-1.5">Ver todas las preguntas <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
   </div>
 </section>
 
-<!-- ============ CTA FINAL ============ -->
-<section class="container mx-auto px-4 py-24">
-  <div class="bg-slate-950 text-white rounded-3xl p-12 md:p-16 relative overflow-hidden">
+<!-- ============ CTA FINAL minimal ============ -->
+<section class="container mx-auto px-4 pb-28">
+  <div class="bg-slate-950 text-white rounded-3xl p-12 md:p-20 relative overflow-hidden">
     <div class="absolute inset-0 bg-grid-dark opacity-30"></div>
-    <div class="absolute -top-32 -right-32 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl"></div>
+    <div class="absolute -top-32 -right-32 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl"></div>
     <div class="relative text-center max-w-2xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-bold tracking-tight leading-tight">¿Listo para optimizar tu limpieza?</h2>
-      <p class="text-slate-300 mt-4 text-lg">Recibe tu cotización personalizada en menos de 24 horas hábiles.</p>
-      <div class="mt-8 flex flex-wrap justify-center gap-3">
-        <a href="{% url 'catalogo:lista' %}" class="bg-white text-slate-900 hover:bg-slate-100 font-medium px-6 h-12 rounded-lg inline-flex items-center gap-2 transition">Ver catálogo →</a>
-        <a href="{% url 'core:contacto' %}" class="bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium px-6 h-12 rounded-lg inline-flex items-center gap-2 transition">Hablar con ventas</a>
+      <h2 class="text-4xl md:text-5xl font-semibold tracking-tight leading-tight">¿Listo para optimizar<br/>tu limpieza?</h2>
+      <p class="text-slate-400 mt-5">Cotización personalizada en menos de 24 horas hábiles.</p>
+      <div class="mt-9 flex flex-wrap justify-center gap-3">
+        <a href="{% url 'catalogo:lista' %}" class="btn-shine bg-white text-slate-900 hover:bg-slate-100 font-medium px-5 h-11 rounded-lg inline-flex items-center gap-2 transition">
+          Ver catálogo <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="{% url 'core:contacto' %}" class="border border-white/15 hover:bg-white/5 text-white font-medium px-5 h-11 rounded-lg inline-flex items-center gap-2 transition">
+          Hablar con ventas
+        </a>
       </div>
     </div>
   </div>
