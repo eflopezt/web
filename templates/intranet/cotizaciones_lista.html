@@ -1,0 +1,42 @@
+{% extends "intranet/_layout.html" %}
+{% load humanize %}
+{% block intra_title %}Cotizaciones{% endblock %}
+{% block intra_content %}
+<div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+  <h1 class="text-2xl font-bold">Cotizaciones</h1>
+  <a href="{% url 'intranet:cotizacion_nueva' %}" class="btn btn-primary btn-sm">+ Nueva cotización</a>
+</div>
+<form class="flex flex-wrap gap-2 mb-3">
+  <input type="search" name="q" value="{{ q }}" placeholder="Código o cliente..." class="input input-bordered input-sm flex-1 min-w-[200px]"/>
+  <select name="estado" class="select select-bordered select-sm">
+    <option value="">Todos</option>
+    {% for v,l in estados %}<option value="{{ v }}" {% if estado == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
+  </select>
+  <button class="btn btn-sm btn-primary">Filtrar</button>
+  {% if q or estado %}<a href="{% url 'intranet:cotizaciones' %}" class="btn btn-sm btn-ghost">Limpiar</a>{% endif %}
+</form>
+
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>Código</th><th>Cliente</th><th>Emisión</th><th>Vence</th><th class="text-right">Total</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+      {% for c in cotizaciones %}
+      <tr class="hover">
+        <td class="font-mono text-sm"><a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="link link-primary">{{ c.codigo }}</a></td>
+        <td>{{ c.cliente.razon_social }}<div class="text-xs text-base-content/60">{{ c.cliente.documento }}</div></td>
+        <td>{{ c.fecha_emision|date:"d/m/Y" }}</td>
+        <td>{{ c.fecha_vencimiento|date:"d/m/Y" }}</td>
+        <td class="text-right font-semibold">S/ {{ c.total|floatformat:2|intcomma }}</td>
+        <td><span class="badge badge-{{ c.color_estado }}">{{ c.get_estado_display }}</span></td>
+        <td class="text-right">
+          <a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="btn btn-xs btn-primary">Ver</a>
+          <a href="{% url 'intranet:cotizacion_pdf' c.codigo %}" target="_blank" class="btn btn-xs btn-ghost">PDF</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" class="text-center py-6 text-base-content/60">Sin cotizaciones.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

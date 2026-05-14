@@ -1,10 +1,28 @@
-from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from django.urls import include, path
+
+
+def post_login_redirect(request):
+    """Redirige según grupo: staff intranet → /intranet/, cliente → /portal/."""
+    u = request.user
+    if not u.is_authenticated:
+        return redirect("login")
+    if u.is_staff or u.groups.filter(name="Staff Intranet").exists():
+        return redirect("intranet:dashboard")
+    return redirect("portal:dashboard")
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("post-login/", login_required(post_login_redirect), name="post_login"),
+    path("registro/", include("apps.portal.urls_registro")),
+    path("portal/", include("apps.portal.urls")),
+    path("intranet/", include("apps.intranet.urls")),
     path("", include("apps.core.urls")),
     path("productos/", include("apps.catalogo.urls")),
     path("cotizacion/", include("apps.cotizaciones.urls")),

@@ -1,0 +1,103 @@
+{% extends "intranet/_layout.html" %}
+{% load humanize %}
+{% block intra_title %}{{ factura.numero }}{% endblock %}
+{% block intra_content %}
+
+<div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+  <div>
+    <a href="{% url 'intranet:facturas' %}" class="text-sm text-base-content/60 hover:text-primary">← Facturas</a>
+    <h1 class="text-2xl font-bold">{{ factura.get_tipo_display }} {{ factura.numero }}</h1>
+    <p class="text-sm text-base-content/60">Cliente: <a href="{% url 'intranet:cliente_detalle' factura.cliente.pk %}" class="link link-primary">{{ factura.cliente.razon_social }}</a></p>
+  </div>
+  <div class="flex items-center gap-2 flex-wrap">
+    <span class="badge badge-{{ factura.color_estado }}">{{ factura.get_estado_display }}</span>
+    <span class="badge badge-ghost">SUNAT: {{ factura.get_estado_sunat_display }}</span>
+    <a href="{% url 'intranet:factura_pdf' factura.pk %}" target="_blank" class="btn btn-sm btn-outline">⬇ PDF</a>
+  </div>
+</div>
+
+<div class="grid lg:grid-cols-[1fr_320px] gap-4">
+  <div>
+    <div class="card bg-base-100 border border-base-300 mb-3">
+      <div class="overflow-x-auto"><table class="table table-sm">
+        <thead><tr><th>SKU</th><th>Descripción</th><th class="text-right">Cant.</th><th>Und.</th><th class="text-right">P. Unit.</th><th class="text-right">Subtotal</th></tr></thead>
+        <tbody>
+          {% for l in factura.lineas.all %}
+          <tr><td class="font-mono text-xs">{{ l.sku }}</td><td>{{ l.descripcion }}</td><td class="text-right">{{ l.cantidad|floatformat:"-2" }}</td><td>{{ l.unidad }}</td><td class="text-right">S/ {{ l.precio_unitario|floatformat:2 }}</td><td class="text-right font-semibold">S/ {{ l.subtotal|floatformat:2 }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body p-4">
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="font-bold">Pagos</h3>
+          <span class="text-sm">Saldo: <strong class="{% if factura.saldo > 0 %}text-error{% else %}text-success{% endif %}">S/ {{ factura.saldo|floatformat:2|intcomma }}</strong></span>
+        </div>
+        <table class="table table-sm">
+          <thead><tr><th>Fecha</th><th>Método</th><th>Referencia</th><th class="text-right">Monto</th></tr></thead>
+          <tbody>
+            {% for p in factura.pagos.all %}
+            <tr><td>{{ p.fecha|date:"d/m/Y" }}</td><td>{{ p.get_metodo_display }}</td><td class="text-xs">{{ p.referencia }}</td><td class="text-right font-semibold">S/ {{ p.monto|floatformat:2 }}</td></tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-center text-base-content/60 py-3">Sin pagos registrados.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        {% if factura.estado != 'anulada' and factura.saldo > 0 %}
+        <div class="mt-3 border-t border-base-200 pt-3">
+          <h4 class="text-sm font-bold mb-2">+ Registrar pago</h4>
+          <form method="post" action="{% url 'intranet:factura_pago_agregar' factura.pk %}" class="grid md:grid-cols-5 gap-2">
+            {% csrf_token %}
+            <input type="date" name="fecha" required class="input input-bordered input-sm"/>
+            <input type="number" step="0.01" min="0" name="monto" placeholder="Monto" value="{{ factura.saldo|floatformat:2 }}" required class="input input-bordered input-sm"/>
+            <select name="metodo" class="select select-bordered select-sm">{% for v,l in factura.pagos.model.METODO_CHOICES %}<option value="{{ v }}">{{ l }}</option>{% endfor %}</select>
+            <input name="referencia" placeholder="N° op." class="input input-bordered input-sm"/>
+            <button class="btn btn-primary btn-sm">Registrar</button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <aside class="space-y-3">
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body p-4 text-sm">
+        <h3 class="font-bold mb-2">Totales</h3>
+        <div class="flex justify-between"><span class="text-base-content/60">Subtotal</span><span>S/ {{ factura.subtotal|floatformat:2|intcomma }}</span></div>
+        <div class="flex justify-between"><span class="text-base-content/60">IGV (18%)</span><span>S/ {{ factura.igv|floatformat:2|intcomma }}</span></div>
+        <div class="flex justify-between border-t pt-1 font-bold text-primary"><span>TOTAL</span><span>S/ {{ factura.total|floatformat:2|intcomma }}</span></div>
+      </div>
+    </div>
+
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body p-4 space-y-2">
+        <h3 class="font-bold">Acciones</h3>
+        {% if factura.estado_sunat == 'pendiente' %}
+        <form method="post" action="{% url 'intranet:factura_sunat' factura.pk %}">
+          {% csrf_token %}<button class="btn btn-primary btn-sm w-full">📤 Enviar a SUNAT (simul.)</button>
+        </form>
+        {% endif %}
+        {% if factura.estado not in 'anulada,pagada' %}
+        <form method="post" action="{% url 'intranet:factura_anular' factura.pk %}" onsubmit="return confirm('¿Anular esta factura?')">
+          {% csrf_token %}<button class="btn btn-error btn-sm w-full">✕ Anular</button>
+        </form>
+        {% endif %}
+        {% if factura.hash_sunat %}<div class="text-xs text-base-content/60 break-all border-t pt-2">Hash: <code class="text-[10px]">{{ factura.hash_sunat }}</code></div>{% endif %}
+      </div>
+    </div>
+
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body p-4 text-sm space-y-1">
+        <h3 class="font-bold">Cliente</h3>
+        <div>{{ factura.cliente.razon_social }}</div>
+        <div class="text-xs text-base-content/60">{{ factura.cliente.documento }} · {{ factura.cliente.email }}</div>
+        {% if factura.pedido %}<a href="{% url 'intranet:pedido_detalle' factura.pedido.codigo %}" class="link link-primary text-xs">← {{ factura.pedido.codigo }}</a>{% endif %}
+      </div>
+    </div>
+  </aside>
+</div>
+{% endblock %}

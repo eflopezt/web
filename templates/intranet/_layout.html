@@ -1,0 +1,85 @@
+{% load humanize %}<!DOCTYPE html>
+<html lang="es" data-theme="limpiapro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block intra_title %}Intranet{% endblock %} — {{ SITE_NAME }}</title>
+  <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', daisyui: { themes: [{ limpiapro: {
+      "primary": "#0EA5E9", "primary-content": "#ffffff",
+      "secondary": "#10B981", "secondary-content": "#ffffff",
+      "accent": "#0369A1", "neutral": "#1E293B",
+      "base-100": "#ffffff", "base-200": "#F1F5F9", "base-300": "#E2E8F0",
+      "info": "#0284C7", "success": "#10B981", "warning": "#F59E0B", "error": "#EF4444",
+    }}]}}
+  </script>
+  <style>
+    .htmx-indicator { opacity: 0; transition: opacity 200ms; }
+    .htmx-request .htmx-indicator { opacity: 1; }
+    .nav-link.active { background: #0EA5E9; color: #fff; }
+  </style>
+</head>
+<body class="bg-base-200 min-h-screen">
+
+<div class="drawer lg:drawer-open">
+  <input id="intranet-drawer" type="checkbox" class="drawer-toggle"/>
+
+  <div class="drawer-content flex flex-col min-h-screen">
+    <header class="bg-base-100 border-b border-base-300 sticky top-0 z-30 shadow-sm">
+      <div class="px-4 h-14 flex items-center justify-between gap-2">
+        <label for="intranet-drawer" class="btn btn-sm btn-ghost lg:hidden">☰</label>
+        <div class="flex items-center gap-2">
+          <svg width="28" height="28" viewBox="0 0 36 36">
+            <defs><linearGradient id="hg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#10B981"/></linearGradient></defs>
+            <path d="M18 3 C 26 13, 30 19, 30 24 a12 12 0 0 1 -24 0 C 6 19, 10 13, 18 3 Z" fill="url(#hg)"/>
+          </svg>
+          <strong class="text-lg">LimpiaPro <span class="text-xs font-normal text-base-content/60 ml-1">Intranet</span></strong>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="/" class="btn btn-xs btn-ghost">Sitio público</a>
+          <span class="hidden md:inline text-sm">👤 {{ request.user.get_full_name|default:request.user.username }}</span>
+          <form method="post" action="{% url 'logout' %}" class="inline">{% csrf_token %}<button class="btn btn-xs btn-outline">Salir</button></form>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 p-4 lg:p-6">
+      {% if messages %}
+      <div class="space-y-2 mb-3" x-data x-init="setTimeout(()=>$el.remove(),5000)">
+        {% for m in messages %}<div class="alert alert-{% if m.tags %}{{ m.tags }}{% else %}info{% endif %} py-2 text-sm">{{ m }}</div>{% endfor %}
+      </div>
+      {% endif %}
+      {% block intra_content %}{% endblock %}
+    </main>
+  </div>
+
+  <div class="drawer-side z-40">
+    <label for="intranet-drawer" class="drawer-overlay"></label>
+    <aside class="w-64 min-h-screen bg-neutral text-neutral-content">
+      <div class="p-4 border-b border-white/10">
+        <div class="flex items-center gap-2">
+          <svg width="32" height="32" viewBox="0 0 36 36"><path d="M18 3 C 26 13, 30 19, 30 24 a12 12 0 0 1 -24 0 C 6 19, 10 13, 18 3 Z" fill="#0EA5E9"/></svg>
+          <div><div class="font-extrabold">LimpiaPro</div><div class="text-xs opacity-70">Backoffice</div></div>
+        </div>
+      </div>
+      <ul class="menu p-3 text-sm">
+        <li><a href="{% url 'intranet:dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">🏠 Dashboard</a></li>
+        <li><a href="{% url 'intranet:solicitudes' %}" class="nav-link {% if 'solicitud' in request.resolver_match.url_name %}active{% endif %}">📨 Solicitudes</a></li>
+        <li><a href="{% url 'intranet:cotizaciones' %}" class="nav-link {% if 'cotizacion' in request.resolver_match.url_name %}active{% endif %}">📄 Cotizaciones</a></li>
+        <li><a href="{% url 'intranet:pedidos' %}" class="nav-link {% if 'pedido' in request.resolver_match.url_name %}active{% endif %}">📦 Pedidos</a></li>
+        <li><a href="{% url 'intranet:facturas' %}" class="nav-link {% if 'factura' in request.resolver_match.url_name %}active{% endif %}">🧾 Facturas</a></li>
+        <li><a href="{% url 'intranet:clientes' %}" class="nav-link {% if 'cliente' in request.resolver_match.url_name %}active{% endif %}">👥 Clientes</a></li>
+        <li><a href="{% url 'intranet:productos' %}" class="nav-link {% if 'producto' in request.resolver_match.url_name %}active{% endif %}">🧴 Productos</a></li>
+        <li class="mt-4 menu-title">Administración</li>
+        <li><a href="/admin/" class="nav-link" target="_blank">⚙ Django admin</a></li>
+      </ul>
+    </aside>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends "intranet/_layout.html" %}
+{% load humanize %}
+{% block intra_title %}Facturas{% endblock %}
+{% block intra_content %}
+<h1 class="text-2xl font-bold mb-3">Facturas y Boletas</h1>
+<form class="flex flex-wrap gap-2 mb-3">
+  <input type="search" name="q" value="{{ q }}" placeholder="Número, cliente, RUC..." class="input input-bordered input-sm flex-1 min-w-[200px]"/>
+  <select name="estado" class="select select-bordered select-sm">
+    <option value="">Estado pago</option>
+    {% for v,l in estados %}<option value="{{ v }}" {% if estado == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
+  </select>
+  <select name="sunat" class="select select-bordered select-sm">
+    <option value="">SUNAT</option>
+    {% for v,l in estados_sunat %}<option value="{{ v }}" {% if sunat == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
+  </select>
+  <button class="btn btn-sm btn-primary">Filtrar</button>
+</form>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>Número</th><th>Tipo</th><th>Cliente</th><th>Fecha</th><th class="text-right">Total</th><th class="text-right">Saldo</th><th>Estado</th><th>SUNAT</th><th></th></tr></thead>
+    <tbody>
+      {% for f in facturas %}
+      <tr class="hover">
+        <td class="font-mono text-sm"><a href="{% url 'intranet:factura_detalle' f.pk %}" class="link link-primary">{{ f.numero }}</a></td>
+        <td>{{ f.get_tipo_display }}</td>
+        <td>{{ f.cliente.razon_social }}<div class="text-xs text-base-content/60">{{ f.cliente.documento }}</div></td>
+        <td>{{ f.fecha_emision|date:"d/m/Y" }}</td>
+        <td class="text-right font-semibold">S/ {{ f.total|floatformat:2|intcomma }}</td>
+        <td class="text-right {% if f.saldo > 0 and f.estado != 'anulada' %}text-error font-semibold{% endif %}">S/ {{ f.saldo|floatformat:2|intcomma }}</td>
+        <td><span class="badge badge-{{ f.color_estado }}">{{ f.get_estado_display }}</span></td>
+        <td><span class="badge badge-sm badge-ghost">{{ f.get_estado_sunat_display }}</span></td>
+        <td class="text-right"><a href="{% url 'intranet:factura_detalle' f.pk %}" class="btn btn-xs btn-primary">Ver</a><a href="{% url 'intranet:factura_pdf' f.pk %}" target="_blank" class="btn btn-xs btn-ghost">PDF</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="9" class="text-center py-6 text-base-content/60">Sin facturas.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

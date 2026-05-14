@@ -1,0 +1,30 @@
+{% extends "intranet/_layout.html" %}
+{% block intra_title %}Clientes{% endblock %}
+{% block intra_content %}
+<div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+  <h1 class="text-2xl font-bold">Clientes</h1>
+  <a href="{% url 'intranet:cliente_nuevo' %}" class="btn btn-primary btn-sm">+ Nuevo cliente</a>
+</div>
+<form class="mb-3"><input type="search" name="q" value="{{ q }}" placeholder="Buscar por razón social, RUC, email..." class="input input-bordered input-sm w-full max-w-md"/></form>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>Razón social</th><th>Doc.</th><th>Email</th><th>Tel.</th><th class="text-center">Cot.</th><th class="text-center">Ped.</th><th class="text-center">Fact.</th><th></th></tr></thead>
+    <tbody>
+      {% for c in clientes %}
+      <tr class="hover">
+        <td><a href="{% url 'intranet:cliente_detalle' c.pk %}" class="link link-primary font-semibold">{{ c.razon_social }}</a><div class="text-xs text-base-content/60">{{ c.nombre_comercial }}</div></td>
+        <td class="font-mono text-xs">{{ c.documento|default:"—" }}</td>
+        <td class="text-xs">{{ c.email }}</td>
+        <td class="text-xs">{{ c.telefono }}</td>
+        <td class="text-center">{{ c.n_cotizaciones }}</td>
+        <td class="text-center">{{ c.n_pedidos }}</td>
+        <td class="text-center">{{ c.n_facturas }}</td>
+        <td><a href="{% url 'intranet:cliente_detalle' c.pk %}" class="btn btn-xs btn-primary">Ver</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8" class="text-center py-6 text-base-content/60">Sin clientes.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

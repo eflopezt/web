@@ -1,0 +1,39 @@
+{% extends "intranet/_layout.html" %}
+{% block intra_title %}Solicitudes{% endblock %}
+{% block intra_content %}
+<div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+  <h1 class="text-2xl font-bold">Solicitudes</h1>
+</div>
+<form class="flex flex-wrap gap-2 mb-3">
+  <input type="search" name="q" value="{{ q }}" placeholder="Código, razón social, contacto..." class="input input-bordered input-sm flex-1 min-w-[200px]"/>
+  <select name="estado" class="select select-bordered select-sm">
+    <option value="">Todos los estados</option>
+    {% for v,l in estados %}<option value="{{ v }}" {% if estado == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
+  </select>
+  <button class="btn btn-sm btn-primary">Filtrar</button>
+  {% if q or estado %}<a href="{% url 'intranet:solicitudes' %}" class="btn btn-sm btn-ghost">Limpiar</a>{% endif %}
+</form>
+
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>Código</th><th>Fecha</th><th>Cliente</th><th>Contacto</th><th class="text-center">Items</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+      {% for s in solicitudes %}
+      <tr class="hover">
+        <td class="font-mono text-sm"><a href="{% url 'intranet:solicitud_detalle' s.codigo %}" class="link link-primary">{{ s.codigo }}</a></td>
+        <td class="text-xs">{{ s.creado|date:"d/m/Y H:i" }}</td>
+        <td>{{ s.razon_social|default:"—" }}<div class="text-xs text-base-content/60">{{ s.ruc }}</div></td>
+        <td>{{ s.nombre_contacto }}<div class="text-xs text-base-content/60">{{ s.email }} · {{ s.telefono }}</div></td>
+        <td class="text-center">{{ s.total_items }}</td>
+        <td><span class="badge badge-{{ s.color_estado }}">{{ s.get_estado_display }}</span></td>
+        <td class="text-right">
+          <a href="{% url 'intranet:solicitud_detalle' s.codigo %}" class="btn btn-xs btn-primary">Ver</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" class="text-center py-6 text-base-content/60">Sin resultados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

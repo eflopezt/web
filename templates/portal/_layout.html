@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}{% block portal_title %}Portal{% endblock %} — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-primary to-secondary text-primary-content">
+  <div class="container mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <div class="text-xs uppercase tracking-widest opacity-80">Portal cliente</div>
+      <div class="text-lg font-bold">{{ request.user.cliente.display_name|default:request.user.username }}</div>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="{% url 'catalogo:lista' %}" class="btn btn-sm btn-ghost text-primary-content">Catálogo</a>
+      <form action="{% url 'logout' %}" method="post" class="inline">
+        {% csrf_token %}
+        <button class="btn btn-sm btn-outline border-white text-white hover:bg-white hover:text-primary">Cerrar sesión</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container mx-auto px-4 py-6 grid lg:grid-cols-[230px_1fr] gap-6">
+  <aside>
+    <ul class="menu bg-base-100 border border-base-300 rounded-box w-full">
+      <li><a href="{% url 'portal:dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">🏠 Inicio</a></li>
+      <li><a href="{% url 'portal:solicitudes' %}" class="{% if 'solicitud' in request.resolver_match.url_name %}active{% endif %}">📨 Mis solicitudes</a></li>
+      <li><a href="{% url 'portal:cotizaciones' %}" class="{% if 'cotizacion' in request.resolver_match.url_name %}active{% endif %}">📄 Mis cotizaciones</a></li>
+      <li><a href="{% url 'portal:pedidos' %}" class="{% if 'pedido' in request.resolver_match.url_name %}active{% endif %}">📦 Mis pedidos</a></li>
+      <li><a href="{% url 'portal:facturas' %}" class="{% if 'factura' in request.resolver_match.url_name %}active{% endif %}">🧾 Mis facturas</a></li>
+      <li><a href="{% url 'portal:perfil' %}" class="{% if request.resolver_match.url_name == 'perfil' %}active{% endif %}">⚙ Mi perfil</a></li>
+    </ul>
+    <a href="{% url 'catalogo:lista' %}" class="btn btn-primary btn-sm w-full mt-3">+ Nueva solicitud</a>
+  </aside>
+
+  <main>
+    {% block portal_content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

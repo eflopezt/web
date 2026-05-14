@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Iniciar sesión — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12 max-w-md">
+  <div class="card bg-base-100 border border-base-300 shadow-sm">
+    <div class="card-body">
+      <h1 class="text-2xl font-bold text-center">Iniciar sesión</h1>
+      <p class="text-center text-sm text-base-content/60 mb-4">Accede a tu portal de cliente o intranet.</p>
+
+      {% if form.errors %}
+      <div class="alert alert-error text-sm">Usuario o contraseña incorrectos.</div>
+      {% endif %}
+      {% if next %}<input type="hidden" form="login-form" name="next" value="{{ next }}"/>{% endif %}
+
+      <form id="login-form" method="post" class="space-y-3">
+        {% csrf_token %}
+        <div>
+          <label class="label-text font-semibold">Usuario</label>
+          <input type="text" name="username" required autofocus class="input input-bordered w-full mt-1"/>
+        </div>
+        <div>
+          <label class="label-text font-semibold">Contraseña</label>
+          <input type="password" name="password" required class="input input-bordered w-full mt-1"/>
+        </div>
+        {% if next %}<input type="hidden" name="next" value="{{ next }}"/>{% endif %}
+        <button type="submit" class="btn btn-primary w-full">Ingresar</button>
+      </form>
+
+      <div class="divider text-xs">o</div>
+      <a href="{% url 'registro' %}" class="btn btn-outline btn-sm w-full">Crear cuenta de cliente</a>
+
+      <details class="mt-4 text-xs text-base-content/60">
+        <summary class="cursor-pointer">Usuarios demo</summary>
+        <div class="mt-2 space-y-1 font-mono">
+          <div>👔 staff / staff (intranet)</div>
+          <div>🧑‍💼 cliente / cliente (portal)</div>
+        </div>
+      </details>
+    </div>
+  </div>
+</div>
+{% endblock %}

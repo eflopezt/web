@@ -31,8 +31,26 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "apps.core",
     "apps.catalogo",
+    "apps.clientes",
     "apps.cotizaciones",
+    "apps.pedidos",
+    "apps.facturacion",
+    "apps.intranet",
+    "apps.portal",
 ]
+
+# Login/logout redirects
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/post-login/"
+LOGOUT_REDIRECT_URL = "/"
+
+# Datos del emisor para PDFs (modificables vía env)
+import os as _os
+EMISOR_RAZON_SOCIAL = _os.environ.get("EMISOR_RAZON_SOCIAL", "LimpiaPro S.A.C. (DEMO)")
+EMISOR_RUC = _os.environ.get("EMISOR_RUC", "20612345678")
+EMISOR_DIRECCION = _os.environ.get("EMISOR_DIRECCION", "Av. Industrial 123, Ate, Lima")
+EMISOR_EMAIL = _os.environ.get("EMISOR_EMAIL", "ventas@limpiapro.pe")
+EMISOR_TELEFONO = _os.environ.get("EMISOR_TELEFONO", "+51 999 999 999")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

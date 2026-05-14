@@ -1,0 +1,67 @@
+{% extends "portal/_layout.html" %}
+{% load humanize %}
+{% block portal_title %}{{ pedido.codigo }}{% endblock %}
+{% block portal_content %}
+<div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+  <div>
+    <a href="{% url 'portal:pedidos' %}" class="text-sm text-base-content/60 hover:text-primary">← Mis pedidos</a>
+    <h1 class="text-2xl font-bold">Pedido {{ pedido.codigo }}</h1>
+  </div>
+  <span class="badge badge-lg badge-{{ pedido.color_estado }}">{{ pedido.get_estado_display }}</span>
+</div>
+
+<div class="card bg-base-100 border border-base-300 mb-4">
+  <div class="card-body p-4 grid md:grid-cols-3 gap-3 text-sm">
+    <div><div class="text-base-content/60">Fecha pedido</div><div class="font-semibold">{{ pedido.fecha|date:"d/m/Y" }}</div></div>
+    <div><div class="text-base-content/60">Entrega estimada</div><div class="font-semibold">{{ pedido.fecha_entrega_estimada|date:"d/m/Y"|default:"—" }}</div></div>
+    <div><div class="text-base-content/60">Dirección</div><div>{{ pedido.direccion_envio|default:"—" }}</div></div>
+  </div>
+</div>
+
+<div class="card bg-base-100 border border-base-300 mb-4">
+  <div class="overflow-x-auto">
+    <table class="table">
+      <thead><tr><th class="text-center">Cant.</th><th>Descripción</th><th class="text-right">P. Unit.</th><th class="text-right">Subtotal</th></tr></thead>
+      <tbody>
+        {% for l in pedido.lineas.all %}
+        <tr>
+          <td class="text-center">{{ l.cantidad|floatformat:"-2" }} {{ l.unidad }}</td>
+          <td><div class="font-medium">{{ l.descripcion }}</div>{% if l.sku %}<div class="text-xs text-base-content/60 font-mono">{{ l.sku }}</div>{% endif %}</td>
+          <td class="text-right">S/ {{ l.precio_unitario|floatformat:2|intcomma }}</td>
+          <td class="text-right font-semibold">S/ {{ l.subtotal|floatformat:2|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-body p-4 pt-0 grid grid-cols-2 gap-2 text-sm max-w-sm ml-auto">
+    <div class="text-base-content/60">Subtotal</div><div class="text-right">S/ {{ pedido.subtotal|floatformat:2|intcomma }}</div>
+    <div class="text-base-content/60">IGV</div><div class="text-right">S/ {{ pedido.igv|floatformat:2|intcomma }}</div>
+    <div class="font-bold text-primary border-t pt-1">TOTAL</div><div class="text-right font-bold text-primary text-lg border-t pt-1">S/ {{ pedido.total|floatformat:2|intcomma }}</div>
+  </div>
+</div>
+
+{% if pedido.facturas.all %}
+<h3 class="font-bold mb-2">Facturas asociadas</h3>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto mb-4">
+  <table class="table">
+    <thead><tr><th>Número</th><th>Fecha</th><th class="text-right">Total</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+      {% for f in pedido.facturas.all %}
+      <tr>
+        <td class="font-mono">{{ f.numero }}</td>
+        <td>{{ f.fecha_emision|date:"d/m/Y" }}</td>
+        <td class="text-right">S/ {{ f.total|floatformat:2|intcomma }}</td>
+        <td><span class="badge badge-{{ f.color_estado }}">{{ f.get_estado_display }}</span></td>
+        <td><a href="{% url 'portal:factura_detalle' f.pk %}" class="btn btn-xs btn-primary">Ver →</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% if pedido.cotizacion %}
+<a href="{% url 'portal:cotizacion_detalle' pedido.cotizacion.codigo %}" class="text-sm link link-primary">← Cotización origen {{ pedido.cotizacion.codigo }}</a>
+{% endif %}
+{% endblock %}

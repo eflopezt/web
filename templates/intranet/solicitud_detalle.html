@@ -1,0 +1,95 @@
+{% extends "intranet/_layout.html" %}
+{% block intra_title %}{{ solicitud.codigo }}{% endblock %}
+{% block intra_content %}
+<div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+  <div>
+    <a href="{% url 'intranet:solicitudes' %}" class="text-sm text-base-content/60 hover:text-primary">← Solicitudes</a>
+    <h1 class="text-2xl font-bold">Solicitud {{ solicitud.codigo }}</h1>
+    <p class="text-sm text-base-content/60">{{ solicitud.creado|date:"d/m/Y H:i" }}</p>
+  </div>
+  <div class="flex items-center gap-2">
+    <span class="badge badge-lg badge-{{ solicitud.color_estado }}">{{ solicitud.get_estado_display }}</span>
+    {% if solicitud.estado != "cotizada" and solicitud.estado != "cerrada" %}
+    <form method="post" action="{% url 'intranet:solicitud_cotizar' solicitud.codigo %}">
+      {% csrf_token %}
+      <button class="btn btn-primary btn-sm">📄 Crear cotización</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+<div class="grid md:grid-cols-3 gap-3 mb-4">
+  <div class="md:col-span-2 card bg-base-100 border border-base-300">
+    <div class="card-body p-4">
+      <h3 class="font-bold mb-2">Productos solicitados</h3>
+      <table class="table table-sm">
+        <thead><tr><th>SKU</th><th>Producto</th><th class="text-right">Cantidad</th></tr></thead>
+        <tbody>
+          {% for it in solicitud.items.all %}
+          <tr><td class="font-mono text-xs">{{ it.sku_snapshot }}</td><td>{{ it.nombre_snapshot }}</td><td class="text-right">{{ it.cantidad }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if solicitud.mensaje %}
+      <div class="mt-3"><div class="text-xs text-base-content/60 uppercase">Mensaje del cliente</div><p class="text-sm whitespace-pre-line">{{ solicitud.mensaje }}</p></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card bg-base-100 border border-base-300">
+    <div class="card-body p-4 text-sm space-y-1">
+      <h3 class="font-bold">Datos contacto</h3>
+      <div><span class="text-base-content/60">Tipo:</span> {{ solicitud.get_tipo_cliente_display }}</div>
+      <div><span class="text-base-content/60">Razón social:</span> {{ solicitud.razon_social|default:"—" }}</div>
+      <div><span class="text-base-content/60">RUC:</span> {{ solicitud.ruc|default:"—" }}</div>
+      <div><span class="text-base-content/60">Contacto:</span> <strong>{{ solicitud.nombre_contacto }}</strong></div>
+      <div><span class="text-base-content/60">Email:</span> <a href="mailto:{{ solicitud.email }}" class="link link-primary">{{ solicitud.email }}</a></div>
+      <div><span class="text-base-content/60">Tel:</span> <a href="https://wa.me/51{{ solicitud.telefono|cut:' ' }}" target="_blank" class="link link-primary">{{ solicitud.telefono }}</a></div>
+      <div><span class="text-base-content/60">Ciudad:</span> {{ solicitud.ciudad }}{% if solicitud.departamento %}, {{ solicitud.departamento }}{% endif %}</div>
+      {% if solicitud.cliente %}
+      <a href="{% url 'intranet:cliente_detalle' solicitud.cliente.pk %}" class="btn btn-xs btn-outline mt-2">Ver cliente →</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="card bg-base-100 border border-base-300 mb-4">
+  <div class="card-body p-4">
+    <h3 class="font-bold mb-2">Gestión interna</h3>
+    <form method="post" class="grid md:grid-cols-[180px_1fr_auto] gap-2 items-end">
+      {% csrf_token %}
+      <div>
+        <label class="label-text text-xs">Estado</label>
+        <select name="estado" class="select select-bordered select-sm w-full">
+          {% for v,l in solicitud.ESTADO_CHOICES %}<option value="{{ v }}" {% if solicitud.estado == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="label-text text-xs">Nota interna</label>
+        <input name="nota_interna" value="{{ solicitud.nota_interna }}" class="input input-bordered input-sm w-full"/>
+      </div>
+      <button class="btn btn-sm btn-primary">Guardar</button>
+    </form>
+  </div>
+</div>
+
+{% if solicitud.cotizaciones.all %}
+<h3 class="font-bold mb-2">Cotizaciones generadas</h3>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table table-sm">
+    <thead><tr><th>Código</th><th class="text-right">Total</th><th>Estado</th><th>Emitida</th><th></th></tr></thead>
+    <tbody>
+      {% for c in solicitud.cotizaciones.all %}
+      <tr>
+        <td class="font-mono">{{ c.codigo }}</td>
+        <td class="text-right">S/ {{ c.total|floatformat:2 }}</td>
+        <td><span class="badge badge-{{ c.color_estado }}">{{ c.get_estado_display }}</span></td>
+        <td>{{ c.fecha_emision|date:"d/m/Y" }}</td>
+        <td><a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="btn btn-xs btn-primary">Ver</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}

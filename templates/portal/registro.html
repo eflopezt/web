@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Crear cuenta — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-10 max-w-xl">
+  <div class="card bg-base-100 border border-base-300">
+    <div class="card-body">
+      <h1 class="text-2xl font-bold">Crear cuenta de cliente</h1>
+      <p class="text-sm text-base-content/60 mb-3">Accede al portal para ver tus cotizaciones, pedidos y facturas en línea.</p>
+
+      {% if form.non_field_errors %}<div class="alert alert-error text-sm">{{ form.non_field_errors }}</div>{% endif %}
+
+      <form method="post" class="space-y-3">
+        {% csrf_token %}
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="label-text font-semibold">Tipo</label>
+            {{ form.tipo }}
+          </div>
+          <div>
+            <label class="label-text font-semibold">RUC / DNI</label>
+            {{ form.documento }}
+          </div>
+        </div>
+        <div>
+          <label class="label-text font-semibold">Razón social / Nombre completo *</label>
+          {{ form.razon_social }}
+        </div>
+        <div class="grid md:grid-cols-2 gap-3">
+          <div>
+            <label class="label-text font-semibold">Email *</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+          </div>
+          <div>
+            <label class="label-text font-semibold">Teléfono</label>
+            {{ form.telefono }}
+          </div>
+        </div>
+        <div>
+          <label class="label-text font-semibold">Usuario *</label>
+          {{ form.username }}
+          {{ form.username.errors }}
+        </div>
+        <div class="grid md:grid-cols-2 gap-3">
+          <div>
+            <label class="label-text font-semibold">Contraseña *</label>
+            {{ form.password1 }}
+            <div class="text-xs text-base-content/60 mt-1">Mínimo 8 caracteres, no muy común.</div>
+            {{ form.password1.errors }}
+          </div>
+          <div>
+            <label class="label-text font-semibold">Repetir contraseña *</label>
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-full mt-4">Crear cuenta</button>
+      </form>
+      <p class="text-xs text-center mt-3 text-base-content/60">¿Ya tienes cuenta? <a class="link link-primary" href="{% url 'login' %}">Inicia sesión</a></p>
+    </div>
+  </div>
+</div>
+<style>
+  form input[type=text], form input[type=email], form input[type=password], form select { @apply input input-bordered w-full mt-1; }
+</style>
+<script>
+document.querySelectorAll('form input[type=text], form input[type=email], form input[type=password], form select').forEach(el => {
+  el.classList.add('input','input-bordered','w-full','mt-1');
+});
+</script>
+{% endblock %}

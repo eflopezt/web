@@ -1,0 +1,35 @@
+{% extends "portal/_layout.html" %}
+{% block portal_title %}Mi perfil{% endblock %}
+{% block portal_content %}
+<h1 class="text-2xl font-bold mb-4">Mi perfil</h1>
+<div class="grid md:grid-cols-3 gap-4">
+  <div class="md:col-span-2 card bg-base-100 border border-base-300">
+    <div class="card-body">
+      <h3 class="font-bold mb-2">Datos de la empresa / persona</h3>
+      <form method="post" class="space-y-3">
+        {% csrf_token %}
+        <div class="grid md:grid-cols-2 gap-3">
+          <div><label class="label-text font-semibold">Razón social *</label><input type="text" name="razon_social" value="{{ form.razon_social.value|default:'' }}" class="input input-bordered w-full mt-1" required/></div>
+          <div><label class="label-text font-semibold">Nombre comercial</label><input type="text" name="nombre_comercial" value="{{ form.nombre_comercial.value|default:'' }}" class="input input-bordered w-full mt-1"/></div>
+          <div><label class="label-text font-semibold">RUC / DNI</label><input type="text" name="documento" value="{{ form.documento.value|default:'' }}" class="input input-bordered w-full mt-1"/></div>
+          <div><label class="label-text font-semibold">Teléfono</label><input type="text" name="telefono" value="{{ form.telefono.value|default:'' }}" class="input input-bordered w-full mt-1"/></div>
+        </div>
+        <div><label class="label-text font-semibold">Dirección</label><input type="text" name="direccion" value="{{ form.direccion.value|default:'' }}" class="input input-bordered w-full mt-1"/></div>
+        <div class="grid md:grid-cols-2 gap-3">
+          <div><label class="label-text font-semibold">Departamento</label><input type="text" name="departamento" value="{{ form.departamento.value|default:'' }}" class="input input-bordered w-full mt-1"/></div>
+          <div><label class="label-text font-semibold">Ciudad</label><input type="text" name="ciudad" value="{{ form.ciudad.value|default:'' }}" class="input input-bordered w-full mt-1"/></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </form>
+    </div>
+  </div>
+  <div class="card bg-base-100 border border-base-300 h-fit">
+    <div class="card-body text-sm">
+      <h3 class="font-bold mb-1">Cuenta</h3>
+      <div><span class="text-base-content/60">Usuario:</span> <strong>{{ request.user.username }}</strong></div>
+      <div><span class="text-base-content/60">Email:</span> {{ request.user.email }}</div>
+      <a href="{% url 'password_change' %}" class="btn btn-outline btn-sm mt-3">Cambiar contraseña</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

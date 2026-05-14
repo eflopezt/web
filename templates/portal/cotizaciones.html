@@ -1,0 +1,25 @@
+{% extends "portal/_layout.html" %}
+{% load humanize %}
+{% block portal_title %}Mis cotizaciones{% endblock %}
+{% block portal_content %}
+<h1 class="text-2xl font-bold mb-4">Mis cotizaciones</h1>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>Código</th><th>Emisión</th><th>Vence</th><th class="text-right">Total</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+      {% for c in cotizaciones %}
+      <tr>
+        <td class="font-mono text-sm">{{ c.codigo }}</td>
+        <td>{{ c.fecha_emision|date:"d/m/Y" }}</td>
+        <td>{{ c.fecha_vencimiento|date:"d/m/Y" }}</td>
+        <td class="text-right font-semibold">S/ {{ c.total|floatformat:2|intcomma }}</td>
+        <td><span class="badge badge-{{ c.color_estado }}">{{ c.get_estado_display }}</span></td>
+        <td><a href="{% url 'portal:cotizacion_detalle' c.codigo %}" class="btn btn-xs btn-primary">Ver →</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" class="text-center py-8 text-base-content/60">Aún no recibes cotizaciones.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

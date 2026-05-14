@@ -1,0 +1,31 @@
+{% extends "portal/_layout.html" %}
+{% load humanize %}
+{% block portal_title %}Mis facturas{% endblock %}
+{% block portal_content %}
+<h1 class="text-2xl font-bold mb-4">Mis facturas</h1>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>Número</th><th>Tipo</th><th>Emisión</th><th>Vence</th><th class="text-right">Total</th><th class="text-right">Saldo</th><th>Estado</th><th>SUNAT</th><th></th></tr></thead>
+    <tbody>
+      {% for f in facturas %}
+      <tr>
+        <td class="font-mono text-sm">{{ f.numero }}</td>
+        <td>{{ f.get_tipo_display }}</td>
+        <td>{{ f.fecha_emision|date:"d/m/Y" }}</td>
+        <td>{{ f.fecha_vencimiento|date:"d/m/Y"|default:"—" }}</td>
+        <td class="text-right font-semibold">S/ {{ f.total|floatformat:2|intcomma }}</td>
+        <td class="text-right">S/ {{ f.saldo|floatformat:2|intcomma }}</td>
+        <td><span class="badge badge-{{ f.color_estado }}">{{ f.get_estado_display }}</span></td>
+        <td><span class="badge badge-sm badge-ghost">{{ f.get_estado_sunat_display }}</span></td>
+        <td>
+          <a href="{% url 'portal:factura_detalle' f.pk %}" class="btn btn-xs btn-primary">Ver</a>
+          <a href="{% url 'portal:factura_pdf' f.pk %}" target="_blank" class="btn btn-xs btn-ghost">PDF</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="9" class="text-center py-8 text-base-content/60">No tienes facturas aún.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

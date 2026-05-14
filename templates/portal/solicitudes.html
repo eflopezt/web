@@ -1,0 +1,28 @@
+{% extends "portal/_layout.html" %}
+{% block portal_title %}Mis solicitudes{% endblock %}
+{% block portal_content %}
+<div class="flex items-center justify-between mb-4">
+  <h1 class="text-2xl font-bold">Mis solicitudes</h1>
+  <a href="{% url 'catalogo:lista' %}" class="btn btn-primary btn-sm">+ Nueva solicitud</a>
+</div>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead>
+      <tr><th>Código</th><th>Fecha</th><th>Productos</th><th>Estado</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for s in solicitudes %}
+      <tr>
+        <td class="font-mono text-sm">{{ s.codigo }}</td>
+        <td>{{ s.creado|date:"d/m/Y H:i" }}</td>
+        <td>{{ s.total_items }}</td>
+        <td><span class="badge badge-{{ s.color_estado }}">{{ s.get_estado_display }}</span></td>
+        <td><a href="{% url 'portal:solicitud_detalle' s.codigo %}" class="btn btn-xs btn-ghost">Ver →</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="text-center py-8 text-base-content/60">No has hecho solicitudes aún. <a href="{% url 'catalogo:lista' %}" class="link link-primary">Explorar catálogo</a></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

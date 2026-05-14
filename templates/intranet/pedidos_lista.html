@@ -1,0 +1,34 @@
+{% extends "intranet/_layout.html" %}
+{% load humanize %}
+{% block intra_title %}Pedidos{% endblock %}
+{% block intra_content %}
+<h1 class="text-2xl font-bold mb-3">Pedidos</h1>
+<form class="flex flex-wrap gap-2 mb-3">
+  <input type="search" name="q" value="{{ q }}" placeholder="Código o cliente..." class="input input-bordered input-sm flex-1 min-w-[200px]"/>
+  <select name="estado" class="select select-bordered select-sm">
+    <option value="">Todos</option>
+    {% for v,l in estados %}<option value="{{ v }}" {% if estado == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
+  </select>
+  <button class="btn btn-sm btn-primary">Filtrar</button>
+</form>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>Código</th><th>Cliente</th><th>Fecha</th><th>Entrega</th><th class="text-right">Total</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+      {% for p in pedidos %}
+      <tr class="hover">
+        <td class="font-mono text-sm"><a href="{% url 'intranet:pedido_detalle' p.codigo %}" class="link link-primary">{{ p.codigo }}</a></td>
+        <td>{{ p.cliente.razon_social }}</td>
+        <td>{{ p.fecha|date:"d/m/Y" }}</td>
+        <td>{{ p.fecha_entrega_estimada|date:"d/m/Y"|default:"—" }}</td>
+        <td class="text-right font-semibold">S/ {{ p.total|floatformat:2|intcomma }}</td>
+        <td><span class="badge badge-{{ p.color_estado }}">{{ p.get_estado_display }}</span></td>
+        <td class="text-right"><a href="{% url 'intranet:pedido_detalle' p.codigo %}" class="btn btn-xs btn-primary">Ver</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" class="text-center py-6 text-base-content/60">Sin pedidos.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

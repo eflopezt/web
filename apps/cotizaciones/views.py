@@ -11,7 +11,7 @@ from apps.catalogo.models import Producto
 
 from . import carrito as carrito_lib
 from .forms import SolicitudCotizacionForm
-from .models import ItemCotizacion, SolicitudCotizacion
+from .models import ItemSolicitud, SolicitudCotizacion
 
 
 def _render_carrito_drawer(request):
@@ -89,8 +89,26 @@ def checkout(request):
         form = SolicitudCotizacionForm(request.POST)
         if form.is_valid() and items:
             solicitud = form.save()
+            # Asociar cliente existente por email (case-insensitive) si lo hay
+            from apps.clientes.models import Cliente
+
+            cliente = Cliente.objects.filter(email__iexact=solicitud.email).first()
+            if not cliente:
+                cliente = Cliente.objects.create(
+                    tipo=solicitud.tipo_cliente,
+                    razon_social=solicitud.razon_social or solicitud.nombre_contacto,
+                    documento=solicitud.ruc,
+                    email=solicitud.email,
+                    telefono=solicitud.telefono,
+                    direccion=solicitud.direccion,
+                    departamento=solicitud.departamento,
+                    ciudad=solicitud.ciudad,
+                )
+            solicitud.cliente = cliente
+            solicitud.save(update_fields=["cliente"])
+
             for item in items:
-                ItemCotizacion.objects.create(
+                ItemSolicitud.objects.create(
                     solicitud=solicitud,
                     producto=item["producto"],
                     nombre_snapshot=item["producto"].nombre,

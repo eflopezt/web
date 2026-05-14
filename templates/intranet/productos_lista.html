@@ -1,0 +1,43 @@
+{% extends "intranet/_layout.html" %}
+{% block intra_title %}Productos{% endblock %}
+{% block intra_content %}
+<div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+  <h1 class="text-2xl font-bold">Productos del catálogo</h1>
+  <a href="/admin/catalogo/producto/add/" target="_blank" class="btn btn-primary btn-sm">+ Nuevo producto</a>
+</div>
+<form class="flex flex-wrap gap-2 mb-3">
+  <input type="search" name="q" value="{{ q }}" placeholder="Nombre o SKU..." class="input input-bordered input-sm flex-1 min-w-[200px]"/>
+  <select name="categoria" class="select select-bordered select-sm">
+    <option value="">Todas las categorías</option>
+    {% for c in categorias %}<option value="{{ c.id }}" {% if cat == c.id|stringformat:'s' %}selected{% endif %}>{{ c.nombre }}</option>{% endfor %}
+  </select>
+  <select name="disp" class="select select-bordered select-sm">
+    <option value="">Toda disponibilidad</option>
+    <option value="en_stock" {% if disp == 'en_stock' %}selected{% endif %}>En stock</option>
+    <option value="bajo_pedido" {% if disp == 'bajo_pedido' %}selected{% endif %}>Bajo pedido</option>
+    <option value="agotado" {% if disp == 'agotado' %}selected{% endif %}>Agotado</option>
+  </select>
+  <button class="btn btn-sm btn-primary">Filtrar</button>
+</form>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>SKU</th><th>Producto</th><th>Categoría</th><th>Marca</th><th>Presentación</th><th>Disp.</th><th>Activo</th><th></th></tr></thead>
+    <tbody>
+      {% for p in productos %}
+      <tr class="hover">
+        <td class="font-mono text-xs">{{ p.sku }}</td>
+        <td><a href="/productos/p/{{ p.slug }}/" target="_blank" class="link link-primary">{{ p.nombre }}</a></td>
+        <td class="text-sm">{{ p.categoria.nombre }}</td>
+        <td class="text-sm">{{ p.marca.nombre|default:"—" }}</td>
+        <td class="text-xs">{{ p.presentacion }}</td>
+        <td><span class="badge badge-sm badge-disp-{{ p.disponibilidad }}">{{ p.get_disponibilidad_display }}</span></td>
+        <td>{% if p.activo %}✓{% else %}—{% endif %}</td>
+        <td><a href="/admin/catalogo/producto/{{ p.id }}/change/" target="_blank" class="btn btn-xs btn-ghost">Editar</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8" class="text-center py-6 text-base-content/60">Sin productos.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "intranet/_layout.html" %}
+{% load humanize %}
+{% block intra_title %}{{ cliente.razon_social }}{% endblock %}
+{% block intra_content %}
+<div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+  <div>
+    <a href="{% url 'intranet:clientes' %}" class="text-sm text-base-content/60 hover:text-primary">← Clientes</a>
+    <h1 class="text-2xl font-bold">{{ cliente.razon_social }}</h1>
+    <p class="text-sm text-base-content/60">{{ cliente.get_tipo_display }} · {{ cliente.documento|default:"sin doc." }}</p>
+  </div>
+  <a href="{% url 'intranet:cliente_editar' cliente.pk %}" class="btn btn-primary btn-sm">Editar</a>
+</div>
+
+<div class="grid md:grid-cols-3 gap-3 mb-4">
+  <div class="md:col-span-2 card bg-base-100 border border-base-300"><div class="card-body p-4 text-sm space-y-1">
+    <div><span class="text-base-content/60">Email:</span> {{ cliente.email }}</div>
+    <div><span class="text-base-content/60">Tel:</span> {{ cliente.telefono|default:"—" }}</div>
+    <div><span class="text-base-content/60">Dirección:</span> {{ cliente.direccion|default:"—" }}, {{ cliente.ciudad }}{% if cliente.departamento %}, {{ cliente.departamento }}{% endif %}</div>
+    <div><span class="text-base-content/60">Usuario portal:</span> {% if cliente.usuario %}<strong>{{ cliente.usuario.username }}</strong>{% else %}<span class="text-base-content/50">sin cuenta</span>{% endif %}</div>
+    {% if cliente.notas %}<div><span class="text-base-content/60">Notas internas:</span><p class="whitespace-pre-line">{{ cliente.notas }}</p></div>{% endif %}
+  </div></div>
+  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
+    <h3 class="font-bold mb-2 text-sm">Métricas</h3>
+    <div class="text-2xl font-bold text-primary">{{ cliente.cotizaciones.count }}</div><div class="text-xs">cotizaciones</div>
+    <div class="text-2xl font-bold text-secondary mt-2">{{ cliente.pedidos.count }}</div><div class="text-xs">pedidos</div>
+    <div class="text-2xl font-bold text-info mt-2">{{ cliente.facturas.count }}</div><div class="text-xs">facturas</div>
+  </div></div>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-4">
+  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
+    <h3 class="font-bold mb-2">Solicitudes recientes</h3>
+    <table class="table table-sm"><tbody>
+      {% for s in solicitudes %}
+      <tr><td class="font-mono text-xs"><a href="{% url 'intranet:solicitud_detalle' s.codigo %}" class="link link-primary">{{ s.codigo }}</a></td><td class="text-xs">{{ s.creado|date:"d/m/Y" }}</td><td><span class="badge badge-{{ s.color_estado }} badge-sm">{{ s.get_estado_display }}</span></td></tr>
+      {% empty %}<tr><td class="text-base-content/60">Sin solicitudes.</td></tr>{% endfor %}
+    </tbody></table>
+  </div></div>
+
+  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
+    <h3 class="font-bold mb-2">Cotizaciones recientes</h3>
+    <table class="table table-sm"><tbody>
+      {% for c in cotizaciones %}
+      <tr><td class="font-mono text-xs"><a href="{% url 'intranet:cotizacion_detalle' c.codigo %}" class="link link-primary">{{ c.codigo }}</a></td><td class="text-right">S/ {{ c.total|floatformat:2|intcomma }}</td><td><span class="badge badge-{{ c.color_estado }} badge-sm">{{ c.get_estado_display }}</span></td></tr>
+      {% empty %}<tr><td class="text-base-content/60">Sin cotizaciones.</td></tr>{% endfor %}
+    </tbody></table>
+  </div></div>
+
+  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
+    <h3 class="font-bold mb-2">Pedidos</h3>
+    <table class="table table-sm"><tbody>
+      {% for p in pedidos %}
+      <tr><td class="font-mono text-xs"><a href="{% url 'intranet:pedido_detalle' p.codigo %}" class="link link-primary">{{ p.codigo }}</a></td><td class="text-right">S/ {{ p.total|floatformat:2|intcomma }}</td><td><span class="badge badge-{{ p.color_estado }} badge-sm">{{ p.get_estado_display }}</span></td></tr>
+      {% empty %}<tr><td class="text-base-content/60">Sin pedidos.</td></tr>{% endfor %}
+    </tbody></table>
+  </div></div>
+
+  <div class="card bg-base-100 border border-base-300"><div class="card-body p-4">
+    <h3 class="font-bold mb-2">Facturas</h3>
+    <table class="table table-sm"><tbody>
+      {% for f in facturas %}
+      <tr><td class="font-mono text-xs"><a href="{% url 'intranet:factura_detalle' f.pk %}" class="link link-primary">{{ f.numero }}</a></td><td class="text-right">S/ {{ f.total|floatformat:2|intcomma }}</td><td><span class="badge badge-{{ f.color_estado }} badge-sm">{{ f.get_estado_display }}</span></td></tr>
+      {% empty %}<tr><td class="text-base-content/60">Sin facturas.</td></tr>{% endfor %}
+    </tbody></table>
+  </div></div>
+</div>
+{% endblock %}

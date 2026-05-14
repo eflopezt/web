@@ -1,0 +1,82 @@
+{% extends "portal/_layout.html" %}
+{% load humanize %}
+{% block portal_title %}Inicio{% endblock %}
+
+{% block portal_content %}
+<h1 class="text-2xl font-bold mb-4">Resumen</h1>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+  <a href="{% url 'portal:solicitudes' %}" class="card bg-base-100 border border-base-300 hover:border-primary transition">
+    <div class="card-body p-4">
+      <div class="text-xs text-base-content/60 uppercase tracking-wide">Solicitudes</div>
+      <div class="text-3xl font-bold">{{ solicitudes_count }}</div>
+      <div class="text-xs text-warning">{{ solicitudes_pendientes }} en proceso</div>
+    </div>
+  </a>
+  <a href="{% url 'portal:cotizaciones' %}" class="card bg-base-100 border border-base-300 hover:border-primary transition">
+    <div class="card-body p-4">
+      <div class="text-xs text-base-content/60 uppercase tracking-wide">Cotizaciones</div>
+      <div class="text-3xl font-bold">{{ cotizaciones_count }}</div>
+      <div class="text-xs text-info">{{ cotizaciones_por_revisar }} por revisar</div>
+    </div>
+  </a>
+  <a href="{% url 'portal:pedidos' %}" class="card bg-base-100 border border-base-300 hover:border-primary transition">
+    <div class="card-body p-4">
+      <div class="text-xs text-base-content/60 uppercase tracking-wide">Pedidos</div>
+      <div class="text-3xl font-bold">{{ pedidos_count }}</div>
+      <div class="text-xs text-success">{{ pedidos_en_camino }} en camino</div>
+    </div>
+  </a>
+  <a href="{% url 'portal:facturas' %}" class="card bg-base-100 border border-base-300 hover:border-primary transition">
+    <div class="card-body p-4">
+      <div class="text-xs text-base-content/60 uppercase tracking-wide">Saldo pendiente</div>
+      <div class="text-3xl font-bold">S/ {{ saldo_pendiente|floatformat:2|intcomma }}</div>
+      <div class="text-xs text-base-content/60">{{ facturas_count }} facturas totales</div>
+    </div>
+  </a>
+</div>
+
+<div class="grid md:grid-cols-3 gap-4">
+  <div class="card bg-base-100 border border-base-300">
+    <div class="card-body p-4">
+      <h3 class="font-bold mb-2">Últimas cotizaciones</h3>
+      {% for cot in ultimas_cotizaciones %}
+      <a href="{% url 'portal:cotizacion_detalle' cot.codigo %}" class="block py-2 border-b border-base-200 hover:bg-base-200/50 -mx-2 px-2 rounded">
+        <div class="flex justify-between"><span class="font-mono text-xs">{{ cot.codigo }}</span><span class="badge badge-sm badge-{{ cot.color_estado }}">{{ cot.get_estado_display }}</span></div>
+        <div class="text-xs text-base-content/60">S/ {{ cot.total|floatformat:2|intcomma }} · {{ cot.fecha_emision|date:"d/m/Y" }}</div>
+      </a>
+      {% empty %}
+      <p class="text-sm text-base-content/60">Sin cotizaciones aún.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card bg-base-100 border border-base-300">
+    <div class="card-body p-4">
+      <h3 class="font-bold mb-2">Últimos pedidos</h3>
+      {% for p in ultimos_pedidos %}
+      <a href="{% url 'portal:pedido_detalle' p.codigo %}" class="block py-2 border-b border-base-200 hover:bg-base-200/50 -mx-2 px-2 rounded">
+        <div class="flex justify-between"><span class="font-mono text-xs">{{ p.codigo }}</span><span class="badge badge-sm badge-{{ p.color_estado }}">{{ p.get_estado_display }}</span></div>
+        <div class="text-xs text-base-content/60">S/ {{ p.total|floatformat:2|intcomma }} · {{ p.fecha|date:"d/m/Y" }}</div>
+      </a>
+      {% empty %}
+      <p class="text-sm text-base-content/60">Sin pedidos aún.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card bg-base-100 border border-base-300">
+    <div class="card-body p-4">
+      <h3 class="font-bold mb-2">Últimas facturas</h3>
+      {% for f in ultimas_facturas %}
+      <a href="{% url 'portal:factura_detalle' f.pk %}" class="block py-2 border-b border-base-200 hover:bg-base-200/50 -mx-2 px-2 rounded">
+        <div class="flex justify-between"><span class="font-mono text-xs">{{ f.numero }}</span><span class="badge badge-sm badge-{{ f.color_estado }}">{{ f.get_estado_display }}</span></div>
+        <div class="text-xs text-base-content/60">S/ {{ f.total|floatformat:2|intcomma }} · {{ f.fecha_emision|date:"d/m/Y" }}</div>
+      </a>
+      {% empty %}
+      <p class="text-sm text-base-content/60">Sin facturas aún.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

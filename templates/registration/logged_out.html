@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Sesión cerrada — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-16 max-w-md text-center">
+  <div class="text-5xl mb-3">👋</div>
+  <h1 class="text-2xl font-bold mb-2">Sesión cerrada</h1>
+  <p class="text-base-content/60 mb-6">Hasta pronto.</p>
+  <a href="{% url 'login' %}" class="btn btn-primary">Volver a iniciar sesión</a>
+  <a href="{% url 'core:home' %}" class="btn btn-ghost ml-2">Ir al sitio</a>
+</div>
+{% endblock %}

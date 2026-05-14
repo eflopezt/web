@@ -1,0 +1,59 @@
+{% extends "portal/_layout.html" %}
+{% block portal_title %}{{ solicitud.codigo }}{% endblock %}
+{% block portal_content %}
+<div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+  <div>
+    <a href="{% url 'portal:solicitudes' %}" class="text-sm text-base-content/60 hover:text-primary">← Mis solicitudes</a>
+    <h1 class="text-2xl font-bold">Solicitud {{ solicitud.codigo }}</h1>
+  </div>
+  <span class="badge badge-lg badge-{{ solicitud.color_estado }}">{{ solicitud.get_estado_display }}</span>
+</div>
+
+<div class="grid md:grid-cols-3 gap-4 mb-4">
+  <div class="md:col-span-2 card bg-base-100 border border-base-300">
+    <div class="card-body p-4">
+      <h3 class="font-bold mb-2">Productos solicitados</h3>
+      <table class="table table-sm">
+        <thead><tr><th>SKU</th><th>Producto</th><th class="text-right">Cantidad</th></tr></thead>
+        <tbody>
+          {% for it in solicitud.items.all %}
+          <tr><td class="font-mono text-xs">{{ it.sku_snapshot }}</td><td>{{ it.nombre_snapshot }}</td><td class="text-right">{{ it.cantidad }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if solicitud.mensaje %}
+      <div class="mt-3"><div class="text-xs text-base-content/60 uppercase">Mensaje</div><p class="text-sm">{{ solicitud.mensaje|linebreaksbr }}</p></div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="card bg-base-100 border border-base-300">
+    <div class="card-body p-4 text-sm space-y-1">
+      <div><span class="text-base-content/60">Fecha:</span> {{ solicitud.creado|date:"d/m/Y H:i" }}</div>
+      <div><span class="text-base-content/60">Contacto:</span> {{ solicitud.nombre_contacto }}</div>
+      <div><span class="text-base-content/60">Email:</span> {{ solicitud.email }}</div>
+      <div><span class="text-base-content/60">Tel:</span> {{ solicitud.telefono }}</div>
+      <div><span class="text-base-content/60">Ciudad:</span> {{ solicitud.ciudad }}{% if solicitud.departamento %}, {{ solicitud.departamento }}{% endif %}</div>
+    </div>
+  </div>
+</div>
+
+{% if solicitud.cotizaciones.all %}
+<h3 class="font-bold mb-2">Cotizaciones generadas</h3>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>Código</th><th>Total</th><th>Estado</th><th>Válida hasta</th><th></th></tr></thead>
+    <tbody>
+      {% for c in solicitud.cotizaciones.all %}
+      <tr>
+        <td class="font-mono text-sm">{{ c.codigo }}</td>
+        <td>S/ {{ c.total|floatformat:2 }}</td>
+        <td><span class="badge badge-{{ c.color_estado }}">{{ c.get_estado_display }}</span></td>
+        <td>{{ c.fecha_vencimiento|date:"d/m/Y" }}</td>
+        <td><a href="{% url 'portal:cotizacion_detalle' c.codigo %}" class="btn btn-xs btn-primary">Ver →</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}

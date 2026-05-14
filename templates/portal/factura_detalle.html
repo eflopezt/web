@@ -1,0 +1,68 @@
+{% extends "portal/_layout.html" %}
+{% load humanize %}
+{% block portal_title %}{{ factura.numero }}{% endblock %}
+{% block portal_content %}
+<div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+  <div>
+    <a href="{% url 'portal:facturas' %}" class="text-sm text-base-content/60 hover:text-primary">← Mis facturas</a>
+    <h1 class="text-2xl font-bold">{{ factura.get_tipo_display }} {{ factura.numero }}</h1>
+    <p class="text-sm text-base-content/60">Emitida {{ factura.fecha_emision|date:"d/m/Y" }}{% if factura.fecha_vencimiento %} · Vence {{ factura.fecha_vencimiento|date:"d/m/Y" }}{% endif %}</p>
+  </div>
+  <div class="flex items-center gap-2">
+    <span class="badge badge-{{ factura.color_estado }}">{{ factura.get_estado_display }}</span>
+    <span class="badge badge-ghost">SUNAT: {{ factura.get_estado_sunat_display }}</span>
+    <a href="{% url 'portal:factura_pdf' factura.pk %}" target="_blank" class="btn btn-sm btn-outline">⬇ PDF</a>
+  </div>
+</div>
+
+<div class="card bg-base-100 border border-base-300 mb-4">
+  <div class="overflow-x-auto">
+    <table class="table">
+      <thead><tr><th class="text-center">Cant.</th><th>Descripción</th><th class="text-right">P. Unit.</th><th class="text-right">Subtotal</th></tr></thead>
+      <tbody>
+        {% for l in factura.lineas.all %}
+        <tr>
+          <td class="text-center">{{ l.cantidad|floatformat:"-2" }} {{ l.unidad }}</td>
+          <td><div class="font-medium">{{ l.descripcion }}</div>{% if l.sku %}<div class="text-xs text-base-content/60 font-mono">{{ l.sku }}</div>{% endif %}</td>
+          <td class="text-right">S/ {{ l.precio_unitario|floatformat:2|intcomma }}</td>
+          <td class="text-right font-semibold">S/ {{ l.subtotal|floatformat:2|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-body p-4 pt-0 grid grid-cols-2 gap-2 text-sm max-w-sm ml-auto">
+    <div class="text-base-content/60">Subtotal</div><div class="text-right">S/ {{ factura.subtotal|floatformat:2|intcomma }}</div>
+    <div class="text-base-content/60">IGV (18%)</div><div class="text-right">S/ {{ factura.igv|floatformat:2|intcomma }}</div>
+    <div class="font-bold text-primary border-t pt-1">TOTAL</div><div class="text-right font-bold text-primary text-lg border-t pt-1">S/ {{ factura.total|floatformat:2|intcomma }}</div>
+    {% if factura.estado != 'anulada' %}
+    <div class="text-base-content/60 mt-2">Saldo pendiente</div><div class="text-right font-semibold {% if factura.saldo > 0 %}text-error{% else %}text-success{% endif %}">S/ {{ factura.saldo|floatformat:2|intcomma }}</div>
+    {% endif %}
+  </div>
+</div>
+
+{% if factura.pagos.all %}
+<h3 class="font-bold mb-2">Historial de pagos</h3>
+<div class="card bg-base-100 border border-base-300 overflow-x-auto mb-4">
+  <table class="table table-sm">
+    <thead><tr><th>Fecha</th><th>Método</th><th>Referencia</th><th class="text-right">Monto</th></tr></thead>
+    <tbody>
+      {% for p in factura.pagos.all %}
+      <tr>
+        <td>{{ p.fecha|date:"d/m/Y" }}</td>
+        <td>{{ p.get_metodo_display }}</td>
+        <td class="text-xs">{{ p.referencia|default:"—" }}</td>
+        <td class="text-right font-semibold">S/ {{ p.monto|floatformat:2|intcomma }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% if factura.estado != 'anulada' and factura.saldo > 0 %}
+<div class="alert alert-info text-sm">
+  <div>💳 Para realizar el pago, transfiere a nuestra cuenta o coordina con ventas. Indica el número {{ factura.numero }} como referencia.</div>
+</div>
+{% endif %}
+{% endblock %}

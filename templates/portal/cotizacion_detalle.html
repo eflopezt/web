@@ -1,0 +1,88 @@
+{% extends "portal/_layout.html" %}
+{% load humanize %}
+{% block portal_title %}{{ cotizacion.codigo }}{% endblock %}
+{% block portal_content %}
+
+<div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+  <div>
+    <a href="{% url 'portal:cotizaciones' %}" class="text-sm text-base-content/60 hover:text-primary">← Mis cotizaciones</a>
+    <h1 class="text-2xl font-bold">Cotización {{ cotizacion.codigo }}</h1>
+    <p class="text-sm text-base-content/60">Emitida {{ cotizacion.fecha_emision|date:"d/m/Y" }} · Válida hasta {{ cotizacion.fecha_vencimiento|date:"d/m/Y" }}</p>
+  </div>
+  <div class="flex items-center gap-2">
+    <span class="badge badge-lg badge-{{ cotizacion.color_estado }}">{{ cotizacion.get_estado_display }}</span>
+    <a href="{% url 'portal:cotizacion_pdf' cotizacion.codigo %}" target="_blank" class="btn btn-sm btn-outline">⬇ PDF</a>
+  </div>
+</div>
+
+{% if cotizacion.vencida and cotizacion.estado == 'enviada' %}
+<div class="alert alert-warning text-sm mb-3">⚠ Esta cotización venció el {{ cotizacion.fecha_vencimiento|date:"d/m/Y" }}. Solicita una actualización al equipo comercial.</div>
+{% endif %}
+
+<div class="card bg-base-100 border border-base-300 mb-4">
+  <div class="overflow-x-auto">
+    <table class="table">
+      <thead><tr><th class="text-center">Cant.</th><th>Descripción</th><th class="text-right">P. Unit.</th><th class="text-right">Dscto</th><th class="text-right">Subtotal</th></tr></thead>
+      <tbody>
+        {% for l in cotizacion.lineas.all %}
+        <tr>
+          <td class="text-center">{{ l.cantidad|floatformat:"-2" }} {{ l.unidad }}</td>
+          <td><div class="font-medium">{{ l.descripcion }}</div>{% if l.sku %}<div class="text-xs text-base-content/60 font-mono">{{ l.sku }}</div>{% endif %}</td>
+          <td class="text-right">S/ {{ l.precio_unitario|floatformat:2|intcomma }}</td>
+          <td class="text-right">{{ l.descuento_pct|floatformat:1 }}%</td>
+          <td class="text-right font-semibold">S/ {{ l.subtotal|floatformat:2|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-body p-4 pt-0 grid grid-cols-2 gap-2 text-sm max-w-sm ml-auto">
+    <div class="text-base-content/60">Subtotal</div><div class="text-right">S/ {{ cotizacion.subtotal|floatformat:2|intcomma }}</div>
+    <div class="text-base-content/60">IGV (18%)</div><div class="text-right">S/ {{ cotizacion.igv|floatformat:2|intcomma }}</div>
+    <div class="font-bold text-primary border-t pt-1">TOTAL</div><div class="text-right font-bold text-primary text-lg border-t pt-1">S/ {{ cotizacion.total|floatformat:2|intcomma }}</div>
+  </div>
+</div>
+
+{% if cotizacion.observaciones %}
+<div class="card bg-base-100 border border-base-300 mb-4"><div class="card-body p-4"><h4 class="font-bold mb-1">Observaciones</h4><p class="text-sm whitespace-pre-line">{{ cotizacion.observaciones }}</p></div></div>
+{% endif %}
+{% if cotizacion.condiciones %}
+<div class="card bg-base-100 border border-base-300 mb-4"><div class="card-body p-4"><h4 class="font-bold mb-1">Condiciones</h4><p class="text-sm whitespace-pre-line">{{ cotizacion.condiciones }}</p></div></div>
+{% endif %}
+
+{% if cotizacion.estado == 'enviada' and not cotizacion.vencida %}
+<div class="card bg-base-100 border-2 border-primary">
+  <div class="card-body p-4">
+    <h3 class="font-bold mb-1">¿Aceptas esta cotización?</h3>
+    <p class="text-sm text-base-content/70 mb-3">Al aceptar generaremos automáticamente tu pedido y comenzaremos la preparación.</p>
+    <div class="flex flex-wrap gap-2">
+      <form method="post" action="{% url 'portal:cotizacion_aceptar' cotizacion.codigo %}">
+        {% csrf_token %}
+        <button class="btn btn-success gap-2">✓ Aceptar y generar pedido</button>
+      </form>
+      <button type="button" class="btn btn-ghost text-error" onclick="document.getElementById('mdlRechazar').showModal()">✕ Rechazar</button>
+    </div>
+  </div>
+</div>
+
+<dialog id="mdlRechazar" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Rechazar cotización</h3>
+    <p class="text-sm text-base-content/60 mb-2">Cuéntanos brevemente por qué (opcional):</p>
+    <form method="post" action="{% url 'portal:cotizacion_rechazar' cotizacion.codigo %}">
+      {% csrf_token %}
+      <textarea name="motivo" rows="3" class="textarea textarea-bordered w-full" placeholder="Precio, plazo, ya compré, etc."></textarea>
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('mdlRechazar').close()">Cancelar</button>
+        <button type="submit" class="btn btn-error">Confirmar rechazo</button>
+      </div>
+    </form>
+  </div>
+  <form method="dialog" class="modal-backdrop"><button>cerrar</button></form>
+</dialog>
+{% elif cotizacion.estado == 'aceptada' %}
+<div class="alert alert-success">✓ Cotización aceptada. Pedido generado.</div>
+{% elif cotizacion.estado == 'rechazada' %}
+<div class="alert alert-error">Cotización rechazada{% if cotizacion.motivo_rechazo %}: {{ cotizacion.motivo_rechazo }}{% endif %}</div>
+{% endif %}
+{% endblock %}
