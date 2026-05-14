@@ -1,210 +1,258 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-label="ProClean Servid Innova">
   <title>ProClean Servid Innova</title>
-  <desc>Imagotipo: listón ovalado verde y azul que envuelve un skyline urbano, destellos y una hoja eco. Logotipo ProClean (verde + azul) sobre tagline SERVID INNOVA.</desc>
+  <desc>Imagotipo oficial: listón ovalado verde y azul que envuelve un skyline urbano con destellos, hoja eco inferior, y logotipo ProClean sobre SERVID INNOVA.</desc>
 
   <defs>
+    <!-- Cinta inferior azul: oscuro (izq) → claro (der), con luz central -->
     <linearGradient id="ribbonBlue" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#1A4F8B"/>
-      <stop offset="55%" stop-color="#1B75BC"/>
-      <stop offset="100%" stop-color="#2BA0E0"/>
+      <stop offset="0%" stop-color="#143F73"/>
+      <stop offset="35%" stop-color="#1B75BC"/>
+      <stop offset="65%" stop-color="#2BA0E0"/>
+      <stop offset="100%" stop-color="#1A4F8B"/>
     </linearGradient>
+    <!-- Cinta superior verde: oscuro (der) → claro (izq) -->
     <linearGradient id="ribbonGreen" x1="100%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#2E8B1F"/>
-      <stop offset="55%" stop-color="#3FAE2A"/>
-      <stop offset="100%" stop-color="#6BCB3A"/>
+      <stop offset="0%" stop-color="#236914"/>
+      <stop offset="35%" stop-color="#3FAE2A"/>
+      <stop offset="65%" stop-color="#7AD83C"/>
+      <stop offset="100%" stop-color="#2E8B1F"/>
     </linearGradient>
     <linearGradient id="bldgGreen" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#7AD83C"/>
+      <stop offset="0%" stop-color="#86E548"/>
       <stop offset="100%" stop-color="#2E8B1F"/>
     </linearGradient>
     <linearGradient id="bldgBlue" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#3DB5E8"/>
-      <stop offset="100%" stop-color="#1A4F8B"/>
+      <stop offset="0%" stop-color="#4FC0EC"/>
+      <stop offset="100%" stop-color="#143F73"/>
     </linearGradient>
-    <linearGradient id="leafGreen" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7AD83C"/>
-      <stop offset="100%" stop-color="#2E8B1F"/>
+    <linearGradient id="leafGreen" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#86E548"/>
+      <stop offset="60%" stop-color="#3FAE2A"/>
+      <stop offset="100%" stop-color="#236914"/>
     </linearGradient>
     <linearGradient id="leafShine" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.30"/>
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.40"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="sparkleCore" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="60%" stop-color="#E6F3FB" stop-opacity="0.75"/>
+      <stop offset="50%" stop-color="#E6F3FB" stop-opacity="0.8"/>
       <stop offset="100%" stop-color="#1B75BC" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="textGreen" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#5DC42E"/>
-      <stop offset="100%" stop-color="#2E8B1F"/>
+      <stop offset="0%" stop-color="#6BCB3A"/>
+      <stop offset="50%" stop-color="#3FAE2A"/>
+      <stop offset="100%" stop-color="#236914"/>
     </linearGradient>
     <linearGradient id="textBlue" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#2BA0E0"/>
-      <stop offset="100%" stop-color="#1A4F8B"/>
+      <stop offset="50%" stop-color="#1B75BC"/>
+      <stop offset="100%" stop-color="#143F73"/>
     </linearGradient>
+    <!-- Sutil sombra interna del listón -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="3" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.25"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
 
-  <!-- ================= LISTÓN ENVOLVENTE — más fluido y delgado ================= -->
-  <!-- Cinta azul (base) -->
-  <path d="M 100,300
-           C 100,440 240,505 450,508
-           C 660,505 800,440 800,300
-           C 800,258 762,232 706,232
-           C 700,232 694,234 690,238
+  <!-- ============ LISTÓN ENVOLVENTE — dos cintas que se cruzan en los extremos ============ -->
+  <!-- Cinta azul (base, más ancha en el centro, terminaciones afiladas) -->
+  <path d="M 80,300
+           C 80,460 240,520 450,520
+           C 660,520 820,460 820,300
+           C 820,250 778,222 720,222
+           C 706,222 692,225 682,232
            L 712,254
-           C 716,253 720,253 724,254
-           C 752,260 770,280 770,308
-           C 770,408 620,460 450,460
-           C 280,460 130,408 130,308
-           C 130,280 148,260 176,254
-           C 180,253 184,253 188,254
-           L 210,238
-           C 206,234 200,232 194,232
-           C 138,232 100,258 100,300 Z"
-        fill="url(#ribbonBlue)"/>
+           C 718,251 726,250 734,251
+           C 762,256 784,278 784,308
+           C 784,420 632,470 450,470
+           C 268,470 116,420 116,308
+           C 116,278 138,256 166,251
+           C 174,250 182,251 188,254
+           L 218,232
+           C 208,225 194,222 180,222
+           C 122,222 80,250 80,300 Z"
+        fill="url(#ribbonBlue)" filter="url(#softShadow)"/>
 
-  <!-- Cinta verde (techo) -->
-  <path d="M 100,260
-           C 100,140 240,92 450,90
-           C 660,92 800,140 800,260
-           C 800,302 762,328 706,328
-           C 700,328 694,326 690,322
+  <!-- Cinta verde (techo, más fluida que la azul, terminaciones afiladas) -->
+  <path d="M 80,260
+           C 80,140 240,80 450,80
+           C 660,80 820,140 820,260
+           C 820,310 778,338 720,338
+           C 706,338 692,335 682,328
            L 712,306
-           C 716,307 720,307 724,306
-           C 752,300 770,280 770,252
-           C 770,152 620,120 450,120
-           C 280,120 130,152 130,252
-           C 130,280 148,300 176,306
-           C 180,307 184,307 188,306
-           L 210,322
-           C 206,326 200,328 194,328
-           C 138,328 100,302 100,260 Z"
-        fill="url(#ribbonGreen)"/>
+           C 718,309 726,310 734,309
+           C 762,304 784,282 784,252
+           C 784,142 632,90 450,90
+           C 268,90 116,142 116,252
+           C 116,282 138,304 166,309
+           C 174,310 182,309 188,306
+           L 218,328
+           C 208,335 194,338 180,338
+           C 122,338 80,310 80,260 Z"
+        fill="url(#ribbonGreen)" filter="url(#softShadow)"/>
 
-  <!-- Entrelazado izquierdo (sombra para profundidad) -->
-  <path d="M 194,232 L 210,238 L 188,254 L 176,254 Z" fill="#0F3D6E" opacity="0.30"/>
-  <!-- Entrelazado derecho -->
-  <path d="M 706,232 L 690,238 L 712,254 L 724,254 Z" fill="#0F3D6E" opacity="0.30"/>
+  <!-- Sombras de entrelazado (verde sobre azul en ambos extremos) -->
+  <path d="M 180,222 C 196,221 210,224 218,232 L 188,254 C 184,251 178,250 172,250 Z"
+        fill="#143F73" opacity="0.32"/>
+  <path d="M 720,222 C 704,221 690,224 682,232 L 712,254 C 716,251 722,250 728,250 Z"
+        fill="#143F73" opacity="0.32"/>
 
-  <!-- ================= SKYLINE EDIFICIOS — rectángulos limpios sin techos diagonales ================= -->
-  <g transform="translate(355,82)">
-    <!-- Reflejo invertido sutil bajo los edificios -->
-    <g opacity="0.14" transform="translate(0,205) scale(1,-1)">
-      <rect x="0" y="0" width="20" height="55" fill="url(#bldgGreen)"/>
-      <rect x="22" y="0" width="26" height="85" fill="url(#bldgGreen)"/>
-      <rect x="50" y="0" width="34" height="135" fill="url(#bldgGreen)"/>
-      <rect x="86" y="0" width="28" height="165" fill="url(#bldgGreen)"/>
-      <rect x="116" y="0" width="24" height="115" fill="url(#bldgBlue)"/>
-      <rect x="142" y="0" width="32" height="150" fill="url(#bldgBlue)"/>
-      <rect x="176" y="0" width="22" height="100" fill="url(#bldgBlue)"/>
-      <rect x="200" y="0" width="20" height="70" fill="url(#bldgBlue)"/>
+  <!-- Brillo sutil en cinta verde superior -->
+  <path d="M 130,140 C 240,108 660,108 770,140 C 660,118 240,118 130,140 Z"
+        fill="#ffffff" opacity="0.18"/>
+
+  <!-- ============ SKYLINE — 8 edificios rectangulares, el central más alto ============ -->
+  <g transform="translate(345,78)">
+    <!-- Reflejo invertido sutil bajo la línea base -->
+    <g opacity="0.16" transform="translate(0,210) scale(1,-1)">
+      <rect x="0" y="0" width="18" height="50" fill="url(#bldgGreen)"/>
+      <rect x="20" y="0" width="24" height="80" fill="url(#bldgGreen)"/>
+      <rect x="46" y="0" width="30" height="130" fill="url(#bldgGreen)"/>
+      <rect x="78" y="0" width="26" height="170" fill="url(#bldgGreen)"/>
+      <rect x="106" y="0" width="22" height="148" fill="url(#bldgBlue)"/>
+      <rect x="130" y="0" width="32" height="180" fill="url(#bldgBlue)"/>
+      <rect x="164" y="0" width="26" height="120" fill="url(#bldgBlue)"/>
+      <rect x="192" y="0" width="20" height="75" fill="url(#bldgBlue)"/>
     </g>
 
-    <!-- Edificios principales: rectángulos limpios, gradient claro→oscuro -->
-    <rect x="0" y="150" width="20" height="55" fill="url(#bldgGreen)"/>
-    <rect x="22" y="120" width="26" height="85" fill="url(#bldgGreen)"/>
-    <rect x="50" y="70" width="34" height="135" fill="url(#bldgGreen)"/>
-    <rect x="86" y="40" width="28" height="165" fill="url(#bldgGreen)"/>
-    <rect x="116" y="90" width="24" height="115" fill="url(#bldgBlue)"/>
-    <rect x="142" y="55" width="32" height="150" fill="url(#bldgBlue)"/>
-    <rect x="176" y="105" width="22" height="100" fill="url(#bldgBlue)"/>
-    <rect x="200" y="135" width="20" height="70" fill="url(#bldgBlue)"/>
+    <!-- Edificios reales: el del centro-derecha es el más alto -->
+    <rect x="0" y="160" width="18" height="50" fill="url(#bldgGreen)"/>
+    <rect x="20" y="130" width="24" height="80" fill="url(#bldgGreen)"/>
+    <rect x="46" y="80" width="30" height="130" fill="url(#bldgGreen)"/>
+    <rect x="78" y="40" width="26" height="170" fill="url(#bldgGreen)"/>
+    <rect x="106" y="62" width="22" height="148" fill="url(#bldgBlue)"/>
+    <rect x="130" y="30" width="32" height="180" fill="url(#bldgBlue)"/>
+    <rect x="164" y="90" width="26" height="120" fill="url(#bldgBlue)"/>
+    <rect x="192" y="135" width="20" height="75" fill="url(#bldgBlue)"/>
 
-    <!-- Ventanas: líneas horizontales blancas finas -->
-    <g fill="#ffffff" opacity="0.40">
-      <rect x="4" y="162" width="12" height="2.5"/>
-      <rect x="4" y="180" width="12" height="2.5"/>
-      <rect x="26" y="132" width="18" height="2.5"/>
-      <rect x="26" y="152" width="18" height="2.5"/>
-      <rect x="26" y="172" width="18" height="2.5"/>
-      <rect x="54" y="82" width="26" height="2.5"/>
-      <rect x="54" y="104" width="26" height="2.5"/>
-      <rect x="54" y="126" width="26" height="2.5"/>
-      <rect x="54" y="148" width="26" height="2.5"/>
-      <rect x="54" y="170" width="26" height="2.5"/>
-      <rect x="90" y="52" width="20" height="2.5"/>
-      <rect x="90" y="76" width="20" height="2.5"/>
-      <rect x="90" y="100" width="20" height="2.5"/>
-      <rect x="90" y="124" width="20" height="2.5"/>
-      <rect x="90" y="148" width="20" height="2.5"/>
-      <rect x="90" y="172" width="20" height="2.5"/>
-      <rect x="120" y="102" width="16" height="2.5"/>
-      <rect x="120" y="124" width="16" height="2.5"/>
-      <rect x="120" y="146" width="16" height="2.5"/>
-      <rect x="120" y="170" width="16" height="2.5"/>
-      <rect x="146" y="68" width="24" height="2.5"/>
-      <rect x="146" y="90" width="24" height="2.5"/>
-      <rect x="146" y="112" width="24" height="2.5"/>
-      <rect x="146" y="134" width="24" height="2.5"/>
-      <rect x="146" y="156" width="24" height="2.5"/>
-      <rect x="146" y="178" width="24" height="2.5"/>
-      <rect x="180" y="118" width="14" height="2.5"/>
-      <rect x="180" y="140" width="14" height="2.5"/>
-      <rect x="180" y="162" width="14" height="2.5"/>
-      <rect x="180" y="184" width="14" height="2.5"/>
-      <rect x="204" y="148" width="12" height="2.5"/>
-      <rect x="204" y="170" width="12" height="2.5"/>
+    <!-- Ventanas (líneas blancas finas en cada edificio) -->
+    <g fill="#ffffff" opacity="0.42">
+      <!-- E1 -->
+      <rect x="3" y="172" width="12" height="2.2"/>
+      <rect x="3" y="188" width="12" height="2.2"/>
+      <!-- E2 -->
+      <rect x="24" y="142" width="16" height="2.2"/>
+      <rect x="24" y="160" width="16" height="2.2"/>
+      <rect x="24" y="178" width="16" height="2.2"/>
+      <rect x="24" y="196" width="16" height="2.2"/>
+      <!-- E3 (alto) -->
+      <rect x="50" y="92" width="22" height="2.2"/>
+      <rect x="50" y="114" width="22" height="2.2"/>
+      <rect x="50" y="136" width="22" height="2.2"/>
+      <rect x="50" y="158" width="22" height="2.2"/>
+      <rect x="50" y="180" width="22" height="2.2"/>
+      <rect x="50" y="200" width="22" height="2.2"/>
+      <!-- E4 (más alto verde) -->
+      <rect x="82" y="52" width="18" height="2.2"/>
+      <rect x="82" y="74" width="18" height="2.2"/>
+      <rect x="82" y="96" width="18" height="2.2"/>
+      <rect x="82" y="118" width="18" height="2.2"/>
+      <rect x="82" y="140" width="18" height="2.2"/>
+      <rect x="82" y="162" width="18" height="2.2"/>
+      <rect x="82" y="184" width="18" height="2.2"/>
+      <rect x="82" y="200" width="18" height="2.2"/>
+      <!-- E5 -->
+      <rect x="110" y="74" width="14" height="2.2"/>
+      <rect x="110" y="96" width="14" height="2.2"/>
+      <rect x="110" y="118" width="14" height="2.2"/>
+      <rect x="110" y="140" width="14" height="2.2"/>
+      <rect x="110" y="162" width="14" height="2.2"/>
+      <rect x="110" y="184" width="14" height="2.2"/>
+      <!-- E6 (más alto azul, centro derecha) -->
+      <rect x="134" y="42" width="24" height="2.2"/>
+      <rect x="134" y="64" width="24" height="2.2"/>
+      <rect x="134" y="86" width="24" height="2.2"/>
+      <rect x="134" y="108" width="24" height="2.2"/>
+      <rect x="134" y="130" width="24" height="2.2"/>
+      <rect x="134" y="152" width="24" height="2.2"/>
+      <rect x="134" y="174" width="24" height="2.2"/>
+      <rect x="134" y="196" width="24" height="2.2"/>
+      <!-- E7 -->
+      <rect x="168" y="102" width="18" height="2.2"/>
+      <rect x="168" y="124" width="18" height="2.2"/>
+      <rect x="168" y="146" width="18" height="2.2"/>
+      <rect x="168" y="168" width="18" height="2.2"/>
+      <rect x="168" y="190" width="18" height="2.2"/>
+      <!-- E8 -->
+      <rect x="195" y="148" width="14" height="2.2"/>
+      <rect x="195" y="168" width="14" height="2.2"/>
+      <rect x="195" y="188" width="14" height="2.2"/>
     </g>
   </g>
 
-  <!-- ================= DESTELLOS — 3 estrellas diamante ================= -->
-  <g transform="translate(290,175)">
-    <!-- Destello grande -->
+  <!-- ============ DESTELLOS — 3 estrellas blancas con halo radial ============ -->
+  <g transform="translate(285,170)">
+    <!-- Destello grande (1) -->
     <g>
-      <path d="M 0,-22 L 5,-5 L 22,0 L 5,5 L 0,22 L -5,5 L -22,0 L -5,-5 Z" fill="#ffffff"/>
-      <circle cx="0" cy="0" r="14" fill="url(#sparkleCore)" opacity="0.6"/>
+      <circle cx="0" cy="0" r="20" fill="url(#sparkleCore)" opacity="0.6"/>
+      <path d="M 0,-26 L 6,-6 L 26,0 L 6,6 L 0,26 L -6,6 L -26,0 L -6,-6 Z" fill="#ffffff"/>
     </g>
-    <!-- Destello mediano -->
-    <g transform="translate(36,24)">
-      <path d="M 0,-14 L 3,-3 L 14,0 L 3,3 L 0,14 L -3,3 L -14,0 L -3,-3 Z" fill="#ffffff"/>
-      <circle cx="0" cy="0" r="9" fill="url(#sparkleCore)" opacity="0.55"/>
+    <!-- Destello mediano (2) -->
+    <g transform="translate(38,28)">
+      <circle cx="0" cy="0" r="12" fill="url(#sparkleCore)" opacity="0.55"/>
+      <path d="M 0,-16 L 4,-4 L 16,0 L 4,4 L 0,16 L -4,4 L -16,0 L -4,-4 Z" fill="#ffffff"/>
     </g>
-    <!-- Destello chico -->
-    <g transform="translate(60,-8)">
-      <path d="M 0,-9 L 2,-2 L 9,0 L 2,2 L 0,9 L -2,2 L -9,0 L -2,-2 Z" fill="#ffffff"/>
-      <circle cx="0" cy="0" r="6" fill="url(#sparkleCore)" opacity="0.55"/>
+    <!-- Destello chico (3) -->
+    <g transform="translate(64,-4)">
+      <circle cx="0" cy="0" r="7" fill="url(#sparkleCore)" opacity="0.55"/>
+      <path d="M 0,-10 L 2.5,-2.5 L 10,0 L 2.5,2.5 L 0,10 L -2.5,2.5 L -10,0 L -2.5,-2.5 Z" fill="#ffffff"/>
     </g>
   </g>
 
-  <!-- ================= TEXTO PROCLEAN ================= -->
+  <!-- ============ TEXTO PROCLEAN — letras italic con gradient interno ============ -->
   <g font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-style="italic">
-    <text x="225" y="345" font-size="125" fill="url(#textGreen)" letter-spacing="-3">Pro</text>
-    <text x="425" y="345" font-size="125" fill="url(#textBlue)" letter-spacing="-3">Clean</text>
+    <text x="222" y="350" font-size="132" fill="url(#textGreen)" letter-spacing="-3.5">Pro</text>
+    <text x="430" y="350" font-size="132" fill="url(#textBlue)" letter-spacing="-3.5">Clean</text>
   </g>
 
-  <!-- "SERVID INNOVA" — tracking amplio -->
-  <text x="450" y="403"
+  <!-- "SERVID INNOVA" — tracking amplio, centrado -->
+  <text x="450" y="410"
         text-anchor="middle"
         font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
         font-weight="700"
-        font-size="38"
-        letter-spacing="8"
-        fill="#1A4F8B">SERVID INNOVA</text>
+        font-size="40"
+        letter-spacing="9"
+        fill="#143F73">SERVID INNOVA</text>
 
-  <!-- ================= HOJA VERDE DOBLE ================= -->
-  <g transform="translate(255,405)">
-    <!-- Hoja principal (almendra grande) -->
-    <path d="M -10,8
-             C -22,-12 0,-44 50,-52
-             C 110,-58 168,-38 180,-4
-             C 174,12 142,30 78,34
-             C 22,34 -4,24 -10,8 Z"
+  <!-- ============ HOJA VERDE INFERIOR — almendrada con punta a la derecha ============ -->
+  <g transform="translate(248,418)">
+    <!-- Sombra base -->
+    <ellipse cx="90" cy="14" rx="100" ry="6" fill="#143F73" opacity="0.12"/>
+
+    <!-- Hoja principal (forma de gota inclinada, punta hacia arriba-derecha) -->
+    <path d="M -12,10
+             C -22,-14 6,-46 56,-54
+             C 110,-58 168,-42 188,-10
+             C 184,8 154,28 92,34
+             C 36,36 -4,28 -12,10 Z"
           fill="url(#leafGreen)"/>
+
     <!-- Brillo superior de la hoja -->
     <path d="M -10,8
-             C -22,-12 0,-44 50,-52
-             C 110,-58 168,-38 180,-4
-             C 130,-20 60,-22 -10,8 Z"
+             C -18,-10 8,-40 56,-50
+             C 100,-54 152,-42 178,-22
+             C 140,-30 60,-30 -10,8 Z"
           fill="url(#leafShine)"/>
-    <!-- Vena central blanca curvada -->
-    <path d="M -8,4 C 30,-22 90,-30 140,-22 C 160,-18 174,-10 180,-4"
-          stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.92"/>
-    <!-- Venas laterales -->
-    <path d="M 20,-22 C 28,-12 32,-2 30,10" stroke="#ffffff" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.55"/>
-    <path d="M 55,-30 C 64,-18 68,-6 66,8" stroke="#ffffff" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.55"/>
-    <path d="M 95,-32 C 102,-20 104,-6 100,8" stroke="#ffffff" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.55"/>
-    <path d="M 130,-28 C 134,-16 132,-4 126,8" stroke="#ffffff" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.55"/>
-    <path d="M 158,-22 C 160,-12 156,-2 152,6" stroke="#ffffff" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.55"/>
+
+    <!-- Vena central blanca (curva fluida desde base a punta) -->
+    <path d="M -8,5
+             C 28,-22 90,-32 140,-24
+             C 162,-20 180,-14 188,-10"
+          stroke="#ffffff" stroke-width="2.8" fill="none" stroke-linecap="round" opacity="0.95"/>
+
+    <!-- Venas laterales (4 venas que salen de la central) -->
+    <path d="M 24,-15 C 32,-6 36,4 32,14" stroke="#ffffff" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.55"/>
+    <path d="M 64,-26 C 72,-12 76,2 72,14" stroke="#ffffff" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.55"/>
+    <path d="M 104,-30 C 110,-16 110,-2 106,12" stroke="#ffffff" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.55"/>
+    <path d="M 142,-26 C 146,-12 142,0 136,12" stroke="#ffffff" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.55"/>
+
+    <!-- Pequeña hoja secundaria detrás (efecto "doble hoja" como en el original) -->
+    <path d="M 40,4 C 50,-18 86,-26 130,-20 C 100,-12 70,-2 40,4 Z"
+          fill="url(#leafGreen)" opacity="0.55"/>
   </g>
 </svg>
