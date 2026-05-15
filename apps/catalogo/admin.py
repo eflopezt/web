@@ -54,7 +54,7 @@ class CategoriaAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(
-            _productos_count=Count("producto", filter=Q(producto__activo=True))
+            _productos_count=Count("productos", filter=Q(productos__activo=True))
         )
 
     def nombre_link(self, obj):
@@ -116,7 +116,7 @@ class MarcaAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(
-            _productos_count=Count("producto", filter=Q(producto__activo=True))
+            _productos_count=Count("productos", filter=Q(productos__activo=True))
         )
 
     def productos_count(self, obj):
