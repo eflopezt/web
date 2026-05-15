@@ -194,6 +194,11 @@ def home_v2(request):
         if productos_cat:
             productos_por_categoria.append({"categoria": cat, "productos": productos_cat})
 
+    # Marcas activas para el marquee — prioriza las que tienen logo
+    marcas_home = list(
+        Marca.objects.filter(activa=True).order_by("-logo", "nombre")[:18]
+    )
+
     return render(
         request,
         "core/home_v2.html",
@@ -201,6 +206,7 @@ def home_v2(request):
             "productos_destacados": productos_destacados,
             "productos_por_categoria": productos_por_categoria,
             "categorias": categorias[:12],
+            "marcas_home": marcas_home,
             "industrias_home": INDUSTRIAS_HOME,
         },
     )

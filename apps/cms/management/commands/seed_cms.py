@@ -57,6 +57,13 @@ BLOQUES = [
      "especiales y atención directa para una compra fácil y sin complicaciones.",
      30),
 
+    ("home", "home_hero_subtitulo_corto",
+     "Subtítulo del hero (versión corta, para /v2/)",
+     "Versión más breve del subtítulo usada solo en la variante /v2/ del home.",
+     "texto",
+     "Productos de limpieza con entrega rápida y atención personalizada. Cotiza al instante por WhatsApp.",
+     31),
+
     # ----- HOME · 4 stats del hero -----
     ("home", "home_hero_stat1_numero", "Stat #1 — número",
      "Número grande visible en la primera tarjeta del hero (ej. '+160').",

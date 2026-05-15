@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static humanize producto_extras %}
+{% load static humanize producto_extras cms_tags %}
 {% block title %}{{ SITE_BRAND }} — Catálogo de productos de limpieza{% endblock %}
 
 {% block content %}
@@ -14,13 +14,13 @@
       <div class="text-center lg:text-left">
         <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1 text-xs font-semibold tracking-wide backdrop-blur">
           <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-          {{ SITE_DELIVERY_AREA }}
+          {% bloque "home_hero_badge" "Delivery gratis desde S/150 en Lima y Callao • Atención rápida por WhatsApp" %}
         </span>
         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight mt-3">
-          Catálogo completo de <span class="text-gradient-light">limpieza profesional</span>
+          {% bloque "home_hero_titulo" "Todo en productos de limpieza al mejor precio" %}
         </h1>
         <p class="text-sm sm:text-base text-white/85 mt-1">
-          Las marcas más solicitadas. Cotiza al instante por WhatsApp.
+          {% bloque "home_hero_subtitulo_corto" "Productos de limpieza con entrega rápida y atención personalizada. Cotiza al instante por WhatsApp." %}
         </p>
       </div>
 
@@ -57,8 +57,8 @@
   <div class="container mx-auto px-4 py-8 sm:py-12 relative">
     <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
       <div>
-        <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Lo más vendido</span>
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-accent mt-1">Productos destacados</h2>
+        <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">{% bloque "home_destacados_eyebrow" "Lo más vendido" %}</span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-accent mt-1">{% bloque "home_destacados_titulo" "Productos destacados" %}</h2>
       </div>
       <a href="{% url 'catalogo:lista' %}"
          class="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:gap-2.5 transition-all">
@@ -84,8 +84,8 @@
   <div class="container mx-auto px-4 py-6 sm:py-8 relative">
     <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-white">
       <div class="text-center md:text-left">
-        <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/85">¿Cantidades especiales?</p>
-        <h3 class="text-xl sm:text-2xl font-extrabold mt-0.5">Pide tu cotización por WhatsApp</h3>
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/85">{% bloque "home_wa_eyebrow" "¿Cantidades especiales?" %}</p>
+        <h3 class="text-xl sm:text-2xl font-extrabold mt-0.5">{% bloque "home_wa_titulo" "Pide tu cotización por WhatsApp" %}</h3>
       </div>
       <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
          class="bg-white text-secondary font-extrabold px-6 sm:px-8 h-12 sm:h-14 rounded-full inline-flex items-center gap-3 text-base sm:text-lg shadow-xl hover:scale-105 transition">
@@ -124,23 +124,24 @@
 
 <!-- ============ MARCAS (compacto) ============ -->
 <section class="bg-base-200 border-y border-base-300 py-6 sm:py-8 overflow-hidden">
-  <p class="text-center text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase text-slate-500 mb-4">Distribuimos las marcas más solicitadas</p>
+  <p class="text-center text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase text-slate-500 mb-4">{% bloque "home_marcas_titulo" "Distribuimos las marcas más solicitadas" %}</p>
   <div class="marquee-mask">
     <div class="flex gap-8 sm:gap-12 animate-marquee w-max">
       {% for _ in "12" %}
       <div class="flex items-center gap-8 sm:gap-12 px-4 sm:px-6 whitespace-nowrap">
-        <span class="text-lg sm:text-xl font-extrabold text-primary/80">Elite</span>
-        <span class="text-lg sm:text-xl font-extrabold text-secondary/80">Kimberly-Clark</span>
-        <span class="text-lg sm:text-xl font-extrabold text-accent/80">Sapolio</span>
-        <span class="text-lg sm:text-xl font-extrabold text-primary/80">Wypall</span>
-        <span class="text-lg sm:text-xl font-extrabold text-secondary/80">3M</span>
-        <span class="text-lg sm:text-xl font-extrabold text-accent/80">Clorox</span>
-        <span class="text-lg sm:text-xl font-extrabold text-primary/80">Poett</span>
-        <span class="text-lg sm:text-xl font-extrabold text-secondary/80">FBK</span>
-        <span class="text-lg sm:text-xl font-extrabold text-accent/80">Daryza</span>
-        <span class="text-lg sm:text-xl font-extrabold text-primary/80">Bess</span>
-        <span class="text-lg sm:text-xl font-extrabold text-secondary/80">Esral</span>
-        <span class="text-lg sm:text-xl font-extrabold text-accent/80">Bafagón</span>
+        {% for m in marcas_home %}
+          {% if m.logo %}
+            <a href="{% url 'catalogo:lista' %}?marca={{ m.slug }}"
+               class="inline-flex items-center justify-center" title="{{ m.nombre }}">
+              <img src="{{ m.logo.url }}" alt="{{ m.nombre }}"
+                   class="max-h-7 sm:max-h-9 max-w-[110px] object-contain"/>
+            </a>
+          {% else %}
+            <a href="{% url 'catalogo:lista' %}?marca={{ m.slug }}"
+               class="text-lg sm:text-xl font-extrabold text-{% cycle 'primary' 'secondary' 'accent' %}/80"
+               title="{{ m.nombre }}">{{ m.nombre }}</a>
+          {% endif %}
+        {% endfor %}
       </div>
       {% endfor %}
     </div>
@@ -153,22 +154,22 @@
     <div class="bg-white border border-base-300 rounded-xl p-5 flex items-start gap-4">
       <div class="icon-box icon-box-green shrink-0"><i data-lucide="shield-check"></i></div>
       <div>
-        <h3 class="font-extrabold text-accent">Calidad garantizada</h3>
-        <p class="text-sm text-slate-600 mt-1 leading-snug">Marcas líderes del mercado peruano: Elite, Sapolio, Kimberly, 3M.</p>
+        <h3 class="font-extrabold text-accent">{% bloque "home_trust1_titulo" "Calidad garantizada" %}</h3>
+        <p class="text-sm text-slate-600 mt-1 leading-snug">{% bloque "home_trust1_subtitulo" "Marcas oficiales" %}</p>
       </div>
     </div>
     <div class="bg-white border border-base-300 rounded-xl p-5 flex items-start gap-4">
       <div class="icon-box icon-box-blue shrink-0"><i data-lucide="truck"></i></div>
       <div>
-        <h3 class="font-extrabold text-accent">Entregas rápidas</h3>
-        <p class="text-sm text-slate-600 mt-1 leading-snug">{{ SITE_DELIVERY_AREA }}. Despacho 24-48 h.</p>
+        <h3 class="font-extrabold text-accent">{% bloque "home_trust2_titulo" "Envío gratis" %}</h3>
+        <p class="text-sm text-slate-600 mt-1 leading-snug">{% bloque "home_trust2_subtitulo" "Lima y Callao" %}</p>
       </div>
     </div>
     <div class="bg-white border border-base-300 rounded-xl p-5 flex items-start gap-4">
-      <div class="icon-box icon-box-green shrink-0"><i data-lucide="receipt"></i></div>
+      <div class="icon-box icon-box-green shrink-0"><i data-lucide="tags"></i></div>
       <div>
-        <h3 class="font-extrabold text-accent">Factura SUNAT</h3>
-        <p class="text-sm text-slate-600 mt-1 leading-snug">100% facturación electrónica con XML y PDF al correo.</p>
+        <h3 class="font-extrabold text-accent">{% bloque "home_trust3_titulo" "Precios por mayor y menor" %}</h3>
+        <p class="text-sm text-slate-600 mt-1 leading-snug">{% bloque "home_trust3_subtitulo" "Para empresas y hogares" %}</p>
       </div>
     </div>
   </div>
@@ -178,9 +179,9 @@
 <section class="bg-gradient-brand text-white relative overflow-hidden">
   <div class="absolute inset-0 bg-bubbles-dark opacity-50"></div>
   <div class="container mx-auto px-4 py-10 sm:py-14 relative text-center">
-    <h2 class="text-2xl sm:text-4xl font-black tracking-tight">¿Listo para tu cotización?</h2>
+    <h2 class="text-2xl sm:text-4xl font-black tracking-tight">{% bloque "home_cta_titulo" "¿Listo para cotizar?" %}</h2>
     <p class="text-white/85 mt-2 text-base sm:text-lg max-w-xl mx-auto">
-      Atención inmediata por WhatsApp. Te enviamos precios y plazos en minutos.
+      {% bloque "home_cta_descripcion" "Atención inmediata por WhatsApp. Envío gratis en Lima y Callao. Factura SUNAT incluida." %}
     </p>
     <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
        class="btn-whatsapp btn-shine font-bold px-8 h-14 rounded-full inline-flex items-center gap-3 text-lg shadow-2xl mt-6">
