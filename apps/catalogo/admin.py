@@ -195,6 +195,7 @@ class ProductoAdmin(UnfoldModelAdmin):
     date_hierarchy = "creado"
     show_full_result_count = True
     actions = [
+        "exportar_catalogo_pdf",
         "activar", "desactivar",
         "marcar_destacado", "quitar_destacado",
         "marcar_en_stock", "marcar_bajo_pedido", "marcar_agotado",
@@ -326,6 +327,27 @@ class ProductoAdmin(UnfoldModelAdmin):
     def marcar_agotado(self, request, queryset):
         n = queryset.update(disponibilidad="agotado")
         self.message_user(request, f"{n} productos marcados como Agotados.", messages.ERROR)
+
+    @admin.action(description="📄 Exportar CATÁLOGO PDF (con QR a WhatsApp por producto)")
+    def exportar_catalogo_pdf(self, request, queryset):
+        """Genera un PDF profesional listo para enviar al cliente.
+
+        Si se selecciona uno o más productos, se exporta solo esos.
+        Si no se selecciona ninguno (vía botón superior), se exporta todo el catálogo activo.
+        """
+        from .pdf_catalogo import generar_pdf_catalogo
+        qs = queryset if queryset.exists() else self.model.objects.filter(activo=True)
+        buf = generar_pdf_catalogo(qs)
+        response = HttpResponse(buf.getvalue(), content_type="application/pdf")
+        response["Content-Disposition"] = (
+            'attachment; filename="catalogo-proclean.pdf"'
+        )
+        self.message_user(
+            request,
+            f"📄 Catálogo PDF generado con {qs.count()} productos. Listo para enviar.",
+            messages.SUCCESS,
+        )
+        return response
 
     @admin.action(description="📥 Exportar seleccionados a CSV")
     def exportar_csv(self, request, queryset):
