@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "apps.facturacion",
     "apps.intranet",
     "apps.portal",
+    "apps.cms",
 ]
 
 # Login/logout redirects (Django prepende FORCE_SCRIPT_NAME automáticamente al usar reverse(),
@@ -248,6 +249,14 @@ UNFOLD = {
                         "icon": "dashboard",
                         "link": _rl("admin:index"),
                     },
+                ],
+            },
+            {
+                "title": "Contenido web (CMS)",
+                "separator": True,
+                "items": [
+                    {"title": "✏️ Editar páginas",  "icon": "edit_note",  "link": _rl("admin:cms_pagina_changelist")},
+                    {"title": "📝 Todos los bloques", "icon": "view_quilt", "link": _rl("admin:cms_bloque_changelist")},
                 ],
             },
             {

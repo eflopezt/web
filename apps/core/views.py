@@ -4,7 +4,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from apps.catalogo.models import Categoria, Producto
+from apps.catalogo.models import Categoria, Marca, Producto
 
 
 PASOS = [
@@ -147,12 +147,18 @@ def home(request):
         .select_related("categoria", "marca")[:8]
     )
     categorias = Categoria.objects.filter(activa=True).order_by("orden", "nombre")[:12]
+    # Marcas activas para el marquee — prioriza las que tienen logo subido
+    marcas_home = list(
+        Marca.objects.filter(activa=True)
+        .order_by("-logo", "nombre")[:18]
+    )
     return render(
         request,
         "core/home.html",
         {
             "productos_destacados": productos_destacados,
             "categorias": categorias,
+            "marcas_home": marcas_home,
             "pasos": PASOS,
             "pasos_compra": PASOS_COMPRA,
             "faqs": FAQS[:5],
