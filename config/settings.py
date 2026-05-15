@@ -30,15 +30,15 @@ if _BEHIND_HTTPS_PROXY:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 # SameSite "Lax" permite que el browser mande la cookie en top-level navigation
-# (redirect 302 desde un POST cuenta como top-level): necesario para que login funcione.
 SESSION_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_SAMESITE = "Lax"
 
-# Cookies con el prefix correcto cuando se sirve bajo subpath
-if FORCE_SCRIPT_NAME:
-    SESSION_COOKIE_PATH = FORCE_SCRIPT_NAME
-    CSRF_COOKIE_PATH = FORCE_SCRIPT_NAME
-    LANGUAGE_COOKIE_PATH = FORCE_SCRIPT_NAME
+# Cookie names únicos para evitar colisión con otras apps del mismo dominio
+# (ej. harmoni.pe tiene Harmoni en / y ProClean en /proclean/ — ambas usaban
+# `sessionid`/`csrftoken` por default y el browser sobrescribía la una con la otra).
+# Path=/ (no /proclean) para que el browser maneje las cookies de forma estándar.
+SESSION_COOKIE_NAME = "proclean_sessionid"
+CSRF_COOKIE_NAME = "proclean_csrftoken"
 
 # Domain/protocolo del sitio (para sitemap.xml y JSON-LD)
 SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "proclean.pe")
