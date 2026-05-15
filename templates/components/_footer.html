@@ -9,6 +9,12 @@
   /* Quitar caret nativo */
   .footer-accordion > summary::-webkit-details-marker { display: none; }
   .footer-accordion > summary { list-style: none; }
+  .footer-link { position: relative; transition: color 200ms, transform 200ms; display: inline-flex; align-items: center; gap: 0.375rem; }
+  .footer-link::before { content: ''; width: 0; height: 1px; background: linear-gradient(90deg, var(--pc-blue-light), var(--pc-green-light)); transition: width 250ms ease; }
+  .footer-link:hover { color: #fff; transform: translateX(2px); }
+  .footer-link:hover::before { width: 12px; }
+  .social-btn { transition: transform 200ms cubic-bezier(.2,.8,.2,1), background 200ms, border-color 200ms; }
+  .social-btn:hover { transform: scale(1.1) translateY(-2px); }
 </style>
 <script>
   // En mobile, los <details> arrancan cerrados (sin open). En md+ se mantienen visibles vía CSS.
@@ -28,14 +34,19 @@
 </script>
 <!-- ============ CTA WhatsApp grande pre-footer ============ -->
 <section class="bg-gradient-brand text-white relative overflow-hidden">
-  <div class="absolute inset-0 bg-bubbles-dark opacity-50"></div>
-  <div class="container mx-auto px-4 py-14 relative">
+  <div class="absolute inset-0 bg-dot-grid opacity-50"></div>
+  <div class="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full bg-secondary/20 blur-3xl"></div>
+  <div class="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-primary/30 blur-3xl"></div>
+  <div class="container mx-auto px-4 py-16 sm:py-20 relative">
     <div class="max-w-4xl mx-auto text-center">
-      <p class="text-sm font-semibold tracking-[0.2em] uppercase text-white/80">{{ SITE_DELIVERY_AREA }}</p>
-      <h3 class="text-3xl md:text-5xl font-extrabold mt-3">Cotiza ahora por WhatsApp</h3>
-      <p class="text-white/90 mt-3 text-lg max-w-2xl mx-auto">Atención inmediata. Te enviamos tu cotización con el mejor precio y stock disponible.</p>
+      <span class="inline-flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur-md rounded-full px-4 py-1.5 text-[11px] font-bold tracking-[0.18em] uppercase">
+        <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+        {{ SITE_DELIVERY_AREA }}
+      </span>
+      <h3 class="font-display text-3xl md:text-5xl lg:text-6xl font-black mt-5 tracking-[-0.04em]">Cotiza ahora por <span class="text-gradient-mint">WhatsApp</span></h3>
+      <p class="text-white/85 mt-4 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">Atención inmediata. Te enviamos tu cotización con el mejor precio y stock disponible.</p>
       <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
-         class="btn-whatsapp btn-shine inline-flex items-center gap-3 px-8 h-14 rounded-full font-bold text-lg mt-8 shadow-2xl">
+         class="btn-whatsapp btn-shine cta-hover inline-flex items-center gap-3 px-9 h-16 rounded-full font-extrabold text-lg mt-9 shadow-wa-glow">
         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
         Escribir a {{ SITE_WHATSAPP_DISPLAY }}
       </a>
@@ -44,83 +55,121 @@
 </section>
 
 <!-- ============ Footer principal ============ -->
-<footer class="bg-[#0A2540] text-slate-300">
-  <div class="container mx-auto px-4 py-16 grid md:grid-cols-5 gap-10">
+<footer class="bg-[#08193A] text-slate-300 relative overflow-hidden">
+  <div class="absolute inset-0 bg-dot-grid opacity-30 pointer-events-none"></div>
+  <div class="container mx-auto px-4 py-20 grid md:grid-cols-5 gap-10 lg:gap-14 relative">
     <div class="md:col-span-2">
       <img src="{% static 'img/logo-white-real.png' %}"
            alt="{{ SITE_BRAND }} - Logo en color blanco"
            width="886" height="566"
-           class="h-16 w-auto mb-4"
+           class="h-16 w-auto mb-5"
            loading="lazy"
            decoding="async" />
-      <p class="text-sm text-slate-200">{{ SITE_TAGLINE }}.</p>
-      <p class="text-xs text-slate-400 mt-3 leading-relaxed max-w-md">
+      <p class="text-base text-white font-medium leading-relaxed">{{ SITE_TAGLINE }}.</p>
+      <p class="text-sm text-slate-400 mt-3 leading-relaxed max-w-md">
         Proveedores de productos de limpieza profesional para hogar, oficinas, hoteles, restaurantes, clínicas e industria. Marcas líderes del mercado peruano.
       </p>
-      <div class="mt-6 space-y-2 text-sm">
-        <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-white transition">
-          <svg class="h-4 w-4 text-green-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
-          {{ SITE_WHATSAPP_DISPLAY }}
+
+      <!-- Newsletter glass -->
+      <form class="mt-7 max-w-sm" action="#" method="post" onsubmit="return false;">
+        <label for="footer-newsletter" class="block text-[11px] font-bold tracking-[0.18em] uppercase text-white/90 mb-2">Recibe ofertas y novedades</label>
+        <div class="flex gap-2 bg-white/[0.05] border border-white/10 rounded-full p-1.5 backdrop-blur-md focus-within:border-secondary/60 transition-colors">
+          <input id="footer-newsletter" type="email" placeholder="tu@email.com"
+                 class="flex-1 bg-transparent text-sm text-white placeholder:text-slate-400 px-4 py-2 focus:outline-none" />
+          <button type="submit" class="bg-secondary hover:bg-secondary/90 text-white font-bold text-sm px-4 py-2 rounded-full transition shadow-md">
+            Unirme
+          </button>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-2">Sin spam. Solo lanzamientos y descuentos.</p>
+      </form>
+
+      <div class="mt-7 space-y-2.5 text-sm">
+        <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" class="flex items-center gap-2 text-slate-300 hover:text-white transition group">
+          <span class="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/30 flex items-center justify-center group-hover:bg-secondary/20 transition">
+            <svg class="h-4 w-4 text-green-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+          </span>
+          <span class="tabular">{{ SITE_WHATSAPP_DISPLAY }}</span>
         </a>
-        <a href="mailto:{{ SITE_EMAIL }}" class="flex items-center gap-2 hover:text-white transition">
-          <svg class="h-4 w-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <a href="mailto:{{ SITE_EMAIL }}" class="flex items-center gap-2 text-slate-300 hover:text-white transition group">
+          <span class="w-8 h-8 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center group-hover:bg-primary/20 transition">
+            <svg class="h-4 w-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </span>
           {{ SITE_EMAIL }}
         </a>
         <span class="flex items-center gap-2 text-slate-400">
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          </span>
           {{ SITE_ADDRESS }}
         </span>
+      </div>
+
+      <!-- Social icons -->
+      <div class="mt-7 flex items-center gap-2">
+        <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener" aria-label="WhatsApp"
+           class="social-btn w-10 h-10 rounded-full bg-white/5 hover:bg-secondary/20 border border-white/10 hover:border-secondary/50 flex items-center justify-center text-slate-300 hover:text-secondary">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook" class="social-btn w-10 h-10 rounded-full bg-white/5 hover:bg-primary/20 border border-white/10 hover:border-primary/50 flex items-center justify-center text-slate-300 hover:text-primary">
+          <i data-lucide="facebook" class="w-4 h-4"></i>
+        </a>
+        <a href="#" aria-label="Instagram" class="social-btn w-10 h-10 rounded-full bg-white/5 hover:bg-pink-500/20 border border-white/10 hover:border-pink-500/50 flex items-center justify-center text-slate-300 hover:text-pink-400">
+          <i data-lucide="instagram" class="w-4 h-4"></i>
+        </a>
+        <a href="#" aria-label="LinkedIn" class="social-btn w-10 h-10 rounded-full bg-white/5 hover:bg-sky-500/20 border border-white/10 hover:border-sky-500/50 flex items-center justify-center text-slate-300 hover:text-sky-400">
+          <i data-lucide="linkedin" class="w-4 h-4"></i>
+        </a>
       </div>
     </div>
 
     <!-- Catálogo: <details> en mobile, expandido permanentemente en md+ -->
     <details class="footer-accordion group border-b border-white/10 md:border-0 pb-2 md:pb-0" open>
       <summary class="md:pointer-events-none list-none flex items-center justify-between cursor-pointer py-2 md:py-0 min-h-[44px] md:min-h-0">
-        <h4 class="text-xs font-semibold tracking-wider uppercase text-white md:mb-4">Catálogo</h4>
+        <h4 class="text-[11px] font-bold tracking-[0.2em] uppercase text-white md:mb-5">Catálogo</h4>
         <svg class="md:hidden w-4 h-4 text-slate-300 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </summary>
-      <ul class="space-y-2.5 text-sm mt-2 md:mt-0">
-        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition inline-block py-1">Todos los productos</a></li>
-        <li><a href="{% url 'catalogo:lista' %}?disp=en_stock" class="hover:text-white transition inline-block py-1">Disponibles ahora</a></li>
-        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition inline-block py-1">Por categoría</a></li>
-        <li><a href="{% url 'catalogo:lista' %}" class="hover:text-white transition inline-block py-1">Por marca</a></li>
+      <ul class="space-y-3 text-sm mt-2 md:mt-0">
+        <li><a href="{% url 'catalogo:lista' %}" class="footer-link text-slate-400">Todos los productos</a></li>
+        <li><a href="{% url 'catalogo:lista' %}?disp=en_stock" class="footer-link text-slate-400">Disponibles ahora</a></li>
+        <li><a href="{% url 'catalogo:lista' %}" class="footer-link text-slate-400">Por categoría</a></li>
+        <li><a href="{% url 'catalogo:lista' %}" class="footer-link text-slate-400">Por marca</a></li>
       </ul>
     </details>
 
     <!-- Soluciones: <details> en mobile -->
     <details class="footer-accordion group border-b border-white/10 md:border-0 pb-2 md:pb-0" open>
       <summary class="md:pointer-events-none list-none flex items-center justify-between cursor-pointer py-2 md:py-0 min-h-[44px] md:min-h-0">
-        <h4 class="text-xs font-semibold tracking-wider uppercase text-white md:mb-4">Soluciones</h4>
+        <h4 class="text-[11px] font-bold tracking-[0.2em] uppercase text-white md:mb-5">Soluciones</h4>
         <svg class="md:hidden w-4 h-4 text-slate-300 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </summary>
-      <ul class="space-y-2.5 text-sm mt-2 md:mt-0">
-        <li><a href="{% url 'core:solucion' 'hoteles' %}" class="hover:text-white transition inline-block py-1">Hoteles & Restaurantes</a></li>
-        <li><a href="{% url 'core:solucion' 'clinicas' %}" class="hover:text-white transition inline-block py-1">Clínicas & Salud</a></li>
-        <li><a href="{% url 'core:solucion' 'industria' %}" class="hover:text-white transition inline-block py-1">Industria</a></li>
-        <li><a href="{% url 'core:solucion' 'oficinas' %}" class="hover:text-white transition inline-block py-1">Oficinas</a></li>
-        <li><a href="{% url 'core:solucion' 'retail' %}" class="hover:text-white transition inline-block py-1">Retail & Cadenas</a></li>
+      <ul class="space-y-3 text-sm mt-2 md:mt-0">
+        <li><a href="{% url 'core:solucion' 'hoteles' %}" class="footer-link text-slate-400">Hoteles & Restaurantes</a></li>
+        <li><a href="{% url 'core:solucion' 'clinicas' %}" class="footer-link text-slate-400">Clínicas & Salud</a></li>
+        <li><a href="{% url 'core:solucion' 'industria' %}" class="footer-link text-slate-400">Industria</a></li>
+        <li><a href="{% url 'core:solucion' 'oficinas' %}" class="footer-link text-slate-400">Oficinas</a></li>
+        <li><a href="{% url 'core:solucion' 'retail' %}" class="footer-link text-slate-400">Retail & Cadenas</a></li>
       </ul>
     </details>
 
     <!-- Empresa: <details> en mobile -->
     <details class="footer-accordion group border-b border-white/10 md:border-0 pb-2 md:pb-0" open>
       <summary class="md:pointer-events-none list-none flex items-center justify-between cursor-pointer py-2 md:py-0 min-h-[44px] md:min-h-0">
-        <h4 class="text-xs font-semibold tracking-wider uppercase text-white md:mb-4">Empresa</h4>
+        <h4 class="text-[11px] font-bold tracking-[0.2em] uppercase text-white md:mb-5">Empresa</h4>
         <svg class="md:hidden w-4 h-4 text-slate-300 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </summary>
-      <ul class="space-y-2.5 text-sm mt-2 md:mt-0">
-        <li><a href="{% url 'core:nosotros' %}" class="hover:text-white transition inline-block py-1">Nosotros</a></li>
-        <li><a href="{% url 'core:contacto' %}" class="hover:text-white transition inline-block py-1">Contacto</a></li>
-        <li><a href="{% url 'core:faq' %}" class="hover:text-white transition inline-block py-1">Preguntas frecuentes</a></li>
-        <li><a href="{% url 'core:recursos' %}" class="hover:text-white transition inline-block py-1">Centro de recursos</a></li>
-        <li><a href="{% url 'admin:index' %}" class="hover:text-white transition inline-block py-1">Acceso interno</a></li>
+      <ul class="space-y-3 text-sm mt-2 md:mt-0">
+        <li><a href="{% url 'core:nosotros' %}" class="footer-link text-slate-400">Nosotros</a></li>
+        <li><a href="{% url 'core:contacto' %}" class="footer-link text-slate-400">Contacto</a></li>
+        <li><a href="{% url 'core:faq' %}" class="footer-link text-slate-400">Preguntas frecuentes</a></li>
+        <li><a href="{% url 'core:recursos' %}" class="footer-link text-slate-400">Centro de recursos</a></li>
+        <li><a href="{% url 'admin:index' %}" class="footer-link text-slate-400">Acceso interno</a></li>
       </ul>
     </details>
   </div>
 
-  <div class="border-t border-white/10">
+  <div class="border-t border-white/10 relative">
     <div class="container mx-auto px-4 py-7">
-      <div class="text-[10px] font-semibold tracking-[0.2em] uppercase text-slate-400 mb-4">Cobertura</div>
+      <div class="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-400 mb-4">Cobertura</div>
       <div class="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-slate-300">
         <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-secondary"></i> Lima Metropolitana</span>
         <span class="text-slate-600">·</span>
@@ -131,7 +180,7 @@
     </div>
   </div>
 
-  <div class="border-t border-white/10">
+  <div class="border-t border-white/10 relative">
     <div class="container mx-auto px-4 py-5 flex flex-wrap justify-between items-center gap-2 text-xs text-slate-400">
       <span>© {% now "Y" %} {{ SITE_BRAND }}. Todos los derechos reservados.</span>
       <div class="flex items-center gap-5">

@@ -1,29 +1,32 @@
 {% load static producto_extras %}
 <!-- ============ Top bar: WhatsApp + dirección + envío ============ -->
-<div class="bg-gradient-brand text-white text-xs" role="region" aria-label="Información de contacto">
-  <div class="container mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2">
+<div class="bg-[#08193A] text-white text-xs relative overflow-hidden" role="region" aria-label="Información de contacto">
+  <div class="absolute inset-0 bg-dot-grid opacity-40 pointer-events-none"></div>
+  <div class="container mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2 relative">
     <span class="flex items-center gap-4">
       <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
          aria-label="Escribir por WhatsApp a {{ SITE_WHATSAPP_DISPLAY }}"
-         class="flex items-center gap-1.5 hover:text-white/90 font-medium rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
-        <svg aria-hidden="true" focusable="false" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
-        <span class="hidden sm:inline">{{ SITE_WHATSAPP_DISPLAY }}</span>
+         class="flex items-center gap-1.5 hover:text-secondary font-medium rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+        <svg aria-hidden="true" focusable="false" class="h-3.5 w-3.5 text-secondary" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
+        <span class="hidden sm:inline tabular">{{ SITE_WHATSAPP_DISPLAY }}</span>
         <span class="sm:hidden">WhatsApp</span>
       </a>
-      <span class="hidden md:inline opacity-70" aria-hidden="true">·</span>
-      <span class="hidden md:inline"><span aria-hidden="true">✉</span> <span class="sr-only">Correo:</span>{{ SITE_EMAIL }}</span>
+      <span class="hidden md:inline opacity-40" aria-hidden="true">·</span>
+      <span class="hidden md:inline text-white/80"><span aria-hidden="true">✉</span> <span class="sr-only">Correo:</span>{{ SITE_EMAIL }}</span>
     </span>
-    <span class="hidden md:inline-flex items-center gap-1.5">
-      <svg aria-hidden="true" focusable="false" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17h14M3 17l1.5-9h11L18 17M3 17v3h2v-3M15 17v3h2v-3M9 7l1-3h4l1 3"/></svg>
+    <span class="hidden md:inline-flex items-center gap-1.5 text-white/80">
+      <svg aria-hidden="true" focusable="false" class="h-3.5 w-3.5 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17h14M3 17l1.5-9h11L18 17M3 17v3h2v-3M15 17v3h2v-3M9 7l1-3h4l1 3"/></svg>
       {{ SITE_DELIVERY_AREA }}
     </span>
   </div>
 </div>
 
 <!-- ============ Header principal ============ -->
-<header class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-0 z-40 shadow-sm"
+<header class="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 sticky top-0 z-40 transition-shadow duration-300"
         role="banner"
-        x-data="{ mobileMenu: false, solucionesOpen: false }"
+        x-data="{ mobileMenu: false, solucionesOpen: false, scrolled: false }"
+        x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 8)"
+        :class="scrolled && 'shadow-[0_4px_24px_-12px_rgba(15,42,77,0.12)] bg-white/90'"
         @keydown.escape.window="mobileMenu = false">
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between gap-3 h-16 md:h-20">
@@ -41,38 +44,39 @@
 
       <form action="{% url 'catalogo:lista' %}" method="get" class="hidden md:flex flex-1 max-w-xl" role="search" aria-label="Buscar en el catálogo">
         <div class="relative w-full">
-          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
           <label for="navbar-search" class="sr-only">Buscar productos</label>
           <input id="navbar-search" type="search" name="q" placeholder="Buscar productos, marcas, papeles, lejía..."
                  aria-label="Buscar productos, marcas, papeles, lejía"
-                 class="w-full pl-11 pr-4 bg-base-200 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary focus:bg-white text-base md:text-sm h-11" />
+                 class="w-full pl-12 pr-4 bg-slate-50/80 border border-slate-200/70 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary focus:bg-white text-base md:text-sm h-11 transition-all placeholder:text-slate-400" />
+          <kbd class="hidden lg:inline-flex absolute right-3 top-1/2 -translate-y-1/2 items-center gap-1 px-1.5 py-0.5 rounded-md bg-white border border-slate-200 text-[10px] font-mono text-slate-500 shadow-sm">⌘ K</kbd>
         </div>
       </form>
 
       <nav class="flex items-center gap-1" aria-label="Navegación principal">
-        <a href="{% url 'catalogo:lista' %}" class="text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden lg:inline-flex transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Catálogo</a>
+        <a href="{% url 'catalogo:lista' %}" class="nav-link text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden lg:inline-flex transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Catálogo</a>
         <div class="dropdown dropdown-hover hidden lg:inline-block">
-          <label tabindex="0" aria-haspopup="true" class="text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 cursor-pointer flex items-center gap-1 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Soluciones <svg aria-hidden="true" focusable="false" class="w-3 h-3" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
-          <ul tabindex="0" class="dropdown-content menu p-2 shadow-lg bg-white rounded-xl w-64 z-10 border border-slate-200 mt-2" role="menu" aria-label="Soluciones por industria">
-            <li><a href="{% url 'core:solucion' 'hoteles' %}" class="text-sm"><span aria-hidden="true">🏨</span> Hoteles & Restaurantes</a></li>
-            <li><a href="{% url 'core:solucion' 'clinicas' %}" class="text-sm"><span aria-hidden="true">🏥</span> Clínicas & Salud</a></li>
-            <li><a href="{% url 'core:solucion' 'industria' %}" class="text-sm"><span aria-hidden="true">🏭</span> Industria</a></li>
-            <li><a href="{% url 'core:solucion' 'oficinas' %}" class="text-sm"><span aria-hidden="true">🏢</span> Oficinas</a></li>
-            <li><a href="{% url 'core:solucion' 'retail' %}" class="text-sm"><span aria-hidden="true">🛒</span> Retail & Cadenas</a></li>
+          <label tabindex="0" aria-haspopup="true" class="nav-link text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 cursor-pointer flex items-center gap-1 transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Soluciones <svg aria-hidden="true" focusable="false" class="w-3 h-3" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <ul tabindex="0" class="dropdown-content menu p-2 shadow-[0_24px_60px_-30px_rgba(15,42,77,0.4)] bg-white rounded-2xl w-64 z-10 border border-slate-200/70 mt-2" role="menu" aria-label="Soluciones por industria">
+            <li><a href="{% url 'core:solucion' 'hoteles' %}" class="text-sm rounded-xl"><span aria-hidden="true">🏨</span> Hoteles & Restaurantes</a></li>
+            <li><a href="{% url 'core:solucion' 'clinicas' %}" class="text-sm rounded-xl"><span aria-hidden="true">🏥</span> Clínicas & Salud</a></li>
+            <li><a href="{% url 'core:solucion' 'industria' %}" class="text-sm rounded-xl"><span aria-hidden="true">🏭</span> Industria</a></li>
+            <li><a href="{% url 'core:solucion' 'oficinas' %}" class="text-sm rounded-xl"><span aria-hidden="true">🏢</span> Oficinas</a></li>
+            <li><a href="{% url 'core:solucion' 'retail' %}" class="text-sm rounded-xl"><span aria-hidden="true">🛒</span> Retail & Cadenas</a></li>
           </ul>
         </div>
-        <a href="{% url 'core:nosotros' %}" class="text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden lg:inline-flex transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Nosotros</a>
-        <a href="{% url 'core:contacto' %}" class="text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden lg:inline-flex transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Contacto</a>
+        <a href="{% url 'core:nosotros' %}" class="nav-link text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden lg:inline-flex transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Nosotros</a>
+        <a href="{% url 'core:contacto' %}" class="nav-link text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden lg:inline-flex transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Contacto</a>
 
         {% if request.user.is_authenticated %}
-          <a href="{% url 'post_login' %}" class="text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden md:inline-flex transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Mi cuenta</a>
+          <a href="{% url 'post_login' %}" class="nav-link text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden md:inline-flex transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Mi cuenta</a>
         {% else %}
-          <a href="{% url 'login' %}" class="text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden md:inline-flex transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Ingresar</a>
+          <a href="{% url 'login' %}" class="nav-link text-sm font-medium text-slate-700 hover:text-primary px-3 py-2 hidden md:inline-flex transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">Ingresar</a>
         {% endif %}
 
         <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
            aria-label="Cotizar por WhatsApp"
-           class="btn-whatsapp btn-shine font-semibold text-sm px-4 sm:px-5 h-11 rounded-full inline-flex items-center gap-2 transition shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2">
+           class="btn-whatsapp btn-shine cta-hover font-semibold text-sm px-4 sm:px-5 h-11 rounded-full inline-flex items-center gap-2 shadow-wa-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 ml-1">
           <svg aria-hidden="true" focusable="false" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
           <span class="hidden sm:inline">Cotizar</span>
         </a>
@@ -84,7 +88,7 @@
         <label for="navbar-search-mobile" class="sr-only">Buscar productos</label>
         <input id="navbar-search-mobile" type="search" name="q" placeholder="Buscar productos..."
                aria-label="Buscar productos"
-               class="w-full px-4 h-11 rounded-l-full bg-base-200 border border-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" />
+               class="w-full px-4 h-11 rounded-l-full bg-slate-50 border border-slate-200/70 text-base focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
         <button type="submit" class="bg-primary text-white px-5 rounded-r-full text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Buscar productos">Buscar</button>
       </div>
     </form>
@@ -113,8 +117,9 @@
          role="dialog" aria-modal="true" aria-label="Menú principal">
 
     <!-- Header del drawer -->
-    <div class="bg-gradient-brand text-white px-5 py-5 flex items-center justify-between shrink-0">
-      <div class="flex items-center gap-2">
+    <div class="bg-gradient-brand text-white px-5 py-5 flex items-center justify-between shrink-0 relative overflow-hidden">
+      <div class="absolute inset-0 bg-dot-grid opacity-30 pointer-events-none"></div>
+      <div class="flex items-center gap-2 relative">
         <img src="{% static 'img/logo-white-real.png' %}"
              alt="{{ SITE_BRAND }}"
              width="886" height="566"
@@ -123,7 +128,7 @@
              decoding="async" />
       </div>
       <button type="button" @click="mobileMenu = false"
-              class="w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition"
+              class="w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition relative"
               aria-label="Cerrar menú">
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
@@ -197,11 +202,11 @@
     <!-- Footer del drawer: CTA WhatsApp -->
     <div class="px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] border-t border-base-200 bg-base-200/60 shrink-0">
       <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
-         class="btn-whatsapp btn-shine w-full rounded-full font-bold inline-flex items-center justify-center gap-2 h-12 shadow-md">
+         class="btn-whatsapp btn-shine w-full rounded-full font-bold inline-flex items-center justify-center gap-2 h-12 shadow-wa-glow">
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
         Cotizar por WhatsApp
       </a>
-      <p class="text-[11px] text-center text-slate-500 mt-2">{{ SITE_WHATSAPP_DISPLAY }} · {{ SITE_DELIVERY_AREA }}</p>
+      <p class="text-[11px] text-center text-slate-500 mt-2 tabular">{{ SITE_WHATSAPP_DISPLAY }} · {{ SITE_DELIVERY_AREA }}</p>
     </div>
   </aside>
 </header>

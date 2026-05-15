@@ -190,10 +190,15 @@ UNFOLD = {
     "SITE_DROPDOWN": [],
     "SITE_URL": "/",
     "SITE_SYMBOL": "store",
+    # Logo PNG real (transparente) — variantes light/dark
+    "SITE_LOGO": {
+        "light": lambda request: _static("img/logo-real.png"),
+        "dark":  lambda request: _static("img/logo-white-real.png"),
+    },
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": True,
     "ENVIRONMENT": None,
-    "BORDER_RADIUS": "8px",
+    "BORDER_RADIUS": "10px",
     "COLORS": {
         "base": {
             "50":  "240 249 255",

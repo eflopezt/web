@@ -34,20 +34,74 @@
 <style>
   /* Animaciones decorativas del hero */
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-  .float-1 { animation: float 6s ease-in-out infinite; }
-  .float-2 { animation: float 7s ease-in-out infinite 1s; }
-  .float-3 { animation: float 8s ease-in-out infinite 2s; }
-  .float-4 { animation: float 9s ease-in-out infinite 0.5s; }
-  /* Reveal on scroll */
-  .reveal-up { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
-  .reveal-up.in { opacity: 1; transform: translateY(0); }
-  /* Categoría hover */
-  .cat-card { transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, border-color .35s; }
-  .cat-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 24px 48px -16px rgba(27,117,188,.25); border-color: var(--pc-blue); }
-  .cat-card:hover .cat-icon-wrap { transform: rotate(-6deg) scale(1.08); }
-  .cat-icon-wrap { transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+  .float-1 { animation: float 7s ease-in-out infinite; }
+  .float-2 { animation: float 8s ease-in-out infinite 1s; }
+  .float-3 { animation: float 9s ease-in-out infinite 2s; }
+  /* Mesh de puntos hero */
+  .hero-dots { background-image: radial-gradient(circle at center, rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 40px 40px; }
   /* Stat number gradient */
   .stat-grad { background: linear-gradient(135deg, var(--pc-blue) 0%, var(--pc-green) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; font-variant-numeric: tabular-nums; }
+  /* Glass card hero */
+  .hero-glass {
+    background: linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 24px 80px -30px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.12);
+  }
+  .hero-glass-stat {
+    background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(255,255,255,0.10);
+    transition: background 250ms, border-color 250ms;
+  }
+  .hero-glass-stat:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.20); }
+  /* Categoría hover */
+  .cat-card { position: relative; transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s, border-color .4s; }
+  .cat-card::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+    background: linear-gradient(90deg, var(--pc-blue) 0%, var(--pc-green) 100%);
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform 350ms cubic-bezier(.2,.8,.2,1);
+    border-radius: 0 0 24px 24px;
+  }
+  .cat-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 32px 80px -32px rgba(27,117,188,.35); border-color: transparent; }
+  .cat-card:hover::after { transform: scaleX(1); }
+  .cat-card:hover .cat-icon-wrap { transform: rotate(-6deg) scale(1.08); }
+  .cat-icon-wrap { transition: transform .4s cubic-bezier(.2,.8,.2,1); position: relative; }
+  .cat-icon-wrap::before {
+    content: ''; position: absolute; inset: -8px; border-radius: 18px;
+    background: radial-gradient(circle, rgba(27,117,188,0.18) 0%, transparent 70%);
+    opacity: 0; transition: opacity 350ms;
+  }
+  .cat-card:hover .cat-icon-wrap::before { opacity: 1; }
+  /* Brand chip */
+  .brand-chip {
+    background: white;
+    border: 1px solid rgb(226 232 240 / 0.7);
+    box-shadow: 0 1px 2px rgba(15,42,77,.06), 0 4px 12px -6px rgba(15,42,77,.08);
+    border-radius: 14px;
+    padding: 0.6rem 1.25rem;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    transition: transform 200ms, box-shadow 200ms;
+    white-space: nowrap;
+  }
+  .brand-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(15,42,77,.08), 0 12px 24px -8px rgba(15,42,77,.15); }
+  /* Sector card hover */
+  .sector-card { position: relative; transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, border-color .35s; }
+  .sector-card::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+    background: linear-gradient(90deg, var(--pc-green) 0%, var(--pc-blue) 100%);
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform 350ms cubic-bezier(.2,.8,.2,1);
+    border-radius: 0 0 24px 24px;
+  }
+  .sector-card:hover::after { transform: scaleX(1); }
+  /* Testimonio avatar gradient */
+  .avatar-grad-blue { background: linear-gradient(135deg, #1A4F8B 0%, #2BA0E0 100%); }
+  .avatar-grad-green { background: linear-gradient(135deg, #2E8B1F 0%, #6BCB3A 100%); }
+  .avatar-grad-mix { background: linear-gradient(135deg, #1B75BC 0%, #3FAE2A 100%); }
 </style>
 {% endblock %}
 
@@ -55,58 +109,61 @@
 
 <!-- ============ HERO ============ -->
 <section class="relative bg-gradient-brand text-white overflow-hidden">
-  <div class="absolute inset-0 bg-bubbles-dark opacity-60"></div>
-  <div class="absolute -bottom-32 -right-32 w-[600px] h-[600px] rounded-full bg-secondary/25 blur-3xl"></div>
-  <div class="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-info/20 blur-3xl"></div>
+  <!-- Sutil malla de puntos -->
+  <div class="absolute inset-0 hero-dots opacity-70 pointer-events-none"></div>
+  <!-- Blobs aurora -->
+  <div class="absolute -bottom-40 -right-40 w-[640px] h-[640px] rounded-full bg-secondary/25 blur-[120px] pointer-events-none"></div>
+  <div class="absolute -top-40 -left-40 w-[540px] h-[540px] rounded-full bg-info/15 blur-[100px] pointer-events-none"></div>
 
-  <!-- SVGs flotantes decorativos (solo lg+) -->
+  <!-- SVGs flotantes decorativos (más sutiles) -->
   <img src="{% static 'img/categorias/papel.svg' %}" alt="" aria-hidden="true"
-       class="hidden lg:block absolute top-16 right-8 w-32 opacity-30 float-1"/>
+       class="hidden lg:block absolute top-20 right-10 w-28 opacity-20 float-1 pointer-events-none"/>
   <img src="{% static 'img/categorias/desinfectantes.svg' %}" alt="" aria-hidden="true"
-       class="hidden lg:block absolute bottom-16 right-40 w-28 opacity-25 float-2"/>
-  <img src="{% static 'img/categorias/detergentes.svg' %}" alt="" aria-hidden="true"
-       class="hidden lg:block absolute top-32 left-16 w-24 opacity-20 float-3"/>
+       class="hidden lg:block absolute bottom-24 right-44 w-24 opacity-15 float-2 pointer-events-none"/>
 
-  <div class="container mx-auto px-4 py-12 sm:py-16 lg:py-24 relative grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-12 items-center">
+  <div class="container mx-auto px-4 py-16 sm:py-20 lg:py-28 relative grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
     <div class="text-center lg:text-left">
-      <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1.5 text-[11px] sm:text-xs font-semibold tracking-wide backdrop-blur">
-        <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+      <span class="inline-flex items-center gap-2 hero-glass rounded-full px-4 py-1.5 text-[11px] sm:text-xs font-bold tracking-[0.15em] uppercase text-white/95">
+        <span class="relative flex w-2 h-2">
+          <span class="absolute inset-0 rounded-full bg-secondary animate-ping opacity-75"></span>
+          <span class="relative inline-flex w-2 h-2 rounded-full bg-secondary"></span>
+        </span>
         {{ SITE_DELIVERY_AREA }} · Atención 24/7
       </span>
 
-      <h1 class="text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.05] mt-5">
+      <h1 class="font-display text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5rem] font-black leading-[0.95] mt-6 tracking-[-0.045em]">
         Tu proveedor de
-        <span class="text-gradient-light block sm:inline">limpieza profesional</span>
-        <span class="block sm:inline">en Lima y Callao</span>
+        <span class="text-gradient-mint block">limpieza profesional</span>
+        <span class="block text-white/95">en Lima y Callao</span>
       </h1>
 
-      <p class="text-base sm:text-lg text-white/90 mt-5 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-        Distribuidores autorizados de las marcas líderes: <strong class="text-white">Elite Professional, Kimberly-Clark, Sapolio, 3M, Wypall</strong> y muchas más. Cotización en menos de 24 h por WhatsApp.
+      <p class="text-base sm:text-lg text-white/85 mt-6 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+        Distribuidores autorizados de las marcas líderes: <strong class="text-white font-semibold">Elite Professional, Kimberly-Clark, Sapolio, 3M, Wypall</strong> y muchas más. Cotización en menos de 24 h por WhatsApp.
       </p>
 
       <!-- Buscador inline -->
       <form action="{% url 'catalogo:lista' %}" method="get"
-            class="mt-7 sm:mt-8 max-w-xl mx-auto lg:mx-0 flex flex-col sm:flex-row gap-2.5">
+            class="mt-8 max-w-xl mx-auto lg:mx-0 flex flex-col sm:flex-row gap-2.5">
         <div class="relative flex-1">
-          <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+          <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
           <input type="search" name="q"
                  placeholder="¿Qué producto buscas? (ej. papel jumbo, lejía, lentes...)"
-                 class="w-full h-12 pl-11 pr-4 rounded-full text-base bg-white text-slate-800 placeholder:text-slate-400 shadow-xl focus:outline-none focus:ring-4 focus:ring-secondary/40"/>
+                 class="w-full h-13 sm:h-14 pl-12 pr-4 rounded-full text-base bg-white text-slate-800 placeholder:text-slate-400 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)] focus:outline-none focus:ring-4 focus:ring-secondary/40 transition"/>
         </div>
-        <button type="submit" class="h-12 px-7 rounded-full bg-secondary hover:bg-secondary/90 font-bold text-white shadow-xl transition active:scale-95">
+        <button type="submit" class="cta-hover h-14 px-8 rounded-full bg-secondary hover:bg-secondary/90 font-bold text-white shadow-green-glow active:scale-95 transition">
           Buscar
         </button>
       </form>
 
       <!-- CTAs -->
-      <div class="mt-5 flex flex-col sm:flex-row sm:flex-wrap gap-3 max-w-md mx-auto lg:mx-0">
+      <div class="mt-6 flex flex-col sm:flex-row sm:flex-wrap gap-3 max-w-md mx-auto lg:mx-0">
         <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
-           class="btn-whatsapp btn-shine font-bold px-6 sm:px-8 h-14 rounded-full inline-flex items-center justify-center gap-3 text-base sm:text-lg shadow-2xl w-full sm:w-auto">
+           class="btn-whatsapp btn-shine cta-hover font-bold px-7 sm:px-8 h-14 rounded-full inline-flex items-center justify-center gap-3 text-base sm:text-lg shadow-wa-glow w-full sm:w-auto">
           <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.45 14.05c-.23.65-1.32 1.24-1.85 1.31-.47.07-1.07.1-1.73-.11-.4-.13-.91-.3-1.57-.59-2.77-1.2-4.58-3.99-4.72-4.17-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.02.96-2.29.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.47.23.55.79 1.91.86 2.05.07.13.12.29.02.47-.09.18-.14.29-.27.45-.13.16-.28.36-.4.48-.13.13-.27.27-.12.53.16.27.7 1.15 1.5 1.86 1.04.92 1.91 1.21 2.18 1.34.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.88.27.13.45.2.52.31.06.11.06.65-.16 1.3z"/></svg>
           Cotiza por WhatsApp
         </a>
         <a href="{% url 'catalogo:lista' %}"
-           class="bg-white/15 hover:bg-white/25 backdrop-blur border border-white/30 text-white font-bold px-6 h-14 rounded-full inline-flex items-center justify-center gap-2 text-base transition w-full sm:w-auto">
+           class="cta-hover bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/25 text-white font-bold px-7 h-14 rounded-full inline-flex items-center justify-center gap-2 text-base transition w-full sm:w-auto">
           Ver catálogo
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </a>
@@ -115,24 +172,26 @@
 
     <!-- Card lateral con logo + 4 stats -->
     <div class="relative max-w-md mx-auto lg:max-w-none w-full">
-      <div class="relative bg-white/[0.08] backdrop-blur-md border border-white/20 rounded-3xl p-5 sm:p-7 shadow-2xl">
+      <!-- Glow detrás de la card -->
+      <div class="absolute -inset-4 bg-gradient-to-br from-secondary/30 via-transparent to-primary/20 rounded-[2rem] blur-2xl opacity-60 pointer-events-none"></div>
+      <div class="relative hero-glass rounded-[2rem] p-6 sm:p-8">
         <img src="{% static 'img/logo-white-real.png' %}" alt="{{ SITE_BRAND }}" class="h-20 sm:h-28 w-auto mx-auto opacity-95"/>
-        <div class="mt-5 grid grid-cols-2 gap-2.5 sm:gap-3">
-          <div class="bg-white/10 border border-white/15 rounded-xl p-3.5 text-center">
-            <div class="text-2xl sm:text-3xl font-black text-white"><span data-counter="160" data-prefix="+">+160</span></div>
-            <div class="text-[11px] sm:text-xs text-white/80 mt-1">productos en catálogo</div>
+        <div class="mt-6 grid grid-cols-2 gap-2.5 sm:gap-3">
+          <div class="hero-glass-stat rounded-2xl p-4 text-center">
+            <div class="text-3xl sm:text-4xl font-black text-white tabular leading-none"><span data-counter="160" data-prefix="+">+160</span></div>
+            <div class="text-[11px] sm:text-xs text-white/70 mt-2 font-medium">productos en catálogo</div>
           </div>
-          <div class="bg-white/10 border border-white/15 rounded-xl p-3.5 text-center">
-            <div class="text-2xl sm:text-3xl font-black text-white"><span data-counter="37">37</span></div>
-            <div class="text-[11px] sm:text-xs text-white/80 mt-1">marcas líderes</div>
+          <div class="hero-glass-stat rounded-2xl p-4 text-center">
+            <div class="text-3xl sm:text-4xl font-black text-white tabular leading-none"><span data-counter="37">37</span></div>
+            <div class="text-[11px] sm:text-xs text-white/70 mt-2 font-medium">marcas líderes</div>
           </div>
-          <div class="bg-white/10 border border-white/15 rounded-xl p-3.5 text-center">
-            <div class="text-2xl sm:text-3xl font-black text-white">24<span class="text-white/60 text-base sm:text-xl">h</span></div>
-            <div class="text-[11px] sm:text-xs text-white/80 mt-1">respuesta WhatsApp</div>
+          <div class="hero-glass-stat rounded-2xl p-4 text-center">
+            <div class="text-3xl sm:text-4xl font-black text-white tabular leading-none">24<span class="text-white/50 text-xl">h</span></div>
+            <div class="text-[11px] sm:text-xs text-white/70 mt-2 font-medium">respuesta WhatsApp</div>
           </div>
-          <div class="bg-white/10 border border-white/15 rounded-xl p-3.5 text-center">
-            <div class="text-2xl sm:text-3xl font-black text-white">100<span class="text-white/60 text-base sm:text-xl">%</span></div>
-            <div class="text-[11px] sm:text-xs text-white/80 mt-1">factura SUNAT</div>
+          <div class="hero-glass-stat rounded-2xl p-4 text-center">
+            <div class="text-3xl sm:text-4xl font-black text-white tabular leading-none">100<span class="text-white/50 text-xl">%</span></div>
+            <div class="text-[11px] sm:text-xs text-white/70 mt-2 font-medium">factura SUNAT</div>
           </div>
         </div>
       </div>
@@ -141,30 +200,30 @@
 </section>
 
 <!-- ============ TRUST BAR ============ -->
-<section class="bg-white border-b border-base-300">
-  <div class="container mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-    <div class="flex items-center gap-3">
+<section class="bg-white border-b border-slate-100">
+  <div class="container mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
+    <div class="flex items-center gap-3 reveal-up">
       <div class="icon-box icon-box-green shrink-0"><i data-lucide="shield-check"></i></div>
       <div class="min-w-0">
         <div class="text-sm font-bold text-accent leading-tight">Calidad garantizada</div>
         <div class="text-xs text-slate-500 mt-0.5">Marcas oficiales</div>
       </div>
     </div>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 reveal-up stagger-1">
       <div class="icon-box icon-box-blue shrink-0"><i data-lucide="truck"></i></div>
       <div class="min-w-0">
         <div class="text-sm font-bold text-accent leading-tight">Envío gratis</div>
         <div class="text-xs text-slate-500 mt-0.5">Lima y Callao</div>
       </div>
     </div>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 reveal-up stagger-2">
       <div class="icon-box icon-box-green shrink-0"><i data-lucide="receipt"></i></div>
       <div class="min-w-0">
         <div class="text-sm font-bold text-accent leading-tight">Factura SUNAT</div>
         <div class="text-xs text-slate-500 mt-0.5">XML + PDF al correo</div>
       </div>
     </div>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 reveal-up stagger-3">
       <div class="icon-box icon-box-blue shrink-0"><i data-lucide="message-circle"></i></div>
       <div class="min-w-0">
         <div class="text-sm font-bold text-accent leading-tight">Atención 24/7</div>
@@ -175,27 +234,27 @@
 </section>
 
 <!-- ============ MARQUEE marcas ============ -->
-<section class="bg-base-200 py-10 overflow-hidden">
-  <p class="text-center text-xs font-bold tracking-[0.25em] uppercase text-slate-500 mb-7">Distribuimos las marcas más solicitadas</p>
+<section class="bg-base-200 py-12 sm:py-14 overflow-hidden border-b border-slate-100">
+  <p class="eyebrow text-center mb-8 text-slate-500">Distribuimos las marcas más solicitadas</p>
   <div class="marquee-mask">
-    <div class="flex gap-12 animate-marquee w-max">
+    <div class="flex gap-4 sm:gap-5 animate-marquee w-max">
       {% for _ in "12" %}
-      <div class="flex items-center gap-12 px-6 whitespace-nowrap">
-        <span class="text-2xl font-black text-primary/80">Elite</span>
-        <span class="text-2xl font-black text-secondary/80">Kimberly-Clark</span>
-        <span class="text-2xl font-black text-accent/80">Sapolio</span>
-        <span class="text-2xl font-black text-primary/80">Wypall</span>
-        <span class="text-2xl font-black text-secondary/80">3M</span>
-        <span class="text-2xl font-black text-accent/80">Scott</span>
-        <span class="text-2xl font-black text-primary/80">Poett</span>
-        <span class="text-2xl font-black text-secondary/80">Clorox</span>
-        <span class="text-2xl font-black text-accent/80">Suave</span>
-        <span class="text-2xl font-black text-primary/80">FBK</span>
-        <span class="text-2xl font-black text-secondary/80">Sumac</span>
-        <span class="text-2xl font-black text-accent/80">Paracas</span>
-        <span class="text-2xl font-black text-primary/80">Daryza</span>
-        <span class="text-2xl font-black text-secondary/80">Bafagón</span>
-        <span class="text-2xl font-black text-accent/80">Esral</span>
+      <div class="flex items-center gap-4 sm:gap-5 px-3 whitespace-nowrap">
+        <span class="brand-chip text-primary">Elite</span>
+        <span class="brand-chip text-secondary">Kimberly-Clark</span>
+        <span class="brand-chip text-accent">Sapolio</span>
+        <span class="brand-chip text-primary">Wypall</span>
+        <span class="brand-chip text-secondary">3M</span>
+        <span class="brand-chip text-accent">Scott</span>
+        <span class="brand-chip text-primary">Poett</span>
+        <span class="brand-chip text-secondary">Clorox</span>
+        <span class="brand-chip text-accent">Suave</span>
+        <span class="brand-chip text-primary">FBK</span>
+        <span class="brand-chip text-secondary">Sumac</span>
+        <span class="brand-chip text-accent">Paracas</span>
+        <span class="brand-chip text-primary">Daryza</span>
+        <span class="brand-chip text-secondary">Bafagón</span>
+        <span class="brand-chip text-accent">Esral</span>
       </div>
       {% endfor %}
     </div>
@@ -203,25 +262,25 @@
 </section>
 
 <!-- ============ CATEGORÍAS (hero) ============ -->
-<section class="container mx-auto px-4 py-16 sm:py-20">
-  <div class="max-w-3xl mb-10 sm:mb-12 text-center mx-auto">
-    <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Catálogo</span>
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-accent mt-2">Todo lo que tu negocio necesita</h2>
-    <p class="text-slate-600 mt-3 text-base sm:text-lg">Papeles, lejía, desinfectantes, detergentes, EPP, bioseguridad y más. Sin precios públicos: cotiza directo al instante.</p>
+<section class="container mx-auto px-4 py-20 sm:py-28 lg:py-32">
+  <div class="max-w-3xl mb-14 text-center mx-auto reveal-up">
+    <span class="eyebrow">Catálogo</span>
+    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-[-0.04em] text-accent mt-3">Todo lo que tu <span class="text-gradient-brand">negocio necesita</span></h2>
+    <p class="text-slate-600 mt-5 text-base sm:text-lg leading-relaxed">Papeles, lejía, desinfectantes, detergentes, EPP, bioseguridad y más. Sin precios públicos: cotiza directo al instante.</p>
   </div>
 
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
     {% for c in categorias %}
     {% producto_ilustracion_categoria c as ilus %}
     <a href="{{ c.get_absolute_url }}"
-       class="cat-card bg-white border-2 border-base-300 rounded-2xl p-5 sm:p-6 group flex flex-col h-full">
-      <div class="cat-icon-wrap bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-3 w-fit">
+       class="cat-card card-modern rounded-3xl p-6 sm:p-7 group flex flex-col h-full reveal-up stagger-{% cycle '1' '2' '3' '4' %} overflow-hidden">
+      <div class="cat-icon-wrap bg-gradient-to-br from-blue-50 to-green-50 rounded-2xl p-3.5 w-fit">
         {% if ilus %}<img src="{% static ilus %}" alt="{{ c.nombre }}" class="w-14 h-14 sm:w-16 sm:h-16 object-contain"/>
         {% else %}<i data-lucide="package" class="w-10 h-10 text-primary"></i>{% endif %}
       </div>
-      <h3 class="font-bold text-accent mt-4 sm:mt-5 text-base sm:text-lg leading-tight">{{ c.nombre }}</h3>
-      <p class="text-xs sm:text-sm text-slate-500 mt-1.5 line-clamp-2 flex-1">{{ c.descripcion|default:"Productos profesionales seleccionados." }}</p>
-      <div class="text-xs sm:text-sm text-primary mt-4 font-bold flex items-center gap-1 group-hover:gap-2.5 transition-all">
+      <h3 class="font-bold text-accent mt-5 sm:mt-6 text-base sm:text-lg leading-tight">{{ c.nombre }}</h3>
+      <p class="text-xs sm:text-sm text-slate-500 mt-2 line-clamp-2 flex-1 leading-relaxed">{{ c.descripcion|default:"Productos profesionales seleccionados." }}</p>
+      <div class="text-xs sm:text-sm text-primary mt-5 font-bold flex items-center gap-1.5 group-hover:gap-3 transition-all">
         Ver productos <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
       </div>
     </a>
@@ -230,28 +289,28 @@
 </section>
 
 <!-- ============ NÚMEROS ProClean ============ -->
-<section class="bg-gradient-brand-soft border-y border-base-300">
-  <div class="container mx-auto px-4 py-14 sm:py-16">
-    <div class="text-center mb-10">
-      <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Números que respaldan</span>
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-accent mt-2">Por qué nos eligen las empresas peruanas</h2>
+<section class="bg-gradient-brand-soft border-y border-slate-100 bg-dot-mesh">
+  <div class="container mx-auto px-4 py-20 sm:py-24">
+    <div class="text-center mb-14 reveal-up">
+      <span class="eyebrow">Números que respaldan</span>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.04em] text-accent mt-3">Por qué nos eligen las <span class="text-gradient-brand">empresas peruanas</span></h2>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10">
-      <div class="text-center">
-        <div class="text-4xl sm:text-5xl md:text-6xl font-black stat-grad"><span data-counter="160" data-prefix="+">+160</span></div>
-        <div class="text-sm text-slate-600 mt-2 font-medium">productos auténticos</div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12">
+      <div class="text-center reveal-up stagger-1">
+        <div class="text-5xl sm:text-6xl md:text-7xl font-black stat-grad leading-none"><span data-counter="160" data-prefix="+">+160</span></div>
+        <div class="text-sm text-slate-600 mt-3 font-medium">productos auténticos</div>
       </div>
-      <div class="text-center">
-        <div class="text-4xl sm:text-5xl md:text-6xl font-black stat-grad"><span data-counter="37">37</span></div>
-        <div class="text-sm text-slate-600 mt-2 font-medium">marcas líderes</div>
+      <div class="text-center reveal-up stagger-2">
+        <div class="text-5xl sm:text-6xl md:text-7xl font-black stat-grad leading-none"><span data-counter="37">37</span></div>
+        <div class="text-sm text-slate-600 mt-3 font-medium">marcas líderes</div>
       </div>
-      <div class="text-center">
-        <div class="text-4xl sm:text-5xl md:text-6xl font-black stat-grad"><span data-counter="24">24</span><span>h</span></div>
-        <div class="text-sm text-slate-600 mt-2 font-medium">cotización máxima</div>
+      <div class="text-center reveal-up stagger-3">
+        <div class="text-5xl sm:text-6xl md:text-7xl font-black stat-grad leading-none"><span data-counter="24">24</span><span class="text-slate-400 text-3xl">h</span></div>
+        <div class="text-sm text-slate-600 mt-3 font-medium">cotización máxima</div>
       </div>
-      <div class="text-center">
-        <div class="text-4xl sm:text-5xl md:text-6xl font-black stat-grad"><span data-counter="48">48</span><span>h</span></div>
-        <div class="text-sm text-slate-600 mt-2 font-medium">entrega Lima/Callao</div>
+      <div class="text-center reveal-up stagger-4">
+        <div class="text-5xl sm:text-6xl md:text-7xl font-black stat-grad leading-none"><span data-counter="48">48</span><span class="text-slate-400 text-3xl">h</span></div>
+        <div class="text-sm text-slate-600 mt-3 font-medium">entrega Lima/Callao</div>
       </div>
     </div>
   </div>
@@ -259,22 +318,25 @@
 
 <!-- ============ PRODUCTOS DESTACADOS ============ -->
 {% if productos_destacados %}
-<section class="container mx-auto px-4 py-16 sm:py-20">
-  <div class="flex flex-wrap items-end justify-between gap-4 mb-8 sm:mb-10">
+<section class="container mx-auto px-4 py-20 sm:py-28">
+  <div class="flex flex-wrap items-end justify-between gap-4 mb-12 reveal-up">
     <div>
-      <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Bestsellers</span>
-      <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-accent mt-2">Productos destacados</h2>
-      <p class="text-slate-600 mt-1.5 text-sm sm:text-base">Los más cotizados por nuestros clientes B2B en Lima.</p>
+      <span class="eyebrow inline-flex items-center gap-1.5">
+        <i data-lucide="star" class="w-3 h-3 fill-secondary text-secondary"></i>
+        Bestsellers
+      </span>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.04em] text-accent mt-3">Productos destacados</h2>
+      <p class="text-slate-600 mt-2.5 text-base">Los más cotizados por nuestros clientes B2B en Lima.</p>
     </div>
     <a href="{% url 'catalogo:lista' %}" class="hidden md:inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:gap-2.5 transition-all">
       Ver todo el catálogo <i data-lucide="arrow-right" class="w-4 h-4"></i>
     </a>
   </div>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
     {% for p in productos_destacados %}{% include "catalogo/_card.html" with producto=p %}{% endfor %}
   </div>
-  <div class="text-center mt-8 md:hidden">
-    <a href="{% url 'catalogo:lista' %}" class="inline-flex items-center gap-2 bg-primary text-white font-bold px-6 h-12 rounded-full">
+  <div class="text-center mt-10 md:hidden">
+    <a href="{% url 'catalogo:lista' %}" class="cta-hover inline-flex items-center gap-2 bg-primary text-white font-bold px-7 h-12 rounded-full shadow-brand-glow">
       Ver todo el catálogo <i data-lucide="arrow-right" class="w-4 h-4"></i>
     </a>
   </div>
@@ -282,17 +344,17 @@
 {% endif %}
 
 <!-- ============ CASOS POR SECTOR ============ -->
-<section class="bg-base-200 border-y border-base-300">
-  <div class="container mx-auto px-4 py-16 sm:py-20">
-    <div class="max-w-3xl mb-10 text-center mx-auto">
-      <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Soluciones</span>
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-accent mt-2">A la medida de tu sector</h2>
-      <p class="text-slate-600 mt-3 text-base sm:text-lg">Cada industria tiene exigencias distintas. Te asesoramos con los productos correctos y volúmenes óptimos.</p>
+<section class="bg-base-200 border-y border-slate-100">
+  <div class="container mx-auto px-4 py-20 sm:py-28">
+    <div class="max-w-3xl mb-14 text-center mx-auto reveal-up">
+      <span class="eyebrow">Soluciones</span>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-[-0.04em] text-accent mt-3">A la medida de <span class="text-gradient-brand">tu sector</span></h2>
+      <p class="text-slate-600 mt-5 text-base sm:text-lg leading-relaxed">Cada industria tiene exigencias distintas. Te asesoramos con los productos correctos y volúmenes óptimos.</p>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
       {% for slug, emoji, titulo, sub in industrias_home %}
       <a href="{% url 'core:solucion' slug %}"
-         class="bg-white border-2 border-base-300 rounded-2xl p-5 sm:p-6 group hover:border-primary hover:-translate-y-1 transition-all duration-300">
+         class="sector-card card-modern rounded-3xl p-6 sm:p-7 group overflow-hidden reveal-up stagger-{% cycle '1' '2' '3' '4' '5' %}">
         <div class="icon-box icon-box-blue group-hover:bg-primary group-hover:text-white transition">
           {% if slug == "hoteles" %}<i data-lucide="hotel"></i>
           {% elif slug == "clinicas" %}<i data-lucide="cross"></i>
@@ -300,9 +362,9 @@
           {% elif slug == "oficinas" %}<i data-lucide="building-2"></i>
           {% else %}<i data-lucide="shopping-bag"></i>{% endif %}
         </div>
-        <div class="font-bold text-accent mt-4 text-base sm:text-lg leading-tight">{{ titulo }}</div>
-        <div class="text-xs sm:text-sm text-slate-500 mt-1.5">{{ sub }}</div>
-        <div class="text-xs text-primary mt-4 font-bold flex items-center gap-1 group-hover:gap-2.5 transition-all">
+        <div class="font-bold text-accent mt-5 text-base sm:text-lg leading-tight">{{ titulo }}</div>
+        <div class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">{{ sub }}</div>
+        <div class="text-xs text-primary mt-5 font-bold flex items-center gap-1.5 group-hover:gap-3 transition-all">
           Ver soluciones <i data-lucide="arrow-right" class="w-3 h-3"></i>
         </div>
       </a>
@@ -313,16 +375,17 @@
 
 <!-- ============ FRANJA WHATSAPP ============ -->
 <section class="bg-gradient-green relative overflow-hidden">
-  <div class="absolute inset-0 bg-bubbles-dark opacity-30"></div>
-  <div class="container mx-auto px-4 py-10 sm:py-12 relative">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-5 text-white">
+  <div class="absolute inset-0 bg-dot-grid opacity-30"></div>
+  <div class="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full bg-white/10 blur-3xl pointer-events-none"></div>
+  <div class="container mx-auto px-4 py-14 sm:py-16 relative">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-white">
       <div class="text-center md:text-left">
-        <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/85">¿Compra recurrente o cantidad especial?</p>
-        <h3 class="text-2xl sm:text-3xl md:text-4xl font-extrabold mt-1">Pide tu cotización ahora</h3>
-        <p class="text-white/85 mt-1.5 max-w-md">Te respondemos en menos de 24 h hábiles con tu precio personalizado.</p>
+        <p class="eyebrow text-white/85">¿Compra recurrente o cantidad especial?</p>
+        <h3 class="font-display text-2xl sm:text-3xl md:text-4xl font-black mt-2 tracking-[-0.03em]">Pide tu cotización ahora</h3>
+        <p class="text-white/85 mt-2 max-w-md text-base">Te respondemos en menos de 24 h hábiles con tu precio personalizado.</p>
       </div>
       <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
-         class="bg-white text-secondary font-extrabold px-7 sm:px-9 h-14 sm:h-16 rounded-full inline-flex items-center gap-3 text-base sm:text-lg shadow-2xl hover:scale-105 transition whitespace-nowrap">
+         class="cta-hover bg-white text-secondary font-extrabold px-8 sm:px-10 h-14 sm:h-16 rounded-full inline-flex items-center gap-3 text-base sm:text-lg shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)] hover:scale-105 transition whitespace-nowrap">
         <svg class="h-6 w-6 text-[#25D366]" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
         {{ SITE_WHATSAPP_DISPLAY }}
       </a>
@@ -331,45 +394,48 @@
 </section>
 
 <!-- ============ TESTIMONIOS ============ -->
-<section class="container mx-auto px-4 py-16 sm:py-20">
-  <div class="max-w-3xl text-center mx-auto mb-10 sm:mb-12">
-    <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Testimonios</span>
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-accent mt-2">Lo que dicen nuestros clientes</h2>
+<section class="container mx-auto px-4 py-20 sm:py-28">
+  <div class="max-w-3xl text-center mx-auto mb-14 reveal-up">
+    <span class="eyebrow">Testimonios</span>
+    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-[-0.04em] text-accent mt-3">Lo que dicen <span class="text-gradient-brand">nuestros clientes</span></h2>
   </div>
-  <div class="grid md:grid-cols-3 gap-4 sm:gap-5">
-    <figure class="bg-white border border-base-300 rounded-2xl p-6 sm:p-7 shadow-sm">
-      <div class="flex items-center gap-1 mb-3">
-        {% for _ in "12345" %}<i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>{% endfor %}
+  <div class="grid md:grid-cols-3 gap-5 sm:gap-6">
+    <figure class="card-modern rounded-3xl p-7 sm:p-8 reveal-up stagger-1 relative">
+      <i data-lucide="quote" class="absolute top-6 right-6 w-10 h-10 text-primary/15 fill-primary/10"></i>
+      <div class="flex items-center gap-1 mb-4">
+        {% for _ in "12345" %}<i data-lucide="star" class="star-pop w-4 h-4 fill-amber-400 text-amber-400"></i>{% endfor %}
       </div>
-      <blockquote class="text-slate-700 leading-relaxed text-sm sm:text-base">"Nos resolvieron una urgencia de papel jumbo en menos de 4 horas. Atención excelente y precios competitivos."</blockquote>
-      <figcaption class="mt-5 flex items-center gap-3 pt-4 border-t border-base-200">
-        <div class="w-11 h-11 rounded-full bg-gradient-brand text-white flex items-center justify-center font-extrabold shadow">CH</div>
+      <blockquote class="text-slate-700 leading-relaxed text-base">"Nos resolvieron una urgencia de papel jumbo en menos de 4 horas. Atención excelente y precios competitivos."</blockquote>
+      <figcaption class="mt-6 flex items-center gap-3 pt-5 border-t border-slate-100">
+        <div class="w-11 h-11 rounded-full avatar-grad-mix text-white flex items-center justify-center font-extrabold shadow-md">CH</div>
         <div>
           <div class="text-sm font-bold text-accent">Carlos Huamán</div>
           <div class="text-xs text-slate-500">Administrador · Hotel Brisamar</div>
         </div>
       </figcaption>
     </figure>
-    <figure class="bg-white border border-base-300 rounded-2xl p-6 sm:p-7 shadow-sm">
-      <div class="flex items-center gap-1 mb-3">
-        {% for _ in "12345" %}<i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>{% endfor %}
+    <figure class="card-modern rounded-3xl p-7 sm:p-8 reveal-up stagger-2 relative">
+      <i data-lucide="quote" class="absolute top-6 right-6 w-10 h-10 text-secondary/15 fill-secondary/10"></i>
+      <div class="flex items-center gap-1 mb-4">
+        {% for _ in "12345" %}<i data-lucide="star" class="star-pop w-4 h-4 fill-amber-400 text-amber-400"></i>{% endfor %}
       </div>
-      <blockquote class="text-slate-700 leading-relaxed text-sm sm:text-base">"Compramos amonio cuaternario y alcohol gel todos los meses. Stock seguro y factura SUNAT al toque."</blockquote>
-      <figcaption class="mt-5 flex items-center gap-3 pt-4 border-t border-base-200">
-        <div class="w-11 h-11 rounded-full bg-gradient-green text-white flex items-center justify-center font-extrabold shadow">SR</div>
+      <blockquote class="text-slate-700 leading-relaxed text-base">"Compramos amonio cuaternario y alcohol gel todos los meses. Stock seguro y factura SUNAT al toque."</blockquote>
+      <figcaption class="mt-6 flex items-center gap-3 pt-5 border-t border-slate-100">
+        <div class="w-11 h-11 rounded-full avatar-grad-green text-white flex items-center justify-center font-extrabold shadow-md">SR</div>
         <div>
           <div class="text-sm font-bold text-accent">Sandra Rojas</div>
           <div class="text-xs text-slate-500">Compras · Clínica Vida Plena</div>
         </div>
       </figcaption>
     </figure>
-    <figure class="bg-white border border-base-300 rounded-2xl p-6 sm:p-7 shadow-sm">
-      <div class="flex items-center gap-1 mb-3">
-        {% for _ in "12345" %}<i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>{% endfor %}
+    <figure class="card-modern rounded-3xl p-7 sm:p-8 reveal-up stagger-3 relative">
+      <i data-lucide="quote" class="absolute top-6 right-6 w-10 h-10 text-accent/15 fill-accent/10"></i>
+      <div class="flex items-center gap-1 mb-4">
+        {% for _ in "12345" %}<i data-lucide="star" class="star-pop w-4 h-4 fill-amber-400 text-amber-400"></i>{% endfor %}
       </div>
-      <blockquote class="text-slate-700 leading-relaxed text-sm sm:text-base">"Tenemos 3 locales y nos despachan con una sola orden de compra. Ahorramos tiempo y dolor de cabeza."</blockquote>
-      <figcaption class="mt-5 flex items-center gap-3 pt-4 border-t border-base-200">
-        <div class="w-11 h-11 rounded-full bg-gradient-blue text-white flex items-center justify-center font-extrabold shadow">DA</div>
+      <blockquote class="text-slate-700 leading-relaxed text-base">"Tenemos 3 locales y nos despachan con una sola orden de compra. Ahorramos tiempo y dolor de cabeza."</blockquote>
+      <figcaption class="mt-6 flex items-center gap-3 pt-5 border-t border-slate-100">
+        <div class="w-11 h-11 rounded-full avatar-grad-blue text-white flex items-center justify-center font-extrabold shadow-md">DA</div>
         <div>
           <div class="text-sm font-bold text-accent">Diego Álvarez</div>
           <div class="text-xs text-slate-500">Operaciones · Restaurantes Gourmet</div>
@@ -380,21 +446,21 @@
 </section>
 
 <!-- ============ CÓMO COMPRAS ============ -->
-<section class="bg-base-200 border-y border-base-300">
-  <div class="container mx-auto px-4 py-16 sm:py-20">
-    <div class="max-w-3xl mb-12 text-center mx-auto">
-      <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Proceso</span>
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-accent mt-2">Compra en 3 pasos</h2>
+<section class="bg-base-200 border-y border-slate-100">
+  <div class="container mx-auto px-4 py-20 sm:py-28">
+    <div class="max-w-3xl mb-16 text-center mx-auto reveal-up">
+      <span class="eyebrow">Proceso</span>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-[-0.04em] text-accent mt-3">Compra en <span class="text-gradient-brand">3 pasos</span></h2>
     </div>
-    <div class="grid md:grid-cols-3 gap-5 sm:gap-6 relative">
+    <div class="grid md:grid-cols-3 gap-6 sm:gap-8 relative">
       <!-- Línea conectora desktop -->
-      <div class="hidden md:block absolute top-12 left-[16.66%] right-[16.66%] h-0.5 bg-gradient-to-r from-primary via-secondary to-primary opacity-30"></div>
+      <div class="hidden md:block absolute top-12 left-[16.66%] right-[16.66%] h-0.5 bg-gradient-to-r from-primary via-secondary to-primary opacity-25"></div>
       {% for n, ico, titulo, desc in pasos_compra %}
-      <div class="bg-white rounded-2xl p-6 sm:p-7 border-2 border-base-300 relative z-10">
-        <div class="w-12 h-12 rounded-full bg-gradient-brand text-white font-extrabold text-xl flex items-center justify-center shadow-lg mb-4">{{ n }}</div>
-        <div class="icon-box icon-box-blue mb-3"><i data-lucide="{{ ico }}"></i></div>
+      <div class="card-modern rounded-3xl p-7 sm:p-8 relative z-10 reveal-up stagger-{{ forloop.counter }}">
+        <div class="w-12 h-12 rounded-full bg-gradient-brand text-white font-extrabold text-xl flex items-center justify-center shadow-brand-glow mb-5 tabular">{{ n }}</div>
+        <div class="icon-box icon-box-blue mb-4"><i data-lucide="{{ ico }}"></i></div>
         <h3 class="font-bold text-accent text-lg">{{ titulo }}</h3>
-        <p class="text-sm text-slate-600 mt-2 leading-relaxed">{{ desc }}</p>
+        <p class="text-sm text-slate-600 mt-2.5 leading-relaxed">{{ desc }}</p>
       </div>
       {% endfor %}
     </div>
@@ -402,15 +468,15 @@
 </section>
 
 <!-- ============ FAQ comprimido ============ -->
-<section class="container mx-auto px-4 py-16 sm:py-20 max-w-3xl">
-  <div class="text-center mb-10">
-    <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Dudas frecuentes</span>
-    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-accent mt-2">Preguntas comunes</h2>
+<section class="container mx-auto px-4 py-20 sm:py-28 max-w-3xl">
+  <div class="text-center mb-12 reveal-up">
+    <span class="eyebrow">Dudas frecuentes</span>
+    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.04em] text-accent mt-3">Preguntas comunes</h2>
   </div>
-  <div class="divide-y divide-base-300 border-y border-base-300">
+  <div class="divide-y divide-slate-100 border-y border-slate-100">
     {% for faq in faqs %}
-    <details class="group py-5" {% if forloop.first %}open{% endif %}>
-      <summary class="font-bold text-accent cursor-pointer list-none flex justify-between items-center gap-4 text-base sm:text-lg">
+    <details class="group py-6" {% if forloop.first %}open{% endif %}>
+      <summary class="font-bold text-accent cursor-pointer list-none flex justify-between items-center gap-4 text-base sm:text-lg hover:text-primary transition-colors">
         <span>{{ faq.q }}</span>
         <i data-lucide="chevron-down" class="w-5 h-5 text-primary group-open:rotate-180 transition shrink-0"></i>
       </summary>
@@ -418,7 +484,7 @@
     </details>
     {% endfor %}
   </div>
-  <div class="text-center mt-8">
+  <div class="text-center mt-10">
     <a href="{% url 'core:faq' %}" class="text-sm font-bold text-primary hover:gap-2.5 transition-all inline-flex items-center gap-1.5">
       Ver todas las preguntas <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
     </a>
@@ -427,21 +493,26 @@
 
 <!-- ============ CTA FINAL ============ -->
 <section class="bg-gradient-brand text-white relative overflow-hidden">
-  <div class="absolute inset-0 bg-bubbles-dark opacity-50"></div>
-  <div class="absolute -bottom-20 -right-20 w-[400px] h-[400px] rounded-full bg-secondary/30 blur-3xl"></div>
-  <div class="container mx-auto px-4 py-14 sm:py-20 relative text-center">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">¿Listo para cotizar?</h2>
-    <p class="text-white/90 mt-3 text-base sm:text-lg max-w-2xl mx-auto">
+  <div class="absolute inset-0 hero-dots opacity-60"></div>
+  <div class="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-secondary/30 blur-3xl"></div>
+  <div class="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-primary/30 blur-3xl"></div>
+  <div class="container mx-auto px-4 py-20 sm:py-28 relative text-center">
+    <span class="inline-flex items-center gap-2 hero-glass rounded-full px-4 py-1.5 text-[11px] font-bold tracking-[0.15em] uppercase">
+      <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+      Atención inmediata
+    </span>
+    <h2 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.045em] mt-6">¿Listo para <span class="text-gradient-mint">cotizar</span>?</h2>
+    <p class="text-white/85 mt-5 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
       Atención inmediata por WhatsApp. {{ SITE_DELIVERY_AREA }}. Factura SUNAT incluida.
     </p>
-    <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3 max-w-md mx-auto">
+    <div class="mt-10 flex flex-col sm:flex-row justify-center gap-3 max-w-md mx-auto">
       <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
-         class="btn-whatsapp btn-shine font-bold px-7 sm:px-8 h-14 rounded-full inline-flex items-center justify-center gap-3 text-base sm:text-lg shadow-2xl w-full sm:w-auto">
+         class="btn-whatsapp btn-shine cta-hover font-bold px-8 h-14 rounded-full inline-flex items-center justify-center gap-3 text-base sm:text-lg shadow-wa-glow w-full sm:w-auto">
         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
         Escribir a {{ SITE_WHATSAPP_DISPLAY }}
       </a>
       <a href="{% url 'catalogo:lista' %}"
-         class="bg-white/15 hover:bg-white/25 backdrop-blur border border-white/30 text-white font-bold px-7 h-14 rounded-full inline-flex items-center justify-center gap-2 transition w-full sm:w-auto">
+         class="cta-hover bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/25 text-white font-bold px-8 h-14 rounded-full inline-flex items-center justify-center gap-2 transition w-full sm:w-auto">
         Ver catálogo <i data-lucide="arrow-right" class="w-4 h-4"></i>
       </a>
     </div>
@@ -453,7 +524,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.12 });
     document.querySelectorAll('.reveal-up').forEach(el => obs.observe(el));
   });
 </script>

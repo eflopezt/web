@@ -113,8 +113,8 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
   <!-- Preload del CSS de fuentes para que el navegador lo priorice -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@500;600;700;800;900&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Tailwind (CDN dev mode) — necesita estar disponible antes de tailwind.config -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
@@ -138,10 +138,16 @@
       darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            display: ['"Inter Tight"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+          },
           boxShadow: {
             card: '0 1px 3px 0 rgb(15 23 42 / 0.04), 0 1px 2px -1px rgb(15 23 42 / 0.04)',
             soft: '0 4px 6px -1px rgb(15 23 42 / 0.05), 0 2px 4px -2px rgb(15 23 42 / 0.04)',
+            'brand-glow': '0 24px 60px -30px rgba(27,117,188,0.4)',
+            'wa-glow': '0 8px 40px -8px rgba(37,211,102,0.6)',
+            'green-glow': '0 0 60px -20px rgba(63,174,42,0.6)',
           },
         }
       },
@@ -163,9 +169,9 @@
             "success": "#3FAE2A",
             "warning": "#F59E0B",
             "error": "#DC2626",
-            "--rounded-btn": "0.625rem",
-            "--rounded-box": "1rem",
-            "--rounded-badge": "0.5rem",
+            "--rounded-btn": "0.875rem",
+            "--rounded-box": "1.125rem",
+            "--rounded-badge": "0.625rem",
           }
         }]
       }
@@ -183,9 +189,31 @@
       --pc-blue-bg: #E6F3FB;
       --pc-blue-bg-soft: #F0F9FF;
       --pc-wa: #25D366;
+      --pc-ink: #0B1F3A;
     }
-    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; color: #0F2A4D; }
-    h1, h2, h3, h4, h5 { letter-spacing: -0.015em; }
+    body {
+      font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      font-feature-settings: 'ss01', 'cv11';
+      -webkit-font-smoothing: antialiased;
+      color: var(--pc-ink);
+    }
+    h1, h2, h3, h4, h5 {
+      font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+    }
+    h1 { letter-spacing: -0.045em; }
+    .font-display { font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif; }
+
+    /* ============ Eyebrow estandarizado ============ */
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--pc-green);
+    }
 
     /* ============ Badges disponibilidad ============ */
     .badge-disp-en_stock { background: #DCFCE7; color: #14532D; border: 1px solid #86EFAC; font-weight: 600; }
@@ -198,24 +226,25 @@
     .htmx-request.htmx-indicator { opacity: 1; }
 
     /* ============ Card hover ============ */
-    .card.transition:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -16px rgb(27 117 188 / 0.18); }
+    .card.transition:hover { transform: translateY(-2px); box-shadow: 0 24px 60px -30px rgba(27,117,188,0.4); }
 
     /* ============ Marquee logos ============ */
     @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .animate-marquee { animation: marquee 35s linear infinite; }
-    .marquee-mask { mask-image: linear-gradient(90deg, transparent, white 10%, white 90%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, white 10%, white 90%, transparent); }
+    .animate-marquee { animation: marquee 48s linear infinite; }
+    .marquee-mask { mask-image: linear-gradient(90deg, transparent, white 14%, white 86%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, white 14%, white 86%, transparent); }
 
     /* ============ Reveal on scroll ============ */
     .reveal { opacity: 0; transform: translateY(10px); transition: opacity 700ms, transform 700ms; }
     .reveal.in { opacity: 1; transform: translateY(0); }
 
     /* ============ Brand gradients ============ */
-    .bg-gradient-brand { background: linear-gradient(135deg, var(--pc-blue-dark) 0%, var(--pc-blue) 45%, var(--pc-green) 100%); }
+    .bg-gradient-brand { background: linear-gradient(135deg, #08193A 0%, var(--pc-blue-dark) 35%, var(--pc-blue) 70%, var(--pc-green) 100%); }
     .bg-gradient-brand-soft { background: linear-gradient(135deg, #EFF8FF 0%, #F0FFF4 100%); }
     .bg-gradient-blue { background: linear-gradient(135deg, var(--pc-blue-dark) 0%, var(--pc-blue-light) 100%); }
     .bg-gradient-green { background: linear-gradient(135deg, var(--pc-green-dark) 0%, var(--pc-green-light) 100%); }
     .text-gradient-brand { background: linear-gradient(90deg, var(--pc-green) 0%, var(--pc-blue) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .text-gradient-light { background: linear-gradient(90deg, #fff 0%, #CFE8F7 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .text-gradient-mint { background: linear-gradient(90deg, #BEF09F 0%, #6BCB3A 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
     /* ============ Wave dividers (curvas onduladas) ============ */
     .wave-divider { position: relative; }
@@ -225,36 +254,96 @@
     .bg-bubbles { background-color: var(--pc-blue-bg); background-image: radial-gradient(rgba(255,255,255,0.55) 12%, transparent 13%), radial-gradient(rgba(255,255,255,0.45) 8%, transparent 9%); background-size: 80px 80px, 60px 60px; background-position: 0 0, 40px 40px; }
     .bg-bubbles-dark { background-image: radial-gradient(rgba(255,255,255,0.10) 12%, transparent 13%), radial-gradient(rgba(255,255,255,0.07) 8%, transparent 9%); background-size: 80px 80px, 60px 60px; background-position: 0 0, 40px 40px; }
 
+    /* ============ Dot grid moderno ============ */
+    .bg-dot-grid { background-image: radial-gradient(circle at center, rgba(255,255,255,0.12) 1px, transparent 1px); background-size: 24px 24px; }
+    .bg-dot-grid-light { background-image: radial-gradient(circle at center, rgba(15,42,77,0.08) 1px, transparent 1px); background-size: 24px 24px; }
+    .bg-dot-mesh { background-image: radial-gradient(circle at 25% 25%, rgba(27,117,188,0.06) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(63,174,42,0.05) 0%, transparent 50%); }
+
     /* ============ Bento ============ */
     .bento { transition: transform 300ms, box-shadow 300ms, border-color 300ms; }
-    .bento:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -16px rgb(27 117 188 / 0.20); border-color: var(--pc-blue-light); }
+    .bento:hover { transform: translateY(-3px); box-shadow: 0 24px 60px -30px rgba(27,117,188,0.4); border-color: var(--pc-blue-light); }
+
+    /* ============ Card moderna (border + ring) ============ */
+    .card-modern {
+      background: #fff;
+      border: 1px solid rgb(226 232 240 / 0.7);
+      box-shadow: 0 0 0 1px rgb(15 23 42 / 0.04), 0 1px 2px rgb(15 23 42 / 0.04);
+      transition: box-shadow 350ms cubic-bezier(.2,.8,.2,1), transform 350ms cubic-bezier(.2,.8,.2,1), border-color 350ms;
+    }
+    .card-modern:hover {
+      border-color: rgb(27 117 188 / 0.3);
+      box-shadow: 0 0 0 1px rgb(27 117 188 / 0.12), 0 24px 60px -30px rgba(27,117,188,0.4);
+      transform: translateY(-3px);
+    }
 
     /* ============ Link underline animado ============ */
     .link-anim { background-image: linear-gradient(currentColor, currentColor); background-size: 0% 2px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size 300ms ease; }
     .link-anim:hover { background-size: 100% 2px; }
+
+    /* ============ Nav link con underline scale ============ */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 12px; right: 12px; bottom: 4px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--pc-blue) 0%, var(--pc-green) 100%);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 300ms cubic-bezier(.2,.8,.2,1);
+    }
+    .nav-link:hover::after, .nav-link[aria-current="page"]::after { transform: scaleX(1); }
 
     /* ============ Botón con shine ============ */
     .btn-shine { position: relative; overflow: hidden; }
     .btn-shine::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%); transform: translateX(-100%); transition: transform 800ms; }
     .btn-shine:hover::after { transform: translateX(100%); }
 
+    /* ============ CTA con hover scale sutil ============ */
+    .cta-hover { transition: transform 250ms cubic-bezier(.2,.8,.2,1), box-shadow 250ms; }
+    .cta-hover:hover { transform: translateY(-1px) scale(1.02); }
+    .cta-hover:active { transform: translateY(0) scale(0.99); }
+
     /* ============ Botón WhatsApp ============ */
-    .btn-whatsapp { background-color: var(--pc-wa); color: #fff; border: none; }
-    .btn-whatsapp:hover { background-color: #1DA851; color: #fff; box-shadow: 0 12px 24px -8px rgb(37 211 102 / 0.45); }
+    .btn-whatsapp { background-color: var(--pc-wa); color: #fff; border: none; transition: background 250ms, box-shadow 250ms, transform 250ms; }
+    .btn-whatsapp:hover { background-color: #1DA851; color: #fff; box-shadow: 0 8px 40px -8px rgba(37,211,102,0.6); transform: translateY(-1px); }
     .btn-whatsapp:focus, .btn-whatsapp:active { background-color: #1DA851; color: #fff; }
+    .shadow-wa-glow { box-shadow: 0 8px 40px -8px rgba(37,211,102,0.6); }
+    .shadow-green-glow { box-shadow: 0 0 60px -20px rgba(63,174,42,0.6); }
+    .shadow-brand-glow { box-shadow: 0 24px 60px -30px rgba(27,117,188,0.4); }
 
     /* ============ Icon container ============ */
-    .icon-box { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border-radius: 0.75rem; }
+    .icon-box { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; }
     .icon-box [data-lucide] { width: 1.25rem; height: 1.25rem; stroke-width: 2; }
     .icon-box-green { background: #DCFCE7; color: var(--pc-green-dark); }
     .icon-box-blue { background: #DBEAFE; color: var(--pc-blue-dark); }
 
     /* ============ Counter ============ */
     .stat-num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; }
+    .tabular { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; }
 
     /* ============ Ribbon header (curva inferior) ============ */
     .ribbon-curve-bottom { clip-path: ellipse(120% 90% at 50% 0%); }
     .ribbon-curve-top { clip-path: ellipse(120% 90% at 50% 100%); }
+
+    /* ============ Reveal-up con stagger ============ */
+    .reveal-up { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1); }
+    .reveal-up.in { opacity: 1; transform: translateY(0); }
+    .reveal-up.stagger-1 { transition-delay: 80ms; }
+    .reveal-up.stagger-2 { transition-delay: 160ms; }
+    .reveal-up.stagger-3 { transition-delay: 240ms; }
+    .reveal-up.stagger-4 { transition-delay: 320ms; }
+    .reveal-up.stagger-5 { transition-delay: 400ms; }
+
+    /* ============ Star stagger ============ */
+    @keyframes starPop { 0% { transform: scale(0); opacity: 0; } 80% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+    .in .star-pop { animation: starPop 350ms cubic-bezier(.2,.8,.2,1) both; }
+    .in .star-pop:nth-child(1) { animation-delay: 0ms; }
+    .in .star-pop:nth-child(2) { animation-delay: 70ms; }
+    .in .star-pop:nth-child(3) { animation-delay: 140ms; }
+    .in .star-pop:nth-child(4) { animation-delay: 210ms; }
+    .in .star-pop:nth-child(5) { animation-delay: 280ms; }
   </style>
   <script>
     // Counter animation: cuenta de 0 al target cuando entra al viewport

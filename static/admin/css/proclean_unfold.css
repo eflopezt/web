@@ -1,1 +1,991 @@
-/* Overrides custom para Unfold + ProClean (opcional) */
+/* ============================================================================
+   ProClean × Unfold — Admin theme refinement
+   ----------------------------------------------------------------------------
+   Modernización SaaS 2026 sobre django-unfold (Linear / Stripe / Notion vibe).
+   Paleta: primary=#3FAE2A (verde), base=#1B75BC (azul), accent=#1A4F8B.
+   ============================================================================ */
+
+/* ---------------------------------------------------------------------------
+   1. Tipografía global (Inter + variantes modernas)
+   --------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --pc-primary:        #3FAE2A;  /* verde marca */
+    --pc-primary-soft:   #E8F7E2;
+    --pc-primary-hover:  #2E8B1F;
+    --pc-base:           #1B75BC;  /* azul marca */
+    --pc-base-soft:      #F0F9FF;
+    --pc-base-hover:     #15609E;
+    --pc-accent:         #1A4F8B;  /* azul oscuro */
+    --pc-bg:             #FFFFFF;
+    --pc-bg-muted:       #F8FAFC;
+    --pc-border:         #E5E7EB;
+    --pc-border-soft:    #F1F5F9;
+    --pc-row-hover:      #F8FAFF;
+    --pc-text:           #0F172A;
+    --pc-text-muted:     #64748B;
+    --pc-text-subtle:    #94A3B8;
+    --pc-danger:         #EF4444;
+    --pc-warning:        #F59E0B;
+    --pc-shadow-sm:      0 1px 2px rgba(15, 23, 42, 0.04);
+    --pc-shadow-md:      0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px -4px rgba(15, 23, 42, 0.06);
+    --pc-shadow-lg:      0 4px 8px -2px rgba(15, 23, 42, 0.06), 0 12px 24px -8px rgba(15, 23, 42, 0.10);
+    --pc-radius:         10px;
+    --pc-radius-sm:      8px;
+    --pc-radius-lg:      14px;
+}
+
+html, body,
+body.admin,
+body .admin {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif !important;
+    font-feature-settings: "ss01", "cv11", "cv02";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.005em;
+    color: var(--pc-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.012em;
+    font-weight: 600;
+}
+
+/* Material Symbols — peso 300 más fino + opsz 24 + grade -25 */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' -25, 'opsz' 24;
+    transition: font-variation-settings 200ms ease, color 200ms ease;
+}
+
+/* Transiciones suaves globales */
+a, button, input, select, textarea,
+.button, [role="button"] {
+    transition: background-color 180ms ease, color 180ms ease,
+                border-color 180ms ease, box-shadow 180ms ease,
+                transform 180ms ease;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Sidebar — logo, navegación, search
+   --------------------------------------------------------------------------- */
+
+/* Fondo blanco + border-right sutil (sin gradient) */
+#nav-sidebar,
+.bg-base-50.bottom-0.fixed {
+    background-color: #FFFFFF !important;
+    border-right: 1px solid var(--pc-border-soft) !important;
+    box-shadow: none !important;
+}
+
+#nav-sidebar-inner {
+    background-color: #FFFFFF !important;
+}
+
+/* Header del sidebar — más alto + padding generoso para el logo PNG */
+#nav-sidebar > div > div:first-child,
+nav#nav-sidebar-inner > div:first-child {
+    height: 80px !important;
+    min-height: 80px !important;
+    padding: 14px 18px !important;
+    border-bottom: 1px solid var(--pc-border-soft) !important;
+    margin-bottom: 18px !important;
+}
+
+/* Logo PNG real más grande dentro del header */
+#nav-sidebar-inner img,
+nav#nav-sidebar-inner img[alt="Home"] {
+    height: 44px !important;
+    width: auto !important;
+    max-width: 180px;
+    object-fit: contain;
+    margin-right: 8px !important;
+}
+
+/* Branding (texto al lado del logo) en el header */
+#nav-sidebar-inner .text-important,
+nav#nav-sidebar-inner > div:first-child .tracking-tight {
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--pc-accent);
+    font-size: 15px;
+}
+#nav-sidebar-inner .text-subtle.text-xs {
+    color: var(--pc-text-muted) !important;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+}
+
+/* Search input estilo pill con border azul claro */
+#nav-sidebar-inner #nav-filter,
+#nav-sidebar-inner input[type="search"] {
+    border-radius: 999px !important;
+    background-color: var(--pc-bg-muted) !important;
+    border: 1px solid var(--pc-border-soft) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 13px;
+}
+#nav-sidebar-inner #nav-filter:focus,
+#nav-sidebar-inner .focus-within\:outline-primary-600:focus-within {
+    outline: none !important;
+    border-color: var(--pc-base) !important;
+    box-shadow: 0 0 0 3px rgba(27, 117, 188, 0.12) !important;
+    background-color: #FFFFFF !important;
+}
+/* Contenedor del search también pill */
+#nav-sidebar-inner .mb-2\.5.mx-3 > div:first-child {
+    border-radius: 999px !important;
+    background-color: var(--pc-bg-muted) !important;
+    border-color: var(--pc-border-soft) !important;
+    box-shadow: none !important;
+    padding-left: 12px !important;
+}
+
+/* Section headers ("Catálogo", "Comercial") */
+#nav-sidebar-apps h2 {
+    text-transform: uppercase;
+    letter-spacing: 0.08em !important;
+    font-size: 11px !important;
+    color: var(--pc-text-subtle) !important;
+    font-weight: 600 !important;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+/* Separador hr entre secciones — más sutil */
+#nav-sidebar-apps hr {
+    border-color: var(--pc-border-soft) !important;
+    margin: 14px 24px !important;
+}
+
+/* Items del menú — hover azul claro + border-left verde */
+#nav-sidebar-apps ol li a {
+    position: relative;
+    border-radius: 8px !important;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--pc-text) !important;
+    padding-left: 14px !important;
+    padding-right: 12px !important;
+    height: 40px !important;
+    overflow: hidden;
+}
+
+#nav-sidebar-apps ol li a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: transparent;
+    transition: background 180ms ease;
+}
+
+#nav-sidebar-apps ol li a:hover {
+    background-color: var(--pc-base-soft) !important;
+    color: var(--pc-accent) !important;
+}
+#nav-sidebar-apps ol li a:hover::before {
+    background: var(--pc-primary);
+}
+
+/* Item activo: gradient sutil verde→blanco + texto verde */
+#nav-sidebar-apps ol li a.active,
+#nav-sidebar-apps ol li a.font-semibold.text-primary-600 {
+    background: linear-gradient(90deg, var(--pc-primary-soft) 0%, #FFFFFF 90%) !important;
+    color: var(--pc-primary-hover) !important;
+    font-weight: 600 !important;
+}
+#nav-sidebar-apps ol li a.active::before,
+#nav-sidebar-apps ol li a.font-semibold.text-primary-600::before {
+    background: var(--pc-primary);
+}
+
+/* Iconos dentro del sidebar */
+#nav-sidebar-apps ol li a .material-symbols-outlined {
+    font-variation-settings: 'wght' 300, 'GRAD' -25, 'opsz' 20;
+    color: var(--pc-text-muted);
+    font-size: 19px !important;
+}
+#nav-sidebar-apps ol li a:hover .material-symbols-outlined {
+    color: var(--pc-base);
+}
+#nav-sidebar-apps ol li a.active .material-symbols-outlined,
+#nav-sidebar-apps ol li a.font-semibold.text-primary-600 .material-symbols-outlined {
+    color: var(--pc-primary);
+}
+
+/* ---------------------------------------------------------------------------
+   3. Header superior (top bar)
+   --------------------------------------------------------------------------- */
+
+#header,
+header#header,
+body > div.relative > header {
+    border-bottom: 1px solid var(--pc-border-soft) !important;
+    box-shadow: none !important;
+    background-color: #FFFFFF !important;
+}
+
+/* Breadcrumb separator › */
+.breadcrumbs,
+nav[aria-label="Breadcrumbs"],
+[role="navigation"][aria-label*="readcrumb"] {
+    font-size: 13px;
+    color: var(--pc-text-muted);
+}
+
+/* Si Unfold usa "/" textual entre items de breadcrumb, lo reemplazamos */
+.breadcrumbs > span + span::before,
+nav[aria-label="Breadcrumbs"] li + li::before {
+    content: "›" !important;
+    color: var(--pc-text-subtle);
+    margin: 0 6px;
+    font-weight: 400;
+}
+
+/* User dropdown — avatar circular */
+.navigation_user img,
+#nav-sidebar-inner [class*="rounded-full"] {
+    border-radius: 999px !important;
+    box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 3px var(--pc-border-soft);
+}
+
+/* ---------------------------------------------------------------------------
+   4. Dashboard — cards de modelos (app_list)
+   --------------------------------------------------------------------------- */
+
+/* Card de cada app */
+.app-catalogo .bg-base-50,
+.app-clientes .bg-base-50,
+.app-cotizaciones .bg-base-50,
+.app-pedidos .bg-base-50,
+.app-facturacion .bg-base-50,
+.app-intranet .bg-base-50,
+.app-portal .bg-base-50,
+.app-auth .bg-base-50,
+.app-core .bg-base-50,
+[class*="app-"] .bg-base-50 {
+    background-color: #FFFFFF !important;
+    border-radius: var(--pc-radius-lg) !important;
+    border: 1px solid var(--pc-border-soft);
+    box-shadow: var(--pc-shadow-md);
+    padding: 18px !important;
+    margin-bottom: 18px !important;
+    transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+[class*="app-"] .bg-base-50:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pc-shadow-lg);
+}
+
+/* Caption (nombre de la app) — más grande, con barra de color a la izquierda */
+[class*="app-"] table caption {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pc-accent) !important;
+    padding: 4px 0 10px 12px !important;
+    border-left: 3px solid var(--pc-primary);
+    margin-bottom: 10px !important;
+}
+[class*="app-"] table caption a {
+    color: var(--pc-accent) !important;
+    text-decoration: none;
+}
+[class*="app-"] table caption a:hover {
+    color: var(--pc-primary-hover) !important;
+}
+
+/* Tabla dentro de la card */
+[class*="app-"] table {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: var(--pc-radius-sm) !important;
+    overflow: hidden;
+}
+
+/* Filas de modelos */
+[class*="app-"] table tr {
+    background-color: #FFFFFF !important;
+    transition: background-color 160ms ease;
+}
+[class*="app-"] table tr:hover {
+    background-color: var(--pc-bg-muted) !important;
+}
+[class*="app-"] table tr th,
+[class*="app-"] table tr td {
+    border-bottom: 1px solid var(--pc-border-soft) !important;
+    padding: 14px 12px !important;
+}
+[class*="app-"] table tr:last-child th,
+[class*="app-"] table tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Link al modelo */
+[class*="app-"] table tr th a {
+    color: var(--pc-text) !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+[class*="app-"] table tr th a:hover {
+    color: var(--pc-base) !important;
+}
+
+/* Botones Añadir / Modificar — colores brand */
+[class*="app-"] .addlink {
+    color: var(--pc-primary) !important;
+    background: var(--pc-primary-soft);
+    border-radius: 8px;
+    padding: 6px;
+    line-height: 0;
+}
+[class*="app-"] .addlink:hover {
+    color: #FFFFFF !important;
+    background: var(--pc-primary) !important;
+    transform: scale(1.06);
+}
+[class*="app-"] .changelink,
+[class*="app-"] .viewlink {
+    color: var(--pc-base) !important;
+    background: var(--pc-base-soft);
+    border-radius: 8px;
+    padding: 6px;
+    line-height: 0;
+}
+[class*="app-"] .changelink:hover,
+[class*="app-"] .viewlink:hover {
+    color: #FFFFFF !important;
+    background: var(--pc-base) !important;
+    transform: scale(1.06);
+}
+
+/* ---------------------------------------------------------------------------
+   5. Tablas / Changelist
+   --------------------------------------------------------------------------- */
+
+#result_list,
+.results table,
+table#result_list {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100%;
+}
+
+/* Header de columnas — uppercase + tracking + tamaño pequeño */
+#result_list thead th,
+.results thead th {
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: var(--pc-text-muted) !important;
+    background-color: var(--pc-bg-muted) !important;
+    border-bottom: 1px solid var(--pc-border) !important;
+    border-top: 1px solid var(--pc-border-soft) !important;
+    padding: 14px 12px !important;
+    height: 44px;
+}
+
+/* Filas — altura generosa + hover */
+#result_list tbody tr,
+.results tbody tr {
+    background-color: #FFFFFF !important;
+    transition: background-color 140ms ease;
+}
+#result_list tbody tr:hover,
+.results tbody tr:hover {
+    background-color: var(--pc-row-hover) !important;
+}
+#result_list tbody td,
+#result_list tbody th,
+.results tbody td,
+.results tbody th {
+    padding: 16px 12px !important;
+    height: 56px;
+    font-size: 13.5px !important;
+    border-bottom: 1px solid var(--pc-border-soft) !important;
+    vertical-align: middle !important;
+}
+
+/* Links dentro de la tabla */
+#result_list a,
+.results a {
+    color: var(--pc-base) !important;
+    font-weight: 500;
+    text-decoration: none;
+}
+#result_list a:hover,
+.results a:hover {
+    color: var(--pc-accent) !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Checkboxes — alineación */
+#result_list input[type="checkbox"],
+.results input[type="checkbox"] {
+    accent-color: var(--pc-primary);
+    width: 16px;
+    height: 16px;
+}
+
+/* Paginación — botones pill brand */
+.paginator,
+nav.pagination,
+.pagination {
+    margin-top: 18px !important;
+    padding: 12px 0 !important;
+    border-top: 1px solid var(--pc-border-soft);
+    font-size: 13px;
+    color: var(--pc-text-muted);
+}
+.paginator a,
+.pagination a,
+nav.pagination a {
+    border-radius: 999px !important;
+    padding: 6px 12px !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid var(--pc-border) !important;
+    color: var(--pc-base) !important;
+    font-weight: 500;
+    margin: 0 2px;
+}
+.paginator a:hover,
+.pagination a:hover {
+    background-color: var(--pc-base) !important;
+    color: #FFFFFF !important;
+    border-color: var(--pc-base) !important;
+}
+.paginator .this-page,
+.pagination .current {
+    background-color: var(--pc-base) !important;
+    color: #FFFFFF !important;
+    border-radius: 999px !important;
+    padding: 6px 12px !important;
+    font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   6. Filtros sidebar (changelist filter)
+   --------------------------------------------------------------------------- */
+
+#changelist-filter,
+.changelist-filter,
+[data-filter-vertical] {
+    background-color: #FFFFFF !important;
+    border-radius: var(--pc-radius-lg) !important;
+    border: 1px solid var(--pc-border-soft) !important;
+    box-shadow: var(--pc-shadow-sm);
+    padding: 12px !important;
+}
+
+#changelist-filter h3,
+.changelist-filter h3 {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 11px !important;
+    color: var(--pc-text-muted) !important;
+    font-weight: 600 !important;
+    margin-bottom: 6px;
+}
+
+#changelist-filter > details,
+.changelist-filter > details {
+    border-radius: var(--pc-radius-sm);
+    border: 1px solid var(--pc-border-soft);
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    background: #FFFFFF;
+}
+#changelist-filter > details[open],
+.changelist-filter > details[open] {
+    background: var(--pc-bg-muted);
+}
+
+/* Chip filtro activo */
+#changelist-filter li.selected a,
+.changelist-filter li.selected a,
+#changelist-filter a.selected,
+.filtered .selected {
+    background-color: var(--pc-base) !important;
+    color: #FFFFFF !important;
+    border-radius: 999px !important;
+    padding: 4px 12px !important;
+    font-weight: 500;
+    font-size: 12.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Botón Borrar filtros — ghost rojo */
+.clear-filters,
+#changelist-filter-extra-actions a[href*="?"],
+a.deletelink-box {
+    color: var(--pc-danger) !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    padding: 4px 10px !important;
+    font-size: 12px;
+    font-weight: 500;
+}
+.clear-filters:hover {
+    background: rgba(239, 68, 68, 0.08) !important;
+    border-color: rgba(239, 68, 68, 0.25) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   7. Forms (add/change)
+   --------------------------------------------------------------------------- */
+
+/* Inputs / Selects / Textareas */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+select,
+textarea,
+.vTextField,
+.vIntegerField,
+.vForeignKeyRawIdAdminField,
+.vURLField,
+.vDateField,
+.vTimeField,
+.vDateTimeField {
+    border-radius: var(--pc-radius-sm) !important;
+    border: 1px solid var(--pc-border) !important;
+    background-color: #FFFFFF !important;
+    padding: 9px 12px !important;
+    font-size: 14px !important;
+    font-family: inherit !important;
+    color: var(--pc-text) !important;
+    box-shadow: var(--pc-shadow-sm);
+}
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="time"]:focus,
+select:focus,
+textarea:focus {
+    outline: none !important;
+    border-color: var(--pc-base) !important;
+    box-shadow: 0 0 0 2px rgba(27, 117, 188, 0.18) !important;
+}
+
+/* Labels */
+form label,
+.form-row label,
+fieldset label,
+.fieldBox label {
+    font-weight: 600 !important;
+    color: var(--pc-accent) !important;
+    font-size: 13px !important;
+    letter-spacing: 0.005em;
+}
+
+/* Fieldsets */
+fieldset.module,
+.fieldset {
+    background: #FFFFFF !important;
+    border: 1px solid var(--pc-border-soft) !important;
+    border-radius: var(--pc-radius-lg) !important;
+    box-shadow: var(--pc-shadow-sm);
+    padding: 18px 22px !important;
+    margin-bottom: 16px !important;
+}
+fieldset.module h2,
+fieldset.collapse h2,
+.fieldset > h2 {
+    font-size: 13px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pc-text-muted) !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid var(--pc-border-soft);
+    padding-bottom: 10px;
+    margin-bottom: 14px !important;
+    background: transparent !important;
+}
+
+/* Help text */
+.help,
+.helptext {
+    font-size: 12px !important;
+    color: var(--pc-text-muted) !important;
+    margin-top: 4px;
+    font-style: normal !important;
+}
+
+/* Errors */
+.errornote,
+.errorlist {
+    background-color: rgba(239, 68, 68, 0.08) !important;
+    border: 1px solid rgba(239, 68, 68, 0.25) !important;
+    color: var(--pc-danger) !important;
+    border-radius: var(--pc-radius-sm) !important;
+    padding: 10px 14px !important;
+    font-size: 13px;
+}
+
+/* Submit row — sticky bottom con shadow superior */
+.submit-row {
+    position: sticky;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--pc-border-soft) !important;
+    box-shadow: 0 -8px 24px -10px rgba(15, 23, 42, 0.10);
+    padding: 14px 18px !important;
+    border-radius: 0 !important;
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    z-index: 30;
+}
+
+/* Botones genéricos */
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row a.button,
+a.button {
+    border-radius: var(--pc-radius-sm) !important;
+    padding: 9px 18px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent !important;
+    cursor: pointer;
+    box-shadow: var(--pc-shadow-sm);
+    line-height: 1.4 !important;
+}
+
+/* Primary (Guardar) — verde */
+input[type="submit"].default,
+.submit-row input[name="_save"],
+input[name="_save"] {
+    background-color: var(--pc-primary) !important;
+    color: #FFFFFF !important;
+}
+input[type="submit"].default:hover,
+input[name="_save"]:hover {
+    background-color: var(--pc-primary-hover) !important;
+    box-shadow: var(--pc-shadow-md);
+    transform: translateY(-1px);
+}
+
+/* Guardar y continuar — azul */
+input[name="_continue"] {
+    background-color: var(--pc-base) !important;
+    color: #FFFFFF !important;
+}
+input[name="_continue"]:hover {
+    background-color: var(--pc-base-hover) !important;
+    box-shadow: var(--pc-shadow-md);
+    transform: translateY(-1px);
+}
+
+/* Guardar y añadir otro — outline azul */
+input[name="_addanother"] {
+    background-color: #FFFFFF !important;
+    color: var(--pc-base) !important;
+    border: 1px solid var(--pc-base) !important;
+}
+input[name="_addanother"]:hover {
+    background-color: var(--pc-base-soft) !important;
+}
+
+/* Eliminar — rojo */
+.deletelink,
+a.deletelink,
+.submit-row a.deletelink,
+input[type="submit"].deletelink {
+    background-color: #FFFFFF !important;
+    color: var(--pc-danger) !important;
+    border: 1px solid rgba(239, 68, 68, 0.35) !important;
+    margin-left: auto;
+}
+.deletelink:hover,
+a.deletelink:hover {
+    background-color: var(--pc-danger) !important;
+    color: #FFFFFF !important;
+    border-color: var(--pc-danger) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   8. Acciones (action bar) + búsqueda en changelist
+   --------------------------------------------------------------------------- */
+
+#changelist-search input[type="text"],
+#searchbar {
+    border-radius: 999px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    background-color: #FFFFFF !important;
+}
+
+.actions {
+    background-color: var(--pc-bg-muted) !important;
+    border: 1px solid var(--pc-border-soft) !important;
+    border-radius: var(--pc-radius-sm) !important;
+    padding: 10px 14px !important;
+    margin-bottom: 12px !important;
+}
+
+/* Object-tools (Añadir botón en la esquina superior derecha) */
+.object-tools a,
+.object-tools .addlink {
+    background-color: var(--pc-primary) !important;
+    color: #FFFFFF !important;
+    border-radius: var(--pc-radius-sm) !important;
+    padding: 8px 16px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    letter-spacing: 0.01em;
+    box-shadow: var(--pc-shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.object-tools a:hover,
+.object-tools .addlink:hover {
+    background-color: var(--pc-primary-hover) !important;
+    box-shadow: var(--pc-shadow-md);
+    transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------------------------
+   9. Messages / notifications
+   --------------------------------------------------------------------------- */
+
+.messagelist li,
+ul.messagelist li {
+    border-radius: var(--pc-radius-sm) !important;
+    border: 1px solid var(--pc-border-soft);
+    padding: 12px 16px !important;
+    font-size: 13.5px;
+    font-weight: 500;
+    box-shadow: var(--pc-shadow-sm);
+    background-color: var(--pc-primary-soft) !important;
+    color: var(--pc-primary-hover) !important;
+    border-left: 4px solid var(--pc-primary) !important;
+}
+.messagelist .warning {
+    background-color: #FEF3C7 !important;
+    color: #92400E !important;
+    border-left-color: var(--pc-warning) !important;
+}
+.messagelist .error {
+    background-color: rgba(239, 68, 68, 0.08) !important;
+    color: var(--pc-danger) !important;
+    border-left-color: var(--pc-danger) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   10. Scrollbars custom + focus visible
+   --------------------------------------------------------------------------- */
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--pc-base) transparent;
+}
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+    background: rgba(27, 117, 188, 0.35);
+    border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--pc-base);
+}
+
+:focus-visible {
+    outline: 2px solid var(--pc-base) !important;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   11. Inlines (relacionados)
+   --------------------------------------------------------------------------- */
+
+.inline-group,
+.inline-related {
+    border-radius: var(--pc-radius-lg) !important;
+    border: 1px solid var(--pc-border-soft);
+    background: #FFFFFF;
+    margin-bottom: 14px;
+    box-shadow: var(--pc-shadow-sm);
+}
+.inline-group .tabular,
+.inline-group .module {
+    background: transparent !important;
+}
+.inline-group h2 {
+    background: var(--pc-bg-muted) !important;
+    color: var(--pc-accent) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 12px !important;
+    padding: 10px 16px !important;
+    border-bottom: 1px solid var(--pc-border-soft);
+    border-radius: var(--pc-radius-lg) var(--pc-radius-lg) 0 0;
+}
+.add-row a {
+    color: var(--pc-primary) !important;
+    font-weight: 600 !important;
+    font-size: 13px;
+}
+.add-row a::before {
+    content: "＋ ";
+    font-weight: 700;
+}
+
+/* ---------------------------------------------------------------------------
+   12. Modo oscuro — mantener paleta ProClean (verde/azul)
+   --------------------------------------------------------------------------- */
+
+.dark #nav-sidebar,
+.dark nav#nav-sidebar-inner {
+    background-color: #0B1220 !important;
+    border-right-color: rgba(255, 255, 255, 0.05) !important;
+}
+.dark #nav-sidebar-inner .text-important {
+    color: #E2E8F0 !important;
+}
+.dark #nav-sidebar-apps ol li a {
+    color: #CBD5E1 !important;
+}
+.dark #nav-sidebar-apps ol li a:hover {
+    background-color: rgba(27, 117, 188, 0.15) !important;
+    color: #FFFFFF !important;
+}
+.dark #nav-sidebar-apps ol li a.active,
+.dark #nav-sidebar-apps ol li a.font-semibold.text-primary-600 {
+    background: linear-gradient(90deg, rgba(63, 174, 42, 0.20) 0%, transparent 90%) !important;
+    color: #86EFAC !important;
+}
+.dark [class*="app-"] .bg-base-50 {
+    background-color: #111827 !important;
+    border-color: rgba(255, 255, 255, 0.06);
+}
+.dark [class*="app-"] table tr {
+    background-color: #111827 !important;
+}
+.dark [class*="app-"] table tr:hover {
+    background-color: #0F172A !important;
+}
+.dark #result_list thead th,
+.dark .results thead th {
+    background-color: #0B1220 !important;
+    color: #94A3B8 !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+}
+.dark #result_list tbody tr,
+.dark .results tbody tr {
+    background-color: #111827 !important;
+}
+.dark #result_list tbody tr:hover,
+.dark .results tbody tr:hover {
+    background-color: rgba(27, 117, 188, 0.08) !important;
+}
+.dark fieldset.module {
+    background: #111827 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+}
+.dark input[type="text"],
+.dark input[type="number"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark select,
+.dark textarea {
+    background-color: #0F172A !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #E2E8F0 !important;
+}
+.dark .submit-row {
+    background-color: rgba(11, 18, 32, 0.92) !important;
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   13. Detalles finales (badges, tags, misc)
+   --------------------------------------------------------------------------- */
+
+/* Badge / tag genérico */
+.badge,
+.tag,
+span.label {
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* Selects nativos en filtros mostrar caret */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 32px !important;
+}
+
+/* Tooltips / dropdowns shadow */
+[role="menu"],
+.dropdown-menu,
+.cmd-palette {
+    box-shadow: var(--pc-shadow-lg) !important;
+    border: 1px solid var(--pc-border-soft) !important;
+    border-radius: var(--pc-radius-lg) !important;
+}
+
+/* Loading spinner color brand */
+.htmx-request .htmx-indicator,
+.spinner {
+    border-top-color: var(--pc-primary) !important;
+}
+
+/* Imágenes en changelist (avatares de productos) */
+#result_list img,
+.results img {
+    border-radius: 8px;
+    border: 1px solid var(--pc-border-soft);
+    object-fit: cover;
+}
