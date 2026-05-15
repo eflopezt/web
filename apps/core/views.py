@@ -150,6 +150,45 @@ def home(request):
     )
 
 
+def home_v2(request):
+    """Versión sales-first: productos arriba, hero compacto, secundarias al final."""
+    qs = Producto.objects.filter(activo=True).select_related("categoria", "marca")
+    productos_destacados = list(
+        qs.filter(destacado=True, disponibilidad="en_stock")
+        .order_by("-id")[:24]
+    )
+    if len(productos_destacados) < 24:
+        # Completar con productos en_stock no destacados
+        ids_existentes = [p.id for p in productos_destacados]
+        relleno = list(
+            qs.filter(disponibilidad="en_stock")
+            .exclude(id__in=ids_existentes)
+            .order_by("-id")[: 24 - len(productos_destacados)]
+        )
+        productos_destacados.extend(relleno)
+
+    categorias = Categoria.objects.filter(activa=True).order_by("orden", "nombre")
+    # Productos por categoría top (3-4 productos por categoría visible)
+    productos_por_categoria = []
+    for cat in categorias[:6]:
+        productos_cat = list(
+            qs.filter(categoria=cat).order_by("-destacado", "-id")[:4]
+        )
+        if productos_cat:
+            productos_por_categoria.append({"categoria": cat, "productos": productos_cat})
+
+    return render(
+        request,
+        "core/home_v2.html",
+        {
+            "productos_destacados": productos_destacados,
+            "productos_por_categoria": productos_por_categoria,
+            "categorias": categorias[:12],
+            "industrias_home": INDUSTRIAS_HOME,
+        },
+    )
+
+
 def nosotros(request):
     return render(request, "core/nosotros.html")
 

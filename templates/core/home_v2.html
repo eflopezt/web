@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static humanize producto_extras %}
+{% block title %}{{ SITE_BRAND }} — Catálogo de productos de limpieza{% endblock %}
+
+{% block content %}
+
+<!-- ============ HERO COMPACTO con buscador + CTA WhatsApp ============ -->
+<section class="relative bg-gradient-brand text-white overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-60"></div>
+  <div class="absolute -bottom-20 -right-20 w-[400px] h-[400px] rounded-full bg-secondary/25 blur-3xl"></div>
+
+  <div class="container mx-auto px-4 py-8 sm:py-10 relative">
+    <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+      <div class="text-center lg:text-left">
+        <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 rounded-full px-3 py-1 text-xs font-semibold tracking-wide backdrop-blur">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+          {{ SITE_DELIVERY_AREA }}
+        </span>
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight mt-3">
+          Catálogo completo de <span class="text-gradient-light">limpieza profesional</span>
+        </h1>
+        <p class="text-sm sm:text-base text-white/85 mt-1">
+          Las marcas más solicitadas. Cotiza al instante por WhatsApp.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto lg:max-w-lg">
+        <form action="{% url 'catalogo:lista' %}" method="get" class="flex-1 flex">
+          <input type="search" name="q"
+                 placeholder="¿Qué producto buscas?"
+                 class="input input-bordered w-full text-base text-base-content rounded-r-none"/>
+          <button type="submit" class="btn btn-secondary rounded-l-none font-bold">Buscar</button>
+        </form>
+        <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+           class="btn-whatsapp btn-shine font-bold px-6 h-12 rounded-full inline-flex items-center justify-center gap-2 shadow-xl whitespace-nowrap">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- Chips de categorías rápidos -->
+    <div class="mt-5 flex flex-wrap gap-2 justify-center lg:justify-start">
+      {% for cat in categorias %}
+      <a href="{{ cat.get_absolute_url }}"
+         class="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-full transition backdrop-blur">
+        {{ cat.nombre }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTOS DESTACADOS — primera vista al scroll ============ -->
+<section class="bg-bubbles relative">
+  <div class="absolute inset-0 bg-base-200/60"></div>
+  <div class="container mx-auto px-4 py-8 sm:py-12 relative">
+    <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
+      <div>
+        <span class="text-xs font-bold tracking-[0.25em] uppercase text-secondary">Lo más vendido</span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-accent mt-1">Productos destacados</h2>
+      </div>
+      <a href="{% url 'catalogo:lista' %}"
+         class="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:gap-2.5 transition-all">
+        Ver catálogo completo <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
+      {% for p in productos_destacados %}
+        {% include "catalogo/_card.html" with producto=p %}
+      {% empty %}
+        <div class="col-span-full text-center text-slate-500 py-8">
+          Aún no hay productos destacados disponibles.
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ FRANJA WHATSAPP ============ -->
+<section class="bg-gradient-green relative overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-40"></div>
+  <div class="container mx-auto px-4 py-6 sm:py-8 relative">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-white">
+      <div class="text-center md:text-left">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/85">¿Cantidades especiales?</p>
+        <h3 class="text-xl sm:text-2xl font-extrabold mt-0.5">Pide tu cotización por WhatsApp</h3>
+      </div>
+      <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+         class="bg-white text-secondary font-extrabold px-6 sm:px-8 h-12 sm:h-14 rounded-full inline-flex items-center gap-3 text-base sm:text-lg shadow-xl hover:scale-105 transition">
+        <svg class="h-5 w-5 text-[#25D366]" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+        {{ SITE_WHATSAPP_DISPLAY }}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTOS POR CATEGORÍA ============ -->
+{% for grupo in productos_por_categoria %}
+<section class="container mx-auto px-4 py-8 sm:py-10 {% if not forloop.last %}border-b border-base-200{% endif %}">
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+    <div class="flex items-center gap-3">
+      {% producto_ilustracion grupo.productos.0 as ilus %}
+      <img src="{% static ilus %}" alt="{{ grupo.categoria.nombre }}" class="w-10 h-10 sm:w-12 sm:h-12 object-contain"/>
+      <div>
+        <span class="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-secondary">Categoría</span>
+        <h2 class="text-lg sm:text-2xl font-extrabold text-accent leading-tight">{{ grupo.categoria.nombre }}</h2>
+      </div>
+    </div>
+    <a href="{{ grupo.categoria.get_absolute_url }}"
+       class="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-primary hover:gap-2 transition-all">
+      Ver todos <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+    </a>
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+    {% for p in grupo.productos %}
+      {% include "catalogo/_card.html" with producto=p %}
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<!-- ============ MARCAS (compacto) ============ -->
+<section class="bg-base-200 border-y border-base-300 py-6 sm:py-8 overflow-hidden">
+  <p class="text-center text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase text-slate-500 mb-4">Distribuimos las marcas más solicitadas</p>
+  <div class="marquee-mask">
+    <div class="flex gap-8 sm:gap-12 animate-marquee w-max">
+      {% for _ in "12" %}
+      <div class="flex items-center gap-8 sm:gap-12 px-4 sm:px-6 whitespace-nowrap">
+        <span class="text-lg sm:text-xl font-extrabold text-primary/80">Elite</span>
+        <span class="text-lg sm:text-xl font-extrabold text-secondary/80">Kimberly-Clark</span>
+        <span class="text-lg sm:text-xl font-extrabold text-accent/80">Sapolio</span>
+        <span class="text-lg sm:text-xl font-extrabold text-primary/80">Wypall</span>
+        <span class="text-lg sm:text-xl font-extrabold text-secondary/80">3M</span>
+        <span class="text-lg sm:text-xl font-extrabold text-accent/80">Clorox</span>
+        <span class="text-lg sm:text-xl font-extrabold text-primary/80">Poett</span>
+        <span class="text-lg sm:text-xl font-extrabold text-secondary/80">FBK</span>
+        <span class="text-lg sm:text-xl font-extrabold text-accent/80">Daryza</span>
+        <span class="text-lg sm:text-xl font-extrabold text-primary/80">Bess</span>
+        <span class="text-lg sm:text-xl font-extrabold text-secondary/80">Esral</span>
+        <span class="text-lg sm:text-xl font-extrabold text-accent/80">Bafagón</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ POR QUÉ ELEGIRNOS — compacto 3 cards en fila ============ -->
+<section class="container mx-auto px-4 py-8 sm:py-10">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+    <div class="bg-white border border-base-300 rounded-xl p-5 flex items-start gap-4">
+      <div class="icon-box icon-box-green shrink-0"><i data-lucide="shield-check"></i></div>
+      <div>
+        <h3 class="font-extrabold text-accent">Calidad garantizada</h3>
+        <p class="text-sm text-slate-600 mt-1 leading-snug">Marcas líderes del mercado peruano: Elite, Sapolio, Kimberly, 3M.</p>
+      </div>
+    </div>
+    <div class="bg-white border border-base-300 rounded-xl p-5 flex items-start gap-4">
+      <div class="icon-box icon-box-blue shrink-0"><i data-lucide="truck"></i></div>
+      <div>
+        <h3 class="font-extrabold text-accent">Entregas rápidas</h3>
+        <p class="text-sm text-slate-600 mt-1 leading-snug">{{ SITE_DELIVERY_AREA }}. Despacho 24-48 h.</p>
+      </div>
+    </div>
+    <div class="bg-white border border-base-300 rounded-xl p-5 flex items-start gap-4">
+      <div class="icon-box icon-box-green shrink-0"><i data-lucide="receipt"></i></div>
+      <div>
+        <h3 class="font-extrabold text-accent">Factura SUNAT</h3>
+        <p class="text-sm text-slate-600 mt-1 leading-snug">100% facturación electrónica con XML y PDF al correo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL grande ============ -->
+<section class="bg-gradient-brand text-white relative overflow-hidden">
+  <div class="absolute inset-0 bg-bubbles-dark opacity-50"></div>
+  <div class="container mx-auto px-4 py-10 sm:py-14 relative text-center">
+    <h2 class="text-2xl sm:text-4xl font-black tracking-tight">¿Listo para tu cotización?</h2>
+    <p class="text-white/85 mt-2 text-base sm:text-lg max-w-xl mx-auto">
+      Atención inmediata por WhatsApp. Te enviamos precios y plazos en minutos.
+    </p>
+    <a href="{{ SITE_WHATSAPP_URL }}" target="_blank" rel="noopener"
+       class="btn-whatsapp btn-shine font-bold px-8 h-14 rounded-full inline-flex items-center gap-3 text-lg shadow-2xl mt-6">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.92.5 3.78 1.44 5.41L2 22l4.79-1.55a9.86 9.86 0 0 0 5.25 1.43c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/></svg>
+      Cotizar a {{ SITE_WHATSAPP_DISPLAY }}
+    </a>
+  </div>
+</section>
+
+{% endblock %}
