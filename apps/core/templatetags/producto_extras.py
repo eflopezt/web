@@ -127,6 +127,18 @@ def producto_ilustracion(producto):
 
 
 @register.simple_tag
+def producto_ilustracion_categoria(categoria):
+    """Versión para `Categoria` directamente (no necesita producto)."""
+    if not categoria:
+        return "img/categorias/detergentes.svg"
+    cat = (categoria.nombre or "").lower()
+    for key, file in ILUSTRACION_MAPPING:
+        if key in cat:
+            return f"img/categorias/{file}"
+    return "img/categorias/detergentes.svg"
+
+
+@register.simple_tag
 def whatsapp_url(mensaje=""):
     """Genera link wa.me con mensaje pre-rellenado.
 

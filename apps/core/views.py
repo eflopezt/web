@@ -131,12 +131,22 @@ INDUSTRIAS_HOME = [
 ]
 
 
+PASOS_COMPRA = [
+    ("1", "search", "Explora el catálogo",
+     "Más de 160 productos por categoría. Busca por nombre, marca o SKU sin necesidad de registrarte."),
+    ("2", "message-circle", "Cotiza por WhatsApp",
+     "Click en 'Cotizar por WhatsApp' y te respondemos con precio y plazos en menos de 24 h hábiles."),
+    ("3", "truck", "Recibe tu pedido",
+     "Despacho en 24-48 h a Lima y Callao, gratis. Factura SUNAT al correo al confirmar."),
+]
+
+
 def home(request):
     productos_destacados = (
         Producto.objects.filter(activo=True, destacado=True)
         .select_related("categoria", "marca")[:8]
     )
-    categorias = Categoria.objects.filter(activa=True).order_by("orden", "nombre")[:8]
+    categorias = Categoria.objects.filter(activa=True).order_by("orden", "nombre")[:12]
     return render(
         request,
         "core/home.html",
@@ -144,7 +154,8 @@ def home(request):
             "productos_destacados": productos_destacados,
             "categorias": categorias,
             "pasos": PASOS,
-            "faqs": FAQS[:3],
+            "pasos_compra": PASOS_COMPRA,
+            "faqs": FAQS[:5],
             "industrias_home": INDUSTRIAS_HOME,
         },
     )
