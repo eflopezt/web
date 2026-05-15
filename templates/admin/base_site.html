@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | ProClean Admin{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/css/proclean_admin.css' %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}"/>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}">
+    <img src="{% static 'img/logo-real.png' %}" alt="ProClean" style="height:28px;vertical-align:middle;margin-right:10px;background:#fff;padding:3px 6px;border-radius:6px"/>
+    <span style="vertical-align:middle">ProClean · Backoffice</span>
+  </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

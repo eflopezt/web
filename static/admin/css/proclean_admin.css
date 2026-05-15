@@ -1,0 +1,240 @@
+/* ProClean Admin — overrides de Django admin con paleta de marca */
+
+:root {
+  --primary: #1B75BC;
+  --secondary: #3FAE2A;
+  --accent: #1A4F8B;
+  --primary-fg: #ffffff;
+  --link-fg: #1B75BC;
+  --link-hover-color: #1A4F8B;
+  --link-selected-fg: #3FAE2A;
+  --header-bg: #1A4F8B;
+  --header-link-color: #ffffff;
+  --header-color: #ffffff;
+  --breadcrumbs-fg: #1B75BC;
+  --breadcrumbs-link-fg: #1B75BC;
+  --breadcrumbs-bg: #F0F9FF;
+  --button-bg: #1B75BC;
+  --button-fg: #ffffff;
+  --button-hover-bg: #1A4F8B;
+  --default-button-bg: #3FAE2A;
+  --default-button-hover-bg: #2E8B1F;
+  --close-button-bg: #94A3B8;
+  --delete-button-bg: #DC2626;
+  --object-tools-bg: #1B75BC;
+  --object-tools-hover-bg: #1A4F8B;
+  --selected-bg: #E6F3FB;
+  --selected-row: #DBEAFE;
+}
+
+/* Header con gradient ProClean */
+#header {
+  background: linear-gradient(135deg, #1A4F8B 0%, #1B75BC 60%, #3FAE2A 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(26, 79, 139, 0.18);
+}
+#branding h1 {
+  color: #fff !important;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+#branding h1 a:link,
+#branding h1 a:visited {
+  color: #fff !important;
+}
+#user-tools a:link,
+#user-tools a:visited {
+  color: rgba(255,255,255,0.92) !important;
+  border-bottom-color: rgba(255,255,255,0.4) !important;
+}
+#user-tools a:hover {
+  color: #fff !important;
+  border-bottom-color: #fff !important;
+}
+
+/* Breadcrumbs */
+div.breadcrumbs {
+  background: #F0F9FF !important;
+  border-bottom: 1px solid #CFE8F7;
+  color: #1A4F8B !important;
+}
+div.breadcrumbs a {
+  color: #1B75BC !important;
+  font-weight: 600;
+}
+div.breadcrumbs a:hover {
+  color: #3FAE2A !important;
+}
+
+/* Botones principales */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+  background: #1B75BC !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  font-weight: 600;
+  border: none !important;
+  padding: 8px 16px !important;
+  transition: background 200ms ease, transform 100ms ease;
+}
+.button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+  background: #1A4F8B !important;
+  transform: translateY(-1px);
+}
+.button.default, input[type=submit].default, .submit-row input.default {
+  background: #3FAE2A !important;
+}
+.button.default:hover, input[type=submit].default:hover, .submit-row input.default:hover {
+  background: #2E8B1F !important;
+}
+.deletelink, a.deletelink {
+  background: #DC2626 !important;
+  color: #fff !important;
+}
+.deletelink:hover {
+  background: #B91C1C !important;
+}
+
+/* Object tools (Añadir, Historial, etc.) */
+.object-tools a:link, .object-tools a:visited {
+  background: #1B75BC !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  font-weight: 600;
+}
+.object-tools a:hover, .object-tools a:focus {
+  background: #1A4F8B !important;
+}
+.object-tools a.addlink {
+  background: #3FAE2A !important;
+}
+.object-tools a.addlink:hover {
+  background: #2E8B1F !important;
+}
+
+/* Listas: cabecera y filas */
+table thead th {
+  background: #F0F9FF !important;
+  color: #1A4F8B !important;
+  font-weight: 700 !important;
+  border-bottom: 2px solid #CFE8F7 !important;
+}
+table thead th a:link, table thead th a:visited {
+  color: #1A4F8B !important;
+}
+table tbody tr:hover {
+  background: #FAFCFF !important;
+}
+table tbody tr.row-selected, table tbody tr.selected {
+  background: #DBEAFE !important;
+}
+
+/* Filtros laterales */
+#changelist-filter {
+  background: #F8FAFC;
+  border-left: 4px solid #1B75BC;
+  border-radius: 6px;
+}
+#changelist-filter h2 {
+  background: #1A4F8B !important;
+  color: #fff !important;
+  border-radius: 6px 6px 0 0;
+  padding: 10px 14px;
+  font-weight: 700;
+}
+#changelist-filter h3 {
+  color: #1A4F8B;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 12px;
+}
+#changelist-filter li.selected a {
+  color: #3FAE2A !important;
+  font-weight: 700;
+}
+
+/* Fieldsets en el form */
+.module h2, .module caption, .inline-group h2 {
+  background: linear-gradient(90deg, #1A4F8B 0%, #1B75BC 100%) !important;
+  color: #fff !important;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Inputs */
+input[type=text], input[type=email], input[type=url], input[type=number], input[type=password],
+textarea, select {
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  padding: 8px 10px !important;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+input[type=text]:focus, input[type=email]:focus, input[type=url]:focus, input[type=number]:focus,
+input[type=password]:focus, textarea:focus, select:focus {
+  border-color: #1B75BC !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(27, 117, 188, 0.15) !important;
+}
+
+/* Mensajes */
+.success, ul.messagelist li.success {
+  background: #DCFCE7 !important;
+  color: #14532D !important;
+  border-left: 4px solid #3FAE2A;
+}
+.warning, ul.messagelist li.warning {
+  background: #FEF3C7 !important;
+  color: #78350F !important;
+  border-left: 4px solid #F59E0B;
+}
+.error, ul.messagelist li.error {
+  background: #FEE2E2 !important;
+  color: #7F1D1D !important;
+  border-left: 4px solid #DC2626;
+}
+
+/* Login page del admin */
+.login #header {
+  background: linear-gradient(135deg, #1A4F8B 0%, #1B75BC 60%, #3FAE2A 100%) !important;
+}
+.login #container {
+  background: #F0F9FF;
+}
+.login .form-row {
+  padding: 12px;
+}
+.login .submit-row input {
+  background: #3FAE2A !important;
+}
+
+/* Selector de relaciones (autocomplete) */
+.select2-container--admin-autocomplete .select2-selection--single {
+  border-color: #CBD5E1 !important;
+  border-radius: 6px !important;
+  height: 36px !important;
+  padding: 4px 8px !important;
+}
+.select2-container--admin-autocomplete .select2-selection--single:focus {
+  border-color: #1B75BC !important;
+}
+.select2-results__option--highlighted[aria-selected] {
+  background: #1B75BC !important;
+}
+
+/* Paginación */
+.paginator a:link, .paginator a:visited {
+  color: #1B75BC !important;
+  font-weight: 600;
+}
+.paginator .this-page {
+  background: #1B75BC !important;
+  color: #fff !important;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+/* Dashboard - app list cards */
+.app-name {
+  font-weight: 700;
+}
