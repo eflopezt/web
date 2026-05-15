@@ -23,8 +23,16 @@ CSRF_TRUSTED_ORIGINS = [
 # --- Subpath deploy (e.g. harmoni.pe/proclean) ---
 FORCE_SCRIPT_NAME = os.environ.get("FORCE_SCRIPT_NAME", "") or None
 USE_X_FORWARDED_HOST = os.environ.get("USE_X_FORWARDED_HOST", "0") == "1"
-if os.environ.get("SECURE_PROXY_SSL_HEADER", "0") == "1":
+_BEHIND_HTTPS_PROXY = os.environ.get("SECURE_PROXY_SSL_HEADER", "0") == "1"
+if _BEHIND_HTTPS_PROXY:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    # Cookies Secure: el browser solo las envía sobre HTTPS, las protege ante MITM
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+# SameSite "Lax" permite que el browser mande la cookie en top-level navigation
+# (redirect 302 desde un POST cuenta como top-level): necesario para que login funcione.
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
 
 # Cookies con el prefix correcto cuando se sirve bajo subpath
 if FORCE_SCRIPT_NAME:
