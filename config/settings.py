@@ -46,6 +46,12 @@ SITE_PROTOCOL = os.environ.get("SITE_PROTOCOL", "https")
 
 # --- Apps ---
 INSTALLED_APPS = [
+    # Unfold (admin moderno) ANTES de django.contrib.admin
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "unfold.contrib.import_export",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -169,3 +175,108 @@ SITE_PHONE = os.environ.get("SITE_PHONE", "+51 918 570 814")
 SITE_EMAIL = os.environ.get("SITE_EMAIL", "ventas@proclean.pe")
 SITE_ADDRESS = os.environ.get("SITE_ADDRESS", "Lima y Callao, Perú")
 SITE_DELIVERY_AREA = "Envío gratis en Lima y Callao"
+
+
+# ============================================================================
+# UNFOLD ADMIN — tema moderno tipo WooCommerce/Odoo con paleta ProClean
+# ============================================================================
+from django.templatetags.static import static as _static
+from django.urls import reverse_lazy as _rl
+
+UNFOLD = {
+    "SITE_TITLE": "ProClean Admin",
+    "SITE_HEADER": "ProClean Servid Innova",
+    "SITE_SUBHEADER": "Backoffice",
+    "SITE_DROPDOWN": [],
+    "SITE_URL": "/",
+    "SITE_SYMBOL": "store",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "ENVIRONMENT": None,
+    "BORDER_RADIUS": "8px",
+    "COLORS": {
+        "base": {
+            "50":  "240 249 255",
+            "100": "224 242 254",
+            "200": "186 230 253",
+            "300": "125 211 252",
+            "400": "56 189 248",
+            "500": "27 117 188",
+            "600": "26 79 139",
+            "700": "20 63 115",
+            "800": "12 46 85",
+            "900": "8 33 60",
+            "950": "5 22 40",
+        },
+        "primary": {
+            "50":  "240 253 244",
+            "100": "220 252 231",
+            "200": "187 247 208",
+            "300": "134 229 72",
+            "400": "107 203 58",
+            "500": "63 174 42",
+            "600": "46 139 31",
+            "700": "35 105 20",
+            "800": "27 80 15",
+            "900": "20 60 11",
+            "950": "10 35 5",
+        },
+        "font": {
+            "subtle-light":  "var(--color-base-500)",
+            "subtle-dark":   "var(--color-base-400)",
+            "default-light": "var(--color-base-600)",
+            "default-dark":  "var(--color-base-300)",
+            "important-light": "var(--color-base-900)",
+            "important-dark":  "var(--color-base-100)",
+        },
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": False,
+        "navigation": [
+            {
+                "title": "Panel principal",
+                "separator": False,
+                "items": [
+                    {
+                        "title": "Dashboard",
+                        "icon": "dashboard",
+                        "link": _rl("admin:index"),
+                    },
+                ],
+            },
+            {
+                "title": "Catálogo",
+                "separator": True,
+                "items": [
+                    {"title": "Productos",   "icon": "inventory_2",  "link": _rl("admin:catalogo_producto_changelist")},
+                    {"title": "Categorías",  "icon": "category",     "link": _rl("admin:catalogo_categoria_changelist")},
+                    {"title": "Marcas",      "icon": "branding_watermark", "link": _rl("admin:catalogo_marca_changelist")},
+                    {"title": "Imágenes",    "icon": "photo_library", "link": _rl("admin:catalogo_imagenproducto_changelist")},
+                ],
+            },
+            {
+                "title": "Comercial",
+                "separator": True,
+                "items": [
+                    {"title": "Clientes",     "icon": "people",        "link": _rl("admin:clientes_cliente_changelist")},
+                    {"title": "Cotizaciones", "icon": "request_quote", "link": _rl("admin:cotizaciones_cotizacion_changelist")},
+                    {"title": "Pedidos",      "icon": "shopping_cart", "link": _rl("admin:pedidos_pedido_changelist")},
+                    {"title": "Facturas",     "icon": "receipt_long",  "link": _rl("admin:facturacion_factura_changelist")},
+                ],
+            },
+            {
+                "title": "Sistema",
+                "separator": True,
+                "items": [
+                    {"title": "Usuarios",  "icon": "person", "link": _rl("admin:auth_user_changelist")},
+                    {"title": "Grupos",    "icon": "groups", "link": _rl("admin:auth_group_changelist")},
+                ],
+            },
+        ],
+    },
+    "TABS": [],
+    "STYLES": [
+        lambda request: _static("admin/css/proclean_unfold.css"),
+    ],
+}

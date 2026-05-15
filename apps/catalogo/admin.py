@@ -1,4 +1,4 @@
-"""Admin estilo WooCommerce para el catálogo de ProClean."""
+"""Admin estilo WooCommerce/Odoo para el catálogo de ProClean (con django-unfold)."""
 import csv
 import io
 
@@ -9,6 +9,8 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from unfold.admin import ModelAdmin as UnfoldModelAdmin, TabularInline as UnfoldTabularInline
+from unfold.contrib.filters.admin import RangeNumericFilter, RelatedDropdownFilter
 
 from .models import Categoria, ImagenProducto, Marca, Producto
 
@@ -16,7 +18,7 @@ from .models import Categoria, ImagenProducto, Marca, Producto
 # ============================================================================
 # INLINES
 # ============================================================================
-class ImagenInline(admin.TabularInline):
+class ImagenInline(UnfoldTabularInline):
     model = ImagenProducto
     extra = 1
     fields = ("preview", "imagen", "alt", "orden")
@@ -38,7 +40,7 @@ class ImagenInline(admin.TabularInline):
 # CATEGORÍA
 # ============================================================================
 @admin.register(Categoria)
-class CategoriaAdmin(admin.ModelAdmin):
+class CategoriaAdmin(UnfoldModelAdmin):
     list_display = ("nombre_link", "icono_chip", "productos_count", "orden", "activa_chip")
     list_editable = ("orden",)
     list_filter = ("activa",)
@@ -106,7 +108,7 @@ class CategoriaAdmin(admin.ModelAdmin):
 # MARCA
 # ============================================================================
 @admin.register(Marca)
-class MarcaAdmin(admin.ModelAdmin):
+class MarcaAdmin(UnfoldModelAdmin):
     list_display = ("nombre", "productos_count", "activa_chip")
     list_filter = ("activa",)
     search_fields = ("nombre",)
@@ -160,7 +162,7 @@ class ProductoForm(forms.ModelForm):
 
 
 @admin.register(Producto)
-class ProductoAdmin(admin.ModelAdmin):
+class ProductoAdmin(UnfoldModelAdmin):
     form = ProductoForm
     list_display = (
         "thumb",
@@ -355,7 +357,7 @@ class ProductoAdmin(admin.ModelAdmin):
 # IMAGEN PRODUCTO (también accesible directamente)
 # ============================================================================
 @admin.register(ImagenProducto)
-class ImagenProductoAdmin(admin.ModelAdmin):
+class ImagenProductoAdmin(UnfoldModelAdmin):
     list_display = ("preview", "producto", "alt", "orden")
     list_filter = ("producto__categoria",)
     search_fields = ("producto__nombre", "alt")
